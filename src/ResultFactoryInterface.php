@@ -49,7 +49,7 @@ interface ResultFactoryInterface
      * @param string                              $userAgent
      * @param \Psr\Log\LoggerInterface            $logger
      *
-     * @return \UaResult\Result
+     * @return \UaMatcher\Result\ResultInterface
      */
     public static function build($userAgent, LoggerInterface $logger);
 }
