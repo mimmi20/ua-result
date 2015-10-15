@@ -31,11 +31,6 @@
 namespace UaResult;
 
 use Psr\Log\LoggerInterface;
-use UaMatcher\Browser\BrowserInterface;
-use UaMatcher\Device\DeviceInterface;
-use UaMatcher\Engine\EngineInterface;
-use UaMatcher\Os\OsInterface;
-use UaHelper\Utils;
 use UaMatcher\Result\ResultInterface;
 use UaMatcher\Version\VersionInterface;
 use Wurfl\WurflConstants;
@@ -50,65 +45,32 @@ use Wurfl\WurflConstants;
  * @license   http://www.opensource.org/licenses/MIT MIT License
  * @property-read $id
  * @property-read $useragent
- * @property-read $deviceClass
  */
 class Result implements ResultInterface, \Serializable
 {
-    /**
-     * should the device render the content like another?
-     *
-     * @var \UaResult\Result
-     */
-    private $renderAs = null;
-
     /**
      * an logger instance
      *
      * @var \Psr\Log\LoggerInterface
      */
-    private $logger = null;
+    protected $logger = null;
 
     /**
      * @var string
      */
-    private $wurflKey = WurflConstants::NO_MATCH;
+    protected $wurflKey = WurflConstants::NO_MATCH;
 
     /**
      * @var string
      */
-    private $useragent = null;
-
-    /**
-     * @var \UaMatcher\Device\DeviceInterface
-     */
-    private $device = null;
-
-    /**
-     * @var \UaMatcher\Browser\BrowserInterface
-     */
-    private $browser = null;
-
-    /**
-     * @var \UaMatcher\Os\OsInterface
-     */
-    private $os = null;
-
-    /**
-     * @var \UaMatcher\Engine\EngineInterface
-     */
-    private $engine = null;
+    protected $useragent = null;
 
     /**
      * the detected browser properties
      *
      * @var array
      */
-    private $properties = array(
-        'deviceClass'                                       => null, // not in wurfl
-        'browserClass'                                      => null, // not in wurfl
-        'engineClass'                                       => null, // not in wurfl
-        'osClass'                                           => null, // not in wurfl
-
+    protected $properties = array(
         // kind of device
         'device_type'                                       => null, // not in wurfl
         'browser_type'                                      => null, // not in wurfl
@@ -710,23 +672,17 @@ class Result implements ResultInterface, \Serializable
      * the class constructor
      *
      * @param string                              $useragent
-     * @param \UaMatcher\Device\DeviceInterface   $device
-     * @param \UaMatcher\Os\OsInterface           $os
-     * @param \UaMatcher\Browser\BrowserInterface $browser
-     * @param \UaMatcher\Engine\EngineInterface   $engine
      * @param \Psr\Log\LoggerInterface            $logger
      * @param string|null                         $wurflKey
      */
     public function __construct(
         $useragent,
-        DeviceInterface $device,
-        OsInterface $os,
-        BrowserInterface $browser,
-        EngineInterface $engine,
         LoggerInterface $logger,
         $wurflKey = WurflConstants::NO_MATCH
     ) {
-        $this->logger = $logger;
+        $this->logger    = $logger;
+        $this->useragent = $useragent;
+        $this->wurflKey  = $wurflKey;
 
         $detector = new Version();
         $detector->setVersion('');
@@ -735,14 +691,6 @@ class Result implements ResultInterface, \Serializable
         $this->setCapability('renderingengine_version', clone $detector);
         $this->setCapability('device_os_version', clone $detector);
         $this->setCapability('model_version', clone $detector);
-
-        $this->useragent = $useragent;
-        $this->wurflKey  = $wurflKey;
-
-        $this->device  = $device;
-        $this->os      = $os;
-        $this->browser = $browser;
-        $this->engine  = $engine;
     }
 
     /**
@@ -787,7 +735,7 @@ class Result implements ResultInterface, \Serializable
      * @throws \InvalidArgumentException
      * @return string Capability value
      */
-    private function checkCapability($capabilityName)
+    protected function checkCapability($capabilityName)
     {
         if (empty($capabilityName)) {
             throw new \InvalidArgumentException(
@@ -813,13 +761,8 @@ class Result implements ResultInterface, \Serializable
         return serialize(
             array(
                 'properties' => $this->properties,
-                'renderAs'   => $this->renderAs,
                 'wurflKey'   => $this->wurflKey,
                 'useragent'  => $this->useragent,
-                'device'     => $this->device,
-                'os'         => $this->os,
-                'browser'    => $this->browser,
-                'engine'     => $this->engine,
             )
         );
     }
@@ -841,13 +784,8 @@ class Result implements ResultInterface, \Serializable
             $this->properties[$property] = $value;
         }
 
-        $this->renderAs  = $unseriliazedData['renderAs'];
         $this->wurflKey  = $unseriliazedData['wurflKey'];
         $this->useragent = $unseriliazedData['useragent'];
-        $this->engine    = $unseriliazedData['engine'];
-        $this->os        = $unseriliazedData['os'];
-        $this->browser   = $unseriliazedData['browser'];
-        $this->engine    = $unseriliazedData['engine'];
     }
 
     /**
@@ -873,98 +811,30 @@ class Result implements ResultInterface, \Serializable
     /**
      * Returns the value of a given capability name for the current result
      *
-     * @param string  $name            must be a valid name of an virtual capability
-     * @param boolean $includeRenderAs If TRUE and the renderAs result is defined,
-     *                                 the property from the renderAs result will be included too
+     * @param string $name must be a valid name of an virtual capability
      *
      * @return string|VersionInterface Capability value
      */
-    public function getVirtualCapability(
-        $name,
-        $includeRenderAs = false
-    ) {
+    public function getVirtualCapability($name)
+    {
         $name = 'controlcap_' . $name;
 
-        return $this->getCapability($name, $includeRenderAs);
+        return $this->getCapability($name);
     }
 
     /**
      * Returns the value of a given capability name for the current device
      *
-     * @param string  $capabilityName  must be a valid capability name
-     * @param boolean $includeRenderAs If TRUE and the renderAs resulr is
-     *                                 ndefined, the property from the renderAs result will be
-     *                                 included also
+     * @param string $capabilityName must be a valid capability name
      *
      * @return string|VersionInterface Capability value
      * @throws \InvalidArgumentException
      */
-    public function getCapability(
-        $capabilityName,
-        $includeRenderAs = false
-    ) {
+    public function getCapability($capabilityName)
+    {
         $this->checkCapability($capabilityName);
 
-        $renderedAs    = $this->getRenderAs();
-        $propertyValue = $this->properties[$capabilityName];
-
-        if ($includeRenderAs
-            && ($renderedAs instanceof Result)
-            && 'unknown' != strtolower($renderedAs->getCapability('renderingengine_name'))
-        ) {
-            $propertyValue = $this->_propertyToString($this->properties[$capabilityName]);
-            $propertyValue .= ' [' . $this->_propertyToString($renderedAs->getCapability($capabilityName, false)) . ']';
-        }
-
-        return $propertyValue;
-    }
-
-    /**
-     * returns a second device for rendering properties
-     *
-     * @return \UaResult\Result
-     */
-    public function getRenderAs()
-    {
-        return $this->renderAs;
-    }
-
-    /**
-     * sets a second device for rendering properties
-     *
-     * @var \UaMatcher\Result\ResultInterface $result
-     *
-     * @return \UaResult\Result
-     */
-    public function setRenderAs(ResultInterface $result)
-    {
-        $this->renderAs = $result;
-
-        return $this;
-    }
-
-    /**
-     * converts the property value into a string
-     *
-     * @param mixed $property
-     *
-     * @return string
-     */
-    private function _propertyToString($property)
-    {
-        if (null === $property) {
-            $strProperty = '(NULL)';
-        } elseif ('' === $property) {
-            $strProperty = '(empty)';
-        } elseif (false === $property) {
-            $strProperty = '(false)';
-        } elseif (true === $property) {
-            $strProperty = '(true)';
-        } else {
-            $strProperty = (string)$property;
-        }
-
-        return $strProperty;
+        return $this->properties[$capabilityName];
     }
 
     /**
@@ -1027,9 +897,6 @@ class Result implements ResultInterface, \Serializable
                 case 'useragent':
                     return $this->useragent;
                     break;
-                case 'deviceClass':
-                    return $this->getCapability('deviceClass', false);
-                    break;
                 case 'fallBack':
                 case 'actualDeviceRoot':
                     return null;
@@ -1043,733 +910,5 @@ class Result implements ResultInterface, \Serializable
         throw new \InvalidArgumentException(
             'the property "' . $name . '" is not defined'
         );
-    }
-
-    public function getFullBrowser(
-        $withBits = true,
-        $mode = null
-    ) {
-        if (null === $mode) {
-            $mode = VersionInterface::COMPLETE | VersionInterface::IGNORE_MICRO_IF_EMPTY;
-        }
-
-        $browser    = $this->getFullBrowserName($withBits, $mode);
-        $renderedAs = $this->getRenderAs();
-
-        if ($renderedAs instanceof Result && 'unknown' != strtolower(
-            $renderedAs->getCapability('mobile_browser', false)
-        )
-        ) {
-            $browser .= ' [' . $renderedAs->getFullBrowserName($withBits, $mode) . ']';
-        }
-
-        return trim($browser);
-    }
-
-    public function getFullBrowserName(
-        $withBits = true,
-        $mode = null
-    ) {
-        $browser = $this->getCapability('mobile_browser', false);
-
-        if (!$browser) {
-            return null;
-        }
-
-        if ('unknown' == strtolower($browser)) {
-            return 'unknown';
-        }
-
-        if (null === $mode) {
-            $mode = VersionInterface::COMPLETE | VersionInterface::IGNORE_MICRO_IF_EMPTY;
-        }
-
-        $version = $this->getCapability('mobile_browser_version', false)->getVersion(
-            $mode
-        );
-
-        if ($browser != $version && '' != $version) {
-            $browser .= ' ' . $version;
-        }
-
-        $additional = array();
-
-        $modus = $this->getCapability('mobile_browser_modus', false);
-
-        if ($modus) {
-            $additional[] = $modus;
-        }
-
-        $bits = $this->getCapability('mobile_browser_bits', false);
-
-        if ($bits && $withBits) {
-            $additional[] = $bits . ' Bit';
-        }
-
-        $browser .= (!empty($additional) ? ' (' . implode(', ', $additional) . ')' : '');
-
-        return trim($browser);
-    }
-
-    public function getFullPlatform(
-        $withBits = true,
-        $mode = null
-    ) {
-        if (null === $mode) {
-            $mode = VersionInterface::COMPLETE_IGNORE_EMPTY;
-        }
-
-        $os         = $this->getFullPlatformName($withBits, $mode);
-        $renderedAs = $this->getRenderAs();
-
-        if ($renderedAs instanceof Result && 'unknown' != strtolower($renderedAs->getCapability('device_os', false))
-        ) {
-            $os .= ' [' . $renderedAs->getFullPlatformName($withBits, $mode) . ']';
-        }
-
-        return trim($os);
-    }
-
-    public function getFullPlatformName(
-        $withBits = true,
-        $mode = null
-    ) {
-        $name = $this->getCapability('device_os', false);
-
-        if (!$name) {
-            return null;
-        }
-
-        if ('unknown' == strtolower($name)) {
-            return 'unknown';
-        }
-
-        if (null === $mode) {
-            $mode = VersionInterface::COMPLETE_IGNORE_EMPTY;
-        }
-
-        $version = $this->getCapability('device_os_version', false)->getVersion($mode);
-        $bits    = $this->getCapability('device_os_bits', false);
-
-        $os = $name . ($name != $version && '' != $version ? ' ' . $version : '') . (($bits && $withBits) ? ' (' . $bits . ' Bit)' : '');
-
-        return trim($os);
-    }
-
-    /**
-     * returns the name of the actual device with version
-     *
-     * @param bool $withManufacturer
-     *
-     * @return string
-     */
-    public function getFullDevice($withManufacturer = false)
-    {
-        $device     = $this->getFullDeviceName($withManufacturer);
-        $renderedAs = $this->getRenderAs();
-
-        if ($renderedAs instanceof Result && 'unknown' != strtolower($renderedAs->getDeviceName())
-        ) {
-            $device .= ' [' . $renderedAs->getFullDeviceName($withManufacturer) . ']';
-        }
-
-        return trim($device);
-    }
-
-    /**
-     * returns the name of the actual device with version
-     *
-     * @param bool $withManufacturer
-     *
-     * @return string
-     */
-    public function getFullDeviceName($withManufacturer = false)
-    {
-        $device = $this->getDeviceName();
-
-        if (!$device) {
-            return null;
-        }
-
-        if ('unknown' == strtolower($device)) {
-            return 'unknown';
-        }
-
-        $version = $this->getCapability('model_version', false)->getVersion(VersionInterface::MAJORMINOR);
-        $device .= ($device != $version && '' != $version ? ' ' . $version : '');
-
-        if ($withManufacturer) {
-            $manufacturer = $this->getDeviceBrand()->getBrandName();
-
-            if (!$manufacturer || 'unknown' == $manufacturer) {
-                $manufacturer = $this->getDeviceManufacturer()->getName();
-            }
-
-            if ('unknown' !== $manufacturer && '' !== $manufacturer && false === strpos(
-                $device,
-                'general'
-            ) && false === strpos($device, $manufacturer)
-            ) {
-                $device = $manufacturer . ' ' . $device;
-            }
-        }
-
-        return trim($device);
-    }
-
-    /**
-     * return the Name of the rendering engine with the version
-     *
-     * @param integer $mode The format the version should be formated
-     *
-     * @return string
-     */
-    public function getFullEngine($mode = VersionInterface::COMPLETE_IGNORE_EMPTY)
-    {
-        $engine     = $this->getFullEngineName($mode);
-        $renderedAs = $this->getRenderAs();
-
-        if ($renderedAs instanceof Result && 'unknown' != strtolower(
-            $renderedAs->getCapability('renderingengine_name', false)
-        )
-        ) {
-            $engine .= ' [' . $renderedAs->getFullEngineName($mode) . ']';
-        }
-
-        return trim($engine);
-    }
-
-    /**
-     * return the Name of the rendering engine with the version
-     *
-     * @param integer $mode The format the version should be formated
-     *
-     * @return string
-     */
-    public function getFullEngineName($mode = VersionInterface::COMPLETE_IGNORE_EMPTY)
-    {
-        $engine = $this->getCapability('renderingengine_name', false);
-
-        if (!$engine) {
-            return null;
-        }
-
-        if ('unknown' == strtolower($engine)) {
-            return 'unknown';
-        }
-
-        if (null === $mode) {
-            $mode = VersionInterface::COMPLETE_IGNORE_EMPTY;
-        }
-
-        $version = $this->getCapability('renderingengine_version', false)->getVersion(
-            $mode
-        );
-
-        return trim(
-            $engine . (($engine != $version && '' != $version) ? ' ' . $version : '')
-        );
-    }
-
-    /**
-     * returns the name of the actual device without version
-     *
-     * @return string
-     */
-    public function getDeviceName()
-    {
-        return $this->device->getCapability('model_name');
-    }
-
-    /**
-     * @return string
-     */
-    public function getDeviceMarketingName()
-    {
-        return $this->device->getCapability('marketing_name');
-    }
-
-    /**
-     * returns the veraion of the actual device
-     *
-     * @return string
-     */
-    public function getDeviceVersion()
-    {
-        return null; // $this->getCapability('mobile_browser', false);
-    }
-
-    /**
-     * returns the manufacturer of the actual device
-     *
-     * @return \UaMatcher\Company\CompanyInterface
-     */
-    public function getDeviceManufacturer()
-    {
-        return $this->device->getManufacturer();
-    }
-
-    /**
-     * returns the brand of the actual device
-     *
-     * @return \UaMatcher\Company\CompanyInterface
-     */
-    public function getDeviceBrand()
-    {
-        return $this->device->getBrand();
-    }
-
-    /**
-     * @return \UaMatcher\Type\Device\TypeInterface
-     */
-    public function getDeviceType()
-    {
-        return $this->device->getDeviceType();
-    }
-
-    /**
-     * @return \UaMatcher\Type\Browser\TypeInterface
-     */
-    public function getBrowserType()
-    {
-        return $this->browser->getBrowserType();
-    }
-
-    /**
-     * @return string
-     */
-    public function getDevicePointingMethod()
-    {
-        return $this->device->getCapability('pointing_method');
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getDeviceResolutionWidth()
-    {
-        return $this->device->getCapability('resolution_width');
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getDeviceResolutionHeight()
-    {
-        return $this->device->getCapability('resolution_height');
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasDeviceDualOrientation()
-    {
-        return $this->device->getCapability('dual_orientation');
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasDeviceTouchScreen()
-    {
-        return ($this->getDevicePointingMethod() === 'touchscreen');
-    }
-
-    /**
-     * @return int
-     */
-    public function getDeviceColors()
-    {
-        return $this->device->getCapability('colors');
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasDeviceSmsEnabled()
-    {
-        return $this->device->getCapability('sms_enabled');
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasDeviceNfcSupport()
-    {
-        return $this->device->getCapability('nfc_support');
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasDeviceQwertyKeyboard()
-    {
-        return $this->device->getCapability('has_qwerty_keyboard');
-    }
-
-    /**
-     * returns TRUE if the device supports RSS Feeds
-     *
-     * @return boolean
-     */
-    public function isRssSupported()
-    {
-        return $this->browser->getCapability('rss_support');
-    }
-
-    /**
-     * returns TRUE if the device supports PDF documents
-     *
-     * @return boolean
-     */
-    public function isPdfSupported()
-    {
-        return $this->browser->getCapability('pdf_support');
-    }
-
-    /**
-     * returns TRUE if the device is a mobile
-     *
-     * @return boolean
-     */
-    public function isMobileDevice()
-    {
-        return $this->getDeviceType()->isMobile();
-    }
-
-    /**
-     * returns TRUE if the device is a tablet
-     *
-     * @return boolean
-     */
-    public function isTablet()
-    {
-        return $this->getDeviceType()->isTablet();
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPhone()
-    {
-        return $this->getDeviceType()->isPhone();
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSmartphone()
-    {
-        if (!$this->isMobileDevice()) {
-            return false;
-        }
-
-        if ($this->isTablet()) {
-            return false;
-        }
-
-        if (!$this->isPhone()) {
-            return false;
-        }
-
-        if (!$this->hasDeviceTouchScreen()) {
-            return false;
-        }
-
-        if ($this->getDeviceResolutionWidth() < 320) {
-            return false;
-        }
-
-        $osVersion = (float)$this->os->detectVersion()->getVersion(VersionInterface::MAJORMINOR);
-
-        switch ($this->os->getName()) {
-            case 'iOS':
-                $isSmartPhone = ($osVersion >= 3.0);
-                break;
-            case 'Android':
-                $isSmartPhone = ($osVersion >= 2.2);
-                break;
-            case 'Windows Phone OS':
-                $isSmartPhone = true;
-                break;
-            case 'RIM OS':
-                $isSmartPhone = ($osVersion >= 7.0);
-                break;
-            case 'webOS':
-                $isSmartPhone = true;
-                break;
-            case 'MeeGo':
-                $isSmartPhone = true;
-                break;
-            case 'Bada OS':
-                $isSmartPhone = ($osVersion >= 2.0);
-                break;
-            default:
-                $isSmartPhone = false;
-                break;
-        }
-
-        return $isSmartPhone;
-    }
-
-    /**
-     * returns TRUE if the device is a desktop device
-     *
-     * @return boolean
-     */
-    public function isDesktop()
-    {
-        return $this->getDeviceType()->isDesktop();
-    }
-
-    /**
-     * returns TRUE if the device is a TV device
-     *
-     * @return boolean
-     */
-    public function isTvDevice()
-    {
-        return $this->getDeviceType()->isTv();
-    }
-
-    /**
-     * returns TRUE if the device ia a game console
-     *
-     * @return boolean
-     */
-    public function isConsole()
-    {
-        return $this->getDeviceType()->isConsole();
-    }
-
-    /**
-     * returns TRUE if the browser is a crawler
-     *
-     * @return boolean
-     */
-    public function isCrawler()
-    {
-        return $this->getBrowserType()->isBot();
-    }
-
-    /**
-     * returns TRUE if the device is a Transcoder
-     *
-     * @return boolean
-     */
-    public function isTranscoder()
-    {
-        return $this->getBrowserType()->isTranscoder();
-    }
-
-    /**
-     * returns TRUE if the device is a Syndication Reader
-     *
-     * @return boolean
-     */
-    public function isSyndicationReader()
-    {
-        return $this->getBrowserType()->isSyndicationReader();
-    }
-
-    /**
-     * returns TRUE if the device is a Syndication Reader
-     *
-     * @return boolean
-     */
-    public function isBanned()
-    {
-        return $this->getBrowserType()->isBanned();
-    }
-
-    /**
-     * @return bool
-     */
-    public function isApp()
-    {
-        $ua    = $this->useragent;
-        $utils = new Utils();
-        $utils->setuseragent($ua);
-
-        if ($this->os->getName() == 'iOS' && !$utils->checkIfContains('Safari')) {
-            return true;
-        }
-
-        $patterns = array(
-            '^Dalvik',
-            'Darwin/',
-            'CFNetwork',
-            '^Windows Phone Ad Client',
-            '^NativeHost',
-            '^AndroidDownloadManager',
-            '-HttpClient',
-            '^AppCake',
-            'AppEngine-Google',
-            'AppleCoreMedia',
-            '^AppTrailers',
-            '^ChoiceFM',
-            '^ClassicFM',
-            '^Clipfish',
-            '^FaceFighter',
-            '^Flixster',
-            '^Gold/',
-            '^GoogleAnalytics/',
-            '^Heart/',
-            '^iBrowser/',
-            'iTunes-',
-            '^Java/',
-            '^LBC/3.',
-            'Twitter',
-            'Pinterest',
-            '^Instagram',
-            'FBAN',
-            '#iP(hone|od|ad)[\d],[\d]#',
-            // namespace notation (com.google.youtube)
-            '#[a-z]{3,}(?:\.[a-z]+){2,}#',
-            //Windows MSIE Webview
-            'WebView',
-        );
-
-        foreach ($patterns as $pattern) {
-            if ($pattern[0] === '#') {
-                // Regex
-                if (preg_match($pattern, $ua)) {
-                    return true;
-                    break;
-                }
-                continue;
-            }
-
-            // Substring matches are not abstracted for performance
-            $patternLength = strlen($pattern);
-            $uaLength      = strlen($ua);
-
-            if ($pattern[0] === '^') {
-                // Starts with
-                if (strpos($ua, substr($pattern, 1)) === 0) {
-                    return true;
-                    break;
-                }
-            } elseif ($pattern[$patternLength - 1] === '$') {
-                // Ends with
-                $patternLength--;
-                $pattern = substr($pattern, 0, $patternLength);
-                if (strpos($ua, $pattern) === ($uaLength - $patternLength)) {
-                    return true;
-                    break;
-                }
-            } else {
-                // Match anywhere
-                if (strpos($ua, $pattern) !== false) {
-                    return true;
-                    break;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * returns TRUE if the browser supports Frames
-     *
-     * @return boolean
-     */
-    public function supportsFrames()
-    {
-        return $this->getCapability('xhtml_supports_frame', false);
-    }
-
-    /**
-     * returns TRUE if the browser supports IFrames
-     *
-     * @return boolean
-     */
-    public function supportsIframes()
-    {
-        return $this->getCapability('xhtml_supports_iframe', false);
-    }
-
-    /**
-     * returns TRUE if the browser supports Tables
-     *
-     * @return boolean
-     */
-    public function supportsTables()
-    {
-        return $this->engine->getCapability('xhtml_table_support');
-    }
-
-    /**
-     * returns TRUE if the browser supports Cookies
-     *
-     * @return boolean
-     */
-    public function supportsCookies()
-    {
-        return $this->engine->getCapability('cookie_support');
-    }
-
-    /**
-     * returns TRUE if the browser supports BackgroundSounds
-     *
-     * @return boolean
-     */
-    public function supportsBackgroundSounds()
-    {
-        return $this->getCapability('supports_background_sounds', false);
-    }
-
-    /**
-     * returns TRUE if the browser supports JavaScript
-     *
-     * @return boolean
-     */
-    public function supportsJavaScript()
-    {
-        return $this->getCapability('ajax_support_javascript', false);
-    }
-
-    /**
-     * returns TRUE if the browser supports VBScript
-     *
-     * @return boolean
-     */
-    public function supportsVbScript()
-    {
-        return $this->getCapability('supports_vb_script', false);
-    }
-
-    /**
-     * returns TRUE if the browser supports Java Applets
-     *
-     * @return boolean
-     */
-    public function supportsJavaApplets()
-    {
-        return $this->getCapability('supports_java_applets', false);
-    }
-
-    /**
-     * returns TRUE if the browser supports ActiveX Controls
-     *
-     * @return boolean
-     */
-    public function supportsActivexControls()
-    {
-        return $this->getCapability('supports_activex_controls', false);
-    }
-
-    /**
-     * builds a atring for comparation with wurfl
-     *
-     * @return string
-     */
-    public function getComparationName()
-    {
-        return $this->getCapability('mobile_browser', false) . ' on ' . $this->getCapability(
-            'device_os',
-            false
-        ) . ', ' . $this->getDeviceName();
     }
 }
