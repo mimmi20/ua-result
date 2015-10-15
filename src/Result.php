@@ -49,7 +49,8 @@ use Wurfl\WurflConstants;
  * @copyright 2012-2015 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  * @property-read $id
- * @property-read $userAgent
+ * @property-read $useragent
+ * @property-read $deviceClass
  */
 class Result implements ResultInterface, \Serializable
 {
@@ -75,7 +76,7 @@ class Result implements ResultInterface, \Serializable
     /**
      * @var string
      */
-    private $userAgent = null;
+    private $useragent = null;
 
     /**
      * @var \UaMatcher\Device\DeviceInterface
@@ -708,7 +709,7 @@ class Result implements ResultInterface, \Serializable
     /**
      * the class constructor
      *
-     * @param string                              $userAgent
+     * @param string                              $useragent
      * @param \UaMatcher\Device\DeviceInterface   $device
      * @param \UaMatcher\Os\OsInterface           $os
      * @param \UaMatcher\Browser\BrowserInterface $browser
@@ -717,7 +718,7 @@ class Result implements ResultInterface, \Serializable
      * @param string|null                         $wurflKey
      */
     public function __construct(
-        $userAgent,
+        $useragent,
         DeviceInterface $device,
         OsInterface $os,
         BrowserInterface $browser,
@@ -735,7 +736,7 @@ class Result implements ResultInterface, \Serializable
         $this->setCapability('device_os_version', clone $detector);
         $this->setCapability('model_version', clone $detector);
 
-        $this->userAgent = $userAgent;
+        $this->useragent = $useragent;
         $this->wurflKey  = $wurflKey;
 
         $this->device  = $device;
@@ -768,7 +769,7 @@ class Result implements ResultInterface, \Serializable
         if (in_array($capabilityName, $versionfields) && !($capabilityValue instanceof Version)) {
             throw new \InvalidArgumentException(
                 'capability "' . $capabilityName . '" requires an instance of '
-                . '\\BrowserDetector\\Detector\\Version as value'
+                . '"\\UaResult\\Version" as value, instance of "' . get_class($capabilityValue) . '" given'
             );
         }
 
@@ -814,7 +815,7 @@ class Result implements ResultInterface, \Serializable
                 'properties' => $this->properties,
                 'renderAs'   => $this->renderAs,
                 'wurflKey'   => $this->wurflKey,
-                'userAgent'  => $this->userAgent,
+                'useragent'  => $this->useragent,
                 'device'     => $this->device,
                 'os'         => $this->os,
                 'browser'    => $this->browser,
@@ -842,7 +843,7 @@ class Result implements ResultInterface, \Serializable
 
         $this->renderAs  = $unseriliazedData['renderAs'];
         $this->wurflKey  = $unseriliazedData['wurflKey'];
-        $this->userAgent = $unseriliazedData['userAgent'];
+        $this->useragent = $unseriliazedData['useragent'];
         $this->engine    = $unseriliazedData['engine'];
         $this->os        = $unseriliazedData['os'];
         $this->browser   = $unseriliazedData['browser'];
@@ -1023,8 +1024,8 @@ class Result implements ResultInterface, \Serializable
                 case 'id':
                     return $this->wurflKey;
                     break;
-                case 'userAgent':
-                    return $this->userAgent;
+                case 'useragent':
+                    return $this->useragent;
                     break;
                 case 'deviceClass':
                     return $this->getCapability('deviceClass', false);
@@ -1586,9 +1587,9 @@ class Result implements ResultInterface, \Serializable
      */
     public function isApp()
     {
-        $ua    = $this->userAgent;
+        $ua    = $this->useragent;
         $utils = new Utils();
-        $utils->setUserAgent($ua);
+        $utils->setuseragent($ua);
 
         if ($this->os->getName() == 'iOS' && !$utils->checkIfContains('Safari')) {
             return true;
