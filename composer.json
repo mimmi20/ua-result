@@ -30,7 +30,7 @@
     "php": ">=5.5.0",
     "psr/log": "~1.0",
     "mimmi20/wurfl-constants": "*",
-    "mimmi20/ua-matcher-interface": "*",
+    "mimmi20/ua-matcher-interface": "~1.0.11",
     "mimmi20/ua-helper-utils": "*"
   },
   "require-dev": {
