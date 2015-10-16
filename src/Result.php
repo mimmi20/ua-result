@@ -32,6 +32,7 @@ namespace UaResult;
 
 use Psr\Log\LoggerInterface;
 use UaHelper\Utils;
+use UaMatcher\Result\ResultInterface;
 use UaMatcher\Version\VersionInterface;
 use Wurfl\WurflConstants;
 
