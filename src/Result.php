@@ -1295,7 +1295,7 @@ class Result implements ResultInterface, \Serializable
      */
     public function isMobileDevice()
     {
-        return $this->getVirtualCapability('is_mobile');
+        return $this->getCapability('is_wireless_device');
     }
 
     /**
