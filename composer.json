@@ -35,7 +35,7 @@
   },
   "require-dev": {
     "phpunit/phpunit": "*",
-    "monolog/monolog": "dev-master",
+    "monolog/monolog": "~1",
     "mikey179/vfsStream": "dev-master",
     "squizlabs/php_codesniffer": "2.*",
     "fabpot/php-cs-fixer": "*"
@@ -48,6 +48,11 @@
   "autoload-dev": {
     "psr-4": {
       "UaResultTest\\": "tests/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.0.x-dev"
     }
   }
 }
