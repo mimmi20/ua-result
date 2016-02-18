@@ -30,10 +30,9 @@
 
 namespace UaResult;
 
-use Psr\Log\LoggerInterface;
 use UaResult\Result\ResultInterface;
 use UaMatcher\Browser\BrowserInterface;
-use UaMatcher\Device\DeviceInterface;
+use UaResult\Result\DeviceInterface;
 use UaMatcher\Engine\EngineInterface;
 use UaMatcher\Os\OsInterface;
 use UaMatcher\Version\VersionInterface;
@@ -48,15 +47,8 @@ use Wurfl\WurflConstants;
  * @copyright 2012-2015 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-class Result implements ResultInterface, \Serializable
+class Result implements ResultInterface
 {
-    /**
-     * an logger instance
-     *
-     * @var \Psr\Log\LoggerInterface
-     */
-    private $logger = null;
-
     /**
      * @var string
      */
@@ -68,7 +60,7 @@ class Result implements ResultInterface, \Serializable
     private $useragent = null;
 
     /**
-     * @var \UaMatcher\Device\DeviceInterface
+     * @var \UaResult\Result\DeviceInterface
      */
     private $device = null;
 
@@ -694,8 +686,7 @@ class Result implements ResultInterface, \Serializable
      * the class constructor
      *
      * @param string                              $useragent
-     * @param \Psr\Log\LoggerInterface            $logger
-     * @param \UaMatcher\Device\DeviceInterface   $device
+     * @param \UaResult\Result\DeviceInterface    $device
      * @param \UaMatcher\Os\OsInterface           $os
      * @param \UaMatcher\Browser\BrowserInterface $browser
      * @param \UaMatcher\Engine\EngineInterface   $engine
@@ -704,7 +695,6 @@ class Result implements ResultInterface, \Serializable
      */
     public function __construct(
         $useragent,
-        LoggerInterface $logger,
         DeviceInterface $device = null,
         OsInterface $os = null,
         BrowserInterface $browser = null,
@@ -713,7 +703,6 @@ class Result implements ResultInterface, \Serializable
         $wurflKey = WurflConstants::NO_MATCH
     ) {
         $this->useragent = $useragent;
-        $this->logger    = $logger;
         $this->device    = $device;
         $this->os        = $os;
         $this->browser   = $browser;
@@ -732,7 +721,7 @@ class Result implements ResultInterface, \Serializable
     }
 
     /**
-     * @return \UaMatcher\Device\DeviceInterface
+     * @return \UaResult\Result\DeviceInterface
      */
     public function getDevice()
     {
@@ -835,6 +824,26 @@ class Result implements ResultInterface, \Serializable
     }
 
     /**
+     * (PHP 5 &gt;= 5.4.0)<br/>
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'capabilities' => $this->capabilities,
+            'wurflKey'     => $this->wurflKey,
+            'useragent'    => $this->useragent,
+            'device'       => $this->device,
+            'browser'      => $this->browser,
+            'os'           => $this->os,
+            'engine'       => $this->engine,
+        );
+    }
+
+    /**
      * Returns the value of a given capability name for the current device
      *
      * @param string $capabilityName must be a valid capability name
@@ -912,7 +921,7 @@ class Result implements ResultInterface, \Serializable
             try {
                 $this->setCapability($capabilityName, $capabilityValue);
             } catch (\InvalidArgumentException $e) {
-                $this->logger->error('unknown Capability found');
+                continue;
             }
         }
 

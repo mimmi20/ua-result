@@ -30,58 +30,91 @@
 
 namespace UaResult\Result;
 
+use UaMatcher\Company\CompanyInterface;
 use UaMatcher\Version\VersionInterface;
 
 /**
- * BrowserDetector.ini parsing class with caching and update capabilities
+ * interface for all devices to detect
  *
  * @category  BrowserDetector
  * @package   BrowserDetector
- * @author    Thomas Mueller <t_mueller_stolzenhain@yahoo.de>
  * @copyright 2012-2015 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface ResultInterface extends \Serializable, \JsonSerializable
+interface DeviceInterface extends \Serializable, \JsonSerializable
 {
     /**
-     * @return \UaMatcher\Browser\BrowserInterface
+     * @return null|string
      */
-    public function getBrowser();
+    public function getDeviceName();
 
     /**
-     * @return \UaResult\Result\DeviceInterface
+     * @return null|string
      */
-    public function getDevice();
+    public function getBrand();
 
     /**
-     * @return \UaMatcher\Engine\EngineInterface
+     * @return int|null
      */
-    public function getEngine();
+    public function getColors();
 
     /**
-     * @return \UaMatcher\Os\OsInterface
+     * @return bool|null
      */
-    public function getOs();
+    public function getDualOrientation();
+
+    /**
+     * @return null|string
+     */
+    public function getFormFactor();
+
+    /**
+     * @return bool|null
+     */
+    public function getHasQwertyKeyboard();
+
+    /**
+     * @return null|CompanyInterface
+     */
+    public function getManufacturer();
+
+    /**
+     * @return null|string
+     */
+    public function getMarketingName();
+
+    /**
+     * @return bool|null
+     */
+    public function getNfcSupport();
+
+    /**
+     * @return null|string
+     */
+    public function getPointingMethod();
+
+    /**
+     * @return int|null
+     */
+    public function getResolutionHeight();
+
+    /**
+     * @return int|null
+     */
+    public function getResolutionWidth();
+
+    /**
+     * @return bool|null
+     */
+    public function getSmsSupport();
 
     /**
      * @return string
      */
-    public function getWurflKey();
+    public function getUseragent();
 
     /**
-     * Returns the values of all capabilities for the current device
-     *
-     * @return string[] All Capability values
+     * @return null|VersionInterface
      */
-    public function getCapabilities();
-
-    /**
-     * Returns the value of a given capability name for the current device
-     *
-     * @param string $capabilityName must be a valid capability name
-     *
-     * @return string|VersionInterface Capability value
-     * @throws \InvalidArgumentException
-     */
-    public function getCapability($capabilityName);
+    public function getVersion();
 }
