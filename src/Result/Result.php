@@ -28,14 +28,13 @@
  * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult;
+namespace UaResult\Result;
 
-use UaResult\Result\ResultInterface;
 use UaMatcher\Browser\BrowserInterface;
-use UaResult\Result\DeviceInterface;
+use UaResult\Device\DeviceInterface;
 use UaMatcher\Engine\EngineInterface;
 use UaMatcher\Os\OsInterface;
-use UaMatcher\Version\VersionInterface;
+use UaResult\Version\VersionInterface;
 use Wurfl\WurflConstants;
 
 /**
@@ -60,7 +59,7 @@ class Result implements ResultInterface
     private $useragent = null;
 
     /**
-     * @var \UaResult\Result\DeviceInterface
+     * @var \UaResult\Device\DeviceInterface
      */
     private $device = null;
 
@@ -686,7 +685,7 @@ class Result implements ResultInterface
      * the class constructor
      *
      * @param string                              $useragent
-     * @param \UaResult\Result\DeviceInterface    $device
+     * @param \UaResult\Device\DeviceInterface    $device
      * @param \UaMatcher\Os\OsInterface           $os
      * @param \UaMatcher\Browser\BrowserInterface $browser
      * @param \UaMatcher\Engine\EngineInterface   $engine
@@ -721,7 +720,7 @@ class Result implements ResultInterface
     }
 
     /**
-     * @return \UaResult\Result\DeviceInterface
+     * @return \UaResult\Device\DeviceInterface
      */
     public function getDevice()
     {
@@ -864,7 +863,7 @@ class Result implements ResultInterface
             'device_os_version'
         );
 
-        if (in_array($capabilityName, $versionfields) && !($capabilityValue instanceof Version)) {
+        if (in_array($capabilityName, $versionfields) && !($capabilityValue instanceof VersionInterface)) {
             throw new \InvalidArgumentException(
                 'capability "' . $capabilityName . '" requires an instance of '
                 . '"\\UaResult\\Version" as value, instance of "' . get_class($capabilityValue) . '" given'

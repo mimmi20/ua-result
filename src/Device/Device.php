@@ -28,10 +28,10 @@
  * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult\Result;
+namespace UaResult\Device;
 
-use UaMatcher\Company\CompanyInterface;
-use UaMatcher\Version\VersionInterface;
+use UaResult\Company\CompanyInterface;
+use UaResult\Version\VersionInterface;
 
 /**
  * BrowserDetector.ini parsing class with caching and update capabilities

@@ -28,60 +28,34 @@
  * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult\Result;
-
-use UaResult\Version\VersionInterface;
+namespace UaResult\Company;
 
 /**
- * BrowserDetector.ini parsing class with caching and update capabilities
- *
  * @category  BrowserDetector
  * @package   BrowserDetector
- * @author    Thomas Mueller <t_mueller_stolzenhain@yahoo.de>
  * @copyright 2012-2015 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface ResultInterface extends \Serializable, \JsonSerializable
+interface CompanyInterface extends \Serializable, \JsonSerializable
 {
     /**
-     * @return \UaMatcher\Browser\BrowserInterface
-     */
-    public function getBrowser();
-
-    /**
-     * @return \UaResult\Device\DeviceInterface
-     */
-    public function getDevice();
-
-    /**
-     * @return \UaMatcher\Engine\EngineInterface
-     */
-    public function getEngine();
-
-    /**
-     * @return \UaMatcher\Os\OsInterface
-     */
-    public function getOs();
-
-    /**
+     * Returns the name of the company
+     *
      * @return string
      */
-    public function getWurflKey();
+    public function __toString();
 
     /**
-     * Returns the values of all capabilities for the current device
+     * Returns the name of the company
      *
-     * @return string[] All Capability values
+     * @return string
      */
-    public function getCapabilities();
+    public function getName();
 
     /**
-     * Returns the value of a given capability name for the current device
+     * Returns the brand name of the company
      *
-     * @param string $capabilityName must be a valid capability name
-     *
-     * @return string|VersionInterface Capability value
-     * @throws \InvalidArgumentException
+     * @return string
      */
-    public function getCapability($capabilityName);
+    public function getBrandName();
 }

@@ -28,93 +28,126 @@
  * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult\Result;
-
-use UaMatcher\Company\CompanyInterface;
-use UaMatcher\Version\VersionInterface;
+namespace UaResult\Version;
 
 /**
- * interface for all devices to detect
+ * a general version detector
  *
  * @category  BrowserDetector
  * @package   BrowserDetector
  * @copyright 2012-2015 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface DeviceInterface extends \Serializable, \JsonSerializable
+interface VersionInterface extends \Serializable, \JsonSerializable
 {
     /**
-     * @return null|string
+     * @var integer
      */
-    public function getDeviceName();
+    const MAJORONLY = 1;
 
     /**
-     * @return null|string
+     * @var integer
      */
-    public function getBrand();
+    const MINORONLY = 2;
 
     /**
-     * @return int|null
+     * @var integer
      */
-    public function getColors();
+    const MAJORMINOR = 3;
 
     /**
-     * @return bool|null
+     * @var integer
      */
-    public function getDualOrientation();
+    const MINORMICRO = 6;
 
     /**
-     * @return null|string
+     * @var integer
      */
-    public function getFormFactor();
+    const MICROONLY = 4;
 
     /**
-     * @return bool|null
+     * @var integer
      */
-    public function getHasQwertyKeyboard();
+    const COMPLETE = 7;
 
     /**
-     * @return null|CompanyInterface
+     * @var integer
      */
-    public function getManufacturer();
+    const IGNORE_NONE = 0;
 
     /**
-     * @return null|string
+     * @var integer
      */
-    public function getMarketingName();
+    const IGNORE_MINOR = 8;
 
     /**
-     * @return bool|null
+     * @var integer
      */
-    public function getNfcSupport();
+    const IGNORE_MICRO = 16;
 
     /**
-     * @return null|string
+     * @var integer
      */
-    public function getPointingMethod();
+    const IGNORE_MINOR_IF_EMPTY = 32;
 
     /**
-     * @return int|null
+     * @var integer
      */
-    public function getResolutionHeight();
+    const IGNORE_MICRO_IF_EMPTY = 64;
 
     /**
-     * @return int|null
+     * @var integer
      */
-    public function getResolutionWidth();
+    const IGNORE_MACRO_IF_EMPTY = 128;
 
     /**
-     * @return bool|null
+     * @var integer
      */
-    public function getSmsSupport();
+    const COMPLETE_IGNORE_EMPTY = 231;
 
     /**
+     * @var integer
+     */
+    const GET_ZERO_IF_EMPTY = 256;
+
+    /**
+     * converts the version object into a string
+     *
      * @return string
      */
-    public function getUseragent();
+    public function __toString();
 
     /**
-     * @return null|VersionInterface
+     * returns the detected version
+     *
+     * @param integer $mode
+     *
+     * @return string
+     * @throws \UnexpectedValueException
      */
-    public function getVersion();
+    public function getVersion($mode = null);
+
+    /**
+     * detects the bit count by this browser from the given user agent
+     *
+     * @param string|array $searches
+     *
+     * @return VersionInterface
+     * @throws \UnexpectedValueException
+     */
+    public function detectVersion($searches = '');
+
+    /**
+     * detects if the version is makred as Alpha
+     *
+     * @return boolean
+     */
+    public function isAlpha();
+
+    /**
+     * detects if the version is makred as Beta
+     *
+     * @return boolean
+     */
+    public function isBeta();
 }

@@ -28,28 +28,93 @@
  * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult;
+namespace UaResult\Device;
 
-use Psr\Log\LoggerInterface;
+use UaResult\Company\CompanyInterface;
+use UaResult\Version\VersionInterface;
 
 /**
- * Factory to build the detection result
+ * interface for all devices to detect
  *
  * @category  BrowserDetector
  * @package   BrowserDetector
- * @author    Thomas Mueller <t_mueller_stolzenhain@yahoo.de>
  * @copyright 2012-2015 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface ResultFactoryInterface
+interface DeviceInterface extends \Serializable, \JsonSerializable
 {
     /**
-     * builds the result object and set the values
-     *
-     * @param string                              $userAgent
-     * @param \Psr\Log\LoggerInterface            $logger
-     *
-     * @return \UaMatcher\Result\ResultInterface
+     * @return null|string
      */
-    public static function build($userAgent, LoggerInterface $logger);
+    public function getDeviceName();
+
+    /**
+     * @return null|string
+     */
+    public function getBrand();
+
+    /**
+     * @return int|null
+     */
+    public function getColors();
+
+    /**
+     * @return bool|null
+     */
+    public function getDualOrientation();
+
+    /**
+     * @return null|string
+     */
+    public function getFormFactor();
+
+    /**
+     * @return bool|null
+     */
+    public function getHasQwertyKeyboard();
+
+    /**
+     * @return null|CompanyInterface
+     */
+    public function getManufacturer();
+
+    /**
+     * @return null|string
+     */
+    public function getMarketingName();
+
+    /**
+     * @return bool|null
+     */
+    public function getNfcSupport();
+
+    /**
+     * @return null|string
+     */
+    public function getPointingMethod();
+
+    /**
+     * @return int|null
+     */
+    public function getResolutionHeight();
+
+    /**
+     * @return int|null
+     */
+    public function getResolutionWidth();
+
+    /**
+     * @return bool|null
+     */
+    public function getSmsSupport();
+
+    /**
+     * @return string
+     */
+    public function getUseragent();
+
+    /**
+     * @return null|VersionInterface
+     */
+    public function getVersion();
 }

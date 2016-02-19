@@ -28,9 +28,7 @@
  * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult;
-
-use UaMatcher\Version\VersionInterface;
+namespace UaResult\Version;
 
 /**
  * a general version detector
@@ -40,7 +38,7 @@ use UaMatcher\Version\VersionInterface;
  * @copyright 2012-2015 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-class Version implements VersionInterface, \Serializable
+class Version implements VersionInterface
 {
     /**
      * @var string the user agent to handle
@@ -73,9 +71,27 @@ class Version implements VersionInterface, \Serializable
     private $default = '';
 
     /**
-     * @var integer
+     * @var bool
      */
-    private $mode = VersionInterface::COMPLETE;
+    private $alpha = false;
+
+    /**
+     * @var bool
+     */
+    private $beta = false;
+
+    /**
+     * @param string      $useragent
+     * @param string|null $defaultVersion
+     */
+    public function __construct($useragent, $defaultVersion = null)
+    {
+        $this->useragent = $useragent;
+
+        if (is_string($defaultVersion)) {
+            $this->default = $defaultVersion;
+        }
+    }
 
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
@@ -88,7 +104,6 @@ class Version implements VersionInterface, \Serializable
         return serialize(
             array(
                 'version'   => $this->version,
-                'mode'      => $this->mode,
                 'useragent' => $this->useragent,
                 'default'   => $this->default
             )
@@ -109,7 +124,6 @@ class Version implements VersionInterface, \Serializable
         $unseriliazedData = unserialize($serialized);
 
         $this->version   = $unseriliazedData['version'];
-        $this->mode      = $unseriliazedData['mode'];
         $this->useragent = $unseriliazedData['useragent'];
         $this->default   = $unseriliazedData['default'];
 
@@ -117,52 +131,24 @@ class Version implements VersionInterface, \Serializable
     }
 
     /**
-     * sets the user agent to be handled
-     *
-     * @param string $userAgent
-     *
-     * @return Version
+     * (PHP 5 &gt;= 5.4.0)<br/>
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
      */
-    public function setUserAgent($userAgent)
+    public function jsonSerialize()
     {
-        $this->useragent = $userAgent;
-
-        return $this;
+        return array(
+            'version'   => $this->version,
+            'useragent' => $this->useragent,
+            'default'   => $this->default
+        );
     }
 
     /**
-     * sets the user agent to be handled
-     *
-     * @param integer $mode
-     *
-     * @return Version
+     * @return string
      */
-    public function setMode($mode)
-    {
-        $this->mode = $mode;
-
-        return $this;
-    }
-
-    /**
-     * sets the default version, which is used, if no version could be detected
-     *
-     * @param string $version
-     *
-     * @return Version
-     * @throws \UnexpectedValueException
-     */
-    public function setDefaulVersion($version)
-    {
-        if (!is_string($version)) {
-            throw new \UnexpectedValueException(
-                'the default version needs to be a string'
-            );
-        }
-
-        $this->default = $version;
-    }
-
     public function __toString()
     {
         try {
@@ -197,7 +183,7 @@ class Version implements VersionInterface, \Serializable
         }
 
         if (null === $mode) {
-            $mode = $this->mode;
+            $mode = VersionInterface::COMPLETE;
         }
 
         $versions = array();
@@ -268,28 +254,6 @@ class Version implements VersionInterface, \Serializable
         }
 
         return $version;
-    }
-
-    /**
-     * sets the detected version
-     *
-     * @param string $version
-     *
-     * @return Version
-     * @throws \UnexpectedValueException
-     */
-    public function setVersion($version)
-    {
-        $version  = trim(trim(str_replace('_', '.', $version)), '.');
-        $splitted = explode('.', $version, 3);
-
-        $this->major = (!empty($splitted[0]) ? $splitted[0] : '0');
-        $this->minor = (!empty($splitted[1]) ? $splitted[1] : '0');
-        $this->micro = (!empty($splitted[2]) ? $splitted[2] : '0');
-
-        $this->version = $version;
-
-        return $this;
     }
 
     /**
@@ -364,22 +328,46 @@ class Version implements VersionInterface, \Serializable
     }
 
     /**
-     * detects if the version is makred as Alpha
+     * detects if the version is marked as Alpha
      *
      * @return boolean
      */
     public function isAlpha()
     {
-        return (false !== strpos($this->version, 'a'));
+        return $this->alpha;
     }
 
     /**
-     * detects if the version is makred as Beta
+     * detects if the version is marked as Beta
      *
      * @return boolean
      */
     public function isBeta()
     {
-        return (false !== strpos($this->version, 'b'));
+        return $this->beta;
+    }
+
+    /**
+     * sets the detected version
+     *
+     * @param string $version
+     *
+     * @return Version
+     * @throws \UnexpectedValueException
+     */
+    private function setVersion($version)
+    {
+        $version  = trim(trim(str_replace('_', '.', $version)), '.');
+        $splitted = explode('.', $version, 3);
+
+        $this->major = (!empty($splitted[0]) ? $splitted[0] : '0');
+        $this->minor = (!empty($splitted[1]) ? $splitted[1] : '0');
+        $this->micro = (!empty($splitted[2]) ? $splitted[2] : '0');
+
+        $this->version = $version;
+        $this->alpha   = (false !== strpos($this->version, 'a'));
+        $this->beta    = (false !== strpos($this->version, 'b'));
+
+        return $this;
     }
 }

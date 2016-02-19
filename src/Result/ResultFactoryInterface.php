@@ -30,10 +30,8 @@
 
 namespace UaResult\Result;
 
-use UaResult\Version\VersionInterface;
-
 /**
- * BrowserDetector.ini parsing class with caching and update capabilities
+ * Factory to build the detection result
  *
  * @category  BrowserDetector
  * @package   BrowserDetector
@@ -41,47 +39,14 @@ use UaResult\Version\VersionInterface;
  * @copyright 2012-2015 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface ResultInterface extends \Serializable, \JsonSerializable
+interface ResultFactoryInterface
 {
     /**
-     * @return \UaMatcher\Browser\BrowserInterface
-     */
-    public function getBrowser();
-
-    /**
-     * @return \UaResult\Device\DeviceInterface
-     */
-    public function getDevice();
-
-    /**
-     * @return \UaMatcher\Engine\EngineInterface
-     */
-    public function getEngine();
-
-    /**
-     * @return \UaMatcher\Os\OsInterface
-     */
-    public function getOs();
-
-    /**
-     * @return string
-     */
-    public function getWurflKey();
-
-    /**
-     * Returns the values of all capabilities for the current device
+     * builds the result object and set the values
      *
-     * @return string[] All Capability values
-     */
-    public function getCapabilities();
-
-    /**
-     * Returns the value of a given capability name for the current device
+     * @param string $userAgent
      *
-     * @param string $capabilityName must be a valid capability name
-     *
-     * @return string|VersionInterface Capability value
-     * @throws \InvalidArgumentException
+     * @return \UaResult\Result\ResultInterface
      */
-    public function getCapability($capabilityName);
+    public static function build($userAgent);
 }
