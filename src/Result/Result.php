@@ -30,7 +30,7 @@
 
 namespace UaResult\Result;
 
-use UaMatcher\Browser\BrowserInterface;
+use UaResult\Browser\BrowserInterface;
 use UaResult\Device\DeviceInterface;
 use UaMatcher\Engine\EngineInterface;
 use UaMatcher\Os\OsInterface;
@@ -712,7 +712,7 @@ class Result implements ResultInterface
     }
 
     /**
-     * @return \UaMatcher\Browser\BrowserInterface
+     * @return \UaResult\Browser\BrowserInterface
      */
     public function getBrowser()
     {

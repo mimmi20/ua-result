@@ -338,7 +338,7 @@ class Device implements DeviceInterface
     private function setData(array $data)
     {
         if (empty($data['deviceName'])) {
-            throw new \InvalidArgumentException('the required argument "deviceName is missing"');
+            throw new \InvalidArgumentException('the required argument "deviceName" is missing');
         }
 
         $this->deviceName = $data['deviceName'];

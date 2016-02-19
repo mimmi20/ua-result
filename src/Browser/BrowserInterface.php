@@ -28,60 +28,77 @@
  * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult\Result;
-
-use UaResult\Version\VersionInterface;
+namespace UaResult\Browser;
 
 /**
- * BrowserDetector.ini parsing class with caching and update capabilities
+ * base class for all browsers to detect
  *
  * @category  BrowserDetector
  * @package   BrowserDetector
- * @author    Thomas Mueller <t_mueller_stolzenhain@yahoo.de>
  * @copyright 2012-2015 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface ResultInterface extends \Serializable, \JsonSerializable
+interface BrowserInterface extends \Serializable, \JsonSerializable
 {
     /**
-     * @return \UaResult\Browser\BrowserInterface
+     * gets the name of the browser
+     *
+     * @return string
      */
-    public function getBrowser();
+    public function getName();
 
     /**
-     * @return \UaResult\Device\DeviceInterface
+     * @return bool|null
      */
-    public function getDevice();
+    public function getCanSkipAlignedLinkRow();
 
     /**
-     * @return \UaMatcher\Engine\EngineInterface
+     * @return bool|null
      */
-    public function getEngine();
+    public function getClaimsWebSupport();
 
     /**
-     * @return \UaMatcher\Os\OsInterface
+     * @return null|\UaMatcher\Company\CompanyInterface
      */
-    public function getOs();
+    public function getManufacturer();
+
+    /**
+     * @return null|string
+     */
+    public function getModus();
+
+    /**
+     * @return bool|null
+     */
+    public function getPdfSupport();
+
+    /**
+     * @return bool|null
+     */
+    public function getRssSupport();
+
+    /**
+     * @return bool|null
+     */
+    public function getSupportsBasicAuthentication();
+
+    /**
+     * @return bool|null
+     */
+    public function getSupportsEmptyOptionValues();
+
+    /**
+     * @return bool|null
+     */
+    public function getSupportsPostMethod();
 
     /**
      * @return string
      */
-    public function getWurflKey();
+    public function getUseragent();
 
     /**
-     * Returns the values of all capabilities for the current device
-     *
-     * @return string[] All Capability values
+     * @return null|\UaMatcher\Version\VersionInterface
      */
-    public function getCapabilities();
-
-    /**
-     * Returns the value of a given capability name for the current device
-     *
-     * @param string $capabilityName must be a valid capability name
-     *
-     * @return string|VersionInterface Capability value
-     * @throws \InvalidArgumentException
-     */
-    public function getCapability($capabilityName);
+    public function getVersion();
 }
