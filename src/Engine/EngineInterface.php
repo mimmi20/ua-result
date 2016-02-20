@@ -52,7 +52,7 @@ interface EngineInterface extends \Serializable, \JsonSerializable
     public function getName();
 
     /**
-     * @return null|\UaResult\Version\VersionInterface
+     * @return null|\Version\Version
      */
     public function getVersion();
 }

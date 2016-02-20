@@ -32,7 +32,6 @@
 namespace UaResult\Device;
 
 use UaResult\Company\CompanyInterface;
-use UaResult\Version\VersionInterface;
 
 /**
  * interface for all devices to detect
@@ -115,7 +114,7 @@ interface DeviceInterface extends \Serializable, \JsonSerializable
     public function getUseragent();
 
     /**
-     * @return null|VersionInterface
+     * @return null|\Version\Version
      */
     public function getVersion();
 

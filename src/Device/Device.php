@@ -32,7 +32,7 @@
 namespace UaResult\Device;
 
 use UaResult\Company\CompanyInterface;
-use UaResult\Version\VersionInterface;
+use Version\Version;
 use UaDeviceType\TypeInterface;
 
 /**
@@ -62,7 +62,7 @@ class Device implements DeviceInterface
     private $marketingName = null;
 
     /**
-     * @var \UaResult\Version\VersionInterface|null
+     * @var \Version\Version|null
      */
     private $version = null;
 
@@ -254,7 +254,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return null|\UaResult\Version\VersionInterface
+     * @return null|\Version\Version
      */
     public function getVersion()
     {
@@ -356,7 +356,7 @@ class Device implements DeviceInterface
             $this->marketingName = $data['marketingName'];
         }
 
-        if (!empty($data['version']) && $data['version'] instanceof VersionInterface) {
+        if (!empty($data['version']) && $data['version'] instanceof Version) {
             $this->version = $data['version'];
         }
 

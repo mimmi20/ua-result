@@ -35,7 +35,7 @@ use UaResult\Browser\BrowserInterface;
 use UaResult\Device\DeviceInterface;
 use UaResult\Engine\EngineInterface;
 use UaResult\Os\OsInterface;
-use UaResult\Version\VersionInterface;
+use Version\Version;
 use Wurfl\WurflConstants;
 
 /**
@@ -767,7 +767,7 @@ class Result implements ResultInterface
      *
      * @throws \InvalidArgumentException
      *
-     * @return string|VersionInterface Capability value
+     * @return string|\Version\Version Capability value
      */
     public function getCapability($capabilityName)
     {
@@ -855,7 +855,7 @@ class Result implements ResultInterface
      *
      * @throws \InvalidArgumentException
      *
-     * @return \UaResult\Result
+     * @return \UaResult\Result\Result
      */
     private function setCapability(
         $capabilityName,
@@ -869,10 +869,10 @@ class Result implements ResultInterface
             'device_os_version',
         ];
 
-        if (in_array($capabilityName, $versionfields) && !($capabilityValue instanceof VersionInterface)) {
+        if (in_array($capabilityName, $versionfields) && !($capabilityValue instanceof Version)) {
             throw new \InvalidArgumentException(
                 'capability "' . $capabilityName . '" requires an instance of '
-                . '"\\UaResult\\Version" as value, instance of "' . get_class($capabilityValue) . '" given'
+                . '"\\Version\\Version" as value, instance of "' . get_class($capabilityValue) . '" given'
             );
         }
 
@@ -911,7 +911,7 @@ class Result implements ResultInterface
      *
      * @param array $capabilities An array of name/value pairs
      *
-     * @return \UaResult\Result
+     * @return \UaResult\Result\Result
      */
     private function setCapabilities(array $capabilities)
     {

@@ -32,7 +32,7 @@
 namespace UaResult\Engine;
 
 use UaResult\Company\CompanyInterface;
-use UaResult\Version\VersionInterface;
+use Version\Version;
 
 /**
  * base class for all rendering engines to detect
@@ -55,7 +55,7 @@ class Engine implements EngineInterface
     private $name = null;
 
     /**
-     * @var \UaResult\Version\VersionInterface|null
+     * @var \Version\Version|null
      */
     private $version = null;
 
@@ -96,7 +96,7 @@ class Engine implements EngineInterface
     }
 
     /**
-     * @return null|\UaResult\Version\VersionInterface
+     * @return null|\Version\Version
      */
     public function getVersion()
     {
@@ -175,7 +175,7 @@ class Engine implements EngineInterface
 
         $this->name = $data['name'];
 
-        if (!empty($data['version']) && $data['version'] instanceof VersionInterface) {
+        if (!empty($data['version']) && $data['version'] instanceof Version) {
             $this->version = $data['version'];
         }
 

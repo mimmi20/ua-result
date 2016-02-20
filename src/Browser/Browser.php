@@ -32,7 +32,7 @@
 namespace UaResult\Browser;
 
 use UaResult\Company\CompanyInterface;
-use UaResult\Version\VersionInterface;
+use Version\Version;
 use UaBrowserType\TypeInterface;
 
 /**
@@ -61,7 +61,7 @@ class Browser implements BrowserInterface
     private $modus = null;
 
     /**
-     * @var \UaResult\Version\VersionInterface|null
+     * @var \Version\Version|null
      */
     private $version = null;
 
@@ -221,7 +221,7 @@ class Browser implements BrowserInterface
     }
 
     /**
-     * @return null|\UaResult\Version\VersionInterface
+     * @return null|\Version\Version
      */
     public function getVersion()
     {
@@ -329,7 +329,7 @@ class Browser implements BrowserInterface
             $this->modus = $data['modus'];
         }
 
-        if (!empty($data['version']) && $data['version'] instanceof VersionInterface) {
+        if (!empty($data['version']) && $data['version'] instanceof Version) {
             $this->version = $data['version'];
         }
 

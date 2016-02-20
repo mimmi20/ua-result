@@ -31,8 +31,6 @@
 
 namespace UaResult\Result;
 
-use UaResult\Version\VersionInterface;
-
 /**
  * BrowserDetector.ini parsing class with caching and update capabilities
  *
@@ -83,7 +81,7 @@ interface ResultInterface extends \Serializable, \JsonSerializable
      *
      * @throws \InvalidArgumentException
      *
-     * @return string|VersionInterface Capability value
+     * @return string|\Version\Version Capability value
      */
     public function getCapability($capabilityName);
 }
