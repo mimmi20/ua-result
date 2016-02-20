@@ -21,11 +21,12 @@
  * THE SOFTWARE.
  *
  * @category  ua-result
- * @package   ua-result
+ *
  * @author    Thomas Mueller <mimmi20@live.de>
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
- * @link      https://github.com/mimmi20/BrowserDetector
+ *
+ * @link      https://github.com/mimmi20/ua-result
  */
 
 namespace UaResult\Os;
@@ -37,7 +38,7 @@ use UaResult\Version\VersionInterface;
  * base class for all rendering platforms/operating systems to detect
  *
  * @category  ua-result
- * @package   ua-result
+ *
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
@@ -118,32 +119,35 @@ class Os implements OsInterface
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * String representation of object
+     *
      * @link http://php.net/manual/en/serializable.serialize.php
+     *
      * @return string the string representation of the object or null
      */
     public function serialize()
     {
         return serialize(
-            array(
+            [
                 'useragent' => $this->useragent,
-                'data'      => array(
+                'data'      => [
                     'name'         => $this->name,
                     'version'      => $this->version,
                     'manufacturer' => $this->manufacturer,
                     'bits'         => $this->bits,
-                )
-            )
+                ],
+            ]
         );
     }
 
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * Constructs the object
+     *
      * @link http://php.net/manual/en/serializable.unserialize.php
+     *
      * @param string $serialized <p>
-     * The string representation of the object.
-     * </p>
-     * @return void
+     *                           The string representation of the object.
+     *                           </p>
      */
     public function unserialize($serialized)
     {
@@ -156,21 +160,23 @@ class Os implements OsInterface
     /**
      * (PHP 5 &gt;= 5.4.0)<br/>
      * Specify data which should be serialized to JSON
+     *
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     *
      * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
+     *               which is a value of any type other than a resource.
      */
     public function jsonSerialize()
     {
-        return array(
+        return [
             'useragent' => $this->useragent,
-            'data'      => array(
+            'data'      => [
                 'name'         => $this->name,
                 'version'      => $this->version,
                 'manufacturer' => $this->manufacturer,
                 'bits'         => $this->bits,
-            )
-        );
+            ],
+        ];
     }
 
     /**

@@ -21,11 +21,12 @@
  * THE SOFTWARE.
  *
  * @category  ua-result
- * @package   ua-result
+ *
  * @author    Thomas Mueller <mimmi20@live.de>
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
- * @link      https://github.com/mimmi20/BrowserDetector
+ *
+ * @link      https://github.com/mimmi20/ua-result
  */
 
 namespace UaResult\Os;
@@ -34,7 +35,7 @@ namespace UaResult\Os;
  * interface for all platforms/operating systems to detect
  *
  * @category  ua-result
- * @package   ua-result
+ *
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */

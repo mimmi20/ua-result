@@ -21,11 +21,12 @@
  * THE SOFTWARE.
  *
  * @category  ua-result
- * @package   ua-result
+ *
  * @author    Thomas Mueller <mimmi20@live.de>
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
- * @link      https://github.com/mimmi20/BrowserDetector
+ *
+ * @link      https://github.com/mimmi20/ua-result
  */
 
 namespace UaResult\Result;
@@ -39,7 +40,7 @@ use Wurfl\WurflConstants;
 
 /**
  * @category  ua-result
- * @package   ua-result
+ *
  * @author    Thomas Mueller <mimmi20@live.de>
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
@@ -81,7 +82,7 @@ class Result implements ResultInterface
      *
      * @var array
      */
-    private $capabilities = array(
+    private $capabilities = [
         // kind of device
         'device_type'                                       => null, // not in wurfl
         'browser_type'                                      => null, // not in wurfl
@@ -677,18 +678,18 @@ class Result implements ResultInterface
         'playback_vcodec_h264_bp'                           => null,
         // chips
         'nfc_support'                                       => null,
-    );
+    ];
 
     /**
      * the class constructor
      *
-     * @param string                              $useragent
-     * @param \UaResult\Device\DeviceInterface    $device
+     * @param string                             $useragent
+     * @param \UaResult\Device\DeviceInterface   $device
      * @param \UaResult\Os\OsInterface           $os
      * @param \UaResult\Browser\BrowserInterface $browser
      * @param \UaResult\Engine\EngineInterface   $engine
-     * @param array                               $capabilities
-     * @param null|string                         $wurflKey
+     * @param array                              $capabilities
+     * @param null|string                        $wurflKey
      */
     public function __construct(
         $useragent,
@@ -696,7 +697,7 @@ class Result implements ResultInterface
         OsInterface $os = null,
         BrowserInterface $browser = null,
         EngineInterface $engine = null,
-        array $capabilities = array(),
+        array $capabilities = [],
         $wurflKey = WurflConstants::NO_MATCH
     ) {
         $this->useragent = $useragent;
@@ -764,8 +765,9 @@ class Result implements ResultInterface
      *
      * @param string $capabilityName must be a valid capability name
      *
-     * @return string|VersionInterface Capability value
      * @throws \InvalidArgumentException
+     *
+     * @return string|VersionInterface Capability value
      */
     public function getCapability($capabilityName)
     {
@@ -777,13 +779,15 @@ class Result implements ResultInterface
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * String representation of object
+     *
      * @link http://php.net/manual/en/serializable.serialize.php
+     *
      * @return string the string representation of the object or null
      */
     public function serialize()
     {
         return serialize(
-            array(
+            [
                 'capabilities' => $this->capabilities,
                 'wurflKey'     => $this->wurflKey,
                 'useragent'    => $this->useragent,
@@ -791,18 +795,19 @@ class Result implements ResultInterface
                 'browser'      => $this->browser,
                 'os'           => $this->os,
                 'engine'       => $this->engine,
-            )
+            ]
         );
     }
 
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * Constructs the object
+     *
      * @link http://php.net/manual/en/serializable.unserialize.php
+     *
      * @param string $data <p>
-     * The string representation of the object.
-     * </p>
-     * @return void
+     *                     The string representation of the object.
+     *                     </p>
      */
     public function unserialize($data)
     {
@@ -823,13 +828,15 @@ class Result implements ResultInterface
     /**
      * (PHP 5 &gt;= 5.4.0)<br/>
      * Specify data which should be serialized to JSON
+     *
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     *
      * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
+     *               which is a value of any type other than a resource.
      */
     public function jsonSerialize()
     {
-        return array(
+        return [
             'capabilities' => $this->capabilities,
             'wurflKey'     => $this->wurflKey,
             'useragent'    => $this->useragent,
@@ -837,16 +844,17 @@ class Result implements ResultInterface
             'browser'      => $this->browser,
             'os'           => $this->os,
             'engine'       => $this->engine,
-        );
+        ];
     }
 
     /**
      * Returns the value of a given capability name for the current device
      *
-     * @param string $capabilityName must be a valid capability name
+     * @param string $capabilityName  must be a valid capability name
      * @param string $capabilityValue
      *
      * @throws \InvalidArgumentException
+     *
      * @return \UaResult\Result
      */
     private function setCapability(
@@ -855,11 +863,11 @@ class Result implements ResultInterface
     ) {
         $this->checkCapability($capabilityName);
 
-        $versionfields = array(
+        $versionfields = [
             'mobile_browser_version',
             'renderingengine_version',
-            'device_os_version'
-        );
+            'device_os_version',
+        ];
 
         if (in_array($capabilityName, $versionfields) && !($capabilityValue instanceof VersionInterface)) {
             throw new \InvalidArgumentException(
@@ -880,6 +888,7 @@ class Result implements ResultInterface
      * @param string $capabilityName must be a valid capability name
      *
      * @throws \InvalidArgumentException
+     *
      * @return string Capability value
      */
     private function checkCapability($capabilityName)

@@ -21,11 +21,12 @@
  * THE SOFTWARE.
  *
  * @category  ua-result
- * @package   ua-result
+ *
  * @author    Thomas Mueller <mimmi20@live.de>
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
- * @link      https://github.com/mimmi20/BrowserDetector
+ *
+ * @link      https://github.com/mimmi20/ua-result
  */
 
 namespace UaResult\Version;
@@ -34,79 +35,79 @@ namespace UaResult\Version;
  * a general version detector
  *
  * @category  ua-result
- * @package   ua-result
+ *
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
 interface VersionInterface extends \Serializable, \JsonSerializable
 {
     /**
-     * @var integer
+     * @var int
      */
     const MAJORONLY = 1;
 
     /**
-     * @var integer
+     * @var int
      */
     const MINORONLY = 2;
 
     /**
-     * @var integer
+     * @var int
      */
     const MAJORMINOR = 3;
 
     /**
-     * @var integer
+     * @var int
      */
     const MINORMICRO = 6;
 
     /**
-     * @var integer
+     * @var int
      */
     const MICROONLY = 4;
 
     /**
-     * @var integer
+     * @var int
      */
     const COMPLETE = 7;
 
     /**
-     * @var integer
+     * @var int
      */
     const IGNORE_NONE = 0;
 
     /**
-     * @var integer
+     * @var int
      */
     const IGNORE_MINOR = 8;
 
     /**
-     * @var integer
+     * @var int
      */
     const IGNORE_MICRO = 16;
 
     /**
-     * @var integer
+     * @var int
      */
     const IGNORE_MINOR_IF_EMPTY = 32;
 
     /**
-     * @var integer
+     * @var int
      */
     const IGNORE_MICRO_IF_EMPTY = 64;
 
     /**
-     * @var integer
+     * @var int
      */
     const IGNORE_MACRO_IF_EMPTY = 128;
 
     /**
-     * @var integer
+     * @var int
      */
     const COMPLETE_IGNORE_EMPTY = 231;
 
     /**
-     * @var integer
+     * @var int
      */
     const GET_ZERO_IF_EMPTY = 256;
 
@@ -120,10 +121,11 @@ interface VersionInterface extends \Serializable, \JsonSerializable
     /**
      * returns the detected version
      *
-     * @param integer $mode
+     * @param int $mode
+     *
+     * @throws \UnexpectedValueException
      *
      * @return string
-     * @throws \UnexpectedValueException
      */
     public function getVersion($mode = null);
 
@@ -132,22 +134,23 @@ interface VersionInterface extends \Serializable, \JsonSerializable
      *
      * @param string|array $searches
      *
-     * @return VersionInterface
      * @throws \UnexpectedValueException
+     *
+     * @return VersionInterface
      */
     public function detectVersion($searches = '');
 
     /**
      * detects if the version is makred as Alpha
      *
-     * @return boolean
+     * @return bool
      */
     public function isAlpha();
 
     /**
      * detects if the version is makred as Beta
      *
-     * @return boolean
+     * @return bool
      */
     public function isBeta();
 }
