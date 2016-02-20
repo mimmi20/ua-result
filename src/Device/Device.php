@@ -33,6 +33,7 @@ namespace UaResult\Device;
 
 use UaResult\Company\CompanyInterface;
 use UaResult\Version\VersionInterface;
+use UaDeviceType\TypeInterface;
 
 /**
  * BrowserDetector.ini parsing class with caching and update capabilities
@@ -121,6 +122,11 @@ class Device implements DeviceInterface
     private $hasQwertyKeyboard = null;
 
     /**
+     * @var \UaDeviceType\TypeInterface|null
+     */
+    private $type = null;
+
+    /**
      * the class constructor
      *
      * @param string $useragent
@@ -184,7 +190,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return null|CompanyInterface
+     * @return null|\UaResult\Company\CompanyInterface
      */
     public function getManufacturer()
     {
@@ -248,11 +254,19 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return null|VersionInterface
+     * @return null|\UaResult\Version\VersionInterface
      */
     public function getVersion()
     {
         return $this->version;
+    }
+
+    /**
+     * @return null|\UaDeviceType\TypeInterface
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -265,27 +279,7 @@ class Device implements DeviceInterface
      */
     public function serialize()
     {
-        return serialize(
-            [
-                'useragent' => $this->useragent,
-                'data'      => [
-                    'deviceName'        => $this->deviceName,
-                    'marketingName'     => $this->marketingName,
-                    'version'           => $this->version,
-                    'manufacturer'      => $this->manufacturer,
-                    'brand'             => $this->brand,
-                    'formFactor'        => $this->formFactor,
-                    'pointingMethod'    => $this->pointingMethod,
-                    'resolutionWidth'   => $this->resolutionWidth,
-                    'resolutionHeight'  => $this->resolutionHeight,
-                    'dualOrientation'   => $this->dualOrientation,
-                    'colors'            => $this->colors,
-                    'smsSupport'        => $this->smsSupport,
-                    'nfcSupport'        => $this->nfcSupport,
-                    'hasQwertyKeyboard' => $this->hasQwertyKeyboard,
-                ],
-            ]
-        );
+        return serialize($this->getData());
     }
 
     /**
@@ -317,6 +311,14 @@ class Device implements DeviceInterface
      */
     public function jsonSerialize()
     {
+        return $this->getData();
+    }
+
+    /**
+     * @return array
+     */
+    private function getData()
+    {
         return [
             'useragent' => $this->useragent,
             'data'      => [
@@ -334,6 +336,7 @@ class Device implements DeviceInterface
                 'smsSupport'        => $this->smsSupport,
                 'nfcSupport'        => $this->nfcSupport,
                 'hasQwertyKeyboard' => $this->hasQwertyKeyboard,
+                'type'              => $this->type,
             ],
         ];
     }
@@ -399,6 +402,10 @@ class Device implements DeviceInterface
 
         if (!empty($data['hasQwertyKeyboard'])) {
             $this->hasQwertyKeyboard = $data['hasQwertyKeyboard'];
+        }
+
+        if (!empty($data['type']) && $data['type'] instanceof TypeInterface) {
+            $this->type = $data['type'];
         }
     }
 }

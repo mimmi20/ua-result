@@ -102,4 +102,14 @@ interface BrowserInterface extends \Serializable, \JsonSerializable
      * @return null|\UaResult\Version\VersionInterface
      */
     public function getVersion();
+
+    /**
+     * @return int|null
+     */
+    public function getBits();
+
+    /**
+     * @return null|\UaBrowserType\TypeInterface
+     */
+    public function getType();
 }

@@ -33,6 +33,7 @@ namespace UaResult\Browser;
 
 use UaResult\Company\CompanyInterface;
 use UaResult\Version\VersionInterface;
+use UaBrowserType\TypeInterface;
 
 /**
  * base class for all browsers to detect
@@ -103,6 +104,16 @@ class Browser implements BrowserInterface
      * @var bool|null
      */
     private $supportsPostMethod = null;
+
+    /**
+     * @var int|null
+     */
+    private $bits = null;
+
+    /**
+     * @var \UaBrowserType\TypeInterface|null
+     */
+    private $type = null;
 
     /**
      * Class Constructor
@@ -218,6 +229,22 @@ class Browser implements BrowserInterface
     }
 
     /**
+     * @return int|null
+     */
+    public function getBits()
+    {
+        return $this->bits;
+    }
+
+    /**
+     * @return null|\UaBrowserType\TypeInterface
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * String representation of object
      *
@@ -227,24 +254,7 @@ class Browser implements BrowserInterface
      */
     public function serialize()
     {
-        return serialize(
-            [
-                'useragent' => $this->useragent,
-                'data'      => [
-                    'name'                        => $this->name,
-                    'modus'                       => $this->modus,
-                    'version'                     => $this->version,
-                    'manufacturer'                => $this->manufacturer,
-                    'pdfSupport'                  => $this->pdfSupport,
-                    'rssSupport'                  => $this->rssSupport,
-                    'canSkipAlignedLinkRow'       => $this->canSkipAlignedLinkRow,
-                    'claimsWebSupport'            => $this->claimsWebSupport,
-                    'supportsEmptyOptionValues'   => $this->supportsEmptyOptionValues,
-                    'supportsBasicAuthentication' => $this->supportsBasicAuthentication,
-                    'supportsPostMethod'          => $this->supportsPostMethod,
-                ],
-            ]
-        );
+        return serialize($this->getData());
     }
 
     /**
@@ -276,6 +286,14 @@ class Browser implements BrowserInterface
      */
     public function jsonSerialize()
     {
+        return $this->getData();
+    }
+
+    /**
+     * @return array
+     */
+    private function getData()
+    {
         return [
             'useragent' => $this->useragent,
             'data'      => [
@@ -290,6 +308,8 @@ class Browser implements BrowserInterface
                 'supportsEmptyOptionValues'   => $this->supportsEmptyOptionValues,
                 'supportsBasicAuthentication' => $this->supportsBasicAuthentication,
                 'supportsPostMethod'          => $this->supportsPostMethod,
+                'bits'                        => $this->bits,
+                'type'                        => $this->type,
             ],
         ];
     }
@@ -343,6 +363,14 @@ class Browser implements BrowserInterface
 
         if (!empty($data['supportsPostMethod'])) {
             $this->supportsPostMethod = $data['supportsPostMethod'];
+        }
+
+        if (!empty($data['bits'])) {
+            $this->bits = $data['bits'];
+        }
+
+        if (!empty($data['type']) && $data['type'] instanceof TypeInterface) {
+            $this->type = $data['type'];
         }
     }
 }
