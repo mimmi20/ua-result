@@ -12,3 +12,4 @@
 *.txt text eol=lf diff
 .gitattributes text eol=lf diff
 .gitignore text eol=lf diff
+.php_cs text eol=lf diff
