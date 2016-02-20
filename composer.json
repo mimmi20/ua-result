@@ -28,15 +28,12 @@
   },
   "require": {
     "php": ">=5.6.0",
-    "psr/log": "~1.0",
     "mimmi20/wurfl-constants": "*",
-    "mimmi20/ua-matcher-interface": "~1.1.0",
-    "mimmi20/ua-helper-utils": "*"
+    "mimmi20/ua-browser-type": "~1.0.1",
+    "mimmi20/ua-device-type": "~1.0.1"
   },
   "require-dev": {
     "phpunit/phpunit": "*",
-    "monolog/monolog": "~1",
-    "mikey179/vfsStream": "dev-master",
     "squizlabs/php_codesniffer": "2.*",
     "fabpot/php-cs-fixer": "*"
   },

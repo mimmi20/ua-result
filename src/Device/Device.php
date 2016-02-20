@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2012-2015, Thomas Mueller <t_mueller_stolzenhain@yahoo.de>
+ * Copyright (c) 2015, 2016, Thomas Mueller <mimmi20@live.de>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -20,10 +20,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category  BrowserDetector
- * @package   BrowserDetector
- * @author    Thomas Mueller <t_mueller_stolzenhain@yahoo.de>
- * @copyright 2012-2015 Thomas Mueller
+ * @category  ua-result
+ * @package   ua-result
+ * @author    Thomas Mueller <mimmi20@live.de>
+ * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  * @link      https://github.com/mimmi20/BrowserDetector
  */
@@ -36,10 +36,10 @@ use UaResult\Version\VersionInterface;
 /**
  * BrowserDetector.ini parsing class with caching and update capabilities
  *
- * @category  BrowserDetector
- * @package   BrowserDetector
- * @author    Thomas Mueller <t_mueller_stolzenhain@yahoo.de>
- * @copyright 2012-2015 Thomas Mueller
+ * @category  ua-result
+ * @package   ua-result
+ * @author    Thomas Mueller <mimmi20@live.de>
+ * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
 class Device implements DeviceInterface
@@ -60,12 +60,12 @@ class Device implements DeviceInterface
     private $marketingName = null;
 
     /**
-     * @var \UaMatcher\Version\VersionInterface|null
+     * @var \UaResult\Version\VersionInterface|null
      */
     private $version = null;
 
     /**
-     * @var \UaMatcher\Company\CompanyInterface|null
+     * @var \UaResult\Company\CompanyInterface|null
      */
     private $manufacturer = null;
 

@@ -28,20 +28,20 @@
  * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult\Browser;
+namespace UaResult\Os;
 
 use UaResult\Company\CompanyInterface;
 use UaResult\Version\VersionInterface;
 
 /**
- * base class for all browsers to detect
+ * base class for all rendering platforms/operating systems to detect
  *
  * @category  ua-result
  * @package   ua-result
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-class Browser implements BrowserInterface
+abstract class AbstractOs implements OsInterface
 {
     /**
      * @var string the user agent to handle
@@ -54,11 +54,6 @@ class Browser implements BrowserInterface
     private $name = null;
 
     /**
-     * @var string|null
-     */
-    private $modus = null;
-
-    /**
      * @var \UaResult\Version\VersionInterface|null
      */
     private $version = null;
@@ -69,39 +64,9 @@ class Browser implements BrowserInterface
     private $manufacturer = null;
 
     /**
-     * @var boolean|null
+     * @var int|null
      */
-    private $pdfSupport = null;
-
-    /**
-     * @var boolean|null
-     */
-    private $rssSupport = null;
-
-    /**
-     * @var boolean|null
-     */
-    private $canSkipAlignedLinkRow = null;
-
-    /**
-     * @var boolean|null
-     */
-    private $claimsWebSupport = null;
-
-    /**
-     * @var boolean|null
-     */
-    private $supportsEmptyOptionValues = null;
-
-    /**
-     * @var boolean|null
-     */
-    private $supportsBasicAuthentication = null;
-
-    /**
-     * @var boolean|null
-     */
-    private $supportsPostMethod = null;
+    private $bits = null;
 
     /**
      * Class Constructor
@@ -119,29 +84,11 @@ class Browser implements BrowserInterface
     }
 
     /**
-     * gets the name of the browser
-     *
-     * @return string
+     * @return int|null
      */
-    public function getName()
+    public function getBits()
     {
-        return $this->name;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getCanSkipAlignedLinkRow()
-    {
-        return $this->canSkipAlignedLinkRow;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getClaimsWebSupport()
-    {
-        return $this->claimsWebSupport;
+        return $this->bits;
     }
 
     /**
@@ -155,57 +102,9 @@ class Browser implements BrowserInterface
     /**
      * @return null|string
      */
-    public function getModus()
+    public function getName()
     {
-        return $this->modus;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getPdfSupport()
-    {
-        return $this->pdfSupport;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getRssSupport()
-    {
-        return $this->rssSupport;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getSupportsBasicAuthentication()
-    {
-        return $this->supportsBasicAuthentication;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getSupportsEmptyOptionValues()
-    {
-        return $this->supportsEmptyOptionValues;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getSupportsPostMethod()
-    {
-        return $this->supportsPostMethod;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUseragent()
-    {
-        return $this->useragent;
+        return $this->name;
     }
 
     /**
@@ -228,17 +127,10 @@ class Browser implements BrowserInterface
             array(
                 'useragent' => $this->useragent,
                 'data'      => array(
-                    'name'                        => $this->name,
-                    'modus'                       => $this->modus,
-                    'version'                     => $this->version,
-                    'manufacturer'                => $this->manufacturer,
-                    'pdfSupport'                  => $this->pdfSupport,
-                    'rssSupport'                  => $this->rssSupport,
-                    'canSkipAlignedLinkRow'       => $this->canSkipAlignedLinkRow,
-                    'claimsWebSupport'            => $this->claimsWebSupport,
-                    'supportsEmptyOptionValues'   => $this->supportsEmptyOptionValues,
-                    'supportsBasicAuthentication' => $this->supportsBasicAuthentication,
-                    'supportsPostMethod'          => $this->supportsPostMethod,
+                    'name'         => $this->name,
+                    'version'      => $this->version,
+                    'manufacturer' => $this->manufacturer,
+                    'bits'         => $this->bits,
                 )
             )
         );
@@ -273,17 +165,10 @@ class Browser implements BrowserInterface
         return array(
             'useragent' => $this->useragent,
             'data'      => array(
-                'name'                        => $this->name,
-                'modus'                       => $this->modus,
-                'version'                     => $this->version,
-                'manufacturer'                => $this->manufacturer,
-                'pdfSupport'                  => $this->pdfSupport,
-                'rssSupport'                  => $this->rssSupport,
-                'canSkipAlignedLinkRow'       => $this->canSkipAlignedLinkRow,
-                'claimsWebSupport'            => $this->claimsWebSupport,
-                'supportsEmptyOptionValues'   => $this->supportsEmptyOptionValues,
-                'supportsBasicAuthentication' => $this->supportsBasicAuthentication,
-                'supportsPostMethod'          => $this->supportsPostMethod,
+                'name'         => $this->name,
+                'version'      => $this->version,
+                'manufacturer' => $this->manufacturer,
+                'bits'         => $this->bits,
             )
         );
     }
@@ -299,10 +184,6 @@ class Browser implements BrowserInterface
 
         $this->name = $data['name'];
 
-        if (!empty($data['modus'])) {
-            $this->modus = $data['modus'];
-        }
-
         if (!empty($data['version']) && $data['version'] instanceof VersionInterface) {
             $this->version = $data['version'];
         }
@@ -311,32 +192,8 @@ class Browser implements BrowserInterface
             $this->manufacturer = $data['manufacturer'];
         }
 
-        if (!empty($data['pdfSupport'])) {
-            $this->pdfSupport = $data['pdfSupport'];
-        }
-
-        if (!empty($data['rssSupport'])) {
-            $this->rssSupport = $data['rssSupport'];
-        }
-
-        if (!empty($data['canSkipAlignedLinkRow'])) {
-            $this->canSkipAlignedLinkRow = $data['canSkipAlignedLinkRow'];
-        }
-
-        if (!empty($data['claimsWebSupport'])) {
-            $this->claimsWebSupport = $data['claimsWebSupport'];
-        }
-
-        if (!empty($data['supportsEmptyOptionValues'])) {
-            $this->supportsEmptyOptionValues = $data['supportsEmptyOptionValues'];
-        }
-
-        if (!empty($data['supportsBasicAuthentication'])) {
-            $this->supportsBasicAuthentication = $data['supportsBasicAuthentication'];
-        }
-
-        if (!empty($data['supportsPostMethod'])) {
-            $this->supportsPostMethod = $data['supportsPostMethod'];
+        if (!empty($data['bits'])) {
+            $this->bits = $data['bits'];
         }
     }
 }

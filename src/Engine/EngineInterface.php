@@ -28,34 +28,30 @@
  * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult\Company;
+namespace UaResult\Engine;
 
 /**
+ * interface for all rendering engines to detect
+ *
  * @category  ua-result
  * @package   ua-result
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface CompanyInterface extends \Serializable, \JsonSerializable
+interface EngineInterface extends \Serializable, \JsonSerializable
 {
     /**
-     * Returns the name of the company
-     *
-     * @return string
+     * @return null|\UaResult\Company\CompanyInterface
      */
-    public function __toString();
+    public function getManufacturer();
 
     /**
-     * Returns the name of the company
-     *
-     * @return string
+     * @return null|string
      */
     public function getName();
 
     /**
-     * Returns the brand name of the company
-     *
-     * @return string
+     * @return null|\UaResult\Version\VersionInterface
      */
-    public function getBrandName();
+    public function getVersion();
 }

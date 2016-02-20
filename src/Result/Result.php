@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2012-2015, Thomas Mueller <t_mueller_stolzenhain@yahoo.de>
+ * Copyright (c) 2015, 2016, Thomas Mueller <mimmi20@live.de>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -20,10 +20,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category  BrowserDetector
- * @package   BrowserDetector
- * @author    Thomas Mueller <t_mueller_stolzenhain@yahoo.de>
- * @copyright 2012-2015 Thomas Mueller
+ * @category  ua-result
+ * @package   ua-result
+ * @author    Thomas Mueller <mimmi20@live.de>
+ * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  * @link      https://github.com/mimmi20/BrowserDetector
  */
@@ -32,18 +32,16 @@ namespace UaResult\Result;
 
 use UaResult\Browser\BrowserInterface;
 use UaResult\Device\DeviceInterface;
-use UaMatcher\Engine\EngineInterface;
-use UaMatcher\Os\OsInterface;
+use UaResult\Engine\EngineInterface;
+use UaResult\Os\OsInterface;
 use UaResult\Version\VersionInterface;
 use Wurfl\WurflConstants;
 
 /**
- * BrowserDetector.ini parsing class with caching and update capabilities
- *
- * @category  BrowserDetector
- * @package   BrowserDetector
- * @author    Thomas Mueller <t_mueller_stolzenhain@yahoo.de>
- * @copyright 2012-2015 Thomas Mueller
+ * @category  ua-result
+ * @package   ua-result
+ * @author    Thomas Mueller <mimmi20@live.de>
+ * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
 class Result implements ResultInterface
@@ -64,17 +62,17 @@ class Result implements ResultInterface
     private $device = null;
 
     /**
-     * @var \UaMatcher\Browser\BrowserInterface
+     * @var \UaResult\Browser\BrowserInterface
      */
     private $browser = null;
 
     /**
-     * @var \UaMatcher\Os\OsInterface
+     * @var \UaResult\Os\OsInterface
      */
     private $os = null;
 
     /**
-     * @var \UaMatcher\Engine\EngineInterface
+     * @var \UaResult\Engine\EngineInterface
      */
     private $engine = null;
 
@@ -686,9 +684,9 @@ class Result implements ResultInterface
      *
      * @param string                              $useragent
      * @param \UaResult\Device\DeviceInterface    $device
-     * @param \UaMatcher\Os\OsInterface           $os
-     * @param \UaMatcher\Browser\BrowserInterface $browser
-     * @param \UaMatcher\Engine\EngineInterface   $engine
+     * @param \UaResult\Os\OsInterface           $os
+     * @param \UaResult\Browser\BrowserInterface $browser
+     * @param \UaResult\Engine\EngineInterface   $engine
      * @param array                               $capabilities
      * @param null|string                         $wurflKey
      */
@@ -728,7 +726,7 @@ class Result implements ResultInterface
     }
 
     /**
-     * @return \UaMatcher\Engine\EngineInterface
+     * @return \UaResult\Engine\EngineInterface
      */
     public function getEngine()
     {
@@ -736,7 +734,7 @@ class Result implements ResultInterface
     }
 
     /**
-     * @return \UaMatcher\Os\OsInterface
+     * @return \UaResult\Os\OsInterface
      */
     public function getOs()
     {

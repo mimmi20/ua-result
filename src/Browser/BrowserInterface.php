@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2012-2015, Thomas Mueller <t_mueller_stolzenhain@yahoo.de>
+ * Copyright (c) 2015, 2016, Thomas Mueller <mimmi20@live.de>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -20,10 +20,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category  BrowserDetector
- * @package   BrowserDetector
- * @author    Thomas Mueller <t_mueller_stolzenhain@yahoo.de>
- * @copyright 2012-2015 Thomas Mueller
+ * @category  ua-result
+ * @package   ua-result
+ * @author    Thomas Mueller <mimmi20@live.de>
+ * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  * @link      https://github.com/mimmi20/BrowserDetector
  */
@@ -33,9 +33,9 @@ namespace UaResult\Browser;
 /**
  * base class for all browsers to detect
  *
- * @category  BrowserDetector
- * @package   BrowserDetector
- * @copyright 2012-2015 Thomas Mueller
+ * @category  ua-result
+ * @package   ua-result
+ * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
 interface BrowserInterface extends \Serializable, \JsonSerializable
@@ -58,7 +58,7 @@ interface BrowserInterface extends \Serializable, \JsonSerializable
     public function getClaimsWebSupport();
 
     /**
-     * @return null|\UaMatcher\Company\CompanyInterface
+     * @return null|\UaResult\Company\CompanyInterface
      */
     public function getManufacturer();
 
@@ -98,7 +98,7 @@ interface BrowserInterface extends \Serializable, \JsonSerializable
     public function getUseragent();
 
     /**
-     * @return null|\UaMatcher\Version\VersionInterface
+     * @return null|\UaResult\Version\VersionInterface
      */
     public function getVersion();
 }

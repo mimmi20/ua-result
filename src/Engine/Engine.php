@@ -28,68 +28,78 @@
  * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult\Company;
+namespace UaResult\Engine;
+
+use UaResult\Company\CompanyInterface;
+use UaResult\Version\VersionInterface;
 
 /**
+ * base class for all rendering engines to detect
+ *
  * @category  ua-result
  * @package   ua-result
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-class Company implements CompanyInterface
+class Engine implements EngineInterface
 {
     /**
-     * the name of the company
-     *
-     * @var string
+     * @var string the user agent to handle
+     */
+    private $useragent = null;
+
+    /**
+     * @var string|null
      */
     private $name = null;
 
     /**
-     * the brand name of the company
-     *
-     * @var string
+     * @var \UaResult\Version\VersionInterface|null
      */
-    private $brandname = null;
+    private $version = null;
 
     /**
-     * @param string      $name
-     * @param string|null $brandname
+     * @var \UaResult\Company\CompanyInterface|null
      */
-    public function __construct($name, $brandname = null)
-    {
-        $this->name      = $name;
-        $this->brandname = $brandname;
+    private $manufacturer = null;
+
+    /**
+     * Class Constructor
+     *
+     * @param string $useragent the user agent to be handled
+     * @param array  $data
+     */
+    public function __construct(
+        $useragent,
+        array $data
+    ) {
+        $this->useragent = $useragent;
+
+        $this->setData($data);
     }
 
     /**
-     * Returns the name of the company
-     *
-     * @return string
+     * @return null|\UaResult\Company\CompanyInterface
      */
-    public function __toString()
+    public function getManufacturer()
     {
-        return $this->getName();
+        return $this->manufacturer;
     }
 
     /**
-     * Returns the name of the company
-     *
-     * @return string
+     * @return null|string
      */
     public function getName()
     {
-        return (string)$this->name;
+        return $this->name;
     }
 
     /**
-     * Returns the brand name of the company
-     *
-     * @return string
+     * @return null|\UaResult\Version\VersionInterface
      */
-    public function getBrandName()
+    public function getVersion()
     {
-        return $this->brandname;
+        return $this->version;
     }
 
     /**
@@ -102,8 +112,12 @@ class Company implements CompanyInterface
     {
         return serialize(
             array(
-                'name'  => $this->name,
-                'brand' => $this->brandname,
+                'useragent' => $this->useragent,
+                'data'      => array(
+                    'name'         => $this->name,
+                    'version'      => $this->version,
+                    'manufacturer' => $this->manufacturer,
+                )
             )
         );
     }
@@ -112,17 +126,17 @@ class Company implements CompanyInterface
      * (PHP 5 &gt;= 5.1.0)<br/>
      * Constructs the object
      * @link http://php.net/manual/en/serializable.unserialize.php
-     * @param string $data <p>
+     * @param string $serialized <p>
      * The string representation of the object.
      * </p>
      * @return void
      */
-    public function unserialize($data)
+    public function unserialize($serialized)
     {
-        $unseriliazedData = unserialize($data);
+        $unseriliazedData = unserialize($serialized);
 
-        $this->name      = $unseriliazedData['name'];
-        $this->brandname = $unseriliazedData['brand'];
+        $this->useragent = $unseriliazedData['useragent'];
+        $this->setData($unseriliazedData['data']);
     }
 
     /**
@@ -135,8 +149,32 @@ class Company implements CompanyInterface
     public function jsonSerialize()
     {
         return array(
-            'name'  => $this->name,
-            'brand' => $this->brandname,
+            'useragent' => $this->useragent,
+            'data'      => array(
+                'name'         => $this->name,
+                'version'      => $this->version,
+                'manufacturer' => $this->manufacturer,
+            )
         );
+    }
+
+    /**
+     * @param array $data
+     */
+    private function setData(array $data)
+    {
+        if (empty($data['name'])) {
+            throw new \InvalidArgumentException('the required argument "name" is missing');
+        }
+
+        $this->name = $data['name'];
+
+        if (!empty($data['version']) && $data['version'] instanceof VersionInterface) {
+            $this->version = $data['version'];
+        }
+
+        if (!empty($data['manufacturer']) && $data['manufacturer'] instanceof CompanyInterface) {
+            $this->manufacturer = $data['manufacturer'];
+        }
     }
 }
