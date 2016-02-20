@@ -41,7 +41,7 @@ use UaResult\Version\VersionInterface;
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-abstract class AbstractOs implements OsInterface
+class Os implements OsInterface
 {
     /**
      * @var string the user agent to handle
