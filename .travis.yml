@@ -23,6 +23,7 @@ script:
   - if [ "`phpenv version-name`" != "hhvm" ]; then vendor/bin/phpunit --colors --verbose --coverage-text --coverage-clover=coverage.clover; fi
   - if [ "`phpenv version-name`" == "hhvm" ]; then vendor/bin/phpunit --colors --verbose; fi
   - vendor/bin/phpcs --standard=psr2 -np src tests
+  - vendor/bin/php-cs-fixer fix --dry-run -vv
 
 after_script:
 # xdebug is not installed on hhvm, so we have no code coverage data to send
