@@ -28,15 +28,15 @@
   },
   "require": {
     "php": ">=5.6.0",
-    "mimmi20/wurfl-constants": "*",
-    "mimmi20/ua-browser-type": "~1.0.1",
-    "mimmi20/ua-device-type": "~1.0.1",
-    "version/version": "~2.2"
+    "mimmi20/wurfl-constants": "^1.6",
+    "mimmi20/ua-browser-type": "^1.0.1",
+    "mimmi20/ua-device-type": "^1.0.1",
+    "version/version": "^2.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "*",
-    "squizlabs/php_codesniffer": "2.*",
-    "fabpot/php-cs-fixer": "~1.11"
+    "phpunit/phpunit": "^5.2",
+    "squizlabs/php_codesniffer": "^2.5",
+    "fabpot/php-cs-fixer": "^1.11"
   },
   "autoload": {
     "psr-4": {

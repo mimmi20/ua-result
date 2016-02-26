@@ -31,9 +31,9 @@
 
 namespace UaResult\Browser;
 
+use UaBrowserType\TypeInterface;
 use UaResult\Company\CompanyInterface;
 use Version\Version;
-use UaBrowserType\TypeInterface;
 
 /**
  * base class for all browsers to detect

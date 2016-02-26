@@ -31,9 +31,9 @@
 
 namespace UaResult\Device;
 
+use UaDeviceType\TypeInterface;
 use UaResult\Company\CompanyInterface;
 use Version\Version;
-use UaDeviceType\TypeInterface;
 
 /**
  * BrowserDetector.ini parsing class with caching and update capabilities
