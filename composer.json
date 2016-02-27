@@ -28,17 +28,15 @@
   },
   "require": {
     "php": ">=5.6.0",
-    "psr/log": "~1.0",
-    "mimmi20/wurfl-constants": "*",
-    "mimmi20/ua-matcher-interface": "~1.1.0",
-    "mimmi20/ua-helper-utils": "*"
+    "mimmi20/wurfl-constants": "^1.6",
+    "mimmi20/ua-browser-type": "^1.0.1",
+    "mimmi20/ua-device-type": "^1.0.1",
+    "version/version": "^2.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "*",
-    "monolog/monolog": "dev-master",
-    "mikey179/vfsStream": "dev-master",
-    "squizlabs/php_codesniffer": "2.*",
-    "fabpot/php-cs-fixer": "*"
+    "phpunit/phpunit": "^5.2",
+    "squizlabs/php_codesniffer": "^2.5",
+    "fabpot/php-cs-fixer": "^1.11"
   },
   "autoload": {
     "psr-4": {
@@ -48,6 +46,11 @@
   "autoload-dev": {
     "psr-4": {
       "UaResultTest\\": "tests/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.0.x-dev"
     }
   }
 }
