@@ -31,7 +31,6 @@
 
 namespace UaResult\Os;
 
-use UaResult\Company\CompanyInterface;
 use Version\Version;
 
 /**
@@ -194,7 +193,7 @@ class Os implements OsInterface
             $this->version = $data['version'];
         }
 
-        if (!empty($data['manufacturer']) && $data['manufacturer'] instanceof CompanyInterface) {
+        if (!empty($data['manufacturer'])) {
             $this->manufacturer = $data['manufacturer'];
         }
 

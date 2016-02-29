@@ -31,7 +31,6 @@
 
 namespace UaResult\Engine;
 
-use UaResult\Company\CompanyInterface;
 use Version\Version;
 
 /**
@@ -179,7 +178,7 @@ class Engine implements EngineInterface
             $this->version = $data['version'];
         }
 
-        if (!empty($data['manufacturer']) && $data['manufacturer'] instanceof CompanyInterface) {
+        if (!empty($data['manufacturer'])) {
             $this->manufacturer = $data['manufacturer'];
         }
     }

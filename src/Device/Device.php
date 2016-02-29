@@ -31,9 +31,8 @@
 
 namespace UaResult\Device;
 
-use UaDeviceType\TypeInterface;
-use UaResult\Company\CompanyInterface;
 use Version\Version;
+use UaDeviceType\TypeInterface;
 
 /**
  * BrowserDetector.ini parsing class with caching and update capabilities
@@ -346,10 +345,6 @@ class Device implements DeviceInterface
      */
     private function setData(array $data)
     {
-        if (empty($data['deviceName'])) {
-            throw new \InvalidArgumentException('the required argument "deviceName" is missing');
-        }
-
         $this->deviceName = $data['deviceName'];
 
         if (!empty($data['marketingName'])) {
@@ -360,7 +355,7 @@ class Device implements DeviceInterface
             $this->version = $data['version'];
         }
 
-        if (!empty($data['manufacturer']) && $data['manufacturer'] instanceof CompanyInterface) {
+        if (!empty($data['manufacturer'])) {
             $this->manufacturer = $data['manufacturer'];
         }
 

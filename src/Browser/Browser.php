@@ -32,7 +32,6 @@
 namespace UaResult\Browser;
 
 use UaBrowserType\TypeInterface;
-use UaResult\Company\CompanyInterface;
 use Version\Version;
 
 /**
@@ -333,7 +332,7 @@ class Browser implements BrowserInterface
             $this->version = $data['version'];
         }
 
-        if (!empty($data['manufacturer']) && $data['manufacturer'] instanceof CompanyInterface) {
+        if (!empty($data['manufacturer'])) {
             $this->manufacturer = $data['manufacturer'];
         }
 
