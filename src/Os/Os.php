@@ -183,10 +183,6 @@ class Os implements OsInterface
      */
     private function setData(array $data)
     {
-        if (empty($data['name'])) {
-            throw new \InvalidArgumentException('the required argument "name" is missing');
-        }
-
         $this->name = $data['name'];
 
         if (!empty($data['version']) && $data['version'] instanceof Version) {
