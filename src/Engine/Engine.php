@@ -168,7 +168,9 @@ class Engine implements EngineInterface
      */
     private function setData(array $data)
     {
-        $this->name = $data['name'];
+        if (!empty($data['name'])) {
+            $this->name = $data['name'];
+        }
 
         if (!empty($data['version']) && $data['version'] instanceof Version) {
             $this->version = $data['version'];

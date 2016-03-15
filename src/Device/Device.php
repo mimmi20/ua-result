@@ -345,7 +345,9 @@ class Device implements DeviceInterface
      */
     private function setData(array $data)
     {
-        $this->deviceName = $data['deviceName'];
+        if (!empty($data['deviceName'])) {
+            $this->deviceName = $data['deviceName'];
+        }
 
         if (!empty($data['marketingName'])) {
             $this->marketingName = $data['marketingName'];
