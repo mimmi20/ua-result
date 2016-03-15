@@ -863,19 +863,6 @@ class Result implements ResultInterface
     ) {
         $this->checkCapability($capabilityName);
 
-        $versionfields = [
-            'mobile_browser_version',
-            'renderingengine_version',
-            'device_os_version',
-        ];
-
-        if (in_array($capabilityName, $versionfields) && !($capabilityValue instanceof Version)) {
-            throw new \InvalidArgumentException(
-                'capability "' . $capabilityName . '" requires an instance of '
-                . '"\\Version\\Version" as value, instance of "' . get_class($capabilityValue) . '" given'
-            );
-        }
-
         $this->capabilities[$capabilityName] = $capabilityValue;
 
         return $this;
