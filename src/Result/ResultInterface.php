@@ -81,7 +81,7 @@ interface ResultInterface extends \Serializable, \JsonSerializable
      *
      * @throws \InvalidArgumentException
      *
-     * @return string|\Version\Version Capability value
+     * @return string|\BrowserDetector\Version\Version Capability value
      */
     public function getCapability($capabilityName);
 }

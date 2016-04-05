@@ -35,7 +35,7 @@ use UaResult\Browser\BrowserInterface;
 use UaResult\Device\DeviceInterface;
 use UaResult\Engine\EngineInterface;
 use UaResult\Os\OsInterface;
-use Version\Version;
+use BrowserDetector\Version\Version;
 use Wurfl\WurflConstants;
 
 /**
@@ -767,7 +767,7 @@ class Result implements ResultInterface
      *
      * @throws \InvalidArgumentException
      *
-     * @return string|\Version\Version Capability value
+     * @return string|\BrowserDetector\Version\Version Capability value
      */
     public function getCapability($capabilityName)
     {

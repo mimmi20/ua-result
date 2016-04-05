@@ -57,7 +57,7 @@ interface OsInterface extends \Serializable, \JsonSerializable
     public function getName();
 
     /**
-     * @return null|\Version\Version
+     * @return \BrowserDetector\Version\Version|null
      */
     public function getVersion();
 }

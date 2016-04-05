@@ -31,7 +31,7 @@
 
 namespace UaResult\Os;
 
-use Version\Version;
+use BrowserDetector\Version\Version;
 
 /**
  * base class for all rendering platforms/operating systems to detect
@@ -54,7 +54,7 @@ class Os implements OsInterface
     private $name = null;
 
     /**
-     * @var \Version\Version|null
+     * @var \BrowserDetector\Version\Version|null
      */
     private $version = null;
 
@@ -108,7 +108,7 @@ class Os implements OsInterface
     }
 
     /**
-     * @return null|\Version\Version
+     * @return \BrowserDetector\Version\Version|null
      */
     public function getVersion()
     {

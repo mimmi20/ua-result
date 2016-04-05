@@ -32,7 +32,7 @@
 namespace UaResult\Device;
 
 use UaDeviceType\TypeInterface;
-use Version\Version;
+use BrowserDetector\Version\Version;
 
 /**
  * BrowserDetector.ini parsing class with caching and update capabilities
@@ -61,7 +61,7 @@ class Device implements DeviceInterface
     private $marketingName = null;
 
     /**
-     * @var \Version\Version|null
+     * @var \BrowserDetector\Version\Version|null
      */
     private $version = null;
 
@@ -253,7 +253,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return null|\Version\Version
+     * @return \BrowserDetector\Version\Version|null
      */
     public function getVersion()
     {

@@ -32,7 +32,7 @@
 namespace UaResult\Browser;
 
 use UaBrowserType\TypeInterface;
-use Version\Version;
+use BrowserDetector\Version\Version;
 
 /**
  * base class for all browsers to detect
@@ -60,7 +60,7 @@ class Browser implements BrowserInterface
     private $modus = null;
 
     /**
-     * @var \Version\Version|null
+     * @var \BrowserDetector\Version\Version|null
      */
     private $version = null;
 
@@ -220,7 +220,7 @@ class Browser implements BrowserInterface
     }
 
     /**
-     * @return null|\Version\Version
+     * @return \BrowserDetector\Version\Version|null
      */
     public function getVersion()
     {
