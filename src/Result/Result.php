@@ -35,7 +35,6 @@ use UaResult\Browser\BrowserInterface;
 use UaResult\Device\DeviceInterface;
 use UaResult\Engine\EngineInterface;
 use UaResult\Os\OsInterface;
-use BrowserDetector\Version\Version;
 use Wurfl\WurflConstants;
 
 /**
