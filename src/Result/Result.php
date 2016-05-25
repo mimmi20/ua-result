@@ -688,7 +688,7 @@ class Result implements ResultInterface
      * @param \UaResult\Browser\BrowserInterface $browser
      * @param \UaResult\Engine\EngineInterface   $engine
      * @param array                              $capabilities
-     * @param null|string                        $wurflKey
+     * @param string|null                        $wurflKey
      */
     public function __construct(
         $useragent,

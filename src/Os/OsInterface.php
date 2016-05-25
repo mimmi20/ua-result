@@ -47,12 +47,12 @@ interface OsInterface extends \Serializable, \JsonSerializable
     public function getBits();
 
     /**
-     * @return null|\UaResult\Company\CompanyInterface
+     * @return string|null
      */
     public function getManufacturer();
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getName();
 

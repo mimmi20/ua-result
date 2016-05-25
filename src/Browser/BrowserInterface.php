@@ -59,12 +59,12 @@ interface BrowserInterface extends \Serializable, \JsonSerializable
     public function getClaimsWebSupport();
 
     /**
-     * @return null|\UaResult\Company\CompanyInterface
+     * @return string|null
      */
     public function getManufacturer();
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getModus();
 

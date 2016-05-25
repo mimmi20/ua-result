@@ -66,7 +66,7 @@ class Device implements DeviceInterface
     private $version = null;
 
     /**
-     * @var \UaResult\Company\CompanyInterface|null
+     * @var string|null
      */
     private $manufacturer = null;
 
@@ -141,7 +141,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getDeviceName()
     {
@@ -149,7 +149,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getBrand()
     {
@@ -173,7 +173,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getFormFactor()
     {
@@ -189,7 +189,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return null|\UaResult\Company\CompanyInterface
+     * @return string|null
      */
     public function getManufacturer()
     {
@@ -197,7 +197,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getMarketingName()
     {
@@ -213,7 +213,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getPointingMethod()
     {

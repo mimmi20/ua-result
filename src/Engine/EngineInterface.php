@@ -42,12 +42,12 @@ namespace UaResult\Engine;
 interface EngineInterface extends \Serializable, \JsonSerializable
 {
     /**
-     * @return null|\UaResult\Company\CompanyInterface
+     * @return string|null
      */
     public function getManufacturer();
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getName();
 

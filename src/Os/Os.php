@@ -92,7 +92,7 @@ class Os implements OsInterface
     }
 
     /**
-     * @return null|\UaResult\Company\CompanyInterface
+     * @return string|null
      */
     public function getManufacturer()
     {
@@ -100,7 +100,7 @@ class Os implements OsInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getName()
     {
@@ -189,6 +189,8 @@ class Os implements OsInterface
 
         if (!empty($data['version']) && $data['version'] instanceof Version) {
             $this->version = $data['version'];
+        } else {
+            $this->version = new Version();
         }
 
         if (!empty($data['manufacturer'])) {

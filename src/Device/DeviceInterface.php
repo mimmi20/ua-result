@@ -44,12 +44,12 @@ use UaResult\Company\CompanyInterface;
 interface DeviceInterface extends \Serializable, \JsonSerializable
 {
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getDeviceName();
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getBrand();
 
@@ -64,7 +64,7 @@ interface DeviceInterface extends \Serializable, \JsonSerializable
     public function getDualOrientation();
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getFormFactor();
 
@@ -74,12 +74,12 @@ interface DeviceInterface extends \Serializable, \JsonSerializable
     public function getHasQwertyKeyboard();
 
     /**
-     * @return null|CompanyInterface
+     * @return string|null
      */
     public function getManufacturer();
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getMarketingName();
 
@@ -89,7 +89,7 @@ interface DeviceInterface extends \Serializable, \JsonSerializable
     public function getNfcSupport();
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getPointingMethod();
 
@@ -119,7 +119,7 @@ interface DeviceInterface extends \Serializable, \JsonSerializable
     public function getVersion();
 
     /**
-     * @return null|\UaDeviceType\TypeInterface
+     * @return null|\UaDeviceType\TypeInterface|null
      */
     public function getType();
 }

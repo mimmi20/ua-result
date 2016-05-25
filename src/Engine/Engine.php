@@ -59,7 +59,7 @@ class Engine implements EngineInterface
     private $version = null;
 
     /**
-     * @var \UaResult\Company\CompanyInterface|null
+     * @var string|null
      */
     private $manufacturer = null;
 
@@ -79,7 +79,7 @@ class Engine implements EngineInterface
     }
 
     /**
-     * @return null|\UaResult\Company\CompanyInterface
+     * @return string|null
      */
     public function getManufacturer()
     {
@@ -87,7 +87,7 @@ class Engine implements EngineInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getName()
     {
@@ -174,6 +174,8 @@ class Engine implements EngineInterface
 
         if (!empty($data['version']) && $data['version'] instanceof Version) {
             $this->version = $data['version'];
+        } else {
+            $this->version = new Version();
         }
 
         if (!empty($data['manufacturer'])) {

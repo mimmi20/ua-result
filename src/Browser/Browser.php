@@ -65,7 +65,7 @@ class Browser implements BrowserInterface
     private $version = null;
 
     /**
-     * @var \UaResult\Company\CompanyInterface|null
+     * @var string|null
      */
     private $manufacturer = null;
 
@@ -156,7 +156,7 @@ class Browser implements BrowserInterface
     }
 
     /**
-     * @return null|\UaResult\Company\CompanyInterface
+     * @return string|null
      */
     public function getManufacturer()
     {
@@ -164,7 +164,7 @@ class Browser implements BrowserInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getModus()
     {
@@ -236,7 +236,7 @@ class Browser implements BrowserInterface
     }
 
     /**
-     * @return null|\UaBrowserType\TypeInterface
+     * @return \UaBrowserType\TypeInterface|null
      */
     public function getType()
     {
