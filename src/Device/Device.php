@@ -261,7 +261,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return null|\UaDeviceType\TypeInterface
+     * @return \UaDeviceType\TypeInterface|null
      */
     public function getType()
     {

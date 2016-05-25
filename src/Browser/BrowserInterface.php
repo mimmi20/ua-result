@@ -109,7 +109,7 @@ interface BrowserInterface extends \Serializable, \JsonSerializable
     public function getBits();
 
     /**
-     * @return null|\UaBrowserType\TypeInterface
+     * @return \UaBrowserType\TypeInterface|null
      */
     public function getType();
 }

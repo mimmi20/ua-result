@@ -119,7 +119,7 @@ interface DeviceInterface extends \Serializable, \JsonSerializable
     public function getVersion();
 
     /**
-     * @return null|\UaDeviceType\TypeInterface|null
+     * @return \UaDeviceType\TypeInterface|null
      */
     public function getType();
 }
