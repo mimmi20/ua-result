@@ -31,8 +31,6 @@
 
 namespace UaResult\Device;
 
-use UaResult\Company\CompanyInterface;
-
 /**
  * interface for all devices to detect
  *
