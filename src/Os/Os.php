@@ -31,8 +31,6 @@
 
 namespace UaResult\Os;
 
-use BrowserDetector\Version\Version;
-
 /**
  * base class for all rendering platforms/operating systems to detect
  *
@@ -41,47 +39,32 @@ use BrowserDetector\Version\Version;
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-class Os implements OsInterface
+class Os implements OsInterface, \Serializable
 {
     /**
      * @var string the user agent to handle
      */
-    private $useragent = '';
+    protected $useragent = '';
 
     /**
      * @var string|null
      */
-    private $name = null;
+    protected $name = null;
 
     /**
      * @var \BrowserDetector\Version\Version|null
      */
-    private $version = null;
+    protected $version = null;
 
     /**
-     * @var \UaResult\Company\CompanyInterface|null
+     * @var string|null
      */
-    private $manufacturer = null;
+    protected $manufacturer = null;
 
     /**
      * @var int|null
      */
-    private $bits = null;
-
-    /**
-     * Class Constructor
-     *
-     * @param string $useragent the user agent to be handled
-     * @param array  $data
-     */
-    public function __construct(
-        $useragent,
-        array $data
-    ) {
-        $this->useragent = $useragent;
-
-        $this->setData($data);
-    }
+    protected $bits = null;
 
     /**
      * @return int|null
@@ -127,13 +110,11 @@ class Os implements OsInterface
     {
         return serialize(
             [
-                'useragent' => $this->useragent,
-                'data'      => [
-                    'name'         => $this->name,
-                    'version'      => $this->version,
-                    'manufacturer' => $this->manufacturer,
-                    'bits'         => $this->bits,
-                ],
+                'useragent'    => $this->useragent,
+                'name'         => $this->name,
+                'version'      => $this->version,
+                'manufacturer' => $this->manufacturer,
+                'bits'         => $this->bits,
             ]
         );
     }
@@ -152,53 +133,10 @@ class Os implements OsInterface
     {
         $unseriliazedData = unserialize($serialized);
 
-        $this->useragent = $unseriliazedData['useragent'];
-        $this->setData($unseriliazedData['data']);
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
-     *
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     *               which is a value of any type other than a resource.
-     */
-    public function jsonSerialize()
-    {
-        return [
-            'useragent' => $this->useragent,
-            'data'      => [
-                'name'         => $this->name,
-                'version'      => $this->version,
-                'manufacturer' => $this->manufacturer,
-                'bits'         => $this->bits,
-            ],
-        ];
-    }
-
-    /**
-     * @param array $data
-     */
-    private function setData(array $data)
-    {
-        if (!empty($data['name'])) {
-            $this->name = $data['name'];
-        }
-
-        if (!empty($data['version']) && $data['version'] instanceof Version) {
-            $this->version = $data['version'];
-        } else {
-            $this->version = new Version();
-        }
-
-        if (!empty($data['manufacturer'])) {
-            $this->manufacturer = $data['manufacturer'];
-        }
-
-        if (!empty($data['bits'])) {
-            $this->bits = $data['bits'];
-        }
+        $this->useragent    = $unseriliazedData['useragent'];
+        $this->name         = $unseriliazedData['name'];
+        $this->version      = $unseriliazedData['version'];
+        $this->manufacturer = $unseriliazedData['manufacturer'];
+        $this->bits         = $unseriliazedData['bits'];
     }
 }

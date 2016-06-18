@@ -39,7 +39,7 @@ namespace UaResult\Os;
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface OsInterface extends \Serializable, \JsonSerializable
+interface OsInterface
 {
     /**
      * @return int|null

@@ -40,7 +40,7 @@ namespace UaResult\Result;
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface ResultInterface extends \Serializable, \JsonSerializable
+interface ResultInterface extends \Serializable
 {
     /**
      * @return \UaResult\Browser\BrowserInterface

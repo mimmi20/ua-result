@@ -39,7 +39,7 @@ namespace UaResult\Device;
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface DeviceInterface extends \Serializable, \JsonSerializable
+interface DeviceInterface extends \Serializable
 {
     /**
      * @return string|null

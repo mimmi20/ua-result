@@ -39,7 +39,7 @@ namespace UaResult\Engine;
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface EngineInterface extends \Serializable, \JsonSerializable
+interface EngineInterface extends \Serializable
 {
     /**
      * @return string|null
