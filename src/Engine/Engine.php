@@ -31,8 +31,6 @@
 
 namespace UaResult\Engine;
 
-use BrowserDetector\Version\Version;
-
 /**
  * base class for all rendering engines to detect
  *
@@ -41,42 +39,27 @@ use BrowserDetector\Version\Version;
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-class Engine implements EngineInterface
+class Engine implements EngineInterface, \Serializable
 {
     /**
      * @var string the user agent to handle
      */
-    private $useragent = null;
+    protected $useragent = null;
 
     /**
      * @var string|null
      */
-    private $name = null;
+    protected $name = null;
 
     /**
      * @var \BrowserDetector\Version\Version|null
      */
-    private $version = null;
+    protected $version = null;
 
     /**
      * @var string|null
      */
-    private $manufacturer = null;
-
-    /**
-     * Class Constructor
-     *
-     * @param string $useragent the user agent to be handled
-     * @param array  $data
-     */
-    public function __construct(
-        $useragent,
-        array $data
-    ) {
-        $this->useragent = $useragent;
-
-        $this->setData($data);
-    }
+    protected $manufacturer = null;
 
     /**
      * @return string|null
@@ -114,12 +97,10 @@ class Engine implements EngineInterface
     {
         return serialize(
             [
-                'useragent' => $this->useragent,
-                'data'      => [
-                    'name'         => $this->name,
-                    'version'      => $this->version,
-                    'manufacturer' => $this->manufacturer,
-                ],
+                'useragent'    => $this->useragent,
+                'name'         => $this->name,
+                'version'      => $this->version,
+                'manufacturer' => $this->manufacturer,
             ]
         );
     }
@@ -138,48 +119,9 @@ class Engine implements EngineInterface
     {
         $unseriliazedData = unserialize($serialized);
 
-        $this->useragent = $unseriliazedData['useragent'];
-        $this->setData($unseriliazedData['data']);
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
-     *
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     *               which is a value of any type other than a resource.
-     */
-    public function jsonSerialize()
-    {
-        return [
-            'useragent' => $this->useragent,
-            'data'      => [
-                'name'         => $this->name,
-                'version'      => $this->version,
-                'manufacturer' => $this->manufacturer,
-            ],
-        ];
-    }
-
-    /**
-     * @param array $data
-     */
-    private function setData(array $data)
-    {
-        if (!empty($data['name'])) {
-            $this->name = $data['name'];
-        }
-
-        if (!empty($data['version']) && $data['version'] instanceof Version) {
-            $this->version = $data['version'];
-        } else {
-            $this->version = new Version();
-        }
-
-        if (!empty($data['manufacturer'])) {
-            $this->manufacturer = $data['manufacturer'];
-        }
+        $this->useragent    = $unseriliazedData['useragent'];
+        $this->name         = $unseriliazedData['name'];
+        $this->version      = $unseriliazedData['version'];
+        $this->manufacturer = $unseriliazedData['manufacturer'];
     }
 }
