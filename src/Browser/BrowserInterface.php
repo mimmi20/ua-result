@@ -39,7 +39,7 @@ namespace UaResult\Browser;
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface BrowserInterface extends \Serializable
+interface BrowserInterface
 {
     /**
      * gets the name of the browser

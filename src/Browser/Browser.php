@@ -31,9 +31,6 @@
 
 namespace UaResult\Browser;
 
-use BrowserDetector\Version\Version;
-use UaBrowserType\TypeInterface;
-
 /**
  * base class for all browsers to detect
  *
@@ -42,92 +39,77 @@ use UaBrowserType\TypeInterface;
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-class Browser implements BrowserInterface
+class Browser implements BrowserInterface, \Serializable
 {
     /**
      * @var string the user agent to handle
      */
-    private $useragent = '';
+    protected $useragent = '';
 
     /**
      * @var string|null
      */
-    private $name = null;
+    protected $name = null;
 
     /**
      * @var string|null
      */
-    private $modus = null;
+    protected $modus = null;
 
     /**
      * @var \BrowserDetector\Version\Version|null
      */
-    private $version = null;
+    protected $version = null;
 
     /**
      * @var string|null
      */
-    private $manufacturer = null;
+    protected $manufacturer = null;
 
     /**
      * @var bool|null
      */
-    private $pdfSupport = null;
+    protected $pdfSupport = null;
 
     /**
      * @var bool|null
      */
-    private $rssSupport = null;
+    protected $rssSupport = null;
 
     /**
      * @var bool|null
      */
-    private $canSkipAlignedLinkRow = null;
+    protected $canSkipAlignedLinkRow = null;
 
     /**
      * @var bool|null
      */
-    private $claimsWebSupport = null;
+    protected $claimsWebSupport = null;
 
     /**
      * @var bool|null
      */
-    private $supportsEmptyOptionValues = null;
+    protected $supportsEmptyOptionValues = null;
 
     /**
      * @var bool|null
      */
-    private $supportsBasicAuthentication = null;
+    protected $supportsBasicAuthentication = null;
 
     /**
      * @var bool|null
      */
-    private $supportsPostMethod = null;
+    protected $supportsPostMethod = null;
 
     /**
      * @var int|null
      */
-    private $bits = null;
+    protected $bits = null;
 
     /**
      * @var \UaBrowserType\TypeInterface|null
      */
-    private $type = null;
-
-    /**
-     * Class Constructor
-     *
-     * @param string $useragent the user agent to be handled
-     * @param array  $data
-     */
-    public function __construct(
-        $useragent,
-        array $data
-    ) {
-        $this->useragent = $useragent;
-
-        $this->setData($data);
-    }
+    protected $type = null;
 
     /**
      * gets the name of the browser
@@ -253,7 +235,24 @@ class Browser implements BrowserInterface
      */
     public function serialize()
     {
-        return serialize($this->getData());
+        return serialize(
+            [
+                'useragent'                   => $this->useragent,
+                'name'                        => $this->name,
+                'modus'                       => $this->modus,
+                'version'                     => $this->version,
+                'manufacturer'                => $this->manufacturer,
+                'pdfSupport'                  => $this->pdfSupport,
+                'rssSupport'                  => $this->rssSupport,
+                'canSkipAlignedLinkRow'       => $this->canSkipAlignedLinkRow,
+                'claimsWebSupport'            => $this->claimsWebSupport,
+                'supportsEmptyOptionValues'   => $this->supportsEmptyOptionValues,
+                'supportsBasicAuthentication' => $this->supportsBasicAuthentication,
+                'supportsPostMethod'          => $this->supportsPostMethod,
+                'bits'                        => $this->bits,
+                'type'                        => $this->type,
+            ]
+        );
     }
 
     /**
@@ -270,102 +269,19 @@ class Browser implements BrowserInterface
     {
         $unseriliazedData = unserialize($serialized);
 
-        $this->useragent = $unseriliazedData['useragent'];
-        $this->setData($unseriliazedData['data']);
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
-     *
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     *               which is a value of any type other than a resource.
-     */
-    public function jsonSerialize()
-    {
-        return $this->getData();
-    }
-
-    /**
-     * @return array
-     */
-    private function getData()
-    {
-        return [
-            'useragent' => $this->useragent,
-            'data'      => [
-                'name'                        => $this->name,
-                'modus'                       => $this->modus,
-                'version'                     => $this->version,
-                'manufacturer'                => $this->manufacturer,
-                'pdfSupport'                  => $this->pdfSupport,
-                'rssSupport'                  => $this->rssSupport,
-                'canSkipAlignedLinkRow'       => $this->canSkipAlignedLinkRow,
-                'claimsWebSupport'            => $this->claimsWebSupport,
-                'supportsEmptyOptionValues'   => $this->supportsEmptyOptionValues,
-                'supportsBasicAuthentication' => $this->supportsBasicAuthentication,
-                'supportsPostMethod'          => $this->supportsPostMethod,
-                'bits'                        => $this->bits,
-                'type'                        => $this->type,
-            ],
-        ];
-    }
-
-    /**
-     * @param array $data
-     */
-    private function setData(array $data)
-    {
-        $this->name = $data['name'];
-
-        if (!empty($data['modus'])) {
-            $this->modus = $data['modus'];
-        }
-
-        if (!empty($data['version']) && $data['version'] instanceof Version) {
-            $this->version = $data['version'];
-        }
-
-        if (!empty($data['manufacturer'])) {
-            $this->manufacturer = $data['manufacturer'];
-        }
-
-        if (!empty($data['pdfSupport'])) {
-            $this->pdfSupport = $data['pdfSupport'];
-        }
-
-        if (!empty($data['rssSupport'])) {
-            $this->rssSupport = $data['rssSupport'];
-        }
-
-        if (!empty($data['canSkipAlignedLinkRow'])) {
-            $this->canSkipAlignedLinkRow = $data['canSkipAlignedLinkRow'];
-        }
-
-        if (!empty($data['claimsWebSupport'])) {
-            $this->claimsWebSupport = $data['claimsWebSupport'];
-        }
-
-        if (!empty($data['supportsEmptyOptionValues'])) {
-            $this->supportsEmptyOptionValues = $data['supportsEmptyOptionValues'];
-        }
-
-        if (!empty($data['supportsBasicAuthentication'])) {
-            $this->supportsBasicAuthentication = $data['supportsBasicAuthentication'];
-        }
-
-        if (!empty($data['supportsPostMethod'])) {
-            $this->supportsPostMethod = $data['supportsPostMethod'];
-        }
-
-        if (!empty($data['bits'])) {
-            $this->bits = $data['bits'];
-        }
-
-        if (!empty($data['type']) && $data['type'] instanceof TypeInterface) {
-            $this->type = $data['type'];
-        }
+        $this->useragent                   = $unseriliazedData['useragent'];
+        $this->name                        = $unseriliazedData['name'];
+        $this->modus                       = $unseriliazedData['modus'];
+        $this->version                     = $unseriliazedData['version'];
+        $this->manufacturer                = $unseriliazedData['manufacturer'];
+        $this->pdfSupport                  = $unseriliazedData['pdfSupport'];
+        $this->rssSupport                  = $unseriliazedData['rssSupport'];
+        $this->canSkipAlignedLinkRow       = $unseriliazedData['canSkipAlignedLinkRow'];
+        $this->claimsWebSupport            = $unseriliazedData['claimsWebSupport'];
+        $this->supportsEmptyOptionValues   = $unseriliazedData['supportsEmptyOptionValues'];
+        $this->supportsBasicAuthentication = $unseriliazedData['supportsBasicAuthentication'];
+        $this->supportsPostMethod          = $unseriliazedData['supportsPostMethod'];
+        $this->bits                        = $unseriliazedData['bits'];
+        $this->type                        = $unseriliazedData['type'];
     }
 }
