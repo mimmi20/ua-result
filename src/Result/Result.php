@@ -44,7 +44,7 @@ use Wurfl\WurflConstants;
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-class Result implements ResultInterface
+class Result implements ResultInterface, \Serializable
 {
     /**
      * @var string
@@ -812,38 +812,13 @@ class Result implements ResultInterface
     {
         $unseriliazedData = unserialize($data);
 
-        foreach ($unseriliazedData['capabilities'] as $property => $value) {
-            $this->capabilities[$property] = $value;
-        }
-
-        $this->wurflKey  = $unseriliazedData['wurflKey'];
-        $this->useragent = $unseriliazedData['useragent'];
-        $this->device    = $unseriliazedData['device'];
-        $this->browser   = $unseriliazedData['browser'];
-        $this->os        = $unseriliazedData['os'];
-        $this->engine    = $unseriliazedData['engine'];
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
-     *
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     *               which is a value of any type other than a resource.
-     */
-    public function jsonSerialize()
-    {
-        return [
-            'capabilities' => $this->capabilities,
-            'wurflKey'     => $this->wurflKey,
-            'useragent'    => $this->useragent,
-            'device'       => $this->device,
-            'browser'      => $this->browser,
-            'os'           => $this->os,
-            'engine'       => $this->engine,
-        ];
+        $this->capabilities = $unseriliazedData['capabilities'];
+        $this->wurflKey     = $unseriliazedData['wurflKey'];
+        $this->useragent    = $unseriliazedData['useragent'];
+        $this->device       = $unseriliazedData['device'];
+        $this->browser      = $unseriliazedData['browser'];
+        $this->os           = $unseriliazedData['os'];
+        $this->engine       = $unseriliazedData['engine'];
     }
 
     /**
