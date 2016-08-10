@@ -31,8 +31,6 @@
 
 namespace UaResult\Engine;
 
-use BrowserDetector\Version\Version;
-
 /**
  * base class for all rendering engines to detect
  *
@@ -46,38 +44,22 @@ class Engine implements EngineInterface, \Serializable
     /**
      * @var string the user agent to handle
      */
-    private $useragent = null;
+    protected $useragent = null;
 
     /**
      * @var string|null
      */
-    private $name = null;
+    protected $name = null;
 
     /**
      * @var \BrowserDetector\Version\Version|null
      */
-    private $version = null;
+    protected $version = null;
 
     /**
      * @var string|null
      */
-    private $manufacturer = null;
-
-    /**
-     * Class Constructor
-     *
-     * @param string                                $useragent    the user agent to be handled
-     * @param string                                $name
-     * @param \BrowserDetector\Version\Version|null $version
-     * @param string|null                           $manufacturer
-     */
-    public function __construct($useragent, $name, Version $version = null, $manufacturer = null)
-    {
-        $this->useragent    = $useragent;
-        $this->name         = $name;
-        $this->version      = $version;
-        $this->manufacturer = $manufacturer;
-    }
+    protected $manufacturer = null;
 
     /**
      * @return string|null
