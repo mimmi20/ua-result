@@ -31,8 +31,6 @@
 
 namespace UaResult\Os;
 
-use BrowserDetector\Version\Version;
-
 /**
  * base class for all rendering platforms/operating systems to detect
  *
@@ -46,45 +44,27 @@ class Os implements OsInterface, \Serializable
     /**
      * @var string the user agent to handle
      */
-    private $useragent = '';
+    protected $useragent = '';
 
     /**
      * @var string|null
      */
-    private $name = null;
+    protected $name = null;
 
     /**
      * @var \BrowserDetector\Version\Version|null
      */
-    private $version = null;
+    protected $version = null;
 
     /**
      * @var string|null
      */
-    private $manufacturer = null;
+    protected $manufacturer = null;
 
     /**
      * @var int|null
      */
-    private $bits = null;
-
-    /**
-     * Class Constructor
-     *
-     * @param string                                $useragent the user agent to be handled
-     * @param string                                $name
-     * @param \BrowserDetector\Version\Version|null $version
-     * @param string|null                           $manufacturer
-     * @param int|null                              $bits
-     */
-    public function __construct($useragent, $name, Version $version = null, $manufacturer = null, $bits = null)
-    {
-        $this->useragent    = $useragent;
-        $this->name         = $name;
-        $this->version      = $version;
-        $this->manufacturer = $manufacturer;
-        $this->bits         = $bits;
-    }
+    protected $bits = null;
 
     /**
      * @return int|null
