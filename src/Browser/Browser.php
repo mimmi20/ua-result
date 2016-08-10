@@ -31,9 +31,6 @@
 
 namespace UaResult\Browser;
 
-use BrowserDetector\Version\Version;
-use UaBrowserType\TypeInterface;
-
 /**
  * base class for all browsers to detect
  *
@@ -47,119 +44,72 @@ class Browser implements BrowserInterface, \Serializable
     /**
      * @var string the user agent to handle
      */
-    private $useragent = '';
+    protected $useragent = '';
 
     /**
      * @var string|null
      */
-    private $name = null;
+    protected $name = null;
 
     /**
      * @var string|null
      */
-    private $modus = null;
+    protected $modus = null;
 
     /**
      * @var \BrowserDetector\Version\Version|null
      */
-    private $version = null;
+    protected $version = null;
 
     /**
      * @var string|null
      */
-    private $manufacturer = null;
+    protected $manufacturer = null;
 
     /**
      * @var bool|null
      */
-    private $pdfSupport = null;
+    protected $pdfSupport = null;
 
     /**
      * @var bool|null
      */
-    private $rssSupport = null;
+    protected $rssSupport = null;
 
     /**
      * @var bool|null
      */
-    private $canSkipAlignedLinkRow = null;
+    protected $canSkipAlignedLinkRow = null;
 
     /**
      * @var bool|null
      */
-    private $claimsWebSupport = null;
+    protected $claimsWebSupport = null;
 
     /**
      * @var bool|null
      */
-    private $supportsEmptyOptionValues = null;
+    protected $supportsEmptyOptionValues = null;
 
     /**
      * @var bool|null
      */
-    private $supportsBasicAuthentication = null;
+    protected $supportsBasicAuthentication = null;
 
     /**
      * @var bool|null
      */
-    private $supportsPostMethod = null;
+    protected $supportsPostMethod = null;
 
     /**
      * @var int|null
      */
-    private $bits = null;
+    protected $bits = null;
 
     /**
      * @var \UaBrowserType\TypeInterface|null
      */
-    private $type = null;
-
-    /**
-     * Class Constructor
-     *
-     * @param string                                $useragent                   the user agent to be handled
-     * @param string                                $name
-     * @param \BrowserDetector\Version\Version|null $version
-     * @param string|null                           $manufacturer
-     * @param int|null                              $bits
-     * @param \UaBrowserType\TypeInterface          $type
-     * @param bool                                  $pdfSupport
-     * @param bool                                  $rssSupport
-     * @param bool                                  $canSkipAlignedLinkRow
-     * @param bool                                  $claimsWebSupport
-     * @param bool                                  $supportsEmptyOptionValues
-     * @param bool                                  $supportsBasicAuthentication
-     * @param bool                                  $supportsPostMethod
-     */
-    public function __construct(
-        $useragent,
-        $name,
-        Version $version = null,
-        $manufacturer = null,
-        $bits = null,
-        TypeInterface $type = null,
-        $pdfSupport = false,
-        $rssSupport = false,
-        $canSkipAlignedLinkRow = false,
-        $claimsWebSupport = false,
-        $supportsEmptyOptionValues = false,
-        $supportsBasicAuthentication = false,
-        $supportsPostMethod = false
-    ) {
-        $this->useragent                   = $useragent;
-        $this->name                        = $name;
-        $this->version                     = $version;
-        $this->manufacturer                = $manufacturer;
-        $this->bits                        = $bits;
-        $this->type                        = $type;
-        $this->pdfSupport                  = $pdfSupport;
-        $this->rssSupport                  = $rssSupport;
-        $this->canSkipAlignedLinkRow       = $canSkipAlignedLinkRow;
-        $this->claimsWebSupport            = $claimsWebSupport;
-        $this->supportsEmptyOptionValues   = $supportsEmptyOptionValues;
-        $this->supportsBasicAuthentication = $supportsBasicAuthentication;
-        $this->supportsPostMethod          = $supportsPostMethod;
-    }
+    protected $type = null;
 
     /**
      * gets the name of the browser

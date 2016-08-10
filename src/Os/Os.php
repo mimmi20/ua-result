@@ -71,7 +71,7 @@ class Os implements OsInterface, \Serializable
     /**
      * Class Constructor
      *
-     * @param string                                $useragent    the user agent to be handled
+     * @param string                                $useragent the user agent to be handled
      * @param string                                $name
      * @param \BrowserDetector\Version\Version|null $version
      * @param string|null                           $manufacturer
