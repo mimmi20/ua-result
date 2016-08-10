@@ -31,10 +31,6 @@
 
 namespace UaResult\Device;
 
-use BrowserDetector\Version\Version;
-use UaDeviceType\TypeInterface;
-use UaResult\Os\OsInterface;
-
 /**
  * BrowserDetector.ini parsing class with caching and update capabilities
  *
@@ -49,143 +45,82 @@ class Device implements DeviceInterface, \Serializable
     /**
      * @var string
      */
-    private $useragent = null;
+    protected $useragent = null;
 
     /**
      * @var string|null
      */
-    private $deviceName = null;
+    protected $deviceName = null;
 
     /**
      * @var string|null
      */
-    private $marketingName = null;
+    protected $marketingName = null;
 
     /**
      * @var \BrowserDetector\Version\Version|null
      */
-    private $version = null;
+    protected $version = null;
 
     /**
      * @var string|null
      */
-    private $manufacturer = null;
+    protected $manufacturer = null;
 
     /**
      * @var string|null
      */
-    private $brand = null;
+    protected $brand = null;
 
     /**
      * @var string|null
      */
-    private $formFactor = null;
+    protected $formFactor = null;
 
     /**
      * @var string|null
      */
-    private $pointingMethod = null;
+    protected $pointingMethod = null;
 
     /**
      * @var int|null
      */
-    private $resolutionWidth = null;
+    protected $resolutionWidth = null;
 
     /**
      * @var int|null
      */
-    private $resolutionHeight = null;
+    protected $resolutionHeight = null;
 
     /**
      * @var bool|null
      */
-    private $dualOrientation = null;
+    protected $dualOrientation = null;
 
     /**
      * @var int|null
      */
-    private $colors = null;
+    protected $colors = null;
 
     /**
      * @var bool|null
      */
-    private $smsSupport = null;
+    protected $smsSupport = null;
 
     /**
      * @var bool|null
      */
-    private $nfcSupport = null;
+    protected $nfcSupport = null;
 
     /**
      * @var bool|null
      */
-    private $hasQwertyKeyboard = null;
+    protected $hasQwertyKeyboard = null;
 
     /**
      * @var \UaDeviceType\TypeInterface|null
      */
-    private $type = null;
-
-    /**
-     * @var \UaResult\Os\OsInterface|null
-     */
-    private $platform = null;
-
-    /**
-     * Class Constructor
-     *
-     * @param string                                $useragent the user agent to be handled
-     * @param string                                $deviceName
-     * @param \BrowserDetector\Version\Version|null $version
-     * @param string|null                           $manufacturer
-     * @param \UaDeviceType\TypeInterface           $type
-     * @param string|null                           $brand
-     * @param string|null                           $marketingName
-     * @param string|null                           $pointingMethod
-     * @param int|null                              $resolutionWidth
-     * @param int|null                              $resolutionHeight
-     * @param bool|null                             $dualOrientation
-     * @param int|null                              $colors
-     * @param bool|null                             $smsSupport
-     * @param bool|null                             $nfcSupport
-     * @param bool|null                             $hasQwertyKeyboard
-     * @param \UaResult\Os\OsInterface|null         $platform
-     */
-    public function __construct(
-        $useragent,
-        $deviceName,
-        Version $version = null,
-        $manufacturer = null,
-        TypeInterface $type = null,
-        $brand = null,
-        $marketingName = null,
-        $pointingMethod = null,
-        $resolutionWidth = null,
-        $resolutionHeight = null,
-        $dualOrientation = null,
-        $colors = null,
-        $smsSupport = null,
-        $nfcSupport = null,
-        $hasQwertyKeyboard = null,
-        OsInterface $platform = null
-    ) {
-        $this->useragent    = $useragent;
-        $this->deviceName   = $deviceName;
-        $this->version      = $version;
-        $this->manufacturer = $manufacturer;
-        $this->type         = $type;
-        $this->brand        = $brand;
-        $this->marketingName = $marketingName;
-        $this->pointingMethod = $pointingMethod;
-        $this->resolutionWidth = $resolutionWidth;
-        $this->resolutionHeight = $resolutionHeight;
-        $this->dualOrientation  = $dualOrientation;
-        $this->colors           = $colors;
-        $this->smsSupport       = $smsSupport;
-        $this->nfcSupport       = $nfcSupport;
-        $this->hasQwertyKeyboard = $hasQwertyKeyboard;
-        $this->platform          = $platform;
-    }
+    protected $type = null;
 
     /**
      * @return string|null
@@ -316,14 +251,6 @@ class Device implements DeviceInterface, \Serializable
     }
 
     /**
-     * @return \UaResult\Os\OsInterface|null
-     */
-    public function getPlatform()
-    {
-        return $this->platform;
-    }
-
-    /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * String representation of object
      *
@@ -351,7 +278,6 @@ class Device implements DeviceInterface, \Serializable
                 'nfcSupport'        => $this->nfcSupport,
                 'hasQwertyKeyboard' => $this->hasQwertyKeyboard,
                 'type'              => $this->type,
-                'platform'          => $this->platform,
             ]
         );
     }
@@ -386,6 +312,5 @@ class Device implements DeviceInterface, \Serializable
         $this->nfcSupport        = $unseriliazedData['nfcSupport'];
         $this->hasQwertyKeyboard = $unseriliazedData['hasQwertyKeyboard'];
         $this->type              = $unseriliazedData['type'];
-        $this->platform          = $unseriliazedData['platform'];
     }
 }

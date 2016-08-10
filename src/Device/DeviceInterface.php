@@ -120,9 +120,4 @@ interface DeviceInterface
      * @return \UaDeviceType\TypeInterface|null
      */
     public function getType();
-
-    /**
-     * @return \UaResult\Os\OsInterface|null
-     */
-    public function getPlatform();
 }
