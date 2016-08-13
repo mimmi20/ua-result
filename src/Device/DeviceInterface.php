@@ -62,11 +62,6 @@ interface DeviceInterface
     public function getDualOrientation();
 
     /**
-     * @return string|null
-     */
-    public function getFormFactor();
-
-    /**
      * @return bool|null
      */
     public function getHasQwertyKeyboard();

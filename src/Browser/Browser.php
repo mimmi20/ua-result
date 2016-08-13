@@ -42,9 +42,9 @@ namespace UaResult\Browser;
 class Browser implements BrowserInterface, \Serializable
 {
     /**
-     * @var string the user agent to handle
+     * @var string|null the user agent to handle
      */
-    protected $useragent = '';
+    protected $useragent = null;
 
     /**
      * @var string|null

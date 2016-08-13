@@ -75,11 +75,6 @@ class Device implements DeviceInterface, \Serializable
     /**
      * @var string|null
      */
-    protected $formFactor = null;
-
-    /**
-     * @var string|null
-     */
     protected $pointingMethod = null;
 
     /**
@@ -152,14 +147,6 @@ class Device implements DeviceInterface, \Serializable
     public function getDualOrientation()
     {
         return $this->dualOrientation;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFormFactor()
-    {
-        return $this->formFactor;
     }
 
     /**
@@ -268,7 +255,6 @@ class Device implements DeviceInterface, \Serializable
                 'version'           => $this->version,
                 'manufacturer'      => $this->manufacturer,
                 'brand'             => $this->brand,
-                'formFactor'        => $this->formFactor,
                 'pointingMethod'    => $this->pointingMethod,
                 'resolutionWidth'   => $this->resolutionWidth,
                 'resolutionHeight'  => $this->resolutionHeight,
@@ -302,7 +288,6 @@ class Device implements DeviceInterface, \Serializable
         $this->version           = $unseriliazedData['version'];
         $this->manufacturer      = $unseriliazedData['manufacturer'];
         $this->brand             = $unseriliazedData['brand'];
-        $this->formFactor        = $unseriliazedData['formFactor'];
         $this->pointingMethod    = $unseriliazedData['pointingMethod'];
         $this->resolutionWidth   = $unseriliazedData['resolutionWidth'];
         $this->resolutionHeight  = $unseriliazedData['resolutionHeight'];

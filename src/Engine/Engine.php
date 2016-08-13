@@ -42,7 +42,7 @@ namespace UaResult\Engine;
 class Engine implements EngineInterface, \Serializable
 {
     /**
-     * @var string the user agent to handle
+     * @var string|null the user agent to handle
      */
     protected $useragent = null;
 
