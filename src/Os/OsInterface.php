@@ -54,7 +54,17 @@ interface OsInterface
     /**
      * @return string|null
      */
+    public function getBrand();
+
+    /**
+     * @return string|null
+     */
     public function getName();
+
+    /**
+     * @return string|null
+     */
+    public function getMarketingName();
 
     /**
      * @return \BrowserDetector\Version\Version|null

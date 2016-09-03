@@ -66,6 +66,11 @@ interface BrowserInterface
     /**
      * @return string|null
      */
+    public function getBrand();
+
+    /**
+     * @return string|null
+     */
     public function getModus();
 
     /**

@@ -62,11 +62,24 @@ class Engine implements EngineInterface, \Serializable
     protected $manufacturer = null;
 
     /**
+     * @var string|null
+     */
+    protected $brand = null;
+
+    /**
      * @return string|null
      */
     public function getManufacturer()
     {
         return $this->manufacturer;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBrand()
+    {
+        return $this->brand;
     }
 
     /**
@@ -101,6 +114,7 @@ class Engine implements EngineInterface, \Serializable
                 'name'         => $this->name,
                 'version'      => $this->version,
                 'manufacturer' => $this->manufacturer,
+                'brand'        => $this->brand,
             ]
         );
     }
@@ -123,5 +137,6 @@ class Engine implements EngineInterface, \Serializable
         $this->name         = $unseriliazedData['name'];
         $this->version      = $unseriliazedData['version'];
         $this->manufacturer = $unseriliazedData['manufacturer'];
+        $this->brand        = $unseriliazedData['brand'];
     }
 }

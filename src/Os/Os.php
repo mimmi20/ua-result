@@ -52,6 +52,11 @@ class Os implements OsInterface, \Serializable
     protected $name = null;
 
     /**
+     * @var string|null
+     */
+    protected $marketingName = null;
+
+    /**
      * @var \BrowserDetector\Version\Version|null
      */
     protected $version = null;
@@ -60,6 +65,11 @@ class Os implements OsInterface, \Serializable
      * @var string|null
      */
     protected $manufacturer = null;
+
+    /**
+     * @var string|null
+     */
+    protected $brand = null;
 
     /**
      * @var int|null
@@ -85,9 +95,25 @@ class Os implements OsInterface, \Serializable
     /**
      * @return string|null
      */
+    public function getBrand()
+    {
+        return $this->brand;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMarketingName()
+    {
+        return $this->marketingName;
     }
 
     /**
@@ -110,11 +136,13 @@ class Os implements OsInterface, \Serializable
     {
         return serialize(
             [
-                'useragent'    => $this->useragent,
-                'name'         => $this->name,
-                'version'      => $this->version,
-                'manufacturer' => $this->manufacturer,
-                'bits'         => $this->bits,
+                'useragent'     => $this->useragent,
+                'name'          => $this->name,
+                'marketingName' => $this->marketingName,
+                'version'       => $this->version,
+                'manufacturer'  => $this->manufacturer,
+                'brand'         => $this->brand,
+                'bits'          => $this->bits,
             ]
         );
     }
@@ -133,10 +161,12 @@ class Os implements OsInterface, \Serializable
     {
         $unseriliazedData = unserialize($serialized);
 
-        $this->useragent    = $unseriliazedData['useragent'];
-        $this->name         = $unseriliazedData['name'];
-        $this->version      = $unseriliazedData['version'];
-        $this->manufacturer = $unseriliazedData['manufacturer'];
-        $this->bits         = $unseriliazedData['bits'];
+        $this->useragent     = $unseriliazedData['useragent'];
+        $this->name          = $unseriliazedData['name'];
+        $this->marketingName = $unseriliazedData['marketingName'];
+        $this->version       = $unseriliazedData['version'];
+        $this->manufacturer  = $unseriliazedData['manufacturer'];
+        $this->brand         = $unseriliazedData['brand'];
+        $this->bits          = $unseriliazedData['bits'];
     }
 }

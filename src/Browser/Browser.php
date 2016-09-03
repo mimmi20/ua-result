@@ -67,6 +67,11 @@ class Browser implements BrowserInterface, \Serializable
     protected $manufacturer = null;
 
     /**
+     * @var string|null
+     */
+    protected $brand = null;
+
+    /**
      * @var bool|null
      */
     protected $pdfSupport = null;
@@ -143,6 +148,14 @@ class Browser implements BrowserInterface, \Serializable
     public function getManufacturer()
     {
         return $this->manufacturer;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBrand()
+    {
+        return $this->brand;
     }
 
     /**
@@ -242,6 +255,7 @@ class Browser implements BrowserInterface, \Serializable
                 'modus'                       => $this->modus,
                 'version'                     => $this->version,
                 'manufacturer'                => $this->manufacturer,
+                'brand'                       => $this->brand,
                 'pdfSupport'                  => $this->pdfSupport,
                 'rssSupport'                  => $this->rssSupport,
                 'canSkipAlignedLinkRow'       => $this->canSkipAlignedLinkRow,
@@ -274,6 +288,7 @@ class Browser implements BrowserInterface, \Serializable
         $this->modus                       = $unseriliazedData['modus'];
         $this->version                     = $unseriliazedData['version'];
         $this->manufacturer                = $unseriliazedData['manufacturer'];
+        $this->brand                       = $unseriliazedData['brand'];
         $this->pdfSupport                  = $unseriliazedData['pdfSupport'];
         $this->rssSupport                  = $unseriliazedData['rssSupport'];
         $this->canSkipAlignedLinkRow       = $unseriliazedData['canSkipAlignedLinkRow'];
