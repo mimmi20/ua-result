@@ -1,3 +1,9 @@
 machine:
   php:
-    version: 5.6.14
+    version: 7.0.4
+  timezone:
+    Europe/Berlin
+
+dependencies:
+  override:
+    - composer update --optimize-autoloader --prefer-dist --prefer-stable --no-interaction --no-progress
