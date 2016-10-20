@@ -35,7 +35,6 @@ use UaResult\Browser\BrowserInterface;
 use UaResult\Device\DeviceInterface;
 use UaResult\Engine\EngineInterface;
 use UaResult\Os\OsInterface;
-use Wurfl\WurflConstants;
 
 /**
  * @category  ua-result
@@ -49,7 +48,7 @@ class Result implements ResultInterface, \Serializable
     /**
      * @var string
      */
-    private $wurflKey = WurflConstants::NO_MATCH;
+    private $wurflKey = null;
 
     /**
      * @var string
@@ -697,7 +696,7 @@ class Result implements ResultInterface, \Serializable
         BrowserInterface $browser = null,
         EngineInterface $engine = null,
         array $capabilities = [],
-        $wurflKey = WurflConstants::NO_MATCH
+        $wurflKey = null
     ) {
         $this->useragent = $useragent;
         $this->device    = $device;
