@@ -31,6 +31,10 @@
 
 namespace UaResult\Browser;
 
+use BrowserDetector\Version\Version;
+use UaResult\Engine\Engine;
+use UaBrowserType\TypeInterface;
+
 /**
  * base class for all browsers to detect
  *
@@ -44,77 +48,131 @@ class Browser implements BrowserInterface, \Serializable
     /**
      * @var string|null the user agent to handle
      */
-    protected $useragent = null;
+    private $useragent = null;
 
     /**
      * @var string|null
      */
-    protected $name = null;
+    private $name = null;
 
     /**
      * @var string|null
      */
-    protected $modus = null;
+    private $modus = null;
 
     /**
      * @var \BrowserDetector\Version\Version|null
      */
-    protected $version = null;
+    private $version = null;
 
     /**
      * @var string|null
      */
-    protected $manufacturer = null;
+    private $manufacturer = null;
 
     /**
      * @var string|null
      */
-    protected $brand = null;
+    private $brand = null;
 
     /**
      * @var bool|null
      */
-    protected $pdfSupport = null;
+    private $pdfSupport = null;
 
     /**
      * @var bool|null
      */
-    protected $rssSupport = null;
+    private $rssSupport = null;
 
     /**
      * @var bool|null
      */
-    protected $canSkipAlignedLinkRow = null;
+    private $canSkipAlignedLinkRow = null;
 
     /**
      * @var bool|null
      */
-    protected $claimsWebSupport = null;
+    private $claimsWebSupport = null;
 
     /**
      * @var bool|null
      */
-    protected $supportsEmptyOptionValues = null;
+    private $supportsEmptyOptionValues = null;
 
     /**
      * @var bool|null
      */
-    protected $supportsBasicAuthentication = null;
+    private $supportsBasicAuthentication = null;
 
     /**
      * @var bool|null
      */
-    protected $supportsPostMethod = null;
+    private $supportsPostMethod = null;
 
     /**
      * @var int|null
      */
-    protected $bits = null;
+    private $bits = null;
 
     /**
      * @var \UaBrowserType\TypeInterface|null
      */
-    protected $type = null;
+    private $type = null;
+
+    /**
+     * @var \UaResult\Engine\Engine
+     */
+    private $engine = null;
+
+    /**
+     * @param string                           $name
+     * @param string                           $manufacturer
+     * @param string                           $brand
+     * @param \BrowserDetector\Version\Version $version
+     * @param \UaResult\Engine\Engine          $engine
+     * @param \UaBrowserType\TypeInterface     $type
+     * @param int                              $bits
+     * @param bool                             $pdfSupport
+     * @param bool                             $rssSupport
+     * @param bool                             $canSkipAlignedLinkRow
+     * @param bool                             $claimsWebSupport
+     * @param bool                             $supportsEmptyOptionValues
+     * @param bool                             $supportsBasicAuthentication
+     * @param bool                             $supportsPostMethod
+     */
+    public function __construct(
+        $name,
+        $manufacturer,
+        $brand,
+        Version $version = null,
+        Engine $engine = null,
+        TypeInterface $type = null,
+        $bits = 0,
+        $pdfSupport = false,
+        $rssSupport = false,
+        $canSkipAlignedLinkRow = false,
+        $claimsWebSupport = false,
+        $supportsEmptyOptionValues = false,
+        $supportsBasicAuthentication = false,
+        $supportsPostMethod = false
+    )
+    {
+        $this->name = $name;
+        $this->manufacturer = $manufacturer;
+        $this->brand = $brand;
+        $this->version = $version;
+        $this->engine = $engine;
+        $this->type = $type;
+        $this->bits = $bits;
+        $this->pdfSupport = $pdfSupport;
+        $this->rssSupport = $rssSupport;
+        $this->canSkipAlignedLinkRow = $canSkipAlignedLinkRow;
+        $this->claimsWebSupport = $claimsWebSupport;
+        $this->supportsEmptyOptionValues = $supportsEmptyOptionValues;
+        $this->supportsBasicAuthentication = $supportsBasicAuthentication;
+        $this->supportsPostMethod = $supportsPostMethod;
+    }
 
     /**
      * gets the name of the browser
@@ -239,6 +297,14 @@ class Browser implements BrowserInterface, \Serializable
     }
 
     /**
+     * @return \UaResult\Engine\Engine
+     */
+    public function getEngine()
+    {
+        return $this->engine;
+    }
+
+    /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * String representation of object
      *
@@ -265,6 +331,7 @@ class Browser implements BrowserInterface, \Serializable
                 'supportsPostMethod'          => $this->supportsPostMethod,
                 'bits'                        => $this->bits,
                 'type'                        => $this->type,
+                'engine'                      => $this->engine,
             ]
         );
     }
@@ -298,5 +365,6 @@ class Browser implements BrowserInterface, \Serializable
         $this->supportsPostMethod          = $unseriliazedData['supportsPostMethod'];
         $this->bits                        = $unseriliazedData['bits'];
         $this->type                        = $unseriliazedData['type'];
+        $this->engine                      = $unseriliazedData['engine'];
     }
 }

@@ -117,4 +117,9 @@ interface BrowserInterface
      * @return \UaBrowserType\TypeInterface|null
      */
     public function getType();
+
+    /**
+     * @return \UaResult\Engine\Engine
+     */
+    public function getEngine();
 }
