@@ -32,8 +32,8 @@
 namespace UaResult\Browser;
 
 use BrowserDetector\Version\Version;
-use UaResult\Engine\Engine;
 use UaBrowserType\TypeInterface;
+use UaResult\Engine\Engine;
 
 /**
  * base class for all browsers to detect
@@ -156,22 +156,21 @@ class Browser implements BrowserInterface, \Serializable
         $supportsEmptyOptionValues = false,
         $supportsBasicAuthentication = false,
         $supportsPostMethod = false
-    )
-    {
-        $this->name = $name;
-        $this->manufacturer = $manufacturer;
-        $this->brand = $brand;
-        $this->version = $version;
-        $this->engine = $engine;
-        $this->type = $type;
-        $this->bits = $bits;
-        $this->pdfSupport = $pdfSupport;
-        $this->rssSupport = $rssSupport;
-        $this->canSkipAlignedLinkRow = $canSkipAlignedLinkRow;
-        $this->claimsWebSupport = $claimsWebSupport;
-        $this->supportsEmptyOptionValues = $supportsEmptyOptionValues;
+    ) {
+        $this->name                        = $name;
+        $this->manufacturer                = $manufacturer;
+        $this->brand                       = $brand;
+        $this->version                     = $version;
+        $this->engine                      = $engine;
+        $this->type                        = $type;
+        $this->bits                        = $bits;
+        $this->pdfSupport                  = $pdfSupport;
+        $this->rssSupport                  = $rssSupport;
+        $this->canSkipAlignedLinkRow       = $canSkipAlignedLinkRow;
+        $this->claimsWebSupport            = $claimsWebSupport;
+        $this->supportsEmptyOptionValues   = $supportsEmptyOptionValues;
         $this->supportsBasicAuthentication = $supportsBasicAuthentication;
-        $this->supportsPostMethod = $supportsPostMethod;
+        $this->supportsPostMethod          = $supportsPostMethod;
     }
 
     /**
