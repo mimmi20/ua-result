@@ -31,6 +31,8 @@
 
 namespace UaResult\Engine;
 
+use BrowserDetector\Version\Version;
+
 /**
  * base class for all rendering engines to detect
  *
@@ -42,29 +44,38 @@ namespace UaResult\Engine;
 class Engine implements EngineInterface, \Serializable
 {
     /**
-     * @var string|null the user agent to handle
-     */
-    protected $useragent = null;
-
-    /**
      * @var string|null
      */
-    protected $name = null;
+    private $name = null;
 
     /**
      * @var \BrowserDetector\Version\Version|null
      */
-    protected $version = null;
+    private $version = null;
 
     /**
      * @var string|null
      */
-    protected $manufacturer = null;
+    private $manufacturer = null;
 
     /**
      * @var string|null
      */
-    protected $brand = null;
+    private $brand = null;
+
+    /**
+     * @param string                           $name
+     * @param string                           $manufacturer
+     * @param string                           $brand
+     * @param \BrowserDetector\Version\Version $version
+     */
+    public function __construct($name, $manufacturer, $brand, Version $version = null)
+    {
+        $this->name = $name;
+        $this->manufacturer = $manufacturer;
+        $this->brand = $brand;
+        $this->version = $version;
+    }
 
     /**
      * @return string|null
@@ -110,7 +121,6 @@ class Engine implements EngineInterface, \Serializable
     {
         return serialize(
             [
-                'useragent'    => $this->useragent,
                 'name'         => $this->name,
                 'version'      => $this->version,
                 'manufacturer' => $this->manufacturer,
@@ -133,7 +143,6 @@ class Engine implements EngineInterface, \Serializable
     {
         $unseriliazedData = unserialize($serialized);
 
-        $this->useragent    = $unseriliazedData['useragent'];
         $this->name         = $unseriliazedData['name'];
         $this->version      = $unseriliazedData['version'];
         $this->manufacturer = $unseriliazedData['manufacturer'];
