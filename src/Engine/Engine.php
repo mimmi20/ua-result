@@ -71,10 +71,10 @@ class Engine implements EngineInterface, \Serializable
      */
     public function __construct($name, $manufacturer, $brand, Version $version = null)
     {
-        $this->name = $name;
+        $this->name         = $name;
         $this->manufacturer = $manufacturer;
-        $this->brand = $brand;
-        $this->version = $version;
+        $this->brand        = $brand;
+        $this->version      = $version;
     }
 
     /**
