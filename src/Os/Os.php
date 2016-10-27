@@ -31,6 +31,8 @@
 
 namespace UaResult\Os;
 
+use BrowserDetector\Version\Version;
+
 /**
  * base class for all rendering platforms/operating systems to detect
  *
@@ -42,39 +44,52 @@ namespace UaResult\Os;
 class Os implements OsInterface, \Serializable
 {
     /**
-     * @var string|null the user agent to handle
+     * @var string|null
      */
-    protected $useragent = null;
+    private $name = null;
 
     /**
      * @var string|null
      */
-    protected $name = null;
-
-    /**
-     * @var string|null
-     */
-    protected $marketingName = null;
+    private $marketingName = null;
 
     /**
      * @var \BrowserDetector\Version\Version|null
      */
-    protected $version = null;
+    private $version = null;
 
     /**
      * @var string|null
      */
-    protected $manufacturer = null;
+    private $manufacturer = null;
 
     /**
      * @var string|null
      */
-    protected $brand = null;
+    private $brand = null;
 
     /**
      * @var int|null
      */
-    protected $bits = null;
+    private $bits = null;
+
+    /**
+     * @param string                           $name
+     * @param string                           $marketingName
+     * @param string                           $manufacturer
+     * @param string                           $brand
+     * @param \BrowserDetector\Version\Version $version
+     * @param int                              $bits
+     */
+    public function __construct($name, $marketingName, $manufacturer, $brand, Version $version = null, $bits = 0)
+    {
+        $this->name = $name;
+        $this->marketingName = $marketingName;
+        $this->manufacturer = $manufacturer;
+        $this->brand = $brand;
+        $this->version = $version;
+        $this->bits = $bits;
+    }
 
     /**
      * @return int|null
@@ -136,7 +151,6 @@ class Os implements OsInterface, \Serializable
     {
         return serialize(
             [
-                'useragent'     => $this->useragent,
                 'name'          => $this->name,
                 'marketingName' => $this->marketingName,
                 'version'       => $this->version,
@@ -161,7 +175,6 @@ class Os implements OsInterface, \Serializable
     {
         $unseriliazedData = unserialize($serialized);
 
-        $this->useragent     = $unseriliazedData['useragent'];
         $this->name          = $unseriliazedData['name'];
         $this->marketingName = $unseriliazedData['marketingName'];
         $this->version       = $unseriliazedData['version'];

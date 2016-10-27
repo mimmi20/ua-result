@@ -46,11 +46,6 @@ use UaBrowserType\TypeInterface;
 class Browser implements BrowserInterface, \Serializable
 {
     /**
-     * @var string|null the user agent to handle
-     */
-    private $useragent = null;
-
-    /**
      * @var string|null
      */
     private $name = null;
@@ -265,14 +260,6 @@ class Browser implements BrowserInterface, \Serializable
     }
 
     /**
-     * @return string
-     */
-    public function getUseragent()
-    {
-        return $this->useragent;
-    }
-
-    /**
      * @return \BrowserDetector\Version\Version|null
      */
     public function getVersion()
@@ -316,7 +303,6 @@ class Browser implements BrowserInterface, \Serializable
     {
         return serialize(
             [
-                'useragent'                   => $this->useragent,
                 'name'                        => $this->name,
                 'modus'                       => $this->modus,
                 'version'                     => $this->version,
@@ -350,7 +336,6 @@ class Browser implements BrowserInterface, \Serializable
     {
         $unseriliazedData = unserialize($serialized);
 
-        $this->useragent                   = $unseriliazedData['useragent'];
         $this->name                        = $unseriliazedData['name'];
         $this->modus                       = $unseriliazedData['modus'];
         $this->version                     = $unseriliazedData['version'];

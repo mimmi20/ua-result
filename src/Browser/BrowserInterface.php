@@ -99,11 +99,6 @@ interface BrowserInterface
     public function getSupportsPostMethod();
 
     /**
-     * @return string
-     */
-    public function getUseragent();
-
-    /**
      * @return \BrowserDetector\Version\Version|null
      */
     public function getVersion();
