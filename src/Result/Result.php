@@ -35,6 +35,7 @@ use UaResult\Browser\BrowserInterface;
 use UaResult\Device\DeviceInterface;
 use UaResult\Engine\EngineInterface;
 use UaResult\Os\OsInterface;
+use Wurfl\Request\GenericRequest;
 
 /**
  * @category  ua-result
@@ -46,32 +47,32 @@ use UaResult\Os\OsInterface;
 class Result implements ResultInterface, \Serializable
 {
     /**
-     * @var string
+     * @var string|null
      */
     private $wurflKey = null;
 
     /**
-     * @var string
+     * @var \Wurfl\Request\GenericRequest|null
      */
-    private $useragent = null;
+    private $request = null;
 
     /**
-     * @var \UaResult\Device\DeviceInterface
+     * @var \UaResult\Device\DeviceInterface|null
      */
     private $device = null;
 
     /**
-     * @var \UaResult\Browser\BrowserInterface
+     * @var \UaResult\Browser\BrowserInterface|null
      */
     private $browser = null;
 
     /**
-     * @var \UaResult\Os\OsInterface
+     * @var \UaResult\Os\OsInterface|null
      */
     private $os = null;
 
     /**
-     * @var \UaResult\Engine\EngineInterface
+     * @var \UaResult\Engine\EngineInterface|null
      */
     private $engine = null;
 
@@ -82,8 +83,6 @@ class Result implements ResultInterface, \Serializable
      */
     private $capabilities = [
         // kind of device
-        'device_type'                                       => null, // not in wurfl
-        'browser_type'                                      => null, // not in wurfl
         'is_wireless_device'                                => null,
         'is_tablet'                                         => null,
         'is_bot'                                            => null,
@@ -92,7 +91,6 @@ class Result implements ResultInterface, \Serializable
         'is_syndication_reader'                             => null,
         'ux_full_desktop'                                   => null,
         'is_transcoder'                                     => null,
-        'is_banned'                                         => null, // not in wurfl
 
         // device
         'model_name'                                        => null,
@@ -681,7 +679,7 @@ class Result implements ResultInterface, \Serializable
     /**
      * the class constructor
      *
-     * @param string                             $useragent
+     * @param \Wurfl\Request\GenericRequest $request
      * @param \UaResult\Device\DeviceInterface   $device
      * @param \UaResult\Os\OsInterface           $os
      * @param \UaResult\Browser\BrowserInterface $browser
@@ -690,7 +688,7 @@ class Result implements ResultInterface, \Serializable
      * @param string|null                        $wurflKey
      */
     public function __construct(
-        $useragent,
+        GenericRequest $request,
         DeviceInterface $device = null,
         OsInterface $os = null,
         BrowserInterface $browser = null,
@@ -698,7 +696,7 @@ class Result implements ResultInterface, \Serializable
         array $capabilities = [],
         $wurflKey = null
     ) {
-        $this->useragent = $useragent;
+        $this->request = $request;
         $this->device    = $device;
         $this->os        = $os;
         $this->browser   = $browser;
@@ -709,7 +707,7 @@ class Result implements ResultInterface, \Serializable
     }
 
     /**
-     * @return \UaResult\Browser\BrowserInterface
+     * @return \UaResult\Browser\BrowserInterface|null
      */
     public function getBrowser()
     {
@@ -717,7 +715,7 @@ class Result implements ResultInterface, \Serializable
     }
 
     /**
-     * @return \UaResult\Device\DeviceInterface
+     * @return \UaResult\Device\DeviceInterface|null
      */
     public function getDevice()
     {
@@ -725,7 +723,7 @@ class Result implements ResultInterface, \Serializable
     }
 
     /**
-     * @return \UaResult\Engine\EngineInterface
+     * @return \UaResult\Engine\EngineInterface|null
      */
     public function getEngine()
     {
@@ -733,7 +731,7 @@ class Result implements ResultInterface, \Serializable
     }
 
     /**
-     * @return \UaResult\Os\OsInterface
+     * @return \UaResult\Os\OsInterface|null
      */
     public function getOs()
     {
@@ -741,11 +739,19 @@ class Result implements ResultInterface, \Serializable
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getWurflKey()
     {
         return $this->wurflKey;
+    }
+
+    /**
+     * @return \Wurfl\Request\GenericRequest|null
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 
     /**
@@ -788,7 +794,7 @@ class Result implements ResultInterface, \Serializable
             [
                 'capabilities' => $this->capabilities,
                 'wurflKey'     => $this->wurflKey,
-                'useragent'    => $this->useragent,
+                'request'      => $this->request,
                 'device'       => $this->device,
                 'browser'      => $this->browser,
                 'os'           => $this->os,
@@ -813,7 +819,7 @@ class Result implements ResultInterface, \Serializable
 
         $this->capabilities = $unseriliazedData['capabilities'];
         $this->wurflKey     = $unseriliazedData['wurflKey'];
-        $this->useragent    = $unseriliazedData['useragent'];
+        $this->request      = $unseriliazedData['request'];
         $this->device       = $unseriliazedData['device'];
         $this->browser      = $unseriliazedData['browser'];
         $this->os           = $unseriliazedData['os'];

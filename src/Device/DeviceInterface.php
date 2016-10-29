@@ -102,11 +102,6 @@ interface DeviceInterface
     public function getSmsSupport();
 
     /**
-     * @return string
-     */
-    public function getUseragent();
-
-    /**
      * @return \BrowserDetector\Version\Version|null
      */
     public function getVersion();
@@ -115,4 +110,9 @@ interface DeviceInterface
      * @return \UaDeviceType\TypeInterface|null
      */
     public function getType();
+
+    /**
+     * @return \UaResult\Os\OsInterface|null
+     */
+    public function getPlatform();
 }
