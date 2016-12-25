@@ -32,7 +32,7 @@
 namespace UaResult\Device;
 
 use BrowserDetector\Version\Version;
-use \UaDeviceType\TypeInterface;
+use UaDeviceType\TypeInterface;
 use UaResult\Os\OsInterface;
 
 /**
@@ -122,18 +122,18 @@ class Device implements DeviceInterface, \Serializable
     private $platform = null;
 
     /**
-     * @param string                           $deviceName
-     * @param string                                 $marketingName
-     * @param string                           $manufacturer
-     * @param string                           $brand
+     * @param string                                $deviceName
+     * @param string                                $marketingName
+     * @param string                                $manufacturer
+     * @param string                                $brand
      * @param \BrowserDetector\Version\Version|null $version
      * @param \UaResult\Os\OsInterface|null         $platform
      * @param \UaDeviceType\TypeInterface|null      $type
-     * @param string|null                             $pointingMethod
-     * @param int|null                             $resolutionWidth
-     * @param int|null                             $resolutionHeight
+     * @param string|null                           $pointingMethod
+     * @param int|null                              $resolutionWidth
+     * @param int|null                              $resolutionHeight
      * @param bool|null                             $dualOrientation
-     * @param int|null                             $colors
+     * @param int|null                              $colors
      * @param bool|null                             $smsSupport
      * @param bool|null                             $nfcSupport
      * @param bool|null                             $hasQwertyKeyboard
@@ -156,20 +156,20 @@ class Device implements DeviceInterface, \Serializable
         $hasQwertyKeyboard = null
     ) {
         $this->deviceName         = $deviceName;
-        $this->marketingName = $marketingName;
-        $this->manufacturer = $manufacturer;
-        $this->brand        = $brand;
-        $this->version      = $version;
-        $this->platform = $platform;
-        $this->type = $type;
-        $this->pointingMethod = $pointingMethod;
-        $this->resolutionWidth = $resolutionWidth;
-        $this->resolutionHeight = $resolutionHeight;
-        $this->dualOrientation = $dualOrientation;
-        $this->colors = $colors;
-        $this->smsSupport = $smsSupport;
-        $this->nfcSupport = $nfcSupport;
-        $this->hasQwertyKeyboard = $hasQwertyKeyboard;
+        $this->marketingName      = $marketingName;
+        $this->manufacturer       = $manufacturer;
+        $this->brand              = $brand;
+        $this->version            = $version;
+        $this->platform           = $platform;
+        $this->type               = $type;
+        $this->pointingMethod     = $pointingMethod;
+        $this->resolutionWidth    = $resolutionWidth;
+        $this->resolutionHeight   = $resolutionHeight;
+        $this->dualOrientation    = $dualOrientation;
+        $this->colors             = $colors;
+        $this->smsSupport         = $smsSupport;
+        $this->nfcSupport         = $nfcSupport;
+        $this->hasQwertyKeyboard  = $hasQwertyKeyboard;
     }
 
     /**
@@ -318,7 +318,7 @@ class Device implements DeviceInterface, \Serializable
                 'nfcSupport'        => $this->nfcSupport,
                 'hasQwertyKeyboard' => $this->hasQwertyKeyboard,
                 'type'              => $this->type,
-                'platform' => $this->platform,
+                'platform'          => $this->platform,
             ]
         );
     }
@@ -337,20 +337,20 @@ class Device implements DeviceInterface, \Serializable
     {
         $unseriliazedData = unserialize($data);
 
-        $this->deviceName        = $unseriliazedData['deviceName'];
-        $this->marketingName     = $unseriliazedData['marketingName'];
-        $this->version           = $unseriliazedData['version'];
-        $this->manufacturer      = $unseriliazedData['manufacturer'];
-        $this->brand             = $unseriliazedData['brand'];
-        $this->pointingMethod    = $unseriliazedData['pointingMethod'];
-        $this->resolutionWidth   = $unseriliazedData['resolutionWidth'];
-        $this->resolutionHeight  = $unseriliazedData['resolutionHeight'];
-        $this->dualOrientation   = $unseriliazedData['dualOrientation'];
-        $this->colors            = $unseriliazedData['colors'];
-        $this->smsSupport        = $unseriliazedData['smsSupport'];
-        $this->nfcSupport        = $unseriliazedData['nfcSupport'];
-        $this->hasQwertyKeyboard = $unseriliazedData['hasQwertyKeyboard'];
-        $this->type              = $unseriliazedData['type'];
+        $this->deviceName            = $unseriliazedData['deviceName'];
+        $this->marketingName         = $unseriliazedData['marketingName'];
+        $this->version               = $unseriliazedData['version'];
+        $this->manufacturer          = $unseriliazedData['manufacturer'];
+        $this->brand                 = $unseriliazedData['brand'];
+        $this->pointingMethod        = $unseriliazedData['pointingMethod'];
+        $this->resolutionWidth       = $unseriliazedData['resolutionWidth'];
+        $this->resolutionHeight      = $unseriliazedData['resolutionHeight'];
+        $this->dualOrientation       = $unseriliazedData['dualOrientation'];
+        $this->colors                = $unseriliazedData['colors'];
+        $this->smsSupport            = $unseriliazedData['smsSupport'];
+        $this->nfcSupport            = $unseriliazedData['nfcSupport'];
+        $this->hasQwertyKeyboard     = $unseriliazedData['hasQwertyKeyboard'];
+        $this->type                  = $unseriliazedData['type'];
         $this->platform              = $unseriliazedData['platform'];
     }
 }

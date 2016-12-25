@@ -679,7 +679,7 @@ class Result implements ResultInterface, \Serializable
     /**
      * the class constructor
      *
-     * @param \Wurfl\Request\GenericRequest $request
+     * @param \Wurfl\Request\GenericRequest      $request
      * @param \UaResult\Device\DeviceInterface   $device
      * @param \UaResult\Os\OsInterface           $os
      * @param \UaResult\Browser\BrowserInterface $browser
@@ -696,7 +696,7 @@ class Result implements ResultInterface, \Serializable
         array $capabilities = [],
         $wurflKey = null
     ) {
-        $this->request = $request;
+        $this->request   = $request;
         $this->device    = $device;
         $this->os        = $os;
         $this->browser   = $browser;

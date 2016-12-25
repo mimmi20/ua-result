@@ -83,12 +83,12 @@ class Os implements OsInterface, \Serializable
      */
     public function __construct($name, $marketingName, $manufacturer, $brand, Version $version = null, $bits = 0)
     {
-        $this->name = $name;
+        $this->name          = $name;
         $this->marketingName = $marketingName;
-        $this->manufacturer = $manufacturer;
-        $this->brand = $brand;
-        $this->version = $version;
-        $this->bits = $bits;
+        $this->manufacturer  = $manufacturer;
+        $this->brand         = $brand;
+        $this->version       = $version;
+        $this->bits          = $bits;
     }
 
     /**
