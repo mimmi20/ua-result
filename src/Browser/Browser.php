@@ -127,7 +127,7 @@ class Browser implements BrowserInterface, \Serializable
      * @param \BrowserDetector\Version\Version $version
      * @param \UaResult\Engine\Engine          $engine
      * @param \UaBrowserType\TypeInterface     $type
-     * @param int                              $bits
+     * @param int|null                         $bits
      * @param bool                             $pdfSupport
      * @param bool                             $rssSupport
      * @param bool                             $canSkipAlignedLinkRow
@@ -143,7 +143,7 @@ class Browser implements BrowserInterface, \Serializable
         Version $version = null,
         Engine $engine = null,
         TypeInterface $type = null,
-        $bits = 0,
+        $bits = null,
         $pdfSupport = false,
         $rssSupport = false,
         $canSkipAlignedLinkRow = false,

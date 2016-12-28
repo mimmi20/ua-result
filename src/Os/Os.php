@@ -79,9 +79,9 @@ class Os implements OsInterface, \Serializable
      * @param string                           $manufacturer
      * @param string                           $brand
      * @param \BrowserDetector\Version\Version $version
-     * @param int                              $bits
+     * @param int|null                         $bits
      */
-    public function __construct($name, $marketingName, $manufacturer, $brand, Version $version = null, $bits = 0)
+    public function __construct($name, $marketingName, $manufacturer, $brand, Version $version = null, $bits = null)
     {
         $this->name          = $name;
         $this->marketingName = $marketingName;
