@@ -28,7 +28,7 @@ before_script:
 
 script:
   - vendor/bin/phpunit --colors --verbose --coverage-text --coverage-clover=coverage.clover
-  - php -n vendor/bin/phpcs --standard=psr2 -np src tests
+  - php -n -d memory_limit=768M vendor/bin/phpcs
   - php -n -d memory_limit=768M vendor/bin/php-cs-fixer fix --dry-run -vv
 
 #after_success:
