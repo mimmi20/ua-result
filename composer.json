@@ -27,7 +27,7 @@
     "source": "https://github.com/mimmi20/ua-result"
   },
   "require": {
-    "php": ">=5.6.0",
+    "php": "^7.0 || ^7.1",
     "mimmi20/ua-browser-type": "^1.0.3",
     "mimmi20/ua-device-type": "^1.0.5",
     "mimmi20/browser-detector-version": "^1.0",
@@ -46,11 +46,6 @@
   "autoload-dev": {
     "psr-4": {
       "UaResultTest\\": "tests/"
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
     }
   }
 }
