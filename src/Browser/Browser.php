@@ -81,31 +81,6 @@ class Browser implements BrowserInterface, \Serializable
     private $rssSupport = null;
 
     /**
-     * @var bool|null
-     */
-    private $canSkipAlignedLinkRow = null;
-
-    /**
-     * @var bool|null
-     */
-    private $claimsWebSupport = null;
-
-    /**
-     * @var bool|null
-     */
-    private $supportsEmptyOptionValues = null;
-
-    /**
-     * @var bool|null
-     */
-    private $supportsBasicAuthentication = null;
-
-    /**
-     * @var bool|null
-     */
-    private $supportsPostMethod = null;
-
-    /**
      * @var int|null
      */
     private $bits = null;
@@ -130,11 +105,6 @@ class Browser implements BrowserInterface, \Serializable
      * @param int|null                         $bits
      * @param bool                             $pdfSupport
      * @param bool                             $rssSupport
-     * @param bool                             $canSkipAlignedLinkRow
-     * @param bool                             $claimsWebSupport
-     * @param bool                             $supportsEmptyOptionValues
-     * @param bool                             $supportsBasicAuthentication
-     * @param bool                             $supportsPostMethod
      */
     public function __construct(
         $name,
@@ -145,12 +115,7 @@ class Browser implements BrowserInterface, \Serializable
         TypeInterface $type = null,
         $bits = null,
         $pdfSupport = false,
-        $rssSupport = false,
-        $canSkipAlignedLinkRow = false,
-        $claimsWebSupport = false,
-        $supportsEmptyOptionValues = false,
-        $supportsBasicAuthentication = false,
-        $supportsPostMethod = false
+        $rssSupport = false
     ) {
         $this->name                        = $name;
         $this->manufacturer                = $manufacturer;
@@ -161,11 +126,6 @@ class Browser implements BrowserInterface, \Serializable
         $this->bits                        = $bits;
         $this->pdfSupport                  = $pdfSupport;
         $this->rssSupport                  = $rssSupport;
-        $this->canSkipAlignedLinkRow       = $canSkipAlignedLinkRow;
-        $this->claimsWebSupport            = $claimsWebSupport;
-        $this->supportsEmptyOptionValues   = $supportsEmptyOptionValues;
-        $this->supportsBasicAuthentication = $supportsBasicAuthentication;
-        $this->supportsPostMethod          = $supportsPostMethod;
     }
 
     /**
@@ -176,22 +136,6 @@ class Browser implements BrowserInterface, \Serializable
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getCanSkipAlignedLinkRow()
-    {
-        return $this->canSkipAlignedLinkRow;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getClaimsWebSupport()
-    {
-        return $this->claimsWebSupport;
     }
 
     /**
@@ -232,30 +176,6 @@ class Browser implements BrowserInterface, \Serializable
     public function getRssSupport()
     {
         return $this->rssSupport;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getSupportsBasicAuthentication()
-    {
-        return $this->supportsBasicAuthentication;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getSupportsEmptyOptionValues()
-    {
-        return $this->supportsEmptyOptionValues;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getSupportsPostMethod()
-    {
-        return $this->supportsPostMethod;
     }
 
     /**
@@ -309,11 +229,6 @@ class Browser implements BrowserInterface, \Serializable
                 'brand'                       => $this->brand,
                 'pdfSupport'                  => $this->pdfSupport,
                 'rssSupport'                  => $this->rssSupport,
-                'canSkipAlignedLinkRow'       => $this->canSkipAlignedLinkRow,
-                'claimsWebSupport'            => $this->claimsWebSupport,
-                'supportsEmptyOptionValues'   => $this->supportsEmptyOptionValues,
-                'supportsBasicAuthentication' => $this->supportsBasicAuthentication,
-                'supportsPostMethod'          => $this->supportsPostMethod,
                 'bits'                        => $this->bits,
                 'type'                        => $this->type,
                 'engine'                      => $this->engine,
@@ -342,11 +257,6 @@ class Browser implements BrowserInterface, \Serializable
         $this->brand                       = $unseriliazedData['brand'];
         $this->pdfSupport                  = $unseriliazedData['pdfSupport'];
         $this->rssSupport                  = $unseriliazedData['rssSupport'];
-        $this->canSkipAlignedLinkRow       = $unseriliazedData['canSkipAlignedLinkRow'];
-        $this->claimsWebSupport            = $unseriliazedData['claimsWebSupport'];
-        $this->supportsEmptyOptionValues   = $unseriliazedData['supportsEmptyOptionValues'];
-        $this->supportsBasicAuthentication = $unseriliazedData['supportsBasicAuthentication'];
-        $this->supportsPostMethod          = $unseriliazedData['supportsPostMethod'];
         $this->bits                        = $unseriliazedData['bits'];
         $this->type                        = $unseriliazedData['type'];
         $this->engine                      = $unseriliazedData['engine'];

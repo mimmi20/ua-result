@@ -49,16 +49,6 @@ interface BrowserInterface
     public function getName();
 
     /**
-     * @return bool|null
-     */
-    public function getCanSkipAlignedLinkRow();
-
-    /**
-     * @return bool|null
-     */
-    public function getClaimsWebSupport();
-
-    /**
      * @return string|null
      */
     public function getManufacturer();
@@ -82,21 +72,6 @@ interface BrowserInterface
      * @return bool|null
      */
     public function getRssSupport();
-
-    /**
-     * @return bool|null
-     */
-    public function getSupportsBasicAuthentication();
-
-    /**
-     * @return bool|null
-     */
-    public function getSupportsEmptyOptionValues();
-
-    /**
-     * @return bool|null
-     */
-    public function getSupportsPostMethod();
 
     /**
      * @return \BrowserDetector\Version\Version|null
