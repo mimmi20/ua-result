@@ -39,15 +39,15 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetterGetter()
     {
-        $name = 'TestBrowser';
+        $name         = 'TestBrowser';
         $manufacturer = 'TestManufacturer';
-        $brand = 'TestBrand';
-        $version = new Version();
-        $engine = new Engine('TestEngine', 'TestEngineManufacturer', 'TestEngineBrand');
-        $type = null;
-        $bits = 64;
-        $pdfSupport = true;
-        $rssSupport = false;
+        $brand        = 'TestBrand';
+        $version      = new Version();
+        $engine       = new Engine('TestEngine', 'TestEngineManufacturer', 'TestEngineBrand');
+        $type         = null;
+        $bits         = 64;
+        $pdfSupport   = true;
+        $rssSupport   = false;
 
         $object = new Browser($name, $manufacturer, $brand, $version, $engine, $type, $bits, $pdfSupport, $rssSupport);
 
@@ -64,20 +64,20 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
 
     public function testSerialize()
     {
-        $name = 'TestBrowser';
+        $name         = 'TestBrowser';
         $manufacturer = 'TestManufacturer';
-        $brand = 'TestBrand';
-        $version = new Version();
-        $engine = new Engine('TestEngine', 'TestEngineManufacturer', 'TestEngineBrand');
-        $type = null;
-        $bits = 64;
-        $pdfSupport = true;
-        $rssSupport = false;
+        $brand        = 'TestBrand';
+        $version      = new Version();
+        $engine       = new Engine('TestEngine', 'TestEngineManufacturer', 'TestEngineBrand');
+        $type         = null;
+        $bits         = 64;
+        $pdfSupport   = true;
+        $rssSupport   = false;
 
         $original = new Browser($name, $manufacturer, $brand, $version, $engine, $type, $bits, $pdfSupport, $rssSupport);
 
         $serialized = serialize($original);
-        $object = unserialize($serialized);
+        $object     = unserialize($serialized);
 
         self::assertSame($name, $object->getName());
         self::assertSame($manufacturer, $object->getManufacturer());
@@ -90,4 +90,3 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
         self::assertSame($rssSupport, $object->getRssSupport());
     }
 }
- 

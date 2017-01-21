@@ -39,20 +39,20 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetterGetter()
     {
-        $deviceName = 'TestDevicename';
-        $marketingName = 'TestMarketingname';
-        $manufacturer = 'TestManufacturer';
-        $brand = 'TestBrand';
-        $version = new Version();
-        $platform = new Os('TestOsname', 'TestOsmarketingname', 'TestEngineManufacturer', 'PlatformBrand');
-        $type = null;
-        $pointingMethod = 'touchscreen';
-        $resolutionWidth = 480;
-        $resolutionHeight = 1080;
-        $dualOrientation = true;
-        $colors = '68676';
-        $smsSupport = true;
-        $nfcSupport = false;
+        $deviceName        = 'TestDevicename';
+        $marketingName     = 'TestMarketingname';
+        $manufacturer      = 'TestManufacturer';
+        $brand             = 'TestBrand';
+        $version           = new Version();
+        $platform          = new Os('TestOsname', 'TestOsmarketingname', 'TestEngineManufacturer', 'PlatformBrand');
+        $type              = null;
+        $pointingMethod    = 'touchscreen';
+        $resolutionWidth   = 480;
+        $resolutionHeight  = 1080;
+        $dualOrientation   = true;
+        $colors            = '68676';
+        $smsSupport        = true;
+        $nfcSupport        = false;
         $hasQwertyKeyboard = true;
 
         $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $version, $platform, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation, $colors, $smsSupport, $nfcSupport, $hasQwertyKeyboard);
@@ -76,20 +76,20 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
 
     public function testSerialize()
     {
-        $deviceName = 'TestDevicename';
-        $marketingName = 'TestMarketingname';
-        $manufacturer = 'TestManufacturer';
-        $brand = 'TestBrand';
-        $version = new Version();
-        $platform = new Os('TestOsname', 'TestOsmarketingname', 'TestEngineManufacturer', 'PlatformBrand');
-        $type = null;
-        $pointingMethod = 'touchscreen';
-        $resolutionWidth = 480;
-        $resolutionHeight = 1080;
-        $dualOrientation = true;
-        $colors = '68676';
-        $smsSupport = true;
-        $nfcSupport = false;
+        $deviceName        = 'TestDevicename';
+        $marketingName     = 'TestMarketingname';
+        $manufacturer      = 'TestManufacturer';
+        $brand             = 'TestBrand';
+        $version           = new Version();
+        $platform          = new Os('TestOsname', 'TestOsmarketingname', 'TestEngineManufacturer', 'PlatformBrand');
+        $type              = null;
+        $pointingMethod    = 'touchscreen';
+        $resolutionWidth   = 480;
+        $resolutionHeight  = 1080;
+        $dualOrientation   = true;
+        $colors            = '68676';
+        $smsSupport        = true;
+        $nfcSupport        = false;
         $hasQwertyKeyboard = true;
 
         $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $version, $platform, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation, $colors, $smsSupport, $nfcSupport, $hasQwertyKeyboard);
@@ -114,4 +114,3 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
         self::assertSame($hasQwertyKeyboard, $object->getHasQwertyKeyboard());
     }
 }
- 

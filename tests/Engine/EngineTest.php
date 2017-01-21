@@ -38,10 +38,10 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetterGetter()
     {
-        $name = 'TestBrowser';
+        $name         = 'TestBrowser';
         $manufacturer = 'TestManufacturer';
-        $brand = 'TestBrand';
-        $version = new Version();
+        $brand        = 'TestBrand';
+        $version      = new Version();
 
         $object = new Engine($name, $manufacturer, $brand, $version);
 
@@ -53,15 +53,15 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     public function testSerialize()
     {
-        $name = 'TestBrowser';
+        $name         = 'TestBrowser';
         $manufacturer = 'TestManufacturer';
-        $brand = 'TestBrand';
-        $version = new Version();
+        $brand        = 'TestBrand';
+        $version      = new Version();
 
         $original = new Engine($name, $manufacturer, $brand, $version);
 
         $serialized = serialize($original);
-        $object = unserialize($serialized);
+        $object     = unserialize($serialized);
 
         self::assertSame($name, $object->getName());
         self::assertSame($manufacturer, $object->getManufacturer());
@@ -69,4 +69,3 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($version, $object->getVersion());
     }
 }
- 

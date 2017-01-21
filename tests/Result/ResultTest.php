@@ -41,12 +41,12 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $requestFactory = new GenericRequestFactory();
         $request        = $requestFactory->createRequestForUserAgent('test-ua');
 
-        $device = $this->createMock('\UaResult\Device\Device');
-        $os     = $this->createMock('\UaResult\Os\Os');
-        $browser = $this->createMock('\UaResult\Browser\Browser');
-        $engine = $this->createMock('\UaResult\Engine\Engine');
+        $device       = $this->createMock('\UaResult\Device\Device');
+        $os           = $this->createMock('\UaResult\Os\Os');
+        $browser      = $this->createMock('\UaResult\Browser\Browser');
+        $engine       = $this->createMock('\UaResult\Engine\Engine');
         $capabilities = [];
-        $wurflKey = 'test';
+        $wurflKey     = 'test';
 
         $object = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
 
@@ -59,4 +59,3 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         self::assertSame($wurflKey, $object->getWurflKey());
     }
 }
- 

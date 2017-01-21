@@ -37,7 +37,7 @@ class CompanyTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetterGetter()
     {
-        $name = 'TestCompany';
+        $name      = 'TestCompany';
         $brandname = 'TestBrand';
 
         $object = new Company($name, $brandname);
@@ -48,16 +48,15 @@ class CompanyTest extends \PHPUnit_Framework_TestCase
 
     public function testSerialize()
     {
-        $name = 'TestCompany';
+        $name      = 'TestCompany';
         $brandname = 'TestBrand';
 
         $original = new Company($name, $brandname);
 
         $serialized = serialize($original);
-        $object = unserialize($serialized);
+        $object     = unserialize($serialized);
 
         self::assertSame($name, $object->getName());
         self::assertSame($brandname, $object->getBrandName());
     }
 }
- 

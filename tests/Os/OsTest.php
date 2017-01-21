@@ -38,12 +38,12 @@ class OsTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetterGetter()
     {
-        $name = 'TestBrowser';
+        $name          = 'TestBrowser';
         $marketingName = 'TestMarketingname';
-        $manufacturer = 'TestManufacturer';
-        $brand = 'TestBrand';
-        $version = new Version();
-        $bits = 64;
+        $manufacturer  = 'TestManufacturer';
+        $brand         = 'TestBrand';
+        $version       = new Version();
+        $bits          = 64;
 
         $object = new Os($name, $marketingName, $manufacturer, $brand, $version, $bits);
 
@@ -57,17 +57,17 @@ class OsTest extends \PHPUnit_Framework_TestCase
 
     public function testSerialize()
     {
-        $name = 'TestBrowser';
+        $name          = 'TestBrowser';
         $marketingName = 'TestMarketingname';
-        $manufacturer = 'TestManufacturer';
-        $brand = 'TestBrand';
-        $version = new Version();
-        $bits = 64;
+        $manufacturer  = 'TestManufacturer';
+        $brand         = 'TestBrand';
+        $version       = new Version();
+        $bits          = 64;
 
         $original = new Os($name, $marketingName, $manufacturer, $brand, $version, $bits);
 
         $serialized = serialize($original);
-        $object = unserialize($serialized);
+        $object     = unserialize($serialized);
 
         self::assertSame($name, $object->getName());
         self::assertSame($manufacturer, $object->getManufacturer());
@@ -76,4 +76,3 @@ class OsTest extends \PHPUnit_Framework_TestCase
         self::assertSame($bits, $object->getBits());
     }
 }
- 
