@@ -50,7 +50,7 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
         $rssSupport   = false;
 
         $object = new Browser($name, $manufacturer, $brand, $version, $engine, $type, $bits, $pdfSupport, $rssSupport);
-
+var_dump($object);
         self::assertSame($name, $object->getName());
         self::assertSame($manufacturer, $object->getManufacturer());
         self::assertSame($brand, $object->getBrand());

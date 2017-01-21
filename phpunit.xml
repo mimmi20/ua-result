@@ -16,7 +16,7 @@
     </php>
 
     <testsuites>
-        <testsuite name="UA-Comparator Test Suite">
+        <testsuite name="UA-Result Test Suite">
             <directory>tests/</directory>
         </testsuite>
     </testsuites>
