@@ -6,7 +6,6 @@
         beStrictAboutOutputDuringTests="true"
         beStrictAboutTestsThatDoNotTestAnything="true"
         beStrictAboutTodoAnnotatedTests="true"
-        forceCoversAnnotation="true"
         verbose="true"
         bootstrap="vendor/autoload.php"
         >
