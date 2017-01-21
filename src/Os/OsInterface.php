@@ -70,4 +70,14 @@ interface OsInterface
      * @return \BrowserDetector\Version\Version|null
      */
     public function getVersion();
+
+    /**
+     * @return array
+     */
+    public function toArray();
+
+    /**
+     * @return string
+     */
+    public function toJson();
 }

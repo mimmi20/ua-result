@@ -81,6 +81,8 @@ class Result implements ResultInterface, \Serializable
      *
      * @var array
      */
+    private $capabilities = [];
+    /*
     private $capabilities = [
         // kind of device
         'is_wireless_device'                                => null,
@@ -675,6 +677,7 @@ class Result implements ResultInterface, \Serializable
         // chips
         'nfc_support'                                       => null,
     ];
+    /**/
 
     /**
      * the class constructor
@@ -790,17 +793,7 @@ class Result implements ResultInterface, \Serializable
      */
     public function serialize()
     {
-        return serialize(
-            [
-                'capabilities' => $this->capabilities,
-                'wurflKey'     => $this->wurflKey,
-                'request'      => $this->request,
-                'device'       => $this->device,
-                'browser'      => $this->browser,
-                'os'           => $this->os,
-                'engine'       => $this->engine,
-            ]
-        );
+        return serialize($this->toArray());
     }
 
     /**
@@ -898,5 +891,41 @@ class Result implements ResultInterface, \Serializable
         }
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'capabilities' => $this->capabilities,
+            'wurflKey'     => $this->wurflKey,
+            'request'      => $this->request,
+            'device'       => $this->device,
+            'browser'      => $this->browser,
+            'os'           => $this->os,
+            'engine'       => $this->engine,
+        ];
+    }
+
+    /**
+     * @param array $data
+     */
+    private function fromArray(array $data)
+    {
+        $this->major     = isset($data['major']) ? $data['major'] : null;
+        $this->minor     = isset($data['minor']) ? $data['minor'] : null;
+        $this->micro     = isset($data['micro']) ? $data['micro'] : null;
+        $this->stability = isset($data['stability']) ? $data['stability'] : null;
+        $this->build     = isset($data['build']) ? $data['build'] : null;
     }
 }

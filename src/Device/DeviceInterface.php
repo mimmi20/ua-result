@@ -115,4 +115,14 @@ interface DeviceInterface
      * @return \UaResult\Os\OsInterface|null
      */
     public function getPlatform();
+
+    /**
+     * @return array
+     */
+    public function toArray();
+
+    /**
+     * @return string
+     */
+    public function toJson();
 }

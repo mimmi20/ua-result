@@ -84,4 +84,14 @@ interface ResultInterface
      * @return string|\BrowserDetector\Version\Version Capability value
      */
     public function getCapability($capabilityName);
+
+    /**
+     * @return array
+     */
+    public function toArray();
+
+    /**
+     * @return string
+     */
+    public function toJson();
 }

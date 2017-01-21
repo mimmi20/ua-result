@@ -149,16 +149,7 @@ class Os implements OsInterface, \Serializable
      */
     public function serialize()
     {
-        return serialize(
-            [
-                'name'          => $this->name,
-                'marketingName' => $this->marketingName,
-                'version'       => $this->version,
-                'manufacturer'  => $this->manufacturer,
-                'brand'         => $this->brand,
-                'bits'          => $this->bits,
-            ]
-        );
+        return serialize($this->toArray());
     }
 
     /**
@@ -181,5 +172,40 @@ class Os implements OsInterface, \Serializable
         $this->manufacturer  = $unseriliazedData['manufacturer'];
         $this->brand         = $unseriliazedData['brand'];
         $this->bits          = $unseriliazedData['bits'];
+    }
+
+    /**
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'name'          => $this->name,
+            'marketingName' => $this->marketingName,
+            'version'       => $this->version,
+            'manufacturer'  => $this->manufacturer,
+            'brand'         => $this->brand,
+            'bits'          => $this->bits,
+        ];
+    }
+
+    /**
+     * @param array $data
+     */
+    private function fromArray(array $data)
+    {
+        $this->major     = isset($data['major']) ? $data['major'] : null;
+        $this->minor     = isset($data['minor']) ? $data['minor'] : null;
+        $this->micro     = isset($data['micro']) ? $data['micro'] : null;
+        $this->stability = isset($data['stability']) ? $data['stability'] : null;
+        $this->build     = isset($data['build']) ? $data['build'] : null;
     }
 }

@@ -92,4 +92,14 @@ interface BrowserInterface
      * @return \UaResult\Engine\Engine
      */
     public function getEngine();
+
+    /**
+     * @return array
+     */
+    public function toArray();
+
+    /**
+     * @return string
+     */
+    public function toJson();
 }

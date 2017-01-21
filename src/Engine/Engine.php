@@ -119,14 +119,7 @@ class Engine implements EngineInterface, \Serializable
      */
     public function serialize()
     {
-        return serialize(
-            [
-                'name'         => $this->name,
-                'version'      => $this->version,
-                'manufacturer' => $this->manufacturer,
-                'brand'        => $this->brand,
-            ]
-        );
+        return serialize($this->toArray());
     }
 
     /**
@@ -147,5 +140,38 @@ class Engine implements EngineInterface, \Serializable
         $this->version      = $unseriliazedData['version'];
         $this->manufacturer = $unseriliazedData['manufacturer'];
         $this->brand        = $unseriliazedData['brand'];
+    }
+
+    /**
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'name'         => $this->name,
+            'version'      => $this->version,
+            'manufacturer' => $this->manufacturer,
+            'brand'        => $this->brand,
+        ];
+    }
+
+    /**
+     * @param array $data
+     */
+    private function fromArray(array $data)
+    {
+        $this->major     = isset($data['major']) ? $data['major'] : null;
+        $this->minor     = isset($data['minor']) ? $data['minor'] : null;
+        $this->micro     = isset($data['micro']) ? $data['micro'] : null;
+        $this->stability = isset($data['stability']) ? $data['stability'] : null;
+        $this->build     = isset($data['build']) ? $data['build'] : null;
     }
 }
