@@ -31,12 +31,16 @@
 
 namespace UaResult\Result;
 
+use UaResult\Browser\Browser;
 use UaResult\Browser\BrowserFactory;
 use UaResult\Browser\BrowserInterface;
+use UaResult\Device\Device;
 use UaResult\Device\DeviceFactory;
 use UaResult\Device\DeviceInterface;
+use UaResult\Engine\Engine;
 use UaResult\Engine\EngineFactory;
 use UaResult\Engine\EngineInterface;
+use UaResult\Os\Os;
 use UaResult\Os\OsFactory;
 use UaResult\Os\OsInterface;
 use Wurfl\Request\GenericRequest;
@@ -86,8 +90,6 @@ class Result implements ResultInterface, \Serializable
      *
      * @var array
      */
-    private $capabilities = [];
-    /*
     private $capabilities = [
         // kind of device
         'is_wireless_device'                                => null,
@@ -682,7 +684,6 @@ class Result implements ResultInterface, \Serializable
         // chips
         'nfc_support'                                       => null,
     ];
-    /**/
 
     /**
      * the class constructor
@@ -704,12 +705,32 @@ class Result implements ResultInterface, \Serializable
         array $capabilities = [],
         $wurflKey = null
     ) {
-        $this->request   = $request;
-        $this->device    = $device;
-        $this->os        = $os;
-        $this->browser   = $browser;
-        $this->engine    = $engine;
-        $this->wurflKey  = $wurflKey;
+        $this->request  = $request;
+        $this->wurflKey = $wurflKey;
+
+        if (null === $device) {
+            $this->device = new Device(null, null);
+        } else {
+            $this->device = $device;
+        }
+
+        if (null === $os) {
+            $this->os = new Os('unknown', 'unknown');
+        } else {
+            $this->os = $os;
+        }
+
+        if (null === $browser) {
+            $this->browser = new Browser('unknown');
+        } else {
+            $this->browser = $browser;
+        }
+
+        if (null === $engine) {
+            $this->engine = new Engine('unknown');
+        } else {
+            $this->engine = $engine;
+        }
 
         $this->setCapabilities($capabilities);
     }
@@ -859,7 +880,7 @@ class Result implements ResultInterface, \Serializable
 
         if (!array_key_exists($capabilityName, $this->capabilities)) {
             throw new \InvalidArgumentException(
-                'no capability named [' . $capabilityName . '] is present. [' . json_encode($this->capabilities) . ']'
+                'no capability named [' . $capabilityName . '] is present.'
             );
         }
     }

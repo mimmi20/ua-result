@@ -31,13 +31,9 @@
 
 namespace UaResult\Result;
 
-use UaResult\Browser\Browser;
 use UaResult\Browser\BrowserFactory;
-use UaResult\Device\Device;
 use UaResult\Device\DeviceFactory;
-use UaResult\Engine\Engine;
 use UaResult\Engine\EngineFactory;
-use UaResult\Os\Os;
 use UaResult\Os\OsFactory;
 use Wurfl\Request\GenericRequestFactory;
 
@@ -71,28 +67,28 @@ class ResultFactory
         if (isset($data['device'])) {
             $device = (new DeviceFactory())->fromArray((array) $data['device']);
         } else {
-            $device = new Device(null, null);
+            $device = null;
         }
 
         if (isset($data['browser'])) {
             $browser = (new BrowserFactory())->fromArray((array) $data['browser']);
         } else {
-            $browser = new Browser('unknown');
+            $browser = null;
         }
 
         if (isset($data['os'])) {
             $os = (new OsFactory())->fromArray((array) $data['os']);
         } else {
-            $os = new Os('unknown', 'unknown');
+            $os = null;
         }
 
         if (isset($data['engine'])) {
             $engine = (new EngineFactory())->fromArray((array) $data['engine']);
         } else {
-            $engine = new Engine('unknown');
+            $engine = null;
         }
 
-        return new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
+        return new Result($request, $device, $os, $browser, $engine, (array) $capabilities, $wurflKey);
     }
 
     /**

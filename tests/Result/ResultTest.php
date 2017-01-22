@@ -159,4 +159,25 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         self::assertInternalType('array', $object->getCapabilities());
         self::assertNull($object->getWurflKey());
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage no capability named [does not exist] is present.
+     */
+    public function testGetInvalidCapability()
+    {
+        $requestFactory = new GenericRequestFactory();
+        $request        = $requestFactory->createRequestForUserAgent('test-ua');
+
+        $device       = new Device(null, null);
+        $os           = new Os('unknown', 'unknown');
+        $browser      = new Browser('unknown');
+        $engine       = new Engine('unknown');
+        $capabilities = [];
+        $wurflKey     = 'test';
+
+        $object = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
+
+        $object->getCapability('does not exist');
+    }
 }
