@@ -181,6 +181,23 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $object->getCapability('does not exist');
     }
 
+    public function testGetValidCapability()
+    {
+        $requestFactory = new GenericRequestFactory();
+        $request        = $requestFactory->createRequestForUserAgent('test-ua');
+
+        $device       = new Device(null, null);
+        $os           = new Os('unknown', 'unknown');
+        $browser      = new Browser('unknown');
+        $engine       = new Engine('unknown');
+        $capabilities = [];
+        $wurflKey     = 'test';
+
+        $object = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
+
+        self::assertNull($object->getCapability('html_web_4_0'));
+    }
+
     public function testSetInvalidCapabilities()
     {
         $requestFactory = new GenericRequestFactory();
