@@ -35,6 +35,7 @@ use BrowserDetector\Version\Version;
 use UaBrowserType\Type;
 use UaResult\Browser\Browser;
 use UaResult\Browser\BrowserFactory;
+use UaResult\Company\Company;
 use UaResult\Engine\Engine;
 
 class BrowserTest extends \PHPUnit_Framework_TestCase
@@ -42,21 +43,19 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
     public function testSetterGetter()
     {
         $name         = 'TestBrowser';
-        $manufacturer = 'TestManufacturer';
-        $brand        = 'TestBrand';
+        $manufacturer = new Company('TestManufacturer');
         $version      = new Version();
-        $engine       = new Engine('TestEngine', 'TestEngineManufacturer', 'TestEngineBrand');
+        $engine       = new Engine('TestEngine');
         $type         = new Type('unknown');
         $bits         = 64;
         $pdfSupport   = true;
         $rssSupport   = false;
         $modus        = 'Desktop Mode';
 
-        $object = new Browser($name, $manufacturer, $brand, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
+        $object = new Browser($name, $manufacturer, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
 
         self::assertSame($name, $object->getName());
         self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($brand, $object->getBrand());
         self::assertSame($version, $object->getVersion());
         self::assertSame($engine, $object->getEngine());
         self::assertSame($type, $object->getType());
@@ -69,17 +68,15 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
     public function testDefaultSetterGetter()
     {
         $name         = 'TestBrowser';
-        $manufacturer = 'TestManufacturer';
-        $brand        = 'TestBrand';
+        $manufacturer = new Company('TestManufacturer');
         $version      = new Version();
-        $engine       = new Engine('unknown', 'unknown', 'unknown');
+        $engine       = new Engine('unknown');
         $type         = new Type('unknown');
 
-        $object = new Browser($name, $manufacturer, $brand);
+        $object = new Browser($name, $manufacturer);
 
         self::assertSame($name, $object->getName());
         self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($brand, $object->getBrand());
         self::assertEquals($version, $object->getVersion());
         self::assertEquals($engine, $object->getEngine());
         self::assertEquals($type, $object->getType());
@@ -92,17 +89,16 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
     public function testSerialize()
     {
         $name         = 'TestBrowser';
-        $manufacturer = 'TestManufacturer';
-        $brand        = 'TestBrand';
+        $manufacturer = new Company('TestManufacturer');
         $version      = new Version();
-        $engine       = new Engine('TestEngine', 'TestEngineManufacturer', 'TestEngineBrand');
+        $engine       = new Engine('TestEngine');
         $type         = new Type('unknown');
         $bits         = 64;
         $pdfSupport   = true;
         $rssSupport   = false;
         $modus        = 'Desktop Mode';
 
-        $original = new Browser($name, $manufacturer, $brand, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
+        $original = new Browser($name, $manufacturer, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
 
         $serialized = serialize($original);
         $object     = unserialize($serialized);
@@ -113,17 +109,16 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
     public function testToarray()
     {
         $name         = 'TestBrowser';
-        $manufacturer = 'TestManufacturer';
-        $brand        = 'TestBrand';
+        $manufacturer = new Company('TestManufacturer');
         $version      = new Version();
-        $engine       = new Engine('TestEngine', 'TestEngineManufacturer', 'TestEngineBrand');
+        $engine       = new Engine('TestEngine');
         $type         = new Type('unknown');
         $bits         = 64;
         $pdfSupport   = true;
         $rssSupport   = false;
         $modus        = 'Desktop Mode';
 
-        $original = new Browser($name, $manufacturer, $brand, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
+        $original = new Browser($name, $manufacturer, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
 
         $array  = $original->toArray();
         $object = (new BrowserFactory())->fromArray($array);
@@ -134,17 +129,16 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
     public function testTojson()
     {
         $name         = 'TestBrowser';
-        $manufacturer = 'TestManufacturer';
-        $brand        = 'TestBrand';
+        $manufacturer = new Company('TestManufacturer');
         $version      = new Version();
-        $engine       = new Engine('TestEngine', 'TestEngineManufacturer', 'TestEngineBrand');
+        $engine       = new Engine('TestEngine');
         $type         = new Type('unknown');
         $bits         = 64;
         $pdfSupport   = true;
         $rssSupport   = false;
         $modus        = 'Desktop Mode';
 
-        $original = new Browser($name, $manufacturer, $brand, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
+        $original = new Browser($name, $manufacturer, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
 
         $json   = $original->toJson();
         $object = (new BrowserFactory())->fromJson($json);
@@ -155,7 +149,7 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
     public function testFromEmptyArray()
     {
         $version = new Version();
-        $engine  = new Engine('unknown', 'unknown', 'unknown');
+        $engine  = new Engine('unknown');
         $type    = new Type('unknown');
 
         $object = (new BrowserFactory())->fromArray([]);

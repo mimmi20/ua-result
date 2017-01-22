@@ -32,6 +32,7 @@
 namespace UaResultTest\Company;
 
 use UaResult\Company\Company;
+use UaResult\Company\CompanyFactory;
 
 class CompanyTest extends \PHPUnit_Framework_TestCase
 {
@@ -58,5 +59,41 @@ class CompanyTest extends \PHPUnit_Framework_TestCase
 
         self::assertSame($name, $object->getName());
         self::assertSame($brandname, $object->getBrandName());
+    }
+
+    public function testToarray()
+    {
+        $name      = 'TestCompany';
+        $brandname = 'TestBrand';
+
+        $original = new Company($name, $brandname);
+
+        $array = $original->toArray();
+        $object = (new CompanyFactory())->fromArray($array);
+
+        self::assertSame($name, $object->getName());
+        self::assertSame($brandname, $object->getBrandName());
+    }
+
+    public function testTojson()
+    {
+        $name      = 'TestCompany';
+        $brandname = 'TestBrand';
+
+        $original = new Company($name, $brandname);
+
+        $json = $original->toJson();
+        $object = (new CompanyFactory())->fromJson($json);
+
+        self::assertSame($name, $object->getName());
+        self::assertSame($brandname, $object->getBrandName());
+    }
+
+    public function testFromEmptyArray()
+    {
+        $object = (new CompanyFactory())->fromArray([]);
+
+        self::assertSame('', $object->getName());
+        self::assertNull($object->getBrandName());
     }
 }

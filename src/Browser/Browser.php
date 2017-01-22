@@ -36,6 +36,8 @@ use BrowserDetector\Version\VersionFactory;
 use UaBrowserType\Type;
 use UaBrowserType\TypeFactory;
 use UaBrowserType\TypeInterface;
+use UaResult\Company\Company;
+use UaResult\Company\CompanyFactory;
 use UaResult\Engine\Engine;
 use UaResult\Engine\EngineFactory;
 
@@ -65,14 +67,9 @@ class Browser implements BrowserInterface, \Serializable
     private $version = null;
 
     /**
-     * @var string|null
+     * @var \UaResult\Company\Company|null
      */
     private $manufacturer = null;
-
-    /**
-     * @var string|null
-     */
-    private $brand = null;
 
     /**
      * @var bool|null
@@ -101,8 +98,7 @@ class Browser implements BrowserInterface, \Serializable
 
     /**
      * @param string                           $name
-     * @param string                           $manufacturer
-     * @param string                           $brand
+     * @param \UaResult\Company\Company        $manufacturer
      * @param \BrowserDetector\Version\Version $version
      * @param \UaResult\Engine\Engine          $engine
      * @param \UaBrowserType\TypeInterface     $type
@@ -113,8 +109,7 @@ class Browser implements BrowserInterface, \Serializable
      */
     public function __construct(
         $name,
-        $manufacturer,
-        $brand,
+        Company $manufacturer,
         Version $version = null,
         Engine $engine = null,
         TypeInterface $type = null,
@@ -123,13 +118,11 @@ class Browser implements BrowserInterface, \Serializable
         $rssSupport = false,
         $modus = null
     ) {
-        $this->name         = $name;
-        $this->manufacturer = $manufacturer;
-        $this->brand        = $brand;
-        $this->bits         = $bits;
-        $this->pdfSupport   = $pdfSupport;
-        $this->rssSupport   = $rssSupport;
-        $this->modus        = $modus;
+        $this->name       = $name;
+        $this->bits       = $bits;
+        $this->pdfSupport = $pdfSupport;
+        $this->rssSupport = $rssSupport;
+        $this->modus      = $modus;
 
         if (null === $version) {
             $this->version = new Version();
@@ -138,7 +131,7 @@ class Browser implements BrowserInterface, \Serializable
         }
 
         if (null === $engine) {
-            $this->engine = new Engine('unknown', 'unknown', 'unknown');
+            $this->engine = new Engine('unknown');
         } else {
             $this->engine = $engine;
         }
@@ -147,6 +140,12 @@ class Browser implements BrowserInterface, \Serializable
             $this->type = new Type('unknown');
         } else {
             $this->type = $type;
+        }
+
+        if (null === $manufacturer) {
+            $this->manufacturer = new Company('unknown');
+        } else {
+            $this->manufacturer = $manufacturer;
         }
     }
 
@@ -161,19 +160,11 @@ class Browser implements BrowserInterface, \Serializable
     }
 
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getManufacturer()
     {
         return $this->manufacturer;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getBrand()
-    {
-        return $this->brand;
     }
 
     /**
@@ -279,8 +270,7 @@ class Browser implements BrowserInterface, \Serializable
             'name'         => $this->name,
             'modus'        => $this->modus,
             'version'      => $this->version->toArray(),
-            'manufacturer' => $this->manufacturer,
-            'brand'        => $this->brand,
+            'manufacturer' => $this->manufacturer->toArray(),
             'pdfSupport'   => $this->pdfSupport,
             'rssSupport'   => $this->rssSupport,
             'bits'         => $this->bits,
@@ -297,7 +287,6 @@ class Browser implements BrowserInterface, \Serializable
         $this->name         = isset($data['name']) ? $data['name'] : null;
         $this->modus        = isset($data['modus']) ? $data['modus'] : null;
         $this->manufacturer = isset($data['manufacturer']) ? $data['manufacturer'] : null;
-        $this->brand        = isset($data['brand']) ? $data['brand'] : null;
         $this->pdfSupport   = isset($data['pdfSupport']) ? $data['pdfSupport'] : null;
         $this->rssSupport   = isset($data['rssSupport']) ? $data['rssSupport'] : null;
         $this->bits         = isset($data['bits']) ? $data['bits'] : null;
@@ -317,7 +306,13 @@ class Browser implements BrowserInterface, \Serializable
         if (isset($data['engine'])) {
             $this->engine = (new EngineFactory())->fromArray((array) $data['engine']);
         } else {
-            $this->engine = new Engine('unknown', 'unknown', 'unknown');
+            $this->engine = new Engine('unknown');
+        }
+
+        if (isset($data['manufacturer'])) {
+            $this->manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
+        } else {
+            $this->manufacturer = new Company('unknown');
         }
     }
 }

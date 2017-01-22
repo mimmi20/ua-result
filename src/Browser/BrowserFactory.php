@@ -33,6 +33,8 @@ namespace UaResult\Browser;
 
 use BrowserDetector\Version\VersionFactory;
 use UaBrowserType\TypeFactory;
+use UaResult\Company\Company;
+use UaResult\Company\CompanyFactory;
 use UaResult\Engine\EngineFactory;
 
 /**
@@ -55,8 +57,6 @@ class BrowserFactory
     {
         $name         = isset($data['name']) ? $data['name'] : null;
         $modus        = isset($data['modus']) ? $data['modus'] : null;
-        $manufacturer = isset($data['manufacturer']) ? $data['manufacturer'] : null;
-        $brand        = isset($data['brand']) ? $data['brand'] : null;
         $pdfSupport   = isset($data['pdfSupport']) ? $data['pdfSupport'] : null;
         $rssSupport   = isset($data['rssSupport']) ? $data['rssSupport'] : null;
         $bits         = isset($data['bits']) ? $data['bits'] : null;
@@ -79,7 +79,13 @@ class BrowserFactory
             $engine = null;
         }
 
-        return new Browser($name, $manufacturer, $brand, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
+        if (isset($data['manufacturer'])) {
+            $manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
+        } else {
+            $manufacturer = new Company('unknown');
+        }
+
+        return new Browser($name, $manufacturer, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
     }
 
     /**

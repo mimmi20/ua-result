@@ -32,6 +32,9 @@
 namespace UaResult\Engine;
 
 use BrowserDetector\Version\VersionFactory;
+use BrowserDetector\Version\Version;
+use UaResult\Company\Company;
+use UaResult\Company\CompanyFactory;
 
 /**
  * Browser detection class
@@ -51,17 +54,21 @@ class EngineFactory
      */
     public function fromArray(array $data)
     {
-        $name         = isset($data['name']) ? $data['name'] : null;
-        $manufacturer = isset($data['manufacturer']) ? $data['manufacturer'] : null;
-        $brand        = isset($data['brand']) ? $data['brand'] : null;
+        $name = isset($data['name']) ? $data['name'] : null;
 
         if (isset($data['version'])) {
             $version = (new VersionFactory())->fromArray((array) $data['version']);
         } else {
-            $version = null;
+            $version = new Version();
         }
 
-        return new Engine($name, $manufacturer, $brand, $version);
+        if (isset($data['manufacturer'])) {
+            $manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
+        } else {
+            $manufacturer = new Company('unknown');
+        }
+
+        return new Engine($name, $manufacturer, $version);
     }
 
     /**
