@@ -120,8 +120,7 @@ class Company implements CompanyInterface, \Serializable
     {
         $unseriliazedData = unserialize($data);
 
-        $this->name      = $unseriliazedData['name'];
-        $this->brandname = $unseriliazedData['brand'];
+        $this->fromArray($unseriliazedData);
     }
 
     /**
@@ -138,8 +137,8 @@ class Company implements CompanyInterface, \Serializable
     public function toArray()
     {
         return [
-            'name'  => $this->name,
-            'brand' => $this->brandname,
+            'name'      => $this->name,
+            'brandname' => $this->brandname,
         ];
     }
 
@@ -148,10 +147,7 @@ class Company implements CompanyInterface, \Serializable
      */
     private function fromArray(array $data)
     {
-        $this->major     = isset($data['major']) ? $data['major'] : null;
-        $this->minor     = isset($data['minor']) ? $data['minor'] : null;
-        $this->micro     = isset($data['micro']) ? $data['micro'] : null;
-        $this->stability = isset($data['stability']) ? $data['stability'] : null;
-        $this->build     = isset($data['build']) ? $data['build'] : null;
+        $this->name      = isset($data['name']) ? $data['name'] : null;
+        $this->brandname = isset($data['brandname']) ? $data['brandname'] : null;
     }
 }

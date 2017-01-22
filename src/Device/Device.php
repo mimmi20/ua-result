@@ -402,35 +402,10 @@ class Device implements DeviceInterface, \Serializable
         $this->smsSupport        = isset($data['smsSupport']) ? $data['smsSupport'] : null;
         $this->nfcSupport        = isset($data['nfcSupport']) ? $data['nfcSupport'] : null;
         $this->hasQwertyKeyboard = isset($data['hasQwertyKeyboard']) ? $data['hasQwertyKeyboard'] : null;
-
-        if (isset($data['type'])) {
-            $this->type = (new TypeFactory())->fromArray((array) $data['type']);
-        } else {
-            $this->type = new Type('unknown');
-        }
-
-        if (isset($data['version'])) {
-            $this->version = (new VersionFactory())->fromArray((array) $data['version']);
-        } else {
-            $this->version = new Version();
-        }
-
-        if (isset($data['platform'])) {
-            $this->platform = (new OsFactory())->fromArray((array) $data['platform']);
-        } else {
-            $this->platform = new Os('unknown', 'unknown', 'unknown');
-        }
-
-        if (isset($data['manufacturer'])) {
-            $this->manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
-        } else {
-            $this->manufacturer = new Company('unknown');
-        }
-
-        if (isset($data['brand'])) {
-            $this->brand = (new CompanyFactory())->fromArray((array) $data['brand']);
-        } else {
-            $this->brand = new Company('unknown');
-        }
+        $this->type              = (new TypeFactory())->fromArray((array) $data['type']);
+        $this->version           = (new VersionFactory())->fromArray((array) $data['version']);
+        $this->platform          = (new OsFactory())->fromArray((array) $data['platform']);
+        $this->manufacturer      = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
+        $this->brand             = (new CompanyFactory())->fromArray((array) $data['brand']);
     }
 }

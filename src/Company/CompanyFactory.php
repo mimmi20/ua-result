@@ -49,10 +49,10 @@ class CompanyFactory
      */
     public function fromArray(array $data)
     {
-        $name  = isset($data['name']) ? $data['name'] : null;
-        $brand = isset($data['brand']) ? $data['brand'] : null;
+        $name      = isset($data['name']) ? $data['name'] : null;
+        $brandname = isset($data['brandname']) ? $data['brandname'] : null;
 
-        return new Company($name, $brand);
+        return new Company($name, $brandname);
     }
 
     /**

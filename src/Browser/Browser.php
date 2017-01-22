@@ -290,29 +290,9 @@ class Browser implements BrowserInterface, \Serializable
         $this->pdfSupport   = isset($data['pdfSupport']) ? $data['pdfSupport'] : null;
         $this->rssSupport   = isset($data['rssSupport']) ? $data['rssSupport'] : null;
         $this->bits         = isset($data['bits']) ? $data['bits'] : null;
-
-        if (isset($data['type'])) {
-            $this->type = (new TypeFactory())->fromArray((array) $data['type']);
-        } else {
-            $this->type = new Type('unknown');
-        }
-
-        if (isset($data['version'])) {
-            $this->version = (new VersionFactory())->fromArray((array) $data['version']);
-        } else {
-            $this->version = new Version();
-        }
-
-        if (isset($data['engine'])) {
-            $this->engine = (new EngineFactory())->fromArray((array) $data['engine']);
-        } else {
-            $this->engine = new Engine('unknown');
-        }
-
-        if (isset($data['manufacturer'])) {
-            $this->manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
-        } else {
-            $this->manufacturer = new Company('unknown');
-        }
+        $this->type         = (new TypeFactory())->fromArray((array) $data['type']);
+        $this->version      = (new VersionFactory())->fromArray((array) $data['version']);
+        $this->engine       = (new EngineFactory())->fromArray((array) $data['engine']);
+        $this->manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
     }
 }

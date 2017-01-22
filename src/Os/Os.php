@@ -197,17 +197,7 @@ class Os implements OsInterface, \Serializable
         $this->name          = isset($data['name']) ? $data['name'] : null;
         $this->marketingName = isset($data['marketingName']) ? $data['marketingName'] : null;
         $this->bits          = isset($data['bits']) ? $data['bits'] : null;
-
-        if (isset($data['version'])) {
-            $this->version = (new VersionFactory())->fromArray((array) $data['version']);
-        } else {
-            $this->version = new Version();
-        }
-
-        if (isset($data['manufacturer'])) {
-            $this->manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
-        } else {
-            $this->manufacturer = new Company('unknown');
-        }
+        $this->version       = (new VersionFactory())->fromArray((array) $data['version']);
+        $this->manufacturer  = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
     }
 }
