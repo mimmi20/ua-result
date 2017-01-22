@@ -107,4 +107,13 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         self::assertNull($object->getName());
         self::assertEquals($version, $object->getVersion());
     }
+
+    public function testTostring()
+    {
+        $name = 'TestEngine';
+
+        $object = new Engine($name);
+
+        self::assertSame($name, (string) $object);
+    }
 }

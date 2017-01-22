@@ -33,7 +33,6 @@ namespace UaResult\Browser;
 
 use BrowserDetector\Version\VersionFactory;
 use UaBrowserType\TypeFactory;
-use UaResult\Company\Company;
 use UaResult\Company\CompanyFactory;
 use UaResult\Engine\EngineFactory;
 
@@ -82,7 +81,7 @@ class BrowserFactory
         if (isset($data['manufacturer'])) {
             $manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
         } else {
-            $manufacturer = new Company('unknown');
+            $manufacturer = null;
         }
 
         return new Browser($name, $manufacturer, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);

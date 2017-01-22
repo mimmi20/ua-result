@@ -96,4 +96,13 @@ class CompanyTest extends \PHPUnit_Framework_TestCase
         self::assertSame('', $object->getName());
         self::assertNull($object->getBrandName());
     }
+
+    public function testTostring()
+    {
+        $name = 'TestCompany';
+
+        $object = new Company($name);
+
+        self::assertSame($name, (string) $object);
+    }
 }

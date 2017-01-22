@@ -97,19 +97,19 @@ class Browser implements BrowserInterface, \Serializable
     private $engine = null;
 
     /**
-     * @param string                           $name
-     * @param \UaResult\Company\Company        $manufacturer
-     * @param \BrowserDetector\Version\Version $version
-     * @param \UaResult\Engine\Engine          $engine
-     * @param \UaBrowserType\TypeInterface     $type
-     * @param int|null                         $bits
-     * @param bool                             $pdfSupport
-     * @param bool                             $rssSupport
-     * @param string|null                      $modus
+     * @param string                                $name
+     * @param \UaResult\Company\Company|null        $manufacturer
+     * @param \BrowserDetector\Version\Version|null $version
+     * @param \UaResult\Engine\Engine|null          $engine
+     * @param \UaBrowserType\TypeInterface|null     $type
+     * @param int|null                              $bits
+     * @param bool                                  $pdfSupport
+     * @param bool                                  $rssSupport
+     * @param string|null                           $modus
      */
     public function __construct(
         $name,
-        Company $manufacturer,
+        Company $manufacturer = null,
         Version $version = null,
         Engine $engine = null,
         TypeInterface $type = null,
@@ -221,6 +221,16 @@ class Browser implements BrowserInterface, \Serializable
     public function getEngine()
     {
         return $this->engine;
+    }
+
+    /**
+     * Returns the name of the company
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /**

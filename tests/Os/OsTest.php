@@ -40,7 +40,7 @@ class OsTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetterGetter()
     {
-        $name          = 'TestBrowser';
+        $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
         $manufacturer  = new Company('TestManufacturer');
         $version       = new Version();
@@ -57,7 +57,7 @@ class OsTest extends \PHPUnit_Framework_TestCase
 
     public function testSerialize()
     {
-        $name          = 'TestBrowser';
+        $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
         $manufacturer  = new Company('TestManufacturer');
         $version       = new Version();
@@ -77,7 +77,7 @@ class OsTest extends \PHPUnit_Framework_TestCase
 
     public function testToarray()
     {
-        $name          = 'TestBrowser';
+        $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
         $manufacturer  = new Company('TestManufacturer');
         $version       = new Version();
@@ -97,7 +97,7 @@ class OsTest extends \PHPUnit_Framework_TestCase
 
     public function testToJson()
     {
-        $name          = 'TestBrowser';
+        $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
         $manufacturer  = new Company('TestManufacturer');
         $version       = new Version();
@@ -113,5 +113,15 @@ class OsTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($manufacturer, $object->getManufacturer());
         self::assertEquals($version, $object->getVersion());
         self::assertSame($bits, $object->getBits());
+    }
+
+    public function testTostring()
+    {
+        $name          = 'TestPlatform';
+        $marketingName = 'TestMarketingname';
+
+        $object = new Os($name, $marketingName);
+
+        self::assertSame($name, (string) $object);
     }
 }

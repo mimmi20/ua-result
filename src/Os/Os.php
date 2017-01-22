@@ -138,6 +138,16 @@ class Os implements OsInterface, \Serializable
     }
 
     /**
+     * Returns the name of the company
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * String representation of object
      *

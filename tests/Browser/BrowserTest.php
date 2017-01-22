@@ -68,15 +68,15 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
     public function testDefaultSetterGetter()
     {
         $name         = 'TestBrowser';
-        $manufacturer = new Company('TestManufacturer');
+        $manufacturer = new Company('unknown');
         $version      = new Version();
         $engine       = new Engine('unknown');
         $type         = new Type('unknown');
 
-        $object = new Browser($name, $manufacturer);
+        $object = new Browser($name);
 
         self::assertSame($name, $object->getName());
-        self::assertSame($manufacturer, $object->getManufacturer());
+        self::assertEquals($manufacturer, $object->getManufacturer());
         self::assertEquals($version, $object->getVersion());
         self::assertEquals($engine, $object->getEngine());
         self::assertEquals($type, $object->getType());
@@ -158,5 +158,14 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($version, $object->getVersion());
         self::assertEquals($engine, $object->getEngine());
         self::assertEquals($type, $object->getType());
+    }
+
+    public function testTostring()
+    {
+        $name = 'TestBrowser';
+
+        $object = new Browser($name);
+
+        self::assertSame($name, (string) $object);
     }
 }

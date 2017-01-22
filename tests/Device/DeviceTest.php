@@ -196,4 +196,14 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
         self::assertSame($nfcSupport, $object->getNfcSupport());
         self::assertSame($hasQwertyKeyboard, $object->getHasQwertyKeyboard());
     }
+
+    public function testTostring()
+    {
+        $deviceName    = 'TestDevicename';
+        $marketingName = 'TestMarketingname';
+
+        $object = new Device($deviceName, $marketingName);
+
+        self::assertSame($deviceName, (string) $object);
+    }
 }

@@ -181,7 +181,7 @@ class Device implements DeviceInterface, \Serializable
         }
 
         if (null === $platform) {
-            $this->platform = new Os('unknown', 'unknown', 'unknown');
+            $this->platform = new Os('unknown', 'unknown');
         } else {
             $this->platform = $platform;
         }
@@ -323,6 +323,16 @@ class Device implements DeviceInterface, \Serializable
     public function getPlatform()
     {
         return $this->platform;
+    }
+
+    /**
+     * Returns the name of the company
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDeviceName();
     }
 
     /**
