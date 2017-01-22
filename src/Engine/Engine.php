@@ -158,15 +158,9 @@ class Engine implements EngineInterface, \Serializable
      */
     public function toArray()
     {
-        if (null === $this->version) {
-            $versionArray = [];
-        } else {
-            $versionArray = $this->version->toArray();
-        }
-
         return [
             'name'         => $this->name,
-            'version'      => $versionArray,
+            'version'      => $this->version->toArray(),
             'manufacturer' => $this->manufacturer,
             'brand'        => $this->brand,
         ];
@@ -184,7 +178,7 @@ class Engine implements EngineInterface, \Serializable
         if (isset($data['version'])) {
             $this->version = (new VersionFactory())->fromArray((array) $data['version']);
         } else {
-            $this->version = null;
+            $this->version = new Version();
         }
     }
 }

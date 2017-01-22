@@ -66,6 +66,29 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
         self::assertSame($modus, $object->getModus());
     }
 
+    public function testDefaultSetterGetter()
+    {
+        $name         = 'TestBrowser';
+        $manufacturer = 'TestManufacturer';
+        $brand        = 'TestBrand';
+        $version      = new Version();
+        $engine       = new Engine('unknown', 'unknown', 'unknown');
+        $type         = new Type('unknown');
+
+        $object = new Browser($name, $manufacturer, $brand);
+
+        self::assertSame($name, $object->getName());
+        self::assertSame($manufacturer, $object->getManufacturer());
+        self::assertSame($brand, $object->getBrand());
+        self::assertEquals($version, $object->getVersion());
+        self::assertEquals($engine, $object->getEngine());
+        self::assertEquals($type, $object->getType());
+        self::assertNull($object->getBits());
+        self::assertFalse($object->getPdfSupport());
+        self::assertFalse($object->getRssSupport());
+        self::assertNull($object->getModus());
+    }
+
     public function testSerialize()
     {
         $name         = 'TestBrowser';
@@ -102,8 +125,8 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
 
         $original = new Browser($name, $manufacturer, $brand, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
 
-        $array      = $original->toArray();
-        $object     = (new BrowserFactory())->fromArray($array);
+        $array  = $original->toArray();
+        $object = (new BrowserFactory())->fromArray($array);
 
         self::assertEquals($original, $object);
     }
@@ -123,9 +146,23 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
 
         $original = new Browser($name, $manufacturer, $brand, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
 
-        $json       = $original->toJson();
-        $object     = (new BrowserFactory())->fromJson($json);
+        $json   = $original->toJson();
+        $object = (new BrowserFactory())->fromJson($json);
 
         self::assertEquals($original, $object);
+    }
+
+    public function testFromEmptyArray()
+    {
+        $version = new Version();
+        $engine  = new Engine('unknown', 'unknown', 'unknown');
+        $type    = new Type('unknown');
+
+        $object = (new BrowserFactory())->fromArray([]);
+
+        self::assertNull($object->getName());
+        self::assertEquals($version, $object->getVersion());
+        self::assertEquals($engine, $object->getEngine());
+        self::assertEquals($type, $object->getType());
     }
 }

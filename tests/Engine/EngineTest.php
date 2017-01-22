@@ -59,7 +59,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $brand        = 'TestBrand';
         $version      = new Version();
 
-        $original = new Engine($name, $manufacturer, $brand, $version);
+        $original = new Engine($name, $manufacturer, $brand);
 
         $serialized = serialize($original);
         $object     = unserialize($serialized);
@@ -79,8 +79,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
         $original = new Engine($name, $manufacturer, $brand, $version);
 
-        $array      = $original->toArray();
-        $object     = (new EngineFactory())->fromArray($array);
+        $array  = $original->toArray();
+        $object = (new EngineFactory())->fromArray($array);
 
         self::assertSame($name, $object->getName());
         self::assertSame($manufacturer, $object->getManufacturer());
@@ -97,12 +97,21 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
         $original = new Engine($name, $manufacturer, $brand, $version);
 
-        $json       = $original->toJson();
-        $object     = (new EngineFactory())->fromJson($json);
+        $json   = $original->toJson();
+        $object = (new EngineFactory())->fromJson($json);
 
         self::assertSame($name, $object->getName());
         self::assertSame($manufacturer, $object->getManufacturer());
         self::assertSame($brand, $object->getBrand());
+        self::assertEquals($version, $object->getVersion());
+    }
+
+    public function testFromEmptyArray()
+    {
+        $version = new Version();
+        $object  = (new EngineFactory())->fromArray([]);
+
+        self::assertNull($object->getName());
         self::assertEquals($version, $object->getVersion());
     }
 }

@@ -275,35 +275,17 @@ class Browser implements BrowserInterface, \Serializable
      */
     public function toArray()
     {
-        if (null === $this->type) {
-            $typeArray = [];
-        } else {
-            $typeArray = $this->type->toArray();
-        }
-
-        if (null === $this->version) {
-            $versionArray = [];
-        } else {
-            $versionArray = $this->version->toArray();
-        }
-
-        if (null === $this->engine) {
-            $engineArray = [];
-        } else {
-            $engineArray = $this->engine->toArray();
-        }
-
         return [
             'name'         => $this->name,
             'modus'        => $this->modus,
-            'version'      => $versionArray,
+            'version'      => $this->version->toArray(),
             'manufacturer' => $this->manufacturer,
             'brand'        => $this->brand,
             'pdfSupport'   => $this->pdfSupport,
             'rssSupport'   => $this->rssSupport,
             'bits'         => $this->bits,
-            'type'         => $typeArray,
-            'engine'       => $engineArray,
+            'type'         => $this->type->toArray(),
+            'engine'       => $this->engine->toArray(),
         ];
     }
 
@@ -323,19 +305,19 @@ class Browser implements BrowserInterface, \Serializable
         if (isset($data['type'])) {
             $this->type = (new TypeFactory())->fromArray((array) $data['type']);
         } else {
-            $this->type = null;
+            $this->type = new Type('unknown');
         }
 
         if (isset($data['version'])) {
             $this->version = (new VersionFactory())->fromArray((array) $data['version']);
         } else {
-            $this->version = null;
+            $this->version = new Version();
         }
 
         if (isset($data['engine'])) {
             $this->engine = (new EngineFactory())->fromArray((array) $data['engine']);
         } else {
-            $this->engine = null;
+            $this->engine = new Engine('unknown', 'unknown', 'unknown');
         }
     }
 }
