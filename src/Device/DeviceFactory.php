@@ -84,7 +84,7 @@ class DeviceFactory
         if (isset($data['platform'])) {
             $platform = (new OsFactory())->fromArray((array) $data['platform']);
         } else {
-            $platform = new Os('unknown', 'unknown', 'unknown');
+            $platform = new Os('unknown', 'unknown');
         }
 
         if (isset($data['manufacturer'])) {

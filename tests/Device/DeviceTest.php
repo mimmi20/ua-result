@@ -197,6 +197,33 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
         self::assertSame($hasQwertyKeyboard, $object->getHasQwertyKeyboard());
     }
 
+    public function testFromEmptyArray()
+    {
+        $manufacturer = new Company('unknown');
+        $brand        = new Company('unknown');
+        $version      = new Version();
+        $platform     = new Os('unknown', 'unknown');
+        $type         = new Type('unknown');
+
+        $object = (new DeviceFactory())->fromArray([]);
+
+        self::assertNull($object->getDeviceName());
+        self::assertNull($object->getMarketingName());
+        self::assertEquals($manufacturer, $object->getManufacturer());
+        self::assertEquals($brand, $object->getBrand());
+        self::assertEquals($version, $object->getVersion());
+        self::assertEquals($platform, $object->getPlatform());
+        self::assertEquals($type, $object->getType());
+        self::assertNull($object->getPointingMethod());
+        self::assertNull($object->getResolutionWidth());
+        self::assertNull($object->getResolutionHeight());
+        self::assertNull($object->getDualOrientation());
+        self::assertNull($object->getColors());
+        self::assertNull($object->getSmsSupport());
+        self::assertNull($object->getNfcSupport());
+        self::assertNull($object->getHasQwertyKeyboard());
+    }
+
     public function testTostring()
     {
         $deviceName    = 'TestDevicename';

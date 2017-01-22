@@ -85,8 +85,8 @@ class OsTest extends \PHPUnit_Framework_TestCase
 
         $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
 
-        $array      = $original->toArray();
-        $object     = (new OsFactory())->fromArray($array);
+        $array  = $original->toArray();
+        $object = (new OsFactory())->fromArray($array);
 
         self::assertSame($name, $object->getName());
         self::assertSame($marketingName, $object->getMarketingName());
@@ -113,6 +113,20 @@ class OsTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($manufacturer, $object->getManufacturer());
         self::assertEquals($version, $object->getVersion());
         self::assertSame($bits, $object->getBits());
+    }
+
+    public function testFromEmptyArray()
+    {
+        $manufacturer = new Company('unknown');
+        $version      = new Version();
+
+        $object = (new OsFactory())->fromArray([]);
+
+        self::assertNull($object->getName());
+        self::assertNull($object->getMarketingName());
+        self::assertEquals($manufacturer, $object->getManufacturer());
+        self::assertEquals($version, $object->getVersion());
+        self::assertNull($object->getBits());
     }
 
     public function testTostring()
