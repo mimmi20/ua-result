@@ -180,4 +180,29 @@ class ResultTest extends \PHPUnit_Framework_TestCase
 
         $object->getCapability('does not exist');
     }
+
+    public function testSetInvalidCapabilities()
+    {
+        $requestFactory = new GenericRequestFactory();
+        $request        = $requestFactory->createRequestForUserAgent('test-ua');
+
+        $device       = new Device(null, null);
+        $os           = new Os('unknown', 'unknown');
+        $browser      = new Browser('unknown');
+        $engine       = new Engine('unknown');
+        $capabilities = [
+            0                => 'numeric key',
+            1                => 'second numeric key',
+            'does not exist' => 'invalid key',
+        ];
+        $wurflKey     = 'test';
+
+        $object = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
+
+        $cap = $object->getCapabilities();
+
+        self::assertArrayNotHasKey('does not exist', $cap);
+        self::assertArrayNotHasKey(0, $cap);
+        self::assertArrayNotHasKey(1, $cap);
+    }
 }

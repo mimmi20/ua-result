@@ -840,41 +840,24 @@ class Result implements ResultInterface, \Serializable
     }
 
     /**
-     * Returns the value of a given capability name for the current device
-     *
-     * @param string $capabilityName  must be a valid capability name
-     * @param string $capabilityValue
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return \UaResult\Result\Result
-     */
-    private function setCapability(
-        $capabilityName,
-        $capabilityValue = null
-    ) {
-        $this->checkCapability($capabilityName);
-
-        $this->capabilities[$capabilityName] = $capabilityValue;
-
-        return $this;
-    }
-
-    /**
      * Returns the value of a given capability name
      * for the current device
      *
      * @param string $capabilityName must be a valid capability name
      *
      * @throws \InvalidArgumentException
-     *
-     * @return string Capability value
      */
     private function checkCapability($capabilityName)
     {
         if (empty($capabilityName)) {
             throw new \InvalidArgumentException(
                 'capability name must not be empty'
+            );
+        }
+
+        if (is_numeric($capabilityName)) {
+            throw new \InvalidArgumentException(
+                'capability name must not be numeric'
             );
         }
 
@@ -889,28 +872,18 @@ class Result implements ResultInterface, \Serializable
      * Returns the value of a given capability name for the current device
      *
      * @param array $capabilities An array of name/value pairs
-     *
-     * @return \UaResult\Result\Result
      */
     private function setCapabilities(array $capabilities)
     {
         foreach ($capabilities as $capabilityName => $capabilityValue) {
-            if (is_numeric($capabilityName)) {
-                continue;
-            }
-
-            if (!array_key_exists($capabilityName, $this->capabilities)) {
-                continue;
-            }
-
             try {
-                $this->setCapability($capabilityName, $capabilityValue);
+                $this->checkCapability($capabilityName);
             } catch (\InvalidArgumentException $e) {
                 continue;
             }
-        }
 
-        return $this;
+            $this->capabilities[$capabilityName] = $capabilityValue;
+        }
     }
 
     /**
