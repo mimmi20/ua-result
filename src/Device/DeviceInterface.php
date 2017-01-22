@@ -42,12 +42,12 @@ namespace UaResult\Device;
 interface DeviceInterface
 {
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getDeviceName();
 
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getBrand();
 

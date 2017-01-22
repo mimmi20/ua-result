@@ -47,14 +47,9 @@ interface OsInterface
     public function getBits();
 
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getManufacturer();
-
-    /**
-     * @return string|null
-     */
-    public function getBrand();
 
     /**
      * @return string|null

@@ -29,7 +29,7 @@
  * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult\Engine;
+namespace UaResult\Os;
 
 use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionFactory;
@@ -45,16 +45,18 @@ use UaResult\Company\CompanyFactory;
  * @copyright 2012-2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-class EngineFactory
+class OsFactory
 {
     /**
      * @param array $data
      *
-     * @return \UaResult\Engine\Engine
+     * @return \UaResult\Os\Os
      */
     public function fromArray(array $data)
     {
-        $name = isset($data['name']) ? $data['name'] : null;
+        $name          = isset($data['name']) ? $data['name'] : null;
+        $marketingName = isset($data['marketingName']) ? $data['marketingName'] : null;
+        $bits          = isset($data['bits']) ? $data['bits'] : null;
 
         if (isset($data['version'])) {
             $version = (new VersionFactory())->fromArray((array) $data['version']);
@@ -68,13 +70,13 @@ class EngineFactory
             $manufacturer = new Company('unknown');
         }
 
-        return new Engine($name, $manufacturer, $version);
+        return new Os($name, $marketingName, $manufacturer, $version, $bits);
     }
 
     /**
      * @param string $json
      *
-     * @return \UaResult\Engine\Engine
+     * @return \UaResult\Os\Os
      */
     public function fromJson($json)
     {

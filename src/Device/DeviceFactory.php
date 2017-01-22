@@ -29,12 +29,16 @@
  * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult\Engine;
+namespace UaResult\Device;
 
 use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionFactory;
+use UaDeviceType\Type;
+use UaDeviceType\TypeFactory;
 use UaResult\Company\Company;
 use UaResult\Company\CompanyFactory;
+use UaResult\Os\Os;
+use UaResult\Os\OsFactory;
 
 /**
  * Browser detection class
@@ -45,21 +49,42 @@ use UaResult\Company\CompanyFactory;
  * @copyright 2012-2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-class EngineFactory
+class DeviceFactory
 {
     /**
      * @param array $data
      *
-     * @return \UaResult\Engine\Engine
+     * @return \UaResult\Device\Device
      */
     public function fromArray(array $data)
     {
-        $name = isset($data['name']) ? $data['name'] : null;
+        $deviceName        = isset($data['deviceName']) ? $data['deviceName'] : null;
+        $marketingName     = isset($data['marketingName']) ? $data['marketingName'] : null;
+        $pointingMethod    = isset($data['pointingMethod']) ? $data['pointingMethod'] : null;
+        $resolutionWidth   = isset($data['resolutionWidth']) ? $data['resolutionWidth'] : null;
+        $resolutionHeight  = isset($data['resolutionHeight']) ? $data['resolutionHeight'] : null;
+        $dualOrientation   = isset($data['dualOrientation']) ? $data['dualOrientation'] : null;
+        $colors            = isset($data['colors']) ? $data['colors'] : null;
+        $smsSupport        = isset($data['smsSupport']) ? $data['smsSupport'] : null;
+        $nfcSupport        = isset($data['nfcSupport']) ? $data['nfcSupport'] : null;
+        $hasQwertyKeyboard = isset($data['hasQwertyKeyboard']) ? $data['hasQwertyKeyboard'] : null;
+
+        if (isset($data['type'])) {
+            $type = (new TypeFactory())->fromArray((array) $data['type']);
+        } else {
+            $type = new Type('unknown');
+        }
 
         if (isset($data['version'])) {
             $version = (new VersionFactory())->fromArray((array) $data['version']);
         } else {
             $version = new Version();
+        }
+
+        if (isset($data['platform'])) {
+            $platform = (new OsFactory())->fromArray((array) $data['platform']);
+        } else {
+            $platform = new Os('unknown', 'unknown', 'unknown');
         }
 
         if (isset($data['manufacturer'])) {
@@ -68,13 +93,35 @@ class EngineFactory
             $manufacturer = new Company('unknown');
         }
 
-        return new Engine($name, $manufacturer, $version);
+        if (isset($data['brand'])) {
+            $brand = (new CompanyFactory())->fromArray((array) $data['brand']);
+        } else {
+            $brand = new Company('unknown');
+        }
+
+        return new Device(
+            $deviceName,
+            $marketingName,
+            $manufacturer,
+            $brand,
+            $version,
+            $platform,
+            $type,
+            $pointingMethod,
+            $resolutionWidth,
+            $resolutionHeight,
+            $dualOrientation,
+            $colors,
+            $smsSupport,
+            $nfcSupport,
+            $hasQwertyKeyboard
+        );
     }
 
     /**
      * @param string $json
      *
-     * @return \UaResult\Engine\Engine
+     * @return \UaResult\Device\Device
      */
     public function fromJson($json)
     {

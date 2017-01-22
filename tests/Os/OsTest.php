@@ -32,7 +32,9 @@
 namespace UaResultTest\Os;
 
 use BrowserDetector\Version\Version;
+use UaResult\Company\Company;
 use UaResult\Os\Os;
+use UaResult\Os\OsFactory;
 
 class OsTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,17 +42,15 @@ class OsTest extends \PHPUnit_Framework_TestCase
     {
         $name          = 'TestBrowser';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = 'TestManufacturer';
-        $brand         = 'TestBrand';
+        $manufacturer  = new Company('TestManufacturer');
         $version       = new Version();
         $bits          = 64;
 
-        $object = new Os($name, $marketingName, $manufacturer, $brand, $version, $bits);
+        $object = new Os($name, $marketingName, $manufacturer, $version, $bits);
 
         self::assertSame($name, $object->getName());
         self::assertSame($marketingName, $object->getMarketingName());
         self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($brand, $object->getBrand());
         self::assertSame($version, $object->getVersion());
         self::assertSame($bits, $object->getBits());
     }
@@ -59,19 +59,58 @@ class OsTest extends \PHPUnit_Framework_TestCase
     {
         $name          = 'TestBrowser';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = 'TestManufacturer';
-        $brand         = 'TestBrand';
+        $manufacturer  = new Company('TestManufacturer');
         $version       = new Version();
         $bits          = 64;
 
-        $original = new Os($name, $marketingName, $manufacturer, $brand, $version, $bits);
+        $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
 
         $serialized = serialize($original);
         $object     = unserialize($serialized);
 
         self::assertSame($name, $object->getName());
-        self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($brand, $object->getBrand());
+        self::assertSame($marketingName, $object->getMarketingName());
+        self::assertEquals($manufacturer, $object->getManufacturer());
+        self::assertEquals($version, $object->getVersion());
+        self::assertSame($bits, $object->getBits());
+    }
+
+    public function testToarray()
+    {
+        $name          = 'TestBrowser';
+        $marketingName = 'TestMarketingname';
+        $manufacturer  = new Company('TestManufacturer');
+        $version       = new Version();
+        $bits          = 64;
+
+        $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
+
+        $array      = $original->toArray();
+        $object     = (new OsFactory())->fromArray($array);
+
+        self::assertSame($name, $object->getName());
+        self::assertSame($marketingName, $object->getMarketingName());
+        self::assertEquals($manufacturer, $object->getManufacturer());
+        self::assertEquals($version, $object->getVersion());
+        self::assertSame($bits, $object->getBits());
+    }
+
+    public function testToJson()
+    {
+        $name          = 'TestBrowser';
+        $marketingName = 'TestMarketingname';
+        $manufacturer  = new Company('TestManufacturer');
+        $version       = new Version();
+        $bits          = 64;
+
+        $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
+
+        $json   = $original->toJson();
+        $object = (new OsFactory())->fromJson($json);
+
+        self::assertSame($name, $object->getName());
+        self::assertSame($marketingName, $object->getMarketingName());
+        self::assertEquals($manufacturer, $object->getManufacturer());
         self::assertEquals($version, $object->getVersion());
         self::assertSame($bits, $object->getBits());
     }

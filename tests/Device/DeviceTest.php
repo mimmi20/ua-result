@@ -32,7 +32,10 @@
 namespace UaResultTest\Device;
 
 use BrowserDetector\Version\Version;
+use UaDeviceType\Type;
+use UaResult\Company\Company;
 use UaResult\Device\Device;
+use UaResult\Device\DeviceFactory;
 use UaResult\Os\Os;
 
 class DeviceTest extends \PHPUnit_Framework_TestCase
@@ -41,11 +44,11 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
     {
         $deviceName        = 'TestDevicename';
         $marketingName     = 'TestMarketingname';
-        $manufacturer      = 'TestManufacturer';
-        $brand             = 'TestBrand';
+        $manufacturer      = new Company('TestManufacturer');
+        $brand             = new Company('TestBrand');
         $version           = new Version();
-        $platform          = new Os('TestOsname', 'TestOsmarketingname', 'TestEngineManufacturer', 'PlatformBrand');
-        $type              = null;
+        $platform          = new Os('TestOsname', 'TestOsmarketingname');
+        $type              = new Type('unknown');
         $pointingMethod    = 'touchscreen';
         $resolutionWidth   = 480;
         $resolutionHeight  = 1080;
@@ -78,11 +81,11 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
     {
         $deviceName        = 'TestDevicename';
         $marketingName     = 'TestMarketingname';
-        $manufacturer      = 'TestManufacturer';
-        $brand             = 'TestBrand';
+        $manufacturer      = new Company('TestManufacturer');
+        $brand             = new Company('TestBrand');
         $version           = new Version();
-        $platform          = new Os('TestOsname', 'TestOsmarketingname', 'TestEngineManufacturer', 'PlatformBrand');
-        $type              = null;
+        $platform          = new Os('TestOsname', 'TestOsmarketingname');
+        $type              = new Type('unknown');
         $pointingMethod    = 'touchscreen';
         $resolutionWidth   = 480;
         $resolutionHeight  = 1080;
@@ -99,11 +102,91 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
 
         self::assertSame($deviceName, $object->getDeviceName());
         self::assertSame($marketingName, $object->getMarketingName());
-        self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($brand, $object->getBrand());
+        self::assertEquals($manufacturer, $object->getManufacturer());
+        self::assertEquals($brand, $object->getBrand());
         self::assertEquals($version, $object->getVersion());
         self::assertEquals($platform, $object->getPlatform());
-        self::assertSame($type, $object->getType());
+        self::assertEquals($type, $object->getType());
+        self::assertSame($pointingMethod, $object->getPointingMethod());
+        self::assertSame($resolutionWidth, $object->getResolutionWidth());
+        self::assertSame($resolutionHeight, $object->getResolutionHeight());
+        self::assertSame($dualOrientation, $object->getDualOrientation());
+        self::assertSame($colors, $object->getColors());
+        self::assertSame($smsSupport, $object->getSmsSupport());
+        self::assertSame($nfcSupport, $object->getNfcSupport());
+        self::assertSame($hasQwertyKeyboard, $object->getHasQwertyKeyboard());
+    }
+
+    public function testToarray()
+    {
+        $deviceName        = 'TestDevicename';
+        $marketingName     = 'TestMarketingname';
+        $manufacturer      = new Company('TestManufacturer');
+        $brand             = new Company('TestBrand');
+        $version           = new Version();
+        $platform          = new Os('TestOsname', 'TestOsmarketingname');
+        $type              = new Type('unknown');
+        $pointingMethod    = 'touchscreen';
+        $resolutionWidth   = 480;
+        $resolutionHeight  = 1080;
+        $dualOrientation   = true;
+        $colors            = '68676';
+        $smsSupport        = true;
+        $nfcSupport        = false;
+        $hasQwertyKeyboard = true;
+
+        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $version, $platform, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation, $colors, $smsSupport, $nfcSupport, $hasQwertyKeyboard);
+
+        $array  = $original->toArray();
+        $object = (new DeviceFactory())->fromArray($array);
+
+        self::assertSame($deviceName, $object->getDeviceName());
+        self::assertSame($marketingName, $object->getMarketingName());
+        self::assertEquals($manufacturer, $object->getManufacturer());
+        self::assertEquals($brand, $object->getBrand());
+        self::assertEquals($version, $object->getVersion());
+        self::assertEquals($platform, $object->getPlatform());
+        self::assertEquals($type, $object->getType());
+        self::assertSame($pointingMethod, $object->getPointingMethod());
+        self::assertSame($resolutionWidth, $object->getResolutionWidth());
+        self::assertSame($resolutionHeight, $object->getResolutionHeight());
+        self::assertSame($dualOrientation, $object->getDualOrientation());
+        self::assertSame($colors, $object->getColors());
+        self::assertSame($smsSupport, $object->getSmsSupport());
+        self::assertSame($nfcSupport, $object->getNfcSupport());
+        self::assertSame($hasQwertyKeyboard, $object->getHasQwertyKeyboard());
+    }
+
+    public function testTojson()
+    {
+        $deviceName        = 'TestDevicename';
+        $marketingName     = 'TestMarketingname';
+        $manufacturer      = new Company('TestManufacturer');
+        $brand             = new Company('TestBrand');
+        $version           = new Version();
+        $platform          = new Os('TestOsname', 'TestOsmarketingname');
+        $type              = new Type('unknown');
+        $pointingMethod    = 'touchscreen';
+        $resolutionWidth   = 480;
+        $resolutionHeight  = 1080;
+        $dualOrientation   = true;
+        $colors            = '68676';
+        $smsSupport        = true;
+        $nfcSupport        = false;
+        $hasQwertyKeyboard = true;
+
+        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $version, $platform, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation, $colors, $smsSupport, $nfcSupport, $hasQwertyKeyboard);
+
+        $json   = $original->toJson();
+        $object = (new DeviceFactory())->fromJson($json);
+
+        self::assertSame($deviceName, $object->getDeviceName());
+        self::assertSame($marketingName, $object->getMarketingName());
+        self::assertEquals($manufacturer, $object->getManufacturer());
+        self::assertEquals($brand, $object->getBrand());
+        self::assertEquals($version, $object->getVersion());
+        self::assertEquals($platform, $object->getPlatform());
+        self::assertEquals($type, $object->getType());
         self::assertSame($pointingMethod, $object->getPointingMethod());
         self::assertSame($resolutionWidth, $object->getResolutionWidth());
         self::assertSame($resolutionHeight, $object->getResolutionHeight());

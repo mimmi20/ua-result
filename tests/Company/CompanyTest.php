@@ -68,7 +68,7 @@ class CompanyTest extends \PHPUnit_Framework_TestCase
 
         $original = new Company($name, $brandname);
 
-        $array = $original->toArray();
+        $array  = $original->toArray();
         $object = (new CompanyFactory())->fromArray($array);
 
         self::assertSame($name, $object->getName());
@@ -82,7 +82,7 @@ class CompanyTest extends \PHPUnit_Framework_TestCase
 
         $original = new Company($name, $brandname);
 
-        $json = $original->toJson();
+        $json   = $original->toJson();
         $object = (new CompanyFactory())->fromJson($json);
 
         self::assertSame($name, $object->getName());

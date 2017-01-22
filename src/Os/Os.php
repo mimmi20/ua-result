@@ -32,6 +32,9 @@
 namespace UaResult\Os;
 
 use BrowserDetector\Version\Version;
+use BrowserDetector\Version\VersionFactory;
+use UaResult\Company\Company;
+use UaResult\Company\CompanyFactory;
 
 /**
  * base class for all rendering platforms/operating systems to detect
@@ -59,14 +62,9 @@ class Os implements OsInterface, \Serializable
     private $version = null;
 
     /**
-     * @var string|null
+     * @var \UaResult\Company\Company|null
      */
     private $manufacturer = null;
-
-    /**
-     * @var string|null
-     */
-    private $brand = null;
 
     /**
      * @var int|null
@@ -74,21 +72,29 @@ class Os implements OsInterface, \Serializable
     private $bits = null;
 
     /**
-     * @param string                           $name
-     * @param string                           $marketingName
-     * @param string                           $manufacturer
-     * @param string                           $brand
-     * @param \BrowserDetector\Version\Version $version
-     * @param int|null                         $bits
+     * @param string                                $name
+     * @param string                                $marketingName
+     * @param \UaResult\Company\Company|null        $manufacturer
+     * @param \BrowserDetector\Version\Version|null $version
+     * @param int|null                              $bits
      */
-    public function __construct($name, $marketingName, $manufacturer, $brand, Version $version = null, $bits = null)
+    public function __construct($name, $marketingName, Company $manufacturer = null, Version $version = null, $bits = null)
     {
         $this->name          = $name;
         $this->marketingName = $marketingName;
-        $this->manufacturer  = $manufacturer;
-        $this->brand         = $brand;
-        $this->version       = $version;
         $this->bits          = $bits;
+
+        if (null === $manufacturer) {
+            $this->manufacturer = new Company('unknown');
+        } else {
+            $this->manufacturer = $manufacturer;
+        }
+
+        if (null === $version) {
+            $this->version = new Version();
+        } else {
+            $this->version = $version;
+        }
     }
 
     /**
@@ -100,19 +106,11 @@ class Os implements OsInterface, \Serializable
     }
 
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getManufacturer()
     {
         return $this->manufacturer;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getBrand()
-    {
-        return $this->brand;
     }
 
     /**
@@ -166,12 +164,7 @@ class Os implements OsInterface, \Serializable
     {
         $unseriliazedData = unserialize($serialized);
 
-        $this->name          = $unseriliazedData['name'];
-        $this->marketingName = $unseriliazedData['marketingName'];
-        $this->version       = $unseriliazedData['version'];
-        $this->manufacturer  = $unseriliazedData['manufacturer'];
-        $this->brand         = $unseriliazedData['brand'];
-        $this->bits          = $unseriliazedData['bits'];
+        $this->fromArray($unseriliazedData);
     }
 
     /**
@@ -190,9 +183,8 @@ class Os implements OsInterface, \Serializable
         return [
             'name'          => $this->name,
             'marketingName' => $this->marketingName,
-            'version'       => $this->version,
-            'manufacturer'  => $this->manufacturer,
-            'brand'         => $this->brand,
+            'version'       => $this->version->toArray(),
+            'manufacturer'  => $this->manufacturer->toArray(),
             'bits'          => $this->bits,
         ];
     }
@@ -202,10 +194,20 @@ class Os implements OsInterface, \Serializable
      */
     private function fromArray(array $data)
     {
-        $this->major     = isset($data['major']) ? $data['major'] : null;
-        $this->minor     = isset($data['minor']) ? $data['minor'] : null;
-        $this->micro     = isset($data['micro']) ? $data['micro'] : null;
-        $this->stability = isset($data['stability']) ? $data['stability'] : null;
-        $this->build     = isset($data['build']) ? $data['build'] : null;
+        $this->name          = isset($data['name']) ? $data['name'] : null;
+        $this->marketingName = isset($data['marketingName']) ? $data['marketingName'] : null;
+        $this->bits          = isset($data['bits']) ? $data['bits'] : null;
+
+        if (isset($data['version'])) {
+            $this->version = (new VersionFactory())->fromArray((array) $data['version']);
+        } else {
+            $this->version = new Version();
+        }
+
+        if (isset($data['manufacturer'])) {
+            $this->manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
+        } else {
+            $this->manufacturer = new Company('unknown');
+        }
     }
 }
