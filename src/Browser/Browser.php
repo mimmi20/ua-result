@@ -32,8 +32,12 @@
 namespace UaResult\Browser;
 
 use BrowserDetector\Version\Version;
+use BrowserDetector\Version\VersionFactory;
+use UaBrowserType\Type;
+use UaBrowserType\TypeFactory;
 use UaBrowserType\TypeInterface;
 use UaResult\Engine\Engine;
+use UaResult\Engine\EngineFactory;
 
 /**
  * base class for all browsers to detect
@@ -105,6 +109,7 @@ class Browser implements BrowserInterface, \Serializable
      * @param int|null                         $bits
      * @param bool                             $pdfSupport
      * @param bool                             $rssSupport
+     * @param string|null                      $modus
      */
     public function __construct(
         $name,
@@ -115,17 +120,34 @@ class Browser implements BrowserInterface, \Serializable
         TypeInterface $type = null,
         $bits = null,
         $pdfSupport = false,
-        $rssSupport = false
+        $rssSupport = false,
+        $modus = null
     ) {
-        $this->name                        = $name;
-        $this->manufacturer                = $manufacturer;
-        $this->brand                       = $brand;
-        $this->version                     = $version;
-        $this->engine                      = $engine;
-        $this->type                        = $type;
-        $this->bits                        = $bits;
-        $this->pdfSupport                  = $pdfSupport;
-        $this->rssSupport                  = $rssSupport;
+        $this->name         = $name;
+        $this->manufacturer = $manufacturer;
+        $this->brand        = $brand;
+        $this->bits         = $bits;
+        $this->pdfSupport   = $pdfSupport;
+        $this->rssSupport   = $rssSupport;
+        $this->modus        = $modus;
+
+        if (null === $version) {
+            $this->version = new Version();
+        } else {
+            $this->version = $version;
+        }
+
+        if (null === $engine) {
+            $this->engine = new Engine('unknown', 'unknown', 'unknown');
+        } else {
+            $this->engine = $engine;
+        }
+
+        if (null === $type) {
+            $this->type = new Type('unknown');
+        } else {
+            $this->type = $type;
+        }
     }
 
     /**
@@ -237,16 +259,7 @@ class Browser implements BrowserInterface, \Serializable
     {
         $unseriliazedData = unserialize($serialized);
 
-        $this->name                        = $unseriliazedData['name'];
-        $this->modus                       = $unseriliazedData['modus'];
-        $this->version                     = $unseriliazedData['version'];
-        $this->manufacturer                = $unseriliazedData['manufacturer'];
-        $this->brand                       = $unseriliazedData['brand'];
-        $this->pdfSupport                  = $unseriliazedData['pdfSupport'];
-        $this->rssSupport                  = $unseriliazedData['rssSupport'];
-        $this->bits                        = $unseriliazedData['bits'];
-        $this->type                        = $unseriliazedData['type'];
-        $this->engine                      = $unseriliazedData['engine'];
+        $this->fromArray($unseriliazedData);
     }
 
     /**
@@ -262,17 +275,35 @@ class Browser implements BrowserInterface, \Serializable
      */
     public function toArray()
     {
+        if (null === $this->type) {
+            $typeArray = [];
+        } else {
+            $typeArray = $this->type->toArray();
+        }
+
+        if (null === $this->version) {
+            $versionArray = [];
+        } else {
+            $versionArray = $this->version->toArray();
+        }
+
+        if (null === $this->engine) {
+            $engineArray = [];
+        } else {
+            $engineArray = $this->engine->toArray();
+        }
+
         return [
-            'name'                        => $this->name,
-            'modus'                       => $this->modus,
-            'version'                     => $this->version,
-            'manufacturer'                => $this->manufacturer,
-            'brand'                       => $this->brand,
-            'pdfSupport'                  => $this->pdfSupport,
-            'rssSupport'                  => $this->rssSupport,
-            'bits'                        => $this->bits,
-            'type'                        => $this->type,
-            'engine'                      => $this->engine,
+            'name'         => $this->name,
+            'modus'        => $this->modus,
+            'version'      => $versionArray,
+            'manufacturer' => $this->manufacturer,
+            'brand'        => $this->brand,
+            'pdfSupport'   => $this->pdfSupport,
+            'rssSupport'   => $this->rssSupport,
+            'bits'         => $this->bits,
+            'type'         => $typeArray,
+            'engine'       => $engineArray,
         ];
     }
 
@@ -281,10 +312,30 @@ class Browser implements BrowserInterface, \Serializable
      */
     private function fromArray(array $data)
     {
-        $this->major     = isset($data['major']) ? $data['major'] : null;
-        $this->minor     = isset($data['minor']) ? $data['minor'] : null;
-        $this->micro     = isset($data['micro']) ? $data['micro'] : null;
-        $this->stability = isset($data['stability']) ? $data['stability'] : null;
-        $this->build     = isset($data['build']) ? $data['build'] : null;
+        $this->name         = isset($data['name']) ? $data['name'] : null;
+        $this->modus        = isset($data['modus']) ? $data['modus'] : null;
+        $this->manufacturer = isset($data['manufacturer']) ? $data['manufacturer'] : null;
+        $this->brand        = isset($data['brand']) ? $data['brand'] : null;
+        $this->pdfSupport   = isset($data['pdfSupport']) ? $data['pdfSupport'] : null;
+        $this->rssSupport   = isset($data['rssSupport']) ? $data['rssSupport'] : null;
+        $this->bits         = isset($data['bits']) ? $data['bits'] : null;
+
+        if (isset($data['type'])) {
+            $this->type = (new TypeFactory())->fromArray((array) $data['type']);
+        } else {
+            $this->type = null;
+        }
+
+        if (isset($data['version'])) {
+            $this->version = (new VersionFactory())->fromArray((array) $data['version']);
+        } else {
+            $this->version = null;
+        }
+
+        if (isset($data['engine'])) {
+            $this->engine = (new EngineFactory())->fromArray((array) $data['engine']);
+        } else {
+            $this->engine = null;
+        }
     }
 }

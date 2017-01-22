@@ -32,6 +32,7 @@
 namespace UaResult\Engine;
 
 use BrowserDetector\Version\Version;
+use BrowserDetector\Version\VersionFactory;
 
 /**
  * base class for all rendering engines to detect
@@ -74,7 +75,12 @@ class Engine implements EngineInterface, \Serializable
         $this->name         = $name;
         $this->manufacturer = $manufacturer;
         $this->brand        = $brand;
-        $this->version      = $version;
+
+        if (null === $version) {
+            $this->version = new Version();
+        } else {
+            $this->version = $version;
+        }
     }
 
     /**
@@ -136,10 +142,7 @@ class Engine implements EngineInterface, \Serializable
     {
         $unseriliazedData = unserialize($serialized);
 
-        $this->name         = $unseriliazedData['name'];
-        $this->version      = $unseriliazedData['version'];
-        $this->manufacturer = $unseriliazedData['manufacturer'];
-        $this->brand        = $unseriliazedData['brand'];
+        $this->fromArray($unseriliazedData);
     }
 
     /**
@@ -155,9 +158,15 @@ class Engine implements EngineInterface, \Serializable
      */
     public function toArray()
     {
+        if (null === $this->version) {
+            $versionArray = [];
+        } else {
+            $versionArray = $this->version->toArray();
+        }
+
         return [
             'name'         => $this->name,
-            'version'      => $this->version,
+            'version'      => $versionArray,
             'manufacturer' => $this->manufacturer,
             'brand'        => $this->brand,
         ];
@@ -168,10 +177,14 @@ class Engine implements EngineInterface, \Serializable
      */
     private function fromArray(array $data)
     {
-        $this->major     = isset($data['major']) ? $data['major'] : null;
-        $this->minor     = isset($data['minor']) ? $data['minor'] : null;
-        $this->micro     = isset($data['micro']) ? $data['micro'] : null;
-        $this->stability = isset($data['stability']) ? $data['stability'] : null;
-        $this->build     = isset($data['build']) ? $data['build'] : null;
+        $this->name         = isset($data['name']) ? $data['name'] : null;
+        $this->manufacturer = isset($data['manufacturer']) ? $data['manufacturer'] : null;
+        $this->brand        = isset($data['brand']) ? $data['brand'] : null;
+
+        if (isset($data['version'])) {
+            $this->version = (new VersionFactory())->fromArray((array) $data['version']);
+        } else {
+            $this->version = null;
+        }
     }
 }

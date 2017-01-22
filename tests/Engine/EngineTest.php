@@ -33,6 +33,7 @@ namespace UaResultTest\Engine;
 
 use BrowserDetector\Version\Version;
 use UaResult\Engine\Engine;
+use UaResult\Engine\EngineFactory;
 
 class EngineTest extends \PHPUnit_Framework_TestCase
 {
@@ -62,6 +63,42 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
         $serialized = serialize($original);
         $object     = unserialize($serialized);
+
+        self::assertSame($name, $object->getName());
+        self::assertSame($manufacturer, $object->getManufacturer());
+        self::assertSame($brand, $object->getBrand());
+        self::assertEquals($version, $object->getVersion());
+    }
+
+    public function testToarray()
+    {
+        $name         = 'TestBrowser';
+        $manufacturer = 'TestManufacturer';
+        $brand        = 'TestBrand';
+        $version      = new Version();
+
+        $original = new Engine($name, $manufacturer, $brand, $version);
+
+        $array      = $original->toArray();
+        $object     = (new EngineFactory())->fromArray($array);
+
+        self::assertSame($name, $object->getName());
+        self::assertSame($manufacturer, $object->getManufacturer());
+        self::assertSame($brand, $object->getBrand());
+        self::assertEquals($version, $object->getVersion());
+    }
+
+    public function testTojson()
+    {
+        $name         = 'TestBrowser';
+        $manufacturer = 'TestManufacturer';
+        $brand        = 'TestBrand';
+        $version      = new Version();
+
+        $original = new Engine($name, $manufacturer, $brand, $version);
+
+        $json       = $original->toJson();
+        $object     = (new EngineFactory())->fromJson($json);
 
         self::assertSame($name, $object->getName());
         self::assertSame($manufacturer, $object->getManufacturer());
