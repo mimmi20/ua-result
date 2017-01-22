@@ -32,6 +32,9 @@
 namespace UaResult\Engine;
 
 use BrowserDetector\Version\Version;
+use BrowserDetector\Version\VersionFactory;
+use UaResult\Company\Company;
+use UaResult\Company\CompanyFactory;
 
 /**
  * base class for all rendering engines to detect
@@ -54,43 +57,39 @@ class Engine implements EngineInterface, \Serializable
     private $version = null;
 
     /**
-     * @var string|null
+     * @var \UaResult\Company\Company|null
      */
     private $manufacturer = null;
 
     /**
-     * @var string|null
-     */
-    private $brand = null;
-
-    /**
      * @param string                           $name
-     * @param string                           $manufacturer
-     * @param string                           $brand
+     * @param \UaResult\Company\Company        $manufacturer
      * @param \BrowserDetector\Version\Version $version
      */
-    public function __construct($name, $manufacturer, $brand, Version $version = null)
+    public function __construct($name, Company $manufacturer = null, Version $version = null)
     {
         $this->name         = $name;
         $this->manufacturer = $manufacturer;
-        $this->brand        = $brand;
-        $this->version      = $version;
+
+        if (null === $version) {
+            $this->version = new Version();
+        } else {
+            $this->version = $version;
+        }
+
+        if (null === $manufacturer) {
+            $this->manufacturer = new Company('unknown');
+        } else {
+            $this->manufacturer = $manufacturer;
+        }
     }
 
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getManufacturer()
     {
         return $this->manufacturer;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getBrand()
-    {
-        return $this->brand;
     }
 
     /**
@@ -110,6 +109,16 @@ class Engine implements EngineInterface, \Serializable
     }
 
     /**
+     * Returns the name of the company
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * String representation of object
      *
@@ -119,14 +128,7 @@ class Engine implements EngineInterface, \Serializable
      */
     public function serialize()
     {
-        return serialize(
-            [
-                'name'         => $this->name,
-                'version'      => $this->version,
-                'manufacturer' => $this->manufacturer,
-                'brand'        => $this->brand,
-            ]
-        );
+        return serialize($this->toArray());
     }
 
     /**
@@ -143,9 +145,37 @@ class Engine implements EngineInterface, \Serializable
     {
         $unseriliazedData = unserialize($serialized);
 
-        $this->name         = $unseriliazedData['name'];
-        $this->version      = $unseriliazedData['version'];
-        $this->manufacturer = $unseriliazedData['manufacturer'];
-        $this->brand        = $unseriliazedData['brand'];
+        $this->fromArray($unseriliazedData);
+    }
+
+    /**
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'name'         => $this->name,
+            'version'      => $this->version->toArray(),
+            'manufacturer' => $this->manufacturer->toArray(),
+        ];
+    }
+
+    /**
+     * @param array $data
+     */
+    private function fromArray(array $data)
+    {
+        $this->name         = isset($data['name']) ? $data['name'] : null;
+        $this->manufacturer = isset($data['manufacturer']) ? $data['manufacturer'] : null;
+        $this->version      = (new VersionFactory())->fromArray((array) $data['version']);
+        $this->manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
     }
 }

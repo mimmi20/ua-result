@@ -103,12 +103,7 @@ class Company implements CompanyInterface, \Serializable
      */
     public function serialize()
     {
-        return serialize(
-            [
-                'name'  => $this->name,
-                'brand' => $this->brandname,
-            ]
-        );
+        return serialize($this->toArray());
     }
 
     /**
@@ -125,7 +120,34 @@ class Company implements CompanyInterface, \Serializable
     {
         $unseriliazedData = unserialize($data);
 
-        $this->name      = $unseriliazedData['name'];
-        $this->brandname = $unseriliazedData['brand'];
+        $this->fromArray($unseriliazedData);
+    }
+
+    /**
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'name'      => $this->name,
+            'brandname' => $this->brandname,
+        ];
+    }
+
+    /**
+     * @param array $data
+     */
+    private function fromArray(array $data)
+    {
+        $this->name      = isset($data['name']) ? $data['name'] : null;
+        $this->brandname = isset($data['brandname']) ? $data['brandname'] : null;
     }
 }

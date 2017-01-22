@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2015, 2016, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2012-2016, Thomas Mueller <mimmi20@live.de>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -20,59 +20,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category  ua-result
+ * @category  BrowserDetector
  *
  * @author    Thomas Mueller <mimmi20@live.de>
- * @copyright 2015, 2016 Thomas Mueller
+ * @copyright 2012-2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  *
- * @link      https://github.com/mimmi20/ua-result
+ * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult\Os;
+namespace UaResult\Company;
 
 /**
- * interface for all platforms/operating systems to detect
+ * Browser detection class
  *
- * @category  ua-result
+ * @category  BrowserDetector
  *
- * @copyright 2015, 2016 Thomas Mueller
+ * @author    Thomas Mueller <mimmi20@live.de>
+ * @copyright 2012-2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface OsInterface
+class CompanyFactory
 {
     /**
-     * @return int|null
+     * @param array $data
+     *
+     * @return \UaResult\Company\Company
      */
-    public function getBits();
+    public function fromArray(array $data)
+    {
+        $name      = isset($data['name']) ? $data['name'] : null;
+        $brandname = isset($data['brandname']) ? $data['brandname'] : null;
+
+        return new Company($name, $brandname);
+    }
 
     /**
-     * @return \UaResult\Company\Company|null
+     * @param string $json
+     *
+     * @return \UaResult\Company\Company
      */
-    public function getManufacturer();
-
-    /**
-     * @return string|null
-     */
-    public function getName();
-
-    /**
-     * @return string|null
-     */
-    public function getMarketingName();
-
-    /**
-     * @return \BrowserDetector\Version\Version|null
-     */
-    public function getVersion();
-
-    /**
-     * @return array
-     */
-    public function toArray();
-
-    /**
-     * @return string
-     */
-    public function toJson();
+    public function fromJson($json)
+    {
+        return $this->fromArray((array) json_decode($json));
+    }
 }

@@ -42,14 +42,9 @@ namespace UaResult\Engine;
 interface EngineInterface
 {
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getManufacturer();
-
-    /**
-     * @return string|null
-     */
-    public function getBrand();
 
     /**
      * @return string|null
@@ -60,4 +55,14 @@ interface EngineInterface
      * @return \BrowserDetector\Version\Version|null
      */
     public function getVersion();
+
+    /**
+     * @return array
+     */
+    public function toArray();
+
+    /**
+     * @return string
+     */
+    public function toJson();
 }

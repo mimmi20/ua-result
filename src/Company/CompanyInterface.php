@@ -59,4 +59,14 @@ interface CompanyInterface
      * @return string|null
      */
     public function getBrandName();
+
+    /**
+     * @return array
+     */
+    public function toArray();
+
+    /**
+     * @return string
+     */
+    public function toJson();
 }

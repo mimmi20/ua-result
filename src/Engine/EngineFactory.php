@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2015, 2016, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2012-2016, Thomas Mueller <mimmi20@live.de>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -20,81 +20,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category  ua-result
+ * @category  BrowserDetector
  *
  * @author    Thomas Mueller <mimmi20@live.de>
- * @copyright 2015, 2016 Thomas Mueller
+ * @copyright 2012-2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  *
- * @link      https://github.com/mimmi20/ua-result
+ * @link      https://github.com/mimmi20/BrowserDetector
  */
 
-namespace UaResult\Browser;
+namespace UaResult\Engine;
+
+use BrowserDetector\Version\Version;
+use BrowserDetector\Version\VersionFactory;
+use UaResult\Company\Company;
+use UaResult\Company\CompanyFactory;
 
 /**
- * base class for all browsers to detect
+ * Browser detection class
  *
- * @category  ua-result
+ * @category  BrowserDetector
  *
- * @copyright 2015, 2016 Thomas Mueller
+ * @author    Thomas Mueller <mimmi20@live.de>
+ * @copyright 2012-2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-interface BrowserInterface
+class EngineFactory
 {
     /**
-     * gets the name of the browser
+     * @param array $data
      *
-     * @return string
-     */
-    public function getName();
-
-    /**
-     * @return \UaResult\Company\Company|null
-     */
-    public function getManufacturer();
-
-    /**
-     * @return string|null
-     */
-    public function getModus();
-
-    /**
-     * @return bool|null
-     */
-    public function getPdfSupport();
-
-    /**
-     * @return bool|null
-     */
-    public function getRssSupport();
-
-    /**
-     * @return \BrowserDetector\Version\Version|null
-     */
-    public function getVersion();
-
-    /**
-     * @return int|null
-     */
-    public function getBits();
-
-    /**
-     * @return \UaBrowserType\TypeInterface|null
-     */
-    public function getType();
-
-    /**
      * @return \UaResult\Engine\Engine
      */
-    public function getEngine();
+    public function fromArray(array $data)
+    {
+        $name = isset($data['name']) ? $data['name'] : null;
+
+        if (isset($data['version'])) {
+            $version = (new VersionFactory())->fromArray((array) $data['version']);
+        } else {
+            $version = new Version();
+        }
+
+        if (isset($data['manufacturer'])) {
+            $manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
+        } else {
+            $manufacturer = new Company('unknown');
+        }
+
+        return new Engine($name, $manufacturer, $version);
+    }
 
     /**
-     * @return array
+     * @param string $json
+     *
+     * @return \UaResult\Engine\Engine
      */
-    public function toArray();
-
-    /**
-     * @return string
-     */
-    public function toJson();
+    public function fromJson($json)
+    {
+        return $this->fromArray((array) json_decode($json));
+    }
 }

@@ -31,11 +31,20 @@
 
 namespace UaResult\Result;
 
+use UaResult\Browser\Browser;
+use UaResult\Browser\BrowserFactory;
 use UaResult\Browser\BrowserInterface;
+use UaResult\Device\Device;
+use UaResult\Device\DeviceFactory;
 use UaResult\Device\DeviceInterface;
+use UaResult\Engine\Engine;
+use UaResult\Engine\EngineFactory;
 use UaResult\Engine\EngineInterface;
+use UaResult\Os\Os;
+use UaResult\Os\OsFactory;
 use UaResult\Os\OsInterface;
 use Wurfl\Request\GenericRequest;
+use Wurfl\Request\GenericRequestFactory;
 
 /**
  * @category  ua-result
@@ -696,12 +705,32 @@ class Result implements ResultInterface, \Serializable
         array $capabilities = [],
         $wurflKey = null
     ) {
-        $this->request   = $request;
-        $this->device    = $device;
-        $this->os        = $os;
-        $this->browser   = $browser;
-        $this->engine    = $engine;
-        $this->wurflKey  = $wurflKey;
+        $this->request  = $request;
+        $this->wurflKey = $wurflKey;
+
+        if (null === $device) {
+            $this->device = new Device(null, null);
+        } else {
+            $this->device = $device;
+        }
+
+        if (null === $os) {
+            $this->os = new Os('unknown', 'unknown');
+        } else {
+            $this->os = $os;
+        }
+
+        if (null === $browser) {
+            $this->browser = new Browser('unknown');
+        } else {
+            $this->browser = $browser;
+        }
+
+        if (null === $engine) {
+            $this->engine = new Engine('unknown');
+        } else {
+            $this->engine = $engine;
+        }
 
         $this->setCapabilities($capabilities);
     }
@@ -790,17 +819,7 @@ class Result implements ResultInterface, \Serializable
      */
     public function serialize()
     {
-        return serialize(
-            [
-                'capabilities' => $this->capabilities,
-                'wurflKey'     => $this->wurflKey,
-                'request'      => $this->request,
-                'device'       => $this->device,
-                'browser'      => $this->browser,
-                'os'           => $this->os,
-                'engine'       => $this->engine,
-            ]
-        );
+        return serialize($this->toArray());
     }
 
     /**
@@ -817,34 +836,7 @@ class Result implements ResultInterface, \Serializable
     {
         $unseriliazedData = unserialize($data);
 
-        $this->capabilities = $unseriliazedData['capabilities'];
-        $this->wurflKey     = $unseriliazedData['wurflKey'];
-        $this->request      = $unseriliazedData['request'];
-        $this->device       = $unseriliazedData['device'];
-        $this->browser      = $unseriliazedData['browser'];
-        $this->os           = $unseriliazedData['os'];
-        $this->engine       = $unseriliazedData['engine'];
-    }
-
-    /**
-     * Returns the value of a given capability name for the current device
-     *
-     * @param string $capabilityName  must be a valid capability name
-     * @param string $capabilityValue
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return \UaResult\Result\Result
-     */
-    private function setCapability(
-        $capabilityName,
-        $capabilityValue = null
-    ) {
-        $this->checkCapability($capabilityName);
-
-        $this->capabilities[$capabilityName] = $capabilityValue;
-
-        return $this;
+        $this->fromArray($unseriliazedData);
     }
 
     /**
@@ -854,8 +846,6 @@ class Result implements ResultInterface, \Serializable
      * @param string $capabilityName must be a valid capability name
      *
      * @throws \InvalidArgumentException
-     *
-     * @return string Capability value
      */
     private function checkCapability($capabilityName)
     {
@@ -865,9 +855,15 @@ class Result implements ResultInterface, \Serializable
             );
         }
 
+        if (is_numeric($capabilityName)) {
+            throw new \InvalidArgumentException(
+                'capability name must not be numeric'
+            );
+        }
+
         if (!array_key_exists($capabilityName, $this->capabilities)) {
             throw new \InvalidArgumentException(
-                'no capability named [' . $capabilityName . '] is present. [' . json_encode($this->capabilities) . ']'
+                'no capability named [' . $capabilityName . '] is present.'
             );
         }
     }
@@ -876,27 +872,55 @@ class Result implements ResultInterface, \Serializable
      * Returns the value of a given capability name for the current device
      *
      * @param array $capabilities An array of name/value pairs
-     *
-     * @return \UaResult\Result\Result
      */
     private function setCapabilities(array $capabilities)
     {
         foreach ($capabilities as $capabilityName => $capabilityValue) {
-            if (is_numeric($capabilityName)) {
-                continue;
-            }
-
-            if (!array_key_exists($capabilityName, $this->capabilities)) {
-                continue;
-            }
-
             try {
-                $this->setCapability($capabilityName, $capabilityValue);
+                $this->checkCapability($capabilityName);
             } catch (\InvalidArgumentException $e) {
                 continue;
             }
-        }
 
-        return $this;
+            $this->capabilities[$capabilityName] = $capabilityValue;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'capabilities' => $this->capabilities,
+            'wurflKey'     => $this->wurflKey,
+            'request'      => $this->request->toArray(),
+            'device'       => $this->device->toArray(),
+            'browser'      => $this->browser->toArray(),
+            'os'           => $this->os->toArray(),
+            'engine'       => $this->engine->toArray(),
+        ];
+    }
+
+    /**
+     * @param array $data
+     */
+    private function fromArray(array $data)
+    {
+        $this->capabilities = isset($data['capabilities']) ? $data['capabilities'] : [];
+        $this->wurflKey     = isset($data['wurflKey']) ? $data['wurflKey'] : null;
+        $this->request      = (new GenericRequestFactory())->fromArray($data['request']);
+        $this->device       = (new DeviceFactory())->fromArray($data['device']);
+        $this->browser      = (new BrowserFactory())->fromArray($data['browser']);
+        $this->os           = (new OsFactory())->fromArray($data['os']);
+        $this->engine       = (new EngineFactory())->fromArray($data['engine']);
     }
 }

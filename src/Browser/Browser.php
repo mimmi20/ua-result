@@ -32,8 +32,14 @@
 namespace UaResult\Browser;
 
 use BrowserDetector\Version\Version;
+use BrowserDetector\Version\VersionFactory;
+use UaBrowserType\Type;
+use UaBrowserType\TypeFactory;
 use UaBrowserType\TypeInterface;
+use UaResult\Company\Company;
+use UaResult\Company\CompanyFactory;
 use UaResult\Engine\Engine;
+use UaResult\Engine\EngineFactory;
 
 /**
  * base class for all browsers to detect
@@ -61,14 +67,9 @@ class Browser implements BrowserInterface, \Serializable
     private $version = null;
 
     /**
-     * @var string|null
+     * @var \UaResult\Company\Company|null
      */
     private $manufacturer = null;
-
-    /**
-     * @var string|null
-     */
-    private $brand = null;
 
     /**
      * @var bool|null
@@ -79,31 +80,6 @@ class Browser implements BrowserInterface, \Serializable
      * @var bool|null
      */
     private $rssSupport = null;
-
-    /**
-     * @var bool|null
-     */
-    private $canSkipAlignedLinkRow = null;
-
-    /**
-     * @var bool|null
-     */
-    private $claimsWebSupport = null;
-
-    /**
-     * @var bool|null
-     */
-    private $supportsEmptyOptionValues = null;
-
-    /**
-     * @var bool|null
-     */
-    private $supportsBasicAuthentication = null;
-
-    /**
-     * @var bool|null
-     */
-    private $supportsPostMethod = null;
 
     /**
      * @var int|null
@@ -121,51 +97,56 @@ class Browser implements BrowserInterface, \Serializable
     private $engine = null;
 
     /**
-     * @param string                           $name
-     * @param string                           $manufacturer
-     * @param string                           $brand
-     * @param \BrowserDetector\Version\Version $version
-     * @param \UaResult\Engine\Engine          $engine
-     * @param \UaBrowserType\TypeInterface     $type
-     * @param int|null                         $bits
-     * @param bool                             $pdfSupport
-     * @param bool                             $rssSupport
-     * @param bool                             $canSkipAlignedLinkRow
-     * @param bool                             $claimsWebSupport
-     * @param bool                             $supportsEmptyOptionValues
-     * @param bool                             $supportsBasicAuthentication
-     * @param bool                             $supportsPostMethod
+     * @param string                                $name
+     * @param \UaResult\Company\Company|null        $manufacturer
+     * @param \BrowserDetector\Version\Version|null $version
+     * @param \UaResult\Engine\Engine|null          $engine
+     * @param \UaBrowserType\TypeInterface|null     $type
+     * @param int|null                              $bits
+     * @param bool                                  $pdfSupport
+     * @param bool                                  $rssSupport
+     * @param string|null                           $modus
      */
     public function __construct(
         $name,
-        $manufacturer,
-        $brand,
+        Company $manufacturer = null,
         Version $version = null,
         Engine $engine = null,
         TypeInterface $type = null,
         $bits = null,
         $pdfSupport = false,
         $rssSupport = false,
-        $canSkipAlignedLinkRow = false,
-        $claimsWebSupport = false,
-        $supportsEmptyOptionValues = false,
-        $supportsBasicAuthentication = false,
-        $supportsPostMethod = false
+        $modus = null
     ) {
-        $this->name                        = $name;
-        $this->manufacturer                = $manufacturer;
-        $this->brand                       = $brand;
-        $this->version                     = $version;
-        $this->engine                      = $engine;
-        $this->type                        = $type;
-        $this->bits                        = $bits;
-        $this->pdfSupport                  = $pdfSupport;
-        $this->rssSupport                  = $rssSupport;
-        $this->canSkipAlignedLinkRow       = $canSkipAlignedLinkRow;
-        $this->claimsWebSupport            = $claimsWebSupport;
-        $this->supportsEmptyOptionValues   = $supportsEmptyOptionValues;
-        $this->supportsBasicAuthentication = $supportsBasicAuthentication;
-        $this->supportsPostMethod          = $supportsPostMethod;
+        $this->name       = $name;
+        $this->bits       = $bits;
+        $this->pdfSupport = $pdfSupport;
+        $this->rssSupport = $rssSupport;
+        $this->modus      = $modus;
+
+        if (null === $version) {
+            $this->version = new Version();
+        } else {
+            $this->version = $version;
+        }
+
+        if (null === $engine) {
+            $this->engine = new Engine('unknown');
+        } else {
+            $this->engine = $engine;
+        }
+
+        if (null === $type) {
+            $this->type = new Type('unknown');
+        } else {
+            $this->type = $type;
+        }
+
+        if (null === $manufacturer) {
+            $this->manufacturer = new Company('unknown');
+        } else {
+            $this->manufacturer = $manufacturer;
+        }
     }
 
     /**
@@ -179,35 +160,11 @@ class Browser implements BrowserInterface, \Serializable
     }
 
     /**
-     * @return bool|null
-     */
-    public function getCanSkipAlignedLinkRow()
-    {
-        return $this->canSkipAlignedLinkRow;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getClaimsWebSupport()
-    {
-        return $this->claimsWebSupport;
-    }
-
-    /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getManufacturer()
     {
         return $this->manufacturer;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getBrand()
-    {
-        return $this->brand;
     }
 
     /**
@@ -232,30 +189,6 @@ class Browser implements BrowserInterface, \Serializable
     public function getRssSupport()
     {
         return $this->rssSupport;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getSupportsBasicAuthentication()
-    {
-        return $this->supportsBasicAuthentication;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getSupportsEmptyOptionValues()
-    {
-        return $this->supportsEmptyOptionValues;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getSupportsPostMethod()
-    {
-        return $this->supportsPostMethod;
     }
 
     /**
@@ -291,6 +224,16 @@ class Browser implements BrowserInterface, \Serializable
     }
 
     /**
+     * Returns the name of the company
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * String representation of object
      *
@@ -300,25 +243,7 @@ class Browser implements BrowserInterface, \Serializable
      */
     public function serialize()
     {
-        return serialize(
-            [
-                'name'                        => $this->name,
-                'modus'                       => $this->modus,
-                'version'                     => $this->version,
-                'manufacturer'                => $this->manufacturer,
-                'brand'                       => $this->brand,
-                'pdfSupport'                  => $this->pdfSupport,
-                'rssSupport'                  => $this->rssSupport,
-                'canSkipAlignedLinkRow'       => $this->canSkipAlignedLinkRow,
-                'claimsWebSupport'            => $this->claimsWebSupport,
-                'supportsEmptyOptionValues'   => $this->supportsEmptyOptionValues,
-                'supportsBasicAuthentication' => $this->supportsBasicAuthentication,
-                'supportsPostMethod'          => $this->supportsPostMethod,
-                'bits'                        => $this->bits,
-                'type'                        => $this->type,
-                'engine'                      => $this->engine,
-            ]
-        );
+        return serialize($this->toArray());
     }
 
     /**
@@ -335,20 +260,49 @@ class Browser implements BrowserInterface, \Serializable
     {
         $unseriliazedData = unserialize($serialized);
 
-        $this->name                        = $unseriliazedData['name'];
-        $this->modus                       = $unseriliazedData['modus'];
-        $this->version                     = $unseriliazedData['version'];
-        $this->manufacturer                = $unseriliazedData['manufacturer'];
-        $this->brand                       = $unseriliazedData['brand'];
-        $this->pdfSupport                  = $unseriliazedData['pdfSupport'];
-        $this->rssSupport                  = $unseriliazedData['rssSupport'];
-        $this->canSkipAlignedLinkRow       = $unseriliazedData['canSkipAlignedLinkRow'];
-        $this->claimsWebSupport            = $unseriliazedData['claimsWebSupport'];
-        $this->supportsEmptyOptionValues   = $unseriliazedData['supportsEmptyOptionValues'];
-        $this->supportsBasicAuthentication = $unseriliazedData['supportsBasicAuthentication'];
-        $this->supportsPostMethod          = $unseriliazedData['supportsPostMethod'];
-        $this->bits                        = $unseriliazedData['bits'];
-        $this->type                        = $unseriliazedData['type'];
-        $this->engine                      = $unseriliazedData['engine'];
+        $this->fromArray($unseriliazedData);
+    }
+
+    /**
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'name'         => $this->name,
+            'modus'        => $this->modus,
+            'version'      => $this->version->toArray(),
+            'manufacturer' => $this->manufacturer->toArray(),
+            'pdfSupport'   => $this->pdfSupport,
+            'rssSupport'   => $this->rssSupport,
+            'bits'         => $this->bits,
+            'type'         => $this->type->toArray(),
+            'engine'       => $this->engine->toArray(),
+        ];
+    }
+
+    /**
+     * @param array $data
+     */
+    private function fromArray(array $data)
+    {
+        $this->name         = isset($data['name']) ? $data['name'] : null;
+        $this->modus        = isset($data['modus']) ? $data['modus'] : null;
+        $this->manufacturer = isset($data['manufacturer']) ? $data['manufacturer'] : null;
+        $this->pdfSupport   = isset($data['pdfSupport']) ? $data['pdfSupport'] : null;
+        $this->rssSupport   = isset($data['rssSupport']) ? $data['rssSupport'] : null;
+        $this->bits         = isset($data['bits']) ? $data['bits'] : null;
+        $this->type         = (new TypeFactory())->fromArray((array) $data['type']);
+        $this->version      = (new VersionFactory())->fromArray((array) $data['version']);
+        $this->engine       = (new EngineFactory())->fromArray((array) $data['engine']);
+        $this->manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
     }
 }

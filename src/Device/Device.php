@@ -32,7 +32,14 @@
 namespace UaResult\Device;
 
 use BrowserDetector\Version\Version;
+use BrowserDetector\Version\VersionFactory;
+use UaDeviceType\Type;
+use UaDeviceType\TypeFactory;
 use UaDeviceType\TypeInterface;
+use UaResult\Company\Company;
+use UaResult\Company\CompanyFactory;
+use UaResult\Os\Os;
+use UaResult\Os\OsFactory;
 use UaResult\Os\OsInterface;
 
 /**
@@ -62,12 +69,12 @@ class Device implements DeviceInterface, \Serializable
     private $version = null;
 
     /**
-     * @var string|null
+     * @var \UaResult\Company\Company|null
      */
     private $manufacturer = null;
 
     /**
-     * @var string|null
+     * @var \UaResult\Company\Company|null
      */
     private $brand = null;
 
@@ -124,8 +131,8 @@ class Device implements DeviceInterface, \Serializable
     /**
      * @param string                                $deviceName
      * @param string                                $marketingName
-     * @param string                                $manufacturer
-     * @param string                                $brand
+     * @param \UaResult\Company\Company|null        $manufacturer
+     * @param \UaResult\Company\Company|null        $brand
      * @param \BrowserDetector\Version\Version|null $version
      * @param \UaResult\Os\OsInterface|null         $platform
      * @param \UaDeviceType\TypeInterface|null      $type
@@ -141,8 +148,8 @@ class Device implements DeviceInterface, \Serializable
     public function __construct(
         $deviceName,
         $marketingName,
-        $manufacturer,
-        $brand,
+        Company $manufacturer = null,
+        Company $brand = null,
         Version $version = null,
         OsInterface $platform = null,
         TypeInterface $type = null,
@@ -157,10 +164,6 @@ class Device implements DeviceInterface, \Serializable
     ) {
         $this->deviceName         = $deviceName;
         $this->marketingName      = $marketingName;
-        $this->manufacturer       = $manufacturer;
-        $this->brand              = $brand;
-        $this->version            = $version;
-        $this->platform           = $platform;
         $this->type               = $type;
         $this->pointingMethod     = $pointingMethod;
         $this->resolutionWidth    = $resolutionWidth;
@@ -170,10 +173,40 @@ class Device implements DeviceInterface, \Serializable
         $this->smsSupport         = $smsSupport;
         $this->nfcSupport         = $nfcSupport;
         $this->hasQwertyKeyboard  = $hasQwertyKeyboard;
+
+        if (null === $version) {
+            $this->version = new Version();
+        } else {
+            $this->version = $version;
+        }
+
+        if (null === $platform) {
+            $this->platform = new Os('unknown', 'unknown');
+        } else {
+            $this->platform = $platform;
+        }
+
+        if (null === $type) {
+            $this->type = new Type('unknown');
+        } else {
+            $this->type = $type;
+        }
+
+        if (null === $manufacturer) {
+            $this->manufacturer = new Company('unknown');
+        } else {
+            $this->manufacturer = $manufacturer;
+        }
+
+        if (null === $brand) {
+            $this->brand = new Company('unknown');
+        } else {
+            $this->brand = $brand;
+        }
     }
 
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getDeviceName()
     {
@@ -181,7 +214,7 @@ class Device implements DeviceInterface, \Serializable
     }
 
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getBrand()
     {
@@ -293,6 +326,16 @@ class Device implements DeviceInterface, \Serializable
     }
 
     /**
+     * Returns the name of the company
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDeviceName();
+    }
+
+    /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * String representation of object
      *
@@ -302,25 +345,7 @@ class Device implements DeviceInterface, \Serializable
      */
     public function serialize()
     {
-        return serialize(
-            [
-                'deviceName'        => $this->deviceName,
-                'marketingName'     => $this->marketingName,
-                'version'           => $this->version,
-                'manufacturer'      => $this->manufacturer,
-                'brand'             => $this->brand,
-                'pointingMethod'    => $this->pointingMethod,
-                'resolutionWidth'   => $this->resolutionWidth,
-                'resolutionHeight'  => $this->resolutionHeight,
-                'dualOrientation'   => $this->dualOrientation,
-                'colors'            => $this->colors,
-                'smsSupport'        => $this->smsSupport,
-                'nfcSupport'        => $this->nfcSupport,
-                'hasQwertyKeyboard' => $this->hasQwertyKeyboard,
-                'type'              => $this->type,
-                'platform'          => $this->platform,
-            ]
-        );
+        return serialize($this->toArray());
     }
 
     /**
@@ -337,20 +362,60 @@ class Device implements DeviceInterface, \Serializable
     {
         $unseriliazedData = unserialize($data);
 
-        $this->deviceName            = $unseriliazedData['deviceName'];
-        $this->marketingName         = $unseriliazedData['marketingName'];
-        $this->version               = $unseriliazedData['version'];
-        $this->manufacturer          = $unseriliazedData['manufacturer'];
-        $this->brand                 = $unseriliazedData['brand'];
-        $this->pointingMethod        = $unseriliazedData['pointingMethod'];
-        $this->resolutionWidth       = $unseriliazedData['resolutionWidth'];
-        $this->resolutionHeight      = $unseriliazedData['resolutionHeight'];
-        $this->dualOrientation       = $unseriliazedData['dualOrientation'];
-        $this->colors                = $unseriliazedData['colors'];
-        $this->smsSupport            = $unseriliazedData['smsSupport'];
-        $this->nfcSupport            = $unseriliazedData['nfcSupport'];
-        $this->hasQwertyKeyboard     = $unseriliazedData['hasQwertyKeyboard'];
-        $this->type                  = $unseriliazedData['type'];
-        $this->platform              = $unseriliazedData['platform'];
+        $this->fromArray($unseriliazedData);
+    }
+
+    /**
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'deviceName'        => $this->deviceName,
+            'marketingName'     => $this->marketingName,
+            'version'           => $this->version->toArray(),
+            'manufacturer'      => $this->manufacturer->toArray(),
+            'brand'             => $this->brand->toArray(),
+            'pointingMethod'    => $this->pointingMethod,
+            'resolutionWidth'   => $this->resolutionWidth,
+            'resolutionHeight'  => $this->resolutionHeight,
+            'dualOrientation'   => $this->dualOrientation,
+            'colors'            => $this->colors,
+            'smsSupport'        => $this->smsSupport,
+            'nfcSupport'        => $this->nfcSupport,
+            'hasQwertyKeyboard' => $this->hasQwertyKeyboard,
+            'type'              => $this->type->toArray(),
+            'platform'          => $this->platform->toArray(),
+        ];
+    }
+
+    /**
+     * @param array $data
+     */
+    private function fromArray(array $data)
+    {
+        $this->deviceName        = isset($data['deviceName']) ? $data['deviceName'] : null;
+        $this->marketingName     = isset($data['marketingName']) ? $data['marketingName'] : null;
+        $this->pointingMethod    = isset($data['pointingMethod']) ? $data['pointingMethod'] : null;
+        $this->resolutionWidth   = isset($data['resolutionWidth']) ? $data['resolutionWidth'] : null;
+        $this->resolutionHeight  = isset($data['resolutionHeight']) ? $data['resolutionHeight'] : null;
+        $this->dualOrientation   = isset($data['dualOrientation']) ? $data['dualOrientation'] : null;
+        $this->colors            = isset($data['colors']) ? $data['colors'] : null;
+        $this->smsSupport        = isset($data['smsSupport']) ? $data['smsSupport'] : null;
+        $this->nfcSupport        = isset($data['nfcSupport']) ? $data['nfcSupport'] : null;
+        $this->hasQwertyKeyboard = isset($data['hasQwertyKeyboard']) ? $data['hasQwertyKeyboard'] : null;
+        $this->type              = (new TypeFactory())->fromArray((array) $data['type']);
+        $this->version           = (new VersionFactory())->fromArray((array) $data['version']);
+        $this->platform          = (new OsFactory())->fromArray((array) $data['platform']);
+        $this->manufacturer      = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
+        $this->brand             = (new CompanyFactory())->fromArray((array) $data['brand']);
     }
 }

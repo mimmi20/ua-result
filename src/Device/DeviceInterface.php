@@ -42,12 +42,12 @@ namespace UaResult\Device;
 interface DeviceInterface
 {
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getDeviceName();
 
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getBrand();
 
@@ -115,4 +115,14 @@ interface DeviceInterface
      * @return \UaResult\Os\OsInterface|null
      */
     public function getPlatform();
+
+    /**
+     * @return array
+     */
+    public function toArray();
+
+    /**
+     * @return string
+     */
+    public function toJson();
 }
