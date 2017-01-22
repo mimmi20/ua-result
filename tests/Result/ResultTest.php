@@ -31,7 +31,12 @@
 
 namespace UaResultTest\Result;
 
+use UaResult\Browser\Browser;
+use UaResult\Device\Device;
+use UaResult\Engine\Engine;
+use UaResult\Os\Os;
 use UaResult\Result\Result;
+use UaResult\Result\ResultFactory;
 use Wurfl\Request\GenericRequestFactory;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
@@ -41,10 +46,10 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $requestFactory = new GenericRequestFactory();
         $request        = $requestFactory->createRequestForUserAgent('test-ua');
 
-        $device       = $this->createMock('\UaResult\Device\Device');
-        $os           = $this->createMock('\UaResult\Os\Os');
-        $browser      = $this->createMock('\UaResult\Browser\Browser');
-        $engine       = $this->createMock('\UaResult\Engine\Engine');
+        $device       = new Device(null, null);
+        $os           = new Os('unknown', 'unknown');
+        $browser      = new Browser('unknown');
+        $engine       = new Engine('unknown');
         $capabilities = [];
         $wurflKey     = 'test';
 
@@ -57,5 +62,101 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         self::assertSame($engine, $object->getEngine());
         self::assertInternalType('array', $object->getCapabilities());
         self::assertSame($wurflKey, $object->getWurflKey());
+    }
+
+    public function testSerialize()
+    {
+        $requestFactory = new GenericRequestFactory();
+        $request        = $requestFactory->createRequestForUserAgent('test-ua');
+
+        $device       = new Device(null, null);
+        $os           = new Os('unknown', 'unknown');
+        $browser      = new Browser('unknown');
+        $engine       = new Engine('unknown');
+        $capabilities = [];
+        $wurflKey     = 'test';
+
+        $original   = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
+        $serialized = serialize($original);
+        $object     = unserialize($serialized);
+
+        self::assertEquals($request, $object->getRequest());
+        self::assertEquals($device, $object->getDevice());
+        self::assertEquals($os, $object->getOs());
+        self::assertEquals($browser, $object->getBrowser());
+        self::assertEquals($engine, $object->getEngine());
+        self::assertInternalType('array', $object->getCapabilities());
+        self::assertSame($wurflKey, $object->getWurflKey());
+    }
+
+    public function testToarray()
+    {
+        $requestFactory = new GenericRequestFactory();
+        $request        = $requestFactory->createRequestForUserAgent('test-ua');
+
+        $device       = new Device(null, null);
+        $os           = new Os('unknown', 'unknown');
+        $browser      = new Browser('unknown');
+        $engine       = new Engine('unknown');
+        $capabilities = [];
+        $wurflKey     = 'test';
+
+        $original = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
+        $array    = $original->toArray();
+        $object   = (new ResultFactory())->fromArray($array);
+
+        self::assertEquals($request, $object->getRequest());
+        self::assertEquals($device, $object->getDevice());
+        self::assertEquals($os, $object->getOs());
+        self::assertEquals($browser, $object->getBrowser());
+        self::assertEquals($engine, $object->getEngine());
+        self::assertInternalType('array', $object->getCapabilities());
+        self::assertSame($wurflKey, $object->getWurflKey());
+    }
+
+    public function testTojson()
+    {
+        $requestFactory = new GenericRequestFactory();
+        $request        = $requestFactory->createRequestForUserAgent('test-ua');
+
+        $device       = new Device(null, null);
+        $os           = new Os('unknown', 'unknown');
+        $browser      = new Browser('unknown');
+        $engine       = new Engine('unknown');
+        $capabilities = [];
+        $wurflKey     = 'test';
+
+        $original = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
+        $json     = $original->toJson();
+        $object   = (new ResultFactory())->fromJson($json);
+
+        self::assertEquals($request, $object->getRequest());
+        self::assertEquals($device, $object->getDevice());
+        self::assertEquals($os, $object->getOs());
+        self::assertEquals($browser, $object->getBrowser());
+        self::assertEquals($engine, $object->getEngine());
+        self::assertInternalType('array', $object->getCapabilities());
+        self::assertSame($wurflKey, $object->getWurflKey());
+    }
+
+    public function testFromEmptyArray()
+    {
+        $requestFactory = new GenericRequestFactory();
+        $request        = $requestFactory->createRequestForUserAgent('');
+
+        $device       = new Device(null, null);
+        $os           = new Os('unknown', 'unknown');
+        $browser      = new Browser('unknown');
+        $engine       = new Engine('unknown');
+
+        $object = (new ResultFactory())->fromArray([]);
+
+        self::assertEquals($request, $object->getRequest());
+        self::assertEquals($device, $object->getDevice());
+        self::assertEquals($os, $object->getOs());
+        self::assertEquals($browser, $object->getBrowser());
+        self::assertEquals($engine, $object->getEngine());
+        self::assertInternalType('array', $object->getCapabilities());
+        self::assertNull($object->getWurflKey());
     }
 }

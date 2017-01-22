@@ -31,11 +31,16 @@
 
 namespace UaResult\Result;
 
+use UaResult\Browser\BrowserFactory;
 use UaResult\Browser\BrowserInterface;
+use UaResult\Device\DeviceFactory;
 use UaResult\Device\DeviceInterface;
+use UaResult\Engine\EngineFactory;
 use UaResult\Engine\EngineInterface;
+use UaResult\Os\OsFactory;
 use UaResult\Os\OsInterface;
 use Wurfl\Request\GenericRequest;
+use Wurfl\Request\GenericRequestFactory;
 
 /**
  * @category  ua-result
@@ -810,13 +815,7 @@ class Result implements ResultInterface, \Serializable
     {
         $unseriliazedData = unserialize($data);
 
-        $this->capabilities = $unseriliazedData['capabilities'];
-        $this->wurflKey     = $unseriliazedData['wurflKey'];
-        $this->request      = $unseriliazedData['request'];
-        $this->device       = $unseriliazedData['device'];
-        $this->browser      = $unseriliazedData['browser'];
-        $this->os           = $unseriliazedData['os'];
-        $this->engine       = $unseriliazedData['engine'];
+        $this->fromArray($unseriliazedData);
     }
 
     /**
@@ -909,11 +908,11 @@ class Result implements ResultInterface, \Serializable
         return [
             'capabilities' => $this->capabilities,
             'wurflKey'     => $this->wurflKey,
-            'request'      => $this->request,
-            'device'       => $this->device,
-            'browser'      => $this->browser,
-            'os'           => $this->os,
-            'engine'       => $this->engine,
+            'request'      => $this->request->toArray(),
+            'device'       => $this->device->toArray(),
+            'browser'      => $this->browser->toArray(),
+            'os'           => $this->os->toArray(),
+            'engine'       => $this->engine->toArray(),
         ];
     }
 
@@ -922,10 +921,12 @@ class Result implements ResultInterface, \Serializable
      */
     private function fromArray(array $data)
     {
-        $this->major     = isset($data['major']) ? $data['major'] : null;
-        $this->minor     = isset($data['minor']) ? $data['minor'] : null;
-        $this->micro     = isset($data['micro']) ? $data['micro'] : null;
-        $this->stability = isset($data['stability']) ? $data['stability'] : null;
-        $this->build     = isset($data['build']) ? $data['build'] : null;
+        $this->capabilities = isset($data['capabilities']) ? $data['capabilities'] : [];
+        $this->wurflKey     = isset($data['wurflKey']) ? $data['wurflKey'] : null;
+        $this->request      = (new GenericRequestFactory())->fromArray($data['request']);
+        $this->device       = (new DeviceFactory())->fromArray($data['device']);
+        $this->browser      = (new BrowserFactory())->fromArray($data['browser']);
+        $this->os           = (new OsFactory())->fromArray($data['os']);
+        $this->engine       = (new EngineFactory())->fromArray($data['engine']);
     }
 }
