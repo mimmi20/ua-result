@@ -70,9 +70,4 @@ interface OsInterface
      * @return array
      */
     public function toArray();
-
-    /**
-     * @return string
-     */
-    public function toJson();
 }

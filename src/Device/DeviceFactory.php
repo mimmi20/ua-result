@@ -31,14 +31,11 @@
 
 namespace UaResult\Device;
 
-use BrowserDetector\Version\Version;
-use BrowserDetector\Version\VersionFactory;
-use UaDeviceType\Type;
-use UaDeviceType\TypeFactory;
-use UaResult\Company\Company;
-use UaResult\Company\CompanyFactory;
-use UaResult\Os\Os;
-use UaResult\Os\OsFactory;
+use BrowserDetector\Loader\NotFoundException;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Log\LoggerInterface;
+use UaDeviceType\TypeLoader;
+use UaResult\Company\CompanyLoader;
 
 /**
  * Browser detection class
@@ -52,11 +49,13 @@ use UaResult\Os\OsFactory;
 class DeviceFactory
 {
     /**
-     * @param array $data
+     * @param \Psr\Cache\CacheItemPoolInterface $cache
+     * @param \Psr\Log\LoggerInterface          $logger
+     * @param array                             $data
      *
      * @return \UaResult\Device\Device
      */
-    public function fromArray(array $data)
+    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data)
     {
         $deviceName        = isset($data['deviceName']) ? $data['deviceName'] : null;
         $marketingName     = isset($data['marketingName']) ? $data['marketingName'] : null;
@@ -69,34 +68,31 @@ class DeviceFactory
         $nfcSupport        = isset($data['nfcSupport']) ? $data['nfcSupport'] : null;
         $hasQwertyKeyboard = isset($data['hasQwertyKeyboard']) ? $data['hasQwertyKeyboard'] : null;
 
+        $type = null;
         if (isset($data['type'])) {
-            $type = (new TypeFactory())->fromArray((array) $data['type']);
-        } else {
-            $type = new Type('unknown');
+            try {
+                $type = (new TypeLoader($cache))->load($data['type']);
+            } catch (NotFoundException $e) {
+                $logger->info($e);
+            }
         }
 
-        if (isset($data['version'])) {
-            $version = (new VersionFactory())->fromArray((array) $data['version']);
-        } else {
-            $version = new Version();
-        }
-
-        if (isset($data['platform'])) {
-            $platform = (new OsFactory())->fromArray((array) $data['platform']);
-        } else {
-            $platform = new Os('unknown', 'unknown');
-        }
-
+        $manufacturer = null;
         if (isset($data['manufacturer'])) {
-            $manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
-        } else {
-            $manufacturer = new Company('unknown');
+            try {
+                $manufacturer = (new CompanyLoader($cache))->load($data['manufacturer']);
+            } catch (NotFoundException $e) {
+                $logger->info($e);
+            }
         }
 
+        $brand = null;
         if (isset($data['brand'])) {
-            $brand = (new CompanyFactory())->fromArray((array) $data['brand']);
-        } else {
-            $brand = new Company('unknown');
+            try {
+                $brand = (new CompanyLoader($cache))->load($data['brand']);
+            } catch (NotFoundException $e) {
+                $logger->info($e);
+            }
         }
 
         return new Device(
@@ -104,8 +100,6 @@ class DeviceFactory
             $marketingName,
             $manufacturer,
             $brand,
-            $version,
-            $platform,
             $type,
             $pointingMethod,
             $resolutionWidth,
@@ -116,15 +110,5 @@ class DeviceFactory
             $nfcSupport,
             $hasQwertyKeyboard
         );
-    }
-
-    /**
-     * @param string $json
-     *
-     * @return \UaResult\Device\Device
-     */
-    public function fromJson($json)
-    {
-        return $this->fromArray((array) json_decode($json));
     }
 }

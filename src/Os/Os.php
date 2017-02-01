@@ -32,9 +32,7 @@
 namespace UaResult\Os;
 
 use BrowserDetector\Version\Version;
-use BrowserDetector\Version\VersionFactory;
 use UaResult\Company\Company;
-use UaResult\Company\CompanyFactory;
 
 /**
  * base class for all rendering platforms/operating systems to detect
@@ -44,7 +42,7 @@ use UaResult\Company\CompanyFactory;
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-class Os implements OsInterface, \Serializable
+class Os implements OsInterface
 {
     /**
      * @var string|null
@@ -85,7 +83,7 @@ class Os implements OsInterface, \Serializable
         $this->bits          = $bits;
 
         if (null === $manufacturer) {
-            $this->manufacturer = new Company('unknown');
+            $this->manufacturer = new Company('unknown', 'unknown');
         } else {
             $this->manufacturer = $manufacturer;
         }
@@ -138,54 +136,6 @@ class Os implements OsInterface, \Serializable
     }
 
     /**
-     * Returns the name of the company
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * String representation of object
-     *
-     * @link http://php.net/manual/en/serializable.serialize.php
-     *
-     * @return string the string representation of the object or null
-     */
-    public function serialize()
-    {
-        return serialize($this->toArray());
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Constructs the object
-     *
-     * @link http://php.net/manual/en/serializable.unserialize.php
-     *
-     * @param string $serialized <p>
-     *                           The string representation of the object.
-     *                           </p>
-     */
-    public function unserialize($serialized)
-    {
-        $unseriliazedData = unserialize($serialized);
-
-        $this->fromArray($unseriliazedData);
-    }
-
-    /**
-     * @return string
-     */
-    public function toJson()
-    {
-        return json_encode($this->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
      * @return array
      */
     public function toArray()
@@ -193,21 +143,9 @@ class Os implements OsInterface, \Serializable
         return [
             'name'          => $this->name,
             'marketingName' => $this->marketingName,
-            'version'       => $this->version->toArray(),
-            'manufacturer'  => $this->manufacturer->toArray(),
+            'version'       => $this->version->getVersion(),
+            'manufacturer'  => $this->manufacturer->getType(),
             'bits'          => $this->bits,
         ];
-    }
-
-    /**
-     * @param array $data
-     */
-    private function fromArray(array $data)
-    {
-        $this->name          = isset($data['name']) ? $data['name'] : null;
-        $this->marketingName = isset($data['marketingName']) ? $data['marketingName'] : null;
-        $this->bits          = isset($data['bits']) ? $data['bits'] : null;
-        $this->version       = (new VersionFactory())->fromArray((array) $data['version']);
-        $this->manufacturer  = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
     }
 }
