@@ -154,7 +154,7 @@ class Device implements DeviceInterface
         $this->hasQwertyKeyboard  = $hasQwertyKeyboard;
 
         if (null === $type) {
-            $this->type = new Type('unknown', 'unknown');
+            $this->type = new Type('unknown');
         } else {
             $this->type = $type;
         }

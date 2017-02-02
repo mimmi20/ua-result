@@ -119,7 +119,7 @@ class Browser implements BrowserInterface
         }
 
         if (null === $type) {
-            $this->type = new Type('unknown', 'unknown');
+            $this->type = new Type('unknown');
         } else {
             $this->type = $type;
         }

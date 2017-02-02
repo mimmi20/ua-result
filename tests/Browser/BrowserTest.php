@@ -49,7 +49,7 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
         $name         = 'TestBrowser';
         $manufacturer = new Company('unknown', 'TestManufacturer');
         $version      = new Version();
-        $type         = new Type('unknown', 'unknown');
+        $type         = new Type('unknown');
         $bits         = 64;
         $pdfSupport   = true;
         $rssSupport   = false;
@@ -72,7 +72,7 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
         $name         = 'TestBrowser';
         $manufacturer = new Company('unknown', 'unknown');
         $version      = new Version();
-        $type         = new Type('unknown', 'unknown');
+        $type         = new Type('unknown');
 
         $object = new Browser($name);
 
@@ -96,7 +96,7 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
         $name         = 'TestBrowser';
         $manufacturer = new Company('unknown', 'unknown');
         $version      = (new VersionFactory())->set('0.0.2-beta');
-        $type         = new Type('unknown', 'unknown');
+        $type         = new Type('unknown');
         $bits         = 64;
         $pdfSupport   = true;
         $rssSupport   = false;
@@ -118,7 +118,7 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
         $logger = new NullLogger();
 
         $version = new Version();
-        $type    = new Type('unknown', 'unknown');
+        $type    = new Type('unknown');
 
         $object = (new BrowserFactory())->fromArray($cache, $logger, []);
 

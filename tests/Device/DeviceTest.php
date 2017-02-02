@@ -86,7 +86,7 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
         $marketingName     = 'TestMarketingname';
         $manufacturer      = new Company('unknown', 'unknown');
         $brand             = new Company('unknown', 'unknown');
-        $type              = new Type('unknown', 'unknown');
+        $type              = new Type('unknown');
         $pointingMethod    = 'touchscreen';
         $resolutionWidth   = 480;
         $resolutionHeight  = 1080;
@@ -125,7 +125,7 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
 
         $manufacturer = new Company('unknown', 'unknown');
         $brand        = new Company('unknown', 'unknown');
-        $type         = new Type('unknown', 'unknown');
+        $type         = new Type('unknown');
 
         $object = (new DeviceFactory())->fromArray($cache, $logger, []);
 
