@@ -42,7 +42,7 @@ namespace UaResult\Device;
 interface DeviceInterface
 {
     /**
-     * @return \UaResult\Company\Company|null
+     * @return string|null
      */
     public function getDeviceName();
 
@@ -67,7 +67,7 @@ interface DeviceInterface
     public function getHasQwertyKeyboard();
 
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getManufacturer();
 

@@ -173,7 +173,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return \UaResult\Company\Company|null
+     * @return string|null
      */
     public function getDeviceName()
     {
@@ -213,7 +213,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return string|null
+     * @return \UaResult\Company\Company|null
      */
     public function getManufacturer()
     {
