@@ -32,32 +32,34 @@
 namespace UaResultTest\Browser;
 
 use BrowserDetector\Version\Version;
+use BrowserDetector\Version\VersionFactory;
+use Cache\Adapter\Filesystem\FilesystemCachePool;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+use Psr\Log\NullLogger;
 use UaBrowserType\Type;
 use UaResult\Browser\Browser;
 use UaResult\Browser\BrowserFactory;
 use UaResult\Company\Company;
-use UaResult\Engine\Engine;
 
 class BrowserTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetterGetter()
     {
         $name         = 'TestBrowser';
-        $manufacturer = new Company('TestManufacturer');
+        $manufacturer = new Company('unknown', 'TestManufacturer');
         $version      = new Version();
-        $engine       = new Engine('TestEngine');
         $type         = new Type('unknown');
         $bits         = 64;
         $pdfSupport   = true;
         $rssSupport   = false;
         $modus        = 'Desktop Mode';
 
-        $object = new Browser($name, $manufacturer, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
+        $object = new Browser($name, $manufacturer, $version, $type, $bits, $pdfSupport, $rssSupport, $modus);
 
         self::assertSame($name, $object->getName());
         self::assertSame($manufacturer, $object->getManufacturer());
         self::assertSame($version, $object->getVersion());
-        self::assertSame($engine, $object->getEngine());
         self::assertSame($type, $object->getType());
         self::assertSame($bits, $object->getBits());
         self::assertSame($pdfSupport, $object->getPdfSupport());
@@ -68,9 +70,8 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
     public function testDefaultSetterGetter()
     {
         $name         = 'TestBrowser';
-        $manufacturer = new Company('unknown');
+        $manufacturer = new Company('unknown', 'unknown');
         $version      = new Version();
-        $engine       = new Engine('unknown');
         $type         = new Type('unknown');
 
         $object = new Browser($name);
@@ -78,7 +79,6 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
         self::assertSame($name, $object->getName());
         self::assertEquals($manufacturer, $object->getManufacturer());
         self::assertEquals($version, $object->getVersion());
-        self::assertEquals($engine, $object->getEngine());
         self::assertEquals($type, $object->getType());
         self::assertNull($object->getBits());
         self::assertFalse($object->getPdfSupport());
@@ -86,86 +86,66 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
         self::assertNull($object->getModus());
     }
 
-    public function testSerialize()
-    {
-        $name         = 'TestBrowser';
-        $manufacturer = new Company('TestManufacturer');
-        $version      = new Version();
-        $engine       = new Engine('TestEngine');
-        $type         = new Type('unknown');
-        $bits         = 64;
-        $pdfSupport   = true;
-        $rssSupport   = false;
-        $modus        = 'Desktop Mode';
-
-        $original = new Browser($name, $manufacturer, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
-
-        $serialized = serialize($original);
-        $object     = unserialize($serialized);
-
-        self::assertEquals($original, $object);
-    }
-
     public function testToarray()
     {
+        $adapter = new Local(__DIR__ . '/../cache/');
+        $cache   = new FilesystemCachePool(new Filesystem($adapter));
+
+        $logger = new NullLogger();
+
         $name         = 'TestBrowser';
-        $manufacturer = new Company('TestManufacturer');
-        $version      = new Version();
-        $engine       = new Engine('TestEngine');
+        $manufacturer = new Company('unknown', 'unknown');
+        $version      = (new VersionFactory())->set('0.0.2-beta');
         $type         = new Type('unknown');
         $bits         = 64;
         $pdfSupport   = true;
         $rssSupport   = false;
         $modus        = 'Desktop Mode';
 
-        $original = new Browser($name, $manufacturer, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
+        $original = new Browser($name, $manufacturer, $version, $type, $bits, $pdfSupport, $rssSupport, $modus);
 
         $array  = $original->toArray();
-        $object = (new BrowserFactory())->fromArray($array);
-
-        self::assertEquals($original, $object);
-    }
-
-    public function testTojson()
-    {
-        $name         = 'TestBrowser';
-        $manufacturer = new Company('TestManufacturer');
-        $version      = new Version();
-        $engine       = new Engine('TestEngine');
-        $type         = new Type('unknown');
-        $bits         = 64;
-        $pdfSupport   = true;
-        $rssSupport   = false;
-        $modus        = 'Desktop Mode';
-
-        $original = new Browser($name, $manufacturer, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
-
-        $json   = $original->toJson();
-        $object = (new BrowserFactory())->fromJson($json);
+        $object = (new BrowserFactory())->fromArray($cache, $logger, $array);
 
         self::assertEquals($original, $object);
     }
 
     public function testFromEmptyArray()
     {
+        $adapter = new Local(__DIR__ . '/../cache/');
+        $cache   = new FilesystemCachePool(new Filesystem($adapter));
+
+        $logger = new NullLogger();
+
         $version = new Version();
-        $engine  = new Engine('unknown');
         $type    = new Type('unknown');
 
-        $object = (new BrowserFactory())->fromArray([]);
+        $object = (new BrowserFactory())->fromArray($cache, $logger, []);
 
         self::assertNull($object->getName());
         self::assertEquals($version, $object->getVersion());
-        self::assertEquals($engine, $object->getEngine());
         self::assertEquals($type, $object->getType());
     }
 
-    public function testTostring()
+    public function testFromarrayWithInvalidType()
     {
-        $name = 'TestBrowser';
+        $adapter = new Local(__DIR__ . '/../cache/');
+        $cache   = new FilesystemCachePool(new Filesystem($adapter));
 
-        $object = new Browser($name);
+        $logger = new NullLogger();
 
-        self::assertSame($name, (string) $object);
+        $name    = 'test';
+        $version = new Version();
+        $type    = new Type('unknown');
+
+        $array  = [
+            'name' => $name,
+            'type' => 'does-not-exist',
+        ];
+        $object = (new BrowserFactory())->fromArray($cache, $logger, $array);
+
+        self::assertSame($name, $object->getName());
+        self::assertEquals($version, $object->getVersion());
+        self::assertEquals($type, $object->getType());
     }
 }

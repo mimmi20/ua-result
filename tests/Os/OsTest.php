@@ -32,6 +32,11 @@
 namespace UaResultTest\Os;
 
 use BrowserDetector\Version\Version;
+use BrowserDetector\Version\VersionFactory;
+use Cache\Adapter\Filesystem\FilesystemCachePool;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+use Psr\Log\NullLogger;
 use UaResult\Company\Company;
 use UaResult\Os\Os;
 use UaResult\Os\OsFactory;
@@ -42,7 +47,7 @@ class OsTest extends \PHPUnit_Framework_TestCase
     {
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = new Company('TestManufacturer');
+        $manufacturer  = new Company('TestCompanyType', 'TestManufacturer');
         $version       = new Version();
         $bits          = 64;
 
@@ -55,58 +60,23 @@ class OsTest extends \PHPUnit_Framework_TestCase
         self::assertSame($bits, $object->getBits());
     }
 
-    public function testSerialize()
-    {
-        $name          = 'TestPlatform';
-        $marketingName = 'TestMarketingname';
-        $manufacturer  = new Company('TestManufacturer');
-        $version       = new Version();
-        $bits          = 64;
-
-        $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
-
-        $serialized = serialize($original);
-        $object     = unserialize($serialized);
-
-        self::assertSame($name, $object->getName());
-        self::assertSame($marketingName, $object->getMarketingName());
-        self::assertEquals($manufacturer, $object->getManufacturer());
-        self::assertEquals($version, $object->getVersion());
-        self::assertSame($bits, $object->getBits());
-    }
-
     public function testToarray()
     {
+        $adapter = new Local(__DIR__ . '/../cache/');
+        $cache   = new FilesystemCachePool(new Filesystem($adapter));
+
+        $logger = new NullLogger();
+
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = new Company('TestManufacturer');
-        $version       = new Version();
+        $manufacturer  = new Company('unknown', 'unknown');
+        $version       = (new VersionFactory())->set('0.0.0');
         $bits          = 64;
 
         $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
 
         $array  = $original->toArray();
-        $object = (new OsFactory())->fromArray($array);
-
-        self::assertSame($name, $object->getName());
-        self::assertSame($marketingName, $object->getMarketingName());
-        self::assertEquals($manufacturer, $object->getManufacturer());
-        self::assertEquals($version, $object->getVersion());
-        self::assertSame($bits, $object->getBits());
-    }
-
-    public function testToJson()
-    {
-        $name          = 'TestPlatform';
-        $marketingName = 'TestMarketingname';
-        $manufacturer  = new Company('TestManufacturer');
-        $version       = new Version();
-        $bits          = 64;
-
-        $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
-
-        $json   = $original->toJson();
-        $object = (new OsFactory())->fromJson($json);
+        $object = (new OsFactory())->fromArray($cache, $logger, $array);
 
         self::assertSame($name, $object->getName());
         self::assertSame($marketingName, $object->getMarketingName());
@@ -117,25 +87,20 @@ class OsTest extends \PHPUnit_Framework_TestCase
 
     public function testFromEmptyArray()
     {
-        $manufacturer = new Company('unknown');
+        $adapter = new Local(__DIR__ . '/../cache/');
+        $cache   = new FilesystemCachePool(new Filesystem($adapter));
+
+        $logger = new NullLogger();
+
+        $manufacturer = new Company('unknown', 'unknown');
         $version      = new Version();
 
-        $object = (new OsFactory())->fromArray([]);
+        $object = (new OsFactory())->fromArray($cache, $logger, []);
 
         self::assertNull($object->getName());
         self::assertNull($object->getMarketingName());
         self::assertEquals($manufacturer, $object->getManufacturer());
         self::assertEquals($version, $object->getVersion());
         self::assertNull($object->getBits());
-    }
-
-    public function testTostring()
-    {
-        $name          = 'TestPlatform';
-        $marketingName = 'TestMarketingname';
-
-        $object = new Os($name, $marketingName);
-
-        self::assertSame($name, (string) $object);
     }
 }

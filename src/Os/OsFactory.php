@@ -31,10 +31,11 @@
 
 namespace UaResult\Os;
 
-use BrowserDetector\Version\Version;
+use BrowserDetector\Loader\NotFoundException;
 use BrowserDetector\Version\VersionFactory;
-use UaResult\Company\Company;
-use UaResult\Company\CompanyFactory;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Log\LoggerInterface;
+use UaResult\Company\CompanyLoader;
 
 /**
  * Browser detection class
@@ -48,38 +49,32 @@ use UaResult\Company\CompanyFactory;
 class OsFactory
 {
     /**
-     * @param array $data
+     * @param \Psr\Cache\CacheItemPoolInterface $cache
+     * @param \Psr\Log\LoggerInterface          $logger
+     * @param array                             $data
      *
      * @return \UaResult\Os\Os
      */
-    public function fromArray(array $data)
+    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data)
     {
         $name          = isset($data['name']) ? $data['name'] : null;
         $marketingName = isset($data['marketingName']) ? $data['marketingName'] : null;
         $bits          = isset($data['bits']) ? $data['bits'] : null;
 
+        $version = null;
         if (isset($data['version'])) {
-            $version = (new VersionFactory())->fromArray((array) $data['version']);
-        } else {
-            $version = new Version();
+            $version = (new VersionFactory())->set($data['version']);
         }
 
+        $manufacturer = null;
         if (isset($data['manufacturer'])) {
-            $manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
-        } else {
-            $manufacturer = new Company('unknown');
+            try {
+                $manufacturer = (new CompanyLoader($cache))->load($data['manufacturer']);
+            } catch (NotFoundException $e) {
+                $logger->info($e);
+            }
         }
 
         return new Os($name, $marketingName, $manufacturer, $version, $bits);
-    }
-
-    /**
-     * @param string $json
-     *
-     * @return \UaResult\Os\Os
-     */
-    public function fromJson($json)
-    {
-        return $this->fromArray((array) json_decode($json));
     }
 }

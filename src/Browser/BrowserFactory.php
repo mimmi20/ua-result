@@ -31,10 +31,12 @@
 
 namespace UaResult\Browser;
 
+use BrowserDetector\Loader\NotFoundException;
 use BrowserDetector\Version\VersionFactory;
-use UaBrowserType\TypeFactory;
-use UaResult\Company\CompanyFactory;
-use UaResult\Engine\EngineFactory;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Log\LoggerInterface;
+use UaBrowserType\TypeLoader;
+use UaResult\Company\CompanyLoader;
 
 /**
  * Browser detection class
@@ -48,11 +50,13 @@ use UaResult\Engine\EngineFactory;
 class BrowserFactory
 {
     /**
-     * @param array $data
+     * @param \Psr\Cache\CacheItemPoolInterface $cache
+     * @param \Psr\Log\LoggerInterface          $logger
+     * @param array                             $data
      *
      * @return \UaResult\Browser\Browser
      */
-    public function fromArray(array $data)
+    public static function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data)
     {
         $name         = isset($data['name']) ? $data['name'] : null;
         $modus        = isset($data['modus']) ? $data['modus'] : null;
@@ -60,40 +64,29 @@ class BrowserFactory
         $rssSupport   = isset($data['rssSupport']) ? $data['rssSupport'] : null;
         $bits         = isset($data['bits']) ? $data['bits'] : null;
 
+        $type = null;
         if (isset($data['type'])) {
-            $type = (new TypeFactory())->fromArray((array) $data['type']);
-        } else {
-            $type = null;
+            try {
+                $type = (new TypeLoader($cache))->load($data['type']);
+            } catch (NotFoundException $e) {
+                $logger->info($e);
+            }
         }
 
+        $version = null;
         if (isset($data['version'])) {
-            $version = (new VersionFactory())->fromArray((array) $data['version']);
-        } else {
-            $version = null;
+            $version = (new VersionFactory())->set($data['version']);
         }
 
-        if (isset($data['engine'])) {
-            $engine = (new EngineFactory())->fromArray((array) $data['engine']);
-        } else {
-            $engine = null;
-        }
-
+        $manufacturer = null;
         if (isset($data['manufacturer'])) {
-            $manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
-        } else {
-            $manufacturer = null;
+            try {
+                $manufacturer = (new CompanyLoader($cache))->load($data['manufacturer']);
+            } catch (NotFoundException $e) {
+                $logger->info($e);
+            }
         }
 
-        return new Browser($name, $manufacturer, $version, $engine, $type, $bits, $pdfSupport, $rssSupport, $modus);
-    }
-
-    /**
-     * @param string $json
-     *
-     * @return \UaResult\Browser\Browser
-     */
-    public function fromJson($json)
-    {
-        return $this->fromArray((array) json_decode($json));
+        return new Browser($name, $manufacturer, $version, $type, $bits, $pdfSupport, $rssSupport, $modus);
     }
 }

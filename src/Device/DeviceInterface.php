@@ -102,27 +102,12 @@ interface DeviceInterface
     public function getSmsSupport();
 
     /**
-     * @return \BrowserDetector\Version\Version|null
-     */
-    public function getVersion();
-
-    /**
      * @return \UaDeviceType\TypeInterface|null
      */
     public function getType();
 
     /**
-     * @return \UaResult\Os\OsInterface|null
-     */
-    public function getPlatform();
-
-    /**
      * @return array
      */
     public function toArray();
-
-    /**
-     * @return string
-     */
-    public function toJson();
 }

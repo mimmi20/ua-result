@@ -31,6 +31,8 @@
 
 namespace UaResult\Result;
 
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Log\LoggerInterface;
 use UaResult\Browser\BrowserFactory;
 use UaResult\Device\DeviceFactory;
 use UaResult\Engine\EngineFactory;
@@ -49,55 +51,40 @@ use Wurfl\Request\GenericRequestFactory;
 class ResultFactory
 {
     /**
-     * @param array $data
+     * @param \Psr\Cache\CacheItemPoolInterface $cache
+     * @param \Psr\Log\LoggerInterface          $logger
+     * @param array                             $data
      *
      * @return \UaResult\Result\Result
      */
-    public function fromArray(array $data)
+    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data)
     {
-        $capabilities = isset($data['capabilities']) ? $data['capabilities'] : [];
-        $wurflKey     = isset($data['wurflKey']) ? $data['wurflKey'] : null;
-
         if (isset($data['request'])) {
             $request = (new GenericRequestFactory())->fromArray((array) $data['request']);
         } else {
             $request = (new GenericRequestFactory())->createRequestForUserAgent('');
         }
 
+        $device = null;
         if (isset($data['device'])) {
-            $device = (new DeviceFactory())->fromArray((array) $data['device']);
-        } else {
-            $device = null;
+            $device = (new DeviceFactory())->fromArray($cache, $logger, $data['device']);
         }
 
+        $browser = null;
         if (isset($data['browser'])) {
-            $browser = (new BrowserFactory())->fromArray((array) $data['browser']);
-        } else {
-            $browser = null;
+            $browser = (new BrowserFactory())->fromArray($cache, $logger, $data['browser']);
         }
 
+        $os = null;
         if (isset($data['os'])) {
-            $os = (new OsFactory())->fromArray((array) $data['os']);
-        } else {
-            $os = null;
+            $os = (new OsFactory())->fromArray($cache, $logger, $data['os']);
         }
 
+        $engine = null;
         if (isset($data['engine'])) {
-            $engine = (new EngineFactory())->fromArray((array) $data['engine']);
-        } else {
-            $engine = null;
+            $engine = (new EngineFactory())->fromArray($cache, $logger, $data['engine']);
         }
 
-        return new Result($request, $device, $os, $browser, $engine, (array) $capabilities, $wurflKey);
-    }
-
-    /**
-     * @param string $json
-     *
-     * @return \UaResult\Result\Result
-     */
-    public function fromJson($json)
-    {
-        return $this->fromArray((array) json_decode($json));
+        return new Result($request, $device, $os, $browser, $engine);
     }
 }

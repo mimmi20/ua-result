@@ -63,35 +63,7 @@ interface ResultInterface
     public function getOs();
 
     /**
-     * @return string
-     */
-    public function getWurflKey();
-
-    /**
-     * Returns the values of all capabilities for the current device
-     *
-     * @return string[] All Capability values
-     */
-    public function getCapabilities();
-
-    /**
-     * Returns the value of a given capability name for the current device
-     *
-     * @param string $capabilityName must be a valid capability name
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return string|\BrowserDetector\Version\Version Capability value
-     */
-    public function getCapability($capabilityName);
-
-    /**
      * @return array
      */
     public function toArray();
-
-    /**
-     * @return string
-     */
-    public function toJson();
 }

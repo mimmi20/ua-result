@@ -31,6 +31,10 @@
 
 namespace UaResultTest\Result;
 
+use Cache\Adapter\Filesystem\FilesystemCachePool;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+use Psr\Log\NullLogger;
 use UaResult\Browser\Browser;
 use UaResult\Device\Device;
 use UaResult\Engine\Engine;
@@ -50,176 +54,63 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $os           = new Os('unknown', 'unknown');
         $browser      = new Browser('unknown');
         $engine       = new Engine('unknown');
-        $capabilities = [];
-        $wurflKey     = 'test';
 
-        $object = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
+        $object = new Result($request, $device, $os, $browser, $engine);
 
         self::assertSame($request, $object->getRequest());
         self::assertSame($device, $object->getDevice());
         self::assertSame($os, $object->getOs());
         self::assertSame($browser, $object->getBrowser());
         self::assertSame($engine, $object->getEngine());
-        self::assertInternalType('array', $object->getCapabilities());
-        self::assertSame($wurflKey, $object->getWurflKey());
-    }
-
-    public function testSerialize()
-    {
-        $requestFactory = new GenericRequestFactory();
-        $request        = $requestFactory->createRequestForUserAgent('test-ua');
-
-        $device       = new Device(null, null);
-        $os           = new Os('unknown', 'unknown');
-        $browser      = new Browser('unknown');
-        $engine       = new Engine('unknown');
-        $capabilities = [];
-        $wurflKey     = 'test';
-
-        $original   = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
-        $serialized = serialize($original);
-        $object     = unserialize($serialized);
-
-        self::assertEquals($request, $object->getRequest());
-        self::assertEquals($device, $object->getDevice());
-        self::assertEquals($os, $object->getOs());
-        self::assertEquals($browser, $object->getBrowser());
-        self::assertEquals($engine, $object->getEngine());
-        self::assertInternalType('array', $object->getCapabilities());
-        self::assertSame($wurflKey, $object->getWurflKey());
     }
 
     public function testToarray()
     {
+        $adapter = new Local(__DIR__ . '/../cache/');
+        $cache   = new FilesystemCachePool(new Filesystem($adapter));
+
+        $logger = new NullLogger();
+
         $requestFactory = new GenericRequestFactory();
         $request        = $requestFactory->createRequestForUserAgent('test-ua');
 
-        $device       = new Device(null, null);
-        $os           = new Os('unknown', 'unknown');
-        $browser      = new Browser('unknown');
-        $engine       = new Engine('unknown');
-        $capabilities = [];
-        $wurflKey     = 'test';
+        $device  = new Device(null, null);
+        $os      = new Os('unknown', 'unknown');
+        $browser = new Browser('unknown');
+        $engine  = new Engine('unknown');
 
-        $original = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
+        $original = new Result($request, $device, $os, $browser, $engine);
         $array    = $original->toArray();
-        $object   = (new ResultFactory())->fromArray($array);
+        $object   = (new ResultFactory())->fromArray($cache, $logger, $array);
 
         self::assertEquals($request, $object->getRequest());
         self::assertEquals($device, $object->getDevice());
         self::assertEquals($os, $object->getOs());
         self::assertEquals($browser, $object->getBrowser());
         self::assertEquals($engine, $object->getEngine());
-        self::assertInternalType('array', $object->getCapabilities());
-        self::assertSame($wurflKey, $object->getWurflKey());
-    }
-
-    public function testTojson()
-    {
-        $requestFactory = new GenericRequestFactory();
-        $request        = $requestFactory->createRequestForUserAgent('test-ua');
-
-        $device       = new Device(null, null);
-        $os           = new Os('unknown', 'unknown');
-        $browser      = new Browser('unknown');
-        $engine       = new Engine('unknown');
-        $capabilities = [];
-        $wurflKey     = 'test';
-
-        $original = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
-        $json     = $original->toJson();
-        $object   = (new ResultFactory())->fromJson($json);
-
-        self::assertEquals($request, $object->getRequest());
-        self::assertEquals($device, $object->getDevice());
-        self::assertEquals($os, $object->getOs());
-        self::assertEquals($browser, $object->getBrowser());
-        self::assertEquals($engine, $object->getEngine());
-        self::assertInternalType('array', $object->getCapabilities());
-        self::assertSame($wurflKey, $object->getWurflKey());
     }
 
     public function testFromEmptyArray()
     {
+        $adapter = new Local(__DIR__ . '/../cache/');
+        $cache   = new FilesystemCachePool(new Filesystem($adapter));
+
+        $logger = new NullLogger();
+
         $requestFactory = new GenericRequestFactory();
         $request        = $requestFactory->createRequestForUserAgent('');
 
-        $device       = new Device(null, null);
-        $os           = new Os('unknown', 'unknown');
-        $browser      = new Browser('unknown');
-        $engine       = new Engine('unknown');
+        $device  = new Device(null, null);
+        $os      = new Os('unknown', 'unknown');
+        $browser = new Browser('unknown');
+        $engine  = new Engine('unknown');
 
-        $object = (new ResultFactory())->fromArray([]);
+        $object = (new ResultFactory())->fromArray($cache, $logger, []);
 
         self::assertEquals($request, $object->getRequest());
         self::assertEquals($device, $object->getDevice());
         self::assertEquals($os, $object->getOs());
         self::assertEquals($browser, $object->getBrowser());
         self::assertEquals($engine, $object->getEngine());
-        self::assertInternalType('array', $object->getCapabilities());
-        self::assertNull($object->getWurflKey());
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage no capability named [does not exist] is present.
-     */
-    public function testGetInvalidCapability()
-    {
-        $requestFactory = new GenericRequestFactory();
-        $request        = $requestFactory->createRequestForUserAgent('test-ua');
-
-        $device       = new Device(null, null);
-        $os           = new Os('unknown', 'unknown');
-        $browser      = new Browser('unknown');
-        $engine       = new Engine('unknown');
-        $capabilities = [];
-        $wurflKey     = 'test';
-
-        $object = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
-
-        $object->getCapability('does not exist');
-    }
-
-    public function testGetValidCapability()
-    {
-        $requestFactory = new GenericRequestFactory();
-        $request        = $requestFactory->createRequestForUserAgent('test-ua');
-
-        $device       = new Device(null, null);
-        $os           = new Os('unknown', 'unknown');
-        $browser      = new Browser('unknown');
-        $engine       = new Engine('unknown');
-        $capabilities = [];
-        $wurflKey     = 'test';
-
-        $object = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
-
-        self::assertNull($object->getCapability('html_web_4_0'));
-    }
-
-    public function testSetInvalidCapabilities()
-    {
-        $requestFactory = new GenericRequestFactory();
-        $request        = $requestFactory->createRequestForUserAgent('test-ua');
-
-        $device       = new Device(null, null);
-        $os           = new Os('unknown', 'unknown');
-        $browser      = new Browser('unknown');
-        $engine       = new Engine('unknown');
-        $capabilities = [
-            0                => 'numeric key',
-            1                => 'second numeric key',
-            'does not exist' => 'invalid key',
-        ];
-        $wurflKey     = 'test';
-
-        $object = new Result($request, $device, $os, $browser, $engine, $capabilities, $wurflKey);
-
-        $cap = $object->getCapabilities();
-
-        self::assertArrayNotHasKey('does not exist', $cap);
-        self::assertArrayNotHasKey(0, $cap);
-        self::assertArrayNotHasKey(1, $cap);
     }
 }

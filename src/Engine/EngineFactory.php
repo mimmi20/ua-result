@@ -31,10 +31,11 @@
 
 namespace UaResult\Engine;
 
-use BrowserDetector\Version\Version;
+use BrowserDetector\Loader\NotFoundException;
 use BrowserDetector\Version\VersionFactory;
-use UaResult\Company\Company;
-use UaResult\Company\CompanyFactory;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Log\LoggerInterface;
+use UaResult\Company\CompanyLoader;
 
 /**
  * Browser detection class
@@ -48,36 +49,30 @@ use UaResult\Company\CompanyFactory;
 class EngineFactory
 {
     /**
-     * @param array $data
+     * @param \Psr\Cache\CacheItemPoolInterface $cache
+     * @param \Psr\Log\LoggerInterface          $logger
+     * @param array                             $data
      *
      * @return \UaResult\Engine\Engine
      */
-    public function fromArray(array $data)
+    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data)
     {
         $name = isset($data['name']) ? $data['name'] : null;
 
+        $version = null;
         if (isset($data['version'])) {
-            $version = (new VersionFactory())->fromArray((array) $data['version']);
-        } else {
-            $version = new Version();
+            $version = (new VersionFactory())->set($data['version']);
         }
 
+        $manufacturer = null;
         if (isset($data['manufacturer'])) {
-            $manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
-        } else {
-            $manufacturer = new Company('unknown');
+            try {
+                $manufacturer = (new CompanyLoader($cache))->load($data['manufacturer']);
+            } catch (NotFoundException $e) {
+                $logger->info($e);
+            }
         }
 
         return new Engine($name, $manufacturer, $version);
-    }
-
-    /**
-     * @param string $json
-     *
-     * @return \UaResult\Engine\Engine
-     */
-    public function fromJson($json)
-    {
-        return $this->fromArray((array) json_decode($json));
     }
 }

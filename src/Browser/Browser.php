@@ -32,14 +32,9 @@
 namespace UaResult\Browser;
 
 use BrowserDetector\Version\Version;
-use BrowserDetector\Version\VersionFactory;
 use UaBrowserType\Type;
-use UaBrowserType\TypeFactory;
 use UaBrowserType\TypeInterface;
 use UaResult\Company\Company;
-use UaResult\Company\CompanyFactory;
-use UaResult\Engine\Engine;
-use UaResult\Engine\EngineFactory;
 
 /**
  * base class for all browsers to detect
@@ -49,7 +44,7 @@ use UaResult\Engine\EngineFactory;
  * @copyright 2015, 2016 Thomas Mueller
  * @license   http://www.opensource.org/licenses/MIT MIT License
  */
-class Browser implements BrowserInterface, \Serializable
+class Browser implements BrowserInterface
 {
     /**
      * @var string|null
@@ -92,15 +87,9 @@ class Browser implements BrowserInterface, \Serializable
     private $type = null;
 
     /**
-     * @var \UaResult\Engine\Engine
-     */
-    private $engine = null;
-
-    /**
      * @param string                                $name
      * @param \UaResult\Company\Company|null        $manufacturer
      * @param \BrowserDetector\Version\Version|null $version
-     * @param \UaResult\Engine\Engine|null          $engine
      * @param \UaBrowserType\TypeInterface|null     $type
      * @param int|null                              $bits
      * @param bool                                  $pdfSupport
@@ -111,7 +100,6 @@ class Browser implements BrowserInterface, \Serializable
         $name,
         Company $manufacturer = null,
         Version $version = null,
-        Engine $engine = null,
         TypeInterface $type = null,
         $bits = null,
         $pdfSupport = false,
@@ -130,12 +118,6 @@ class Browser implements BrowserInterface, \Serializable
             $this->version = $version;
         }
 
-        if (null === $engine) {
-            $this->engine = new Engine('unknown');
-        } else {
-            $this->engine = $engine;
-        }
-
         if (null === $type) {
             $this->type = new Type('unknown');
         } else {
@@ -143,7 +125,7 @@ class Browser implements BrowserInterface, \Serializable
         }
 
         if (null === $manufacturer) {
-            $this->manufacturer = new Company('unknown');
+            $this->manufacturer = new Company('unknown', 'unknown');
         } else {
             $this->manufacturer = $manufacturer;
         }
@@ -216,62 +198,6 @@ class Browser implements BrowserInterface, \Serializable
     }
 
     /**
-     * @return \UaResult\Engine\Engine
-     */
-    public function getEngine()
-    {
-        return $this->engine;
-    }
-
-    /**
-     * Returns the name of the company
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * String representation of object
-     *
-     * @link http://php.net/manual/en/serializable.serialize.php
-     *
-     * @return string the string representation of the object or null
-     */
-    public function serialize()
-    {
-        return serialize($this->toArray());
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Constructs the object
-     *
-     * @link http://php.net/manual/en/serializable.unserialize.php
-     *
-     * @param string $serialized <p>
-     *                           The string representation of the object.
-     *                           </p>
-     */
-    public function unserialize($serialized)
-    {
-        $unseriliazedData = unserialize($serialized);
-
-        $this->fromArray($unseriliazedData);
-    }
-
-    /**
-     * @return string
-     */
-    public function toJson()
-    {
-        return json_encode($this->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
      * @return array
      */
     public function toArray()
@@ -279,30 +205,12 @@ class Browser implements BrowserInterface, \Serializable
         return [
             'name'         => $this->name,
             'modus'        => $this->modus,
-            'version'      => $this->version->toArray(),
-            'manufacturer' => $this->manufacturer->toArray(),
+            'version'      => $this->version->getVersion(),
+            'manufacturer' => $this->manufacturer->getType(),
             'pdfSupport'   => $this->pdfSupport,
             'rssSupport'   => $this->rssSupport,
             'bits'         => $this->bits,
-            'type'         => $this->type->toArray(),
-            'engine'       => $this->engine->toArray(),
+            'type'         => $this->type->getType(),
         ];
-    }
-
-    /**
-     * @param array $data
-     */
-    private function fromArray(array $data)
-    {
-        $this->name         = isset($data['name']) ? $data['name'] : null;
-        $this->modus        = isset($data['modus']) ? $data['modus'] : null;
-        $this->manufacturer = isset($data['manufacturer']) ? $data['manufacturer'] : null;
-        $this->pdfSupport   = isset($data['pdfSupport']) ? $data['pdfSupport'] : null;
-        $this->rssSupport   = isset($data['rssSupport']) ? $data['rssSupport'] : null;
-        $this->bits         = isset($data['bits']) ? $data['bits'] : null;
-        $this->type         = (new TypeFactory())->fromArray((array) $data['type']);
-        $this->version      = (new VersionFactory())->fromArray((array) $data['version']);
-        $this->engine       = (new EngineFactory())->fromArray((array) $data['engine']);
-        $this->manufacturer = (new CompanyFactory())->fromArray((array) $data['manufacturer']);
     }
 }
