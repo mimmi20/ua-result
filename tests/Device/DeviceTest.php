@@ -143,4 +143,25 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
         self::assertNull($object->getNfcSupport());
         self::assertNull($object->getHasQwertyKeyboard());
     }
+
+    public function testFromarrayWithInvalidType()
+    {
+        $adapter = new Local(__DIR__ . '/../cache/');
+        $cache   = new FilesystemCachePool(new Filesystem($adapter));
+
+        $logger = new NullLogger();
+
+        $name = 'test';
+        $type = new Type('unknown');
+
+        $array  = [
+            'deviceName' => $name,
+            'type'       => 'does-not-exist',
+        ];
+
+        $object = (new DeviceFactory())->fromArray($cache, $logger, $array);
+
+        self::assertSame($name, $object->getDeviceName());
+        self::assertEquals($type, $object->getType());
+    }
 }

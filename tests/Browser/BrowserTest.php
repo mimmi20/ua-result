@@ -126,4 +126,26 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($version, $object->getVersion());
         self::assertEquals($type, $object->getType());
     }
+
+    public function testFromarrayWithInvalidType()
+    {
+        $adapter = new Local(__DIR__ . '/../cache/');
+        $cache   = new FilesystemCachePool(new Filesystem($adapter));
+
+        $logger = new NullLogger();
+
+        $name    = 'test';
+        $version = new Version();
+        $type    = new Type('unknown');
+
+        $array  = [
+            'name' => $name,
+            'type' => 'does-not-exist',
+        ];
+        $object = (new BrowserFactory())->fromArray($cache, $logger, $array);
+
+        self::assertSame($name, $object->getName());
+        self::assertEquals($version, $object->getVersion());
+        self::assertEquals($type, $object->getType());
+    }
 }
