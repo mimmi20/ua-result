@@ -33,6 +33,7 @@ circle.yml       export-ignore text eol=lf diff whitespace=blank-at-eol,blank-at
 .travis.yml      export-ignore text eol=lf diff whitespace=blank-at-eol,blank-at-eof,space-before-tab,tab-in-indent,tabwidth=2
 appveyor.yml     export-ignore text eol=lf diff whitespace=blank-at-eol,blank-at-eof,space-before-tab,tab-in-indent,tabwidth=2
 circle.yml       export-ignore text eol=lf diff whitespace=blank-at-eol,blank-at-eof,space-before-tab,tab-in-indent,tabwidth=2
+phpcs.xml        export-ignore text eol=lf diff
 phpunit.xml      export-ignore text eol=lf diff
 /tests           export-ignore
 /cache           export-ignore
