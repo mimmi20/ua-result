@@ -151,17 +151,22 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
 
         $logger = new NullLogger();
 
-        $name = 'test';
-        $type = new Type('unknown');
+        $name         = 'test';
+        $type         = new Type('unknown');
+        $manufacturer = new Company('Unknown', null);
 
         $array  = [
-            'deviceName' => $name,
-            'type'       => 'does-not-exist',
+            'deviceName'   => $name,
+            'type'         => 'does-not-exist',
+            'manufacturer' => 'unknown',
+            'brand'        => 'does-not-exist',
         ];
 
         $object = (new DeviceFactory())->fromArray($cache, $logger, $array);
 
         self::assertSame($name, $object->getDeviceName());
         self::assertEquals($type, $object->getType());
+        self::assertEquals($manufacturer, $object->getManufacturer());
+        self::assertEquals($manufacturer, $object->getBrand());
     }
 }

@@ -134,18 +134,21 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
 
         $logger = new NullLogger();
 
-        $name    = 'test';
-        $version = new Version();
-        $type    = new Type('unknown');
+        $name         = 'test';
+        $version      = new Version();
+        $type         = new Type('unknown');
+        $manufacturer = new Company('Unknown', null);
 
         $array  = [
-            'name' => $name,
-            'type' => 'does-not-exist',
+            'name'         => $name,
+            'type'         => 'does-not-exist',
+            'manufacturer' => 'unknown',
         ];
         $object = (new BrowserFactory())->fromArray($cache, $logger, $array);
 
         self::assertSame($name, $object->getName());
         self::assertEquals($version, $object->getVersion());
         self::assertEquals($type, $object->getType());
+        self::assertEquals($manufacturer, $object->getManufacturer());
     }
 }

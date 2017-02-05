@@ -90,4 +90,26 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         self::assertNull($object->getName());
         self::assertEquals($version, $object->getVersion());
     }
+
+    public function testFromarrayWithInvalidManufacturer()
+    {
+        $adapter = new Local(__DIR__ . '/../cache/');
+        $cache   = new FilesystemCachePool(new Filesystem($adapter));
+
+        $logger = new NullLogger();
+
+        $name         = 'test';
+        $version      = new Version();
+        $manufacturer = new Company('Unknown', null);
+
+        $array  = [
+            'name'         => $name,
+            'manufacturer' => 'unknown',
+        ];
+        $object = (new EngineFactory())->fromArray($cache, $logger, $array);
+
+        self::assertSame($name, $object->getName());
+        self::assertEquals($version, $object->getVersion());
+        self::assertEquals($manufacturer, $object->getManufacturer());
+    }
 }
