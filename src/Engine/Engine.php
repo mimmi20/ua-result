@@ -75,7 +75,7 @@ class Engine implements EngineInterface
         }
 
         if (null === $manufacturer) {
-            $this->manufacturer = new Company('unknown', 'unknown');
+            $this->manufacturer = new Company('Unknown', null);
         } else {
             $this->manufacturer = $manufacturer;
         }

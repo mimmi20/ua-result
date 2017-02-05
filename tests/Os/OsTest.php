@@ -47,7 +47,7 @@ class OsTest extends \PHPUnit_Framework_TestCase
     {
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = new Company('TestCompanyType', 'TestManufacturer');
+        $manufacturer  = new Company('Unknown', null);
         $version       = new Version();
         $bits          = 64;
 
@@ -69,7 +69,7 @@ class OsTest extends \PHPUnit_Framework_TestCase
 
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = new Company('unknown', 'unknown');
+        $manufacturer  = new Company('Unknown', null);
         $version       = (new VersionFactory())->set('0.0.0');
         $bits          = 64;
 
@@ -92,7 +92,7 @@ class OsTest extends \PHPUnit_Framework_TestCase
 
         $logger = new NullLogger();
 
-        $manufacturer = new Company('unknown', 'unknown');
+        $manufacturer = new Company('Unknown', null);
         $version      = new Version();
 
         $object = (new OsFactory())->fromArray($cache, $logger, []);
@@ -102,5 +102,27 @@ class OsTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($manufacturer, $object->getManufacturer());
         self::assertEquals($version, $object->getVersion());
         self::assertNull($object->getBits());
+    }
+
+    public function testFromarrayWithInvalidManufacturer()
+    {
+        $adapter = new Local(__DIR__ . '/../cache/');
+        $cache   = new FilesystemCachePool(new Filesystem($adapter));
+
+        $logger = new NullLogger();
+
+        $name         = 'test';
+        $version      = new Version();
+        $manufacturer = new Company('Unknown', null);
+
+        $array  = [
+            'name'         => $name,
+            'manufacturer' => 'unknown',
+        ];
+        $object = (new OsFactory())->fromArray($cache, $logger, $array);
+
+        self::assertSame($name, $object->getName());
+        self::assertEquals($version, $object->getVersion());
+        self::assertEquals($manufacturer, $object->getManufacturer());
     }
 }

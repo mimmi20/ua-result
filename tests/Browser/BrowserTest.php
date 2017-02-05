@@ -47,7 +47,7 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
     public function testSetterGetter()
     {
         $name         = 'TestBrowser';
-        $manufacturer = new Company('unknown', 'TestManufacturer');
+        $manufacturer = new Company('Unknown', null);
         $version      = new Version();
         $type         = new Type('unknown');
         $bits         = 64;
@@ -70,7 +70,7 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
     public function testDefaultSetterGetter()
     {
         $name         = 'TestBrowser';
-        $manufacturer = new Company('unknown', 'unknown');
+        $manufacturer = new Company('Unknown', null);
         $version      = new Version();
         $type         = new Type('unknown');
 
@@ -94,7 +94,7 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
         $logger = new NullLogger();
 
         $name         = 'TestBrowser';
-        $manufacturer = new Company('unknown', 'unknown');
+        $manufacturer = new Company('Unknown', null);
         $version      = (new VersionFactory())->set('0.0.2-beta');
         $type         = new Type('unknown');
         $bits         = 64;
@@ -134,18 +134,21 @@ class BrowserTest extends \PHPUnit_Framework_TestCase
 
         $logger = new NullLogger();
 
-        $name    = 'test';
-        $version = new Version();
-        $type    = new Type('unknown');
+        $name         = 'test';
+        $version      = new Version();
+        $type         = new Type('unknown');
+        $manufacturer = new Company('Unknown', null);
 
         $array  = [
-            'name' => $name,
-            'type' => 'does-not-exist',
+            'name'         => $name,
+            'type'         => 'does-not-exist',
+            'manufacturer' => 'unknown',
         ];
         $object = (new BrowserFactory())->fromArray($cache, $logger, $array);
 
         self::assertSame($name, $object->getName());
         self::assertEquals($version, $object->getVersion());
         self::assertEquals($type, $object->getType());
+        self::assertEquals($manufacturer, $object->getManufacturer());
     }
 }

@@ -46,8 +46,8 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
     {
         $deviceName        = 'TestDevicename';
         $marketingName     = 'TestMarketingname';
-        $manufacturer      = new Company('unknown', 'TestManufacturer');
-        $brand             = new Company('unknown', 'TestBrand');
+        $manufacturer      = new Company('Unknown', null);
+        $brand             = new Company('Unknown', null);
         $type              = new Type('unknown', 'unknown');
         $pointingMethod    = 'touchscreen';
         $resolutionWidth   = 480;
@@ -84,8 +84,8 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
 
         $deviceName        = 'TestDevicename';
         $marketingName     = 'TestMarketingname';
-        $manufacturer      = new Company('unknown', 'unknown');
-        $brand             = new Company('unknown', 'unknown');
+        $manufacturer      = new Company('Unknown', null);
+        $brand             = new Company('Unknown', null);
         $type              = new Type('unknown');
         $pointingMethod    = 'touchscreen';
         $resolutionWidth   = 480;
@@ -123,8 +123,8 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
 
         $logger = new NullLogger();
 
-        $manufacturer = new Company('unknown', 'unknown');
-        $brand        = new Company('unknown', 'unknown');
+        $manufacturer = new Company('Unknown', null);
+        $brand        = new Company('Unknown', null);
         $type         = new Type('unknown');
 
         $object = (new DeviceFactory())->fromArray($cache, $logger, []);
@@ -151,17 +151,22 @@ class DeviceTest extends \PHPUnit_Framework_TestCase
 
         $logger = new NullLogger();
 
-        $name = 'test';
-        $type = new Type('unknown');
+        $name         = 'test';
+        $type         = new Type('unknown');
+        $manufacturer = new Company('Unknown', null);
 
         $array  = [
-            'deviceName' => $name,
-            'type'       => 'does-not-exist',
+            'deviceName'   => $name,
+            'type'         => 'does-not-exist',
+            'manufacturer' => 'unknown',
+            'brand'        => 'does-not-exist',
         ];
 
         $object = (new DeviceFactory())->fromArray($cache, $logger, $array);
 
         self::assertSame($name, $object->getDeviceName());
         self::assertEquals($type, $object->getType());
+        self::assertEquals($manufacturer, $object->getManufacturer());
+        self::assertEquals($manufacturer, $object->getBrand());
     }
 }

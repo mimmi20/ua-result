@@ -160,13 +160,13 @@ class Device implements DeviceInterface
         }
 
         if (null === $manufacturer) {
-            $this->manufacturer = new Company('unknown', 'unknown');
+            $this->manufacturer = new Company('Unknown', null);
         } else {
             $this->manufacturer = $manufacturer;
         }
 
         if (null === $brand) {
-            $this->brand = new Company('unknown', 'unknown');
+            $this->brand = new Company('Unknown', null);
         } else {
             $this->brand = $brand;
         }
