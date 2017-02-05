@@ -67,22 +67,22 @@ class ResultFactory
 
         $device = null;
         if (isset($data['device'])) {
-            $device = (new DeviceFactory())->fromArray($cache, $logger, $data['device']);
+            $device = (new DeviceFactory())->fromArray($cache, $logger, (array) $data['device']);
         }
 
         $browser = null;
         if (isset($data['browser'])) {
-            $browser = (new BrowserFactory())->fromArray($cache, $logger, $data['browser']);
+            $browser = (new BrowserFactory())->fromArray($cache, $logger, (array) $data['browser']);
         }
 
         $os = null;
         if (isset($data['os'])) {
-            $os = (new OsFactory())->fromArray($cache, $logger, $data['os']);
+            $os = (new OsFactory())->fromArray($cache, $logger, (array) $data['os']);
         }
 
         $engine = null;
         if (isset($data['engine'])) {
-            $engine = (new EngineFactory())->fromArray($cache, $logger, $data['engine']);
+            $engine = (new EngineFactory())->fromArray($cache, $logger, (array) $data['engine']);
         }
 
         return new Result($request, $device, $os, $browser, $engine);

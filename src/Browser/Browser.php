@@ -125,7 +125,7 @@ class Browser implements BrowserInterface
         }
 
         if (null === $manufacturer) {
-            $this->manufacturer = new Company('unknown', 'unknown');
+            $this->manufacturer = new Company('Unknown', null);
         } else {
             $this->manufacturer = $manufacturer;
         }

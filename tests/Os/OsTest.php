@@ -47,7 +47,7 @@ class OsTest extends \PHPUnit_Framework_TestCase
     {
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = new Company('TestCompanyType', 'TestManufacturer');
+        $manufacturer  = new Company('Unknown', null);
         $version       = new Version();
         $bits          = 64;
 
@@ -69,7 +69,7 @@ class OsTest extends \PHPUnit_Framework_TestCase
 
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = new Company('unknown', 'unknown');
+        $manufacturer  = new Company('Unknown', null);
         $version       = (new VersionFactory())->set('0.0.0');
         $bits          = 64;
 
@@ -92,7 +92,7 @@ class OsTest extends \PHPUnit_Framework_TestCase
 
         $logger = new NullLogger();
 
-        $manufacturer = new Company('unknown', 'unknown');
+        $manufacturer = new Company('Unknown', null);
         $version      = new Version();
 
         $object = (new OsFactory())->fromArray($cache, $logger, []);
