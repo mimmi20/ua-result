@@ -20,7 +20,7 @@ use UaResult\Company\Company;
 use UaResult\Device\Device;
 use UaResult\Device\DeviceFactory;
 
-class DeviceTest extends \PHPUnit_Framework_TestCase
+class DeviceTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetterGetter()
     {

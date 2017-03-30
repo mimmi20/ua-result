@@ -21,7 +21,7 @@ use UaResult\Company\Company;
 use UaResult\Engine\Engine;
 use UaResult\Engine\EngineFactory;
 
-class EngineTest extends \PHPUnit_Framework_TestCase
+class EngineTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetterGetter()
     {
