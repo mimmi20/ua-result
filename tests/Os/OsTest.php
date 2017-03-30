@@ -21,7 +21,7 @@ use UaResult\Company\Company;
 use UaResult\Os\Os;
 use UaResult\Os\OsFactory;
 
-class OsTest extends \PHPUnit_Framework_TestCase
+class OsTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetterGetter()
     {

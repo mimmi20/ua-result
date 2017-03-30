@@ -23,7 +23,7 @@ use UaResult\Result\Result;
 use UaResult\Result\ResultFactory;
 use Wurfl\Request\GenericRequestFactory;
 
-class ResultTest extends \PHPUnit_Framework_TestCase
+class ResultTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetterGetter()
     {

@@ -22,7 +22,7 @@ use UaResult\Browser\Browser;
 use UaResult\Browser\BrowserFactory;
 use UaResult\Company\Company;
 
-class BrowserTest extends \PHPUnit_Framework_TestCase
+class BrowserTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetterGetter()
     {
