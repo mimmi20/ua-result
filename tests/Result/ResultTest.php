@@ -81,9 +81,9 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         $request        = $requestFactory->createRequestForUserAgent('');
 
         $device  = new Device(null, null);
-        $os      = new Os('unknown', 'unknown');
-        $browser = new Browser('unknown');
-        $engine  = new Engine('unknown');
+        $os      = new Os(null, null);
+        $browser = new Browser(null);
+        $engine  = new Engine(null);
 
         $object = (new ResultFactory())->fromArray($cache, $logger, []);
 

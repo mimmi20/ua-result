@@ -80,19 +80,19 @@ class Result implements ResultInterface
         }
 
         if (null === $os) {
-            $this->os = new Os('unknown', 'unknown');
+            $this->os = new Os(null, null);
         } else {
             $this->os = $os;
         }
 
         if (null === $browser) {
-            $this->browser = new Browser('unknown');
+            $this->browser = new Browser(null);
         } else {
             $this->browser = $browser;
         }
 
         if (null === $engine) {
-            $this->engine = new Engine('unknown');
+            $this->engine = new Engine(null);
         } else {
             $this->engine = $engine;
         }
