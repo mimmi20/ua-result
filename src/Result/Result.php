@@ -139,12 +139,14 @@ class Result implements ResultInterface
     }
 
     /**
+     * @param bool $complete
+     *
      * @return array
      */
-    public function toArray()
+    public function toArray($complete = true)
     {
         return [
-            'request'      => $this->request->toArray(),
+            'request'      => $this->request->toArray($complete),
             'device'       => $this->device->toArray(),
             'browser'      => $this->browser->toArray(),
             'os'           => $this->os->toArray(),
