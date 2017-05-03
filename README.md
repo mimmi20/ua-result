@@ -3,14 +3,12 @@ Useragent Detector Result
 
 This library provides a set of classes representing a result of an useragent detection.
 
-Requirements
-------------
+## Requirements
 
 This library requires PHP 7.0+.
 Also a PSR-3 compatible logger and a PSR-6 compatible cache are required.
 
-Installation
-------------
+## Installation
 
 Run the command below to install via Composer
 
@@ -18,13 +16,11 @@ Run the command below to install via Composer
 composer require mimmi20/ua-result
 ```
 
-The result object
------------------
+## The result object
 
 The result object is the main object and contains only other objects.
 
-The browser object
-------------------
+## The browser object
 
 The browser object represents the detected browser.
 
@@ -51,8 +47,7 @@ $isbot = $browser->getType()->isBot();
 Note:
 You should not rely on the `getRssSupport` and `getPdfSupport` functions. They may be removed in the future.
 
-The engine object
------------------
+## The engine object
 
 The engine object represents the detected rendering engine.
 
@@ -72,8 +67,7 @@ $manBrand   = $engine->getManufacturer()->getBrandName();
 $name = $engine->getVersion()->getVersion();
 ```
 
-The device object
------------------
+## The device object
 
 The device object represents the detected device.
 
@@ -115,8 +109,7 @@ $isTablet = $device->getType()->isTablet();
 Note:
 You should not rely on the `getNfcSupport`, `getSmsSupport` and `getHasQwertyKeyboard` functions. They may be removed in the future.
 
-The platform object
--------------------
+## The platform object
 
 The os object represents the detected platform.
 
@@ -138,8 +131,7 @@ $manBrand   = $platform->getManufacturer()->getBrandName();
 $name = $platform->getVersion()->getVersion();
 ```
 
-Project status
---------------
+## Project status
 
 [![Latest Stable Version](https://poser.pugx.org/mimmi20/ua-result/v/stable)](https://packagist.org/packages/mimmi20/ua-result)
 [![Latest Unstable Version](https://poser.pugx.org/mimmi20/ua-result/v/unstable)](https://packagist.org/packages/mimmi20/ua-result)
@@ -152,8 +144,7 @@ Project status
 
 [![Dependency Status](https://www.versioneye.com/user/projects/588d13bfc64626004e05797a/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/588d13bfc64626004e05797a)
 
-Issues and feature requests
----------------------------
+## Issues and feature requests
 
 Please report your issues and ask for new features on the GitHub Issue Tracker
 at https://github.com/mimmi20/ua-result/issues
