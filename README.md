@@ -142,8 +142,6 @@ $name = $platform->getVersion()->getVersion();
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mimmi20/ua-result/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mimmi20/ua-result/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/mimmi20/ua-result/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mimmi20/ua-result/?branch=master)
 
-[![Dependency Status](https://www.versioneye.com/user/projects/588d13bfc64626004e05797a/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/588d13bfc64626004e05797a)
-
 ## Issues and feature requests
 
 Please report your issues and ask for new features on the GitHub Issue Tracker
