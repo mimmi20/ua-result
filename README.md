@@ -44,9 +44,6 @@ $type  = $browser->getType()->getName();
 $isbot = $browser->getType()->isBot();
 ```
 
-Note:
-You should not rely on the `getRssSupport` and `getPdfSupport` functions. They may be removed in the future.
-
 ## The engine object
 
 The engine object represents the detected rendering engine.
@@ -87,9 +84,6 @@ $manBrand   = $device->getManufacturer()->getBrandName();
 // the device may be a branded version
 $brand = $device->getBrand()->getBrandName();
 
-// get the amout of colors of the display
-$colors = $device->getColors();
-
 // does the device support dual orientation?
 $dualorien = $device->getDualOrientation();
 
@@ -105,9 +99,6 @@ $type     = $device->getType()->getName();
 $isPhone  = $device->getType()->isPhone();
 $isTablet = $device->getType()->isTablet();
 ```
-
-Note:
-You should not rely on the `getNfcSupport`, `getSmsSupport` and `getHasQwertyKeyboard` functions. They may be removed in the future.
 
 ## The platform object
 

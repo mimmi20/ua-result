@@ -67,26 +67,6 @@ class Device implements DeviceInterface
     private $dualOrientation = null;
 
     /**
-     * @var int|null
-     */
-    private $colors = null;
-
-    /**
-     * @var bool|null
-     */
-    private $smsSupport = null;
-
-    /**
-     * @var bool|null
-     */
-    private $nfcSupport = null;
-
-    /**
-     * @var bool|null
-     */
-    private $hasQwertyKeyboard = null;
-
-    /**
      * @var \UaDeviceType\TypeInterface|null
      */
     private $type = null;
@@ -101,10 +81,6 @@ class Device implements DeviceInterface
      * @param int|null                         $resolutionWidth
      * @param int|null                         $resolutionHeight
      * @param bool|null                        $dualOrientation
-     * @param int|null                         $colors
-     * @param bool|null                        $smsSupport
-     * @param bool|null                        $nfcSupport
-     * @param bool|null                        $hasQwertyKeyboard
      */
     public function __construct(
         $deviceName,
@@ -115,11 +91,7 @@ class Device implements DeviceInterface
         $pointingMethod = null,
         $resolutionWidth = null,
         $resolutionHeight = null,
-        $dualOrientation = null,
-        $colors = null,
-        $smsSupport = null,
-        $nfcSupport = null,
-        $hasQwertyKeyboard = null
+        $dualOrientation = null
     ) {
         $this->deviceName         = $deviceName;
         $this->marketingName      = $marketingName;
@@ -128,10 +100,6 @@ class Device implements DeviceInterface
         $this->resolutionWidth    = $resolutionWidth;
         $this->resolutionHeight   = $resolutionHeight;
         $this->dualOrientation    = $dualOrientation;
-        $this->colors             = $colors;
-        $this->smsSupport         = $smsSupport;
-        $this->nfcSupport         = $nfcSupport;
-        $this->hasQwertyKeyboard  = $hasQwertyKeyboard;
 
         if (null === $type) {
             $this->type = new Type('unknown');
@@ -169,27 +137,11 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return int|null
-     */
-    public function getColors()
-    {
-        return $this->colors;
-    }
-
-    /**
      * @return bool|null
      */
     public function getDualOrientation()
     {
         return $this->dualOrientation;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getHasQwertyKeyboard()
-    {
-        return $this->hasQwertyKeyboard;
     }
 
     /**
@@ -206,14 +158,6 @@ class Device implements DeviceInterface
     public function getMarketingName()
     {
         return $this->marketingName;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getNfcSupport()
-    {
-        return $this->nfcSupport;
     }
 
     /**
@@ -241,14 +185,6 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return bool|null
-     */
-    public function getSmsSupport()
-    {
-        return $this->smsSupport;
-    }
-
-    /**
      * @return \UaDeviceType\TypeInterface|null
      */
     public function getType()
@@ -270,10 +206,6 @@ class Device implements DeviceInterface
             'resolutionWidth'   => $this->resolutionWidth,
             'resolutionHeight'  => $this->resolutionHeight,
             'dualOrientation'   => $this->dualOrientation,
-            'colors'            => $this->colors,
-            'smsSupport'        => $this->smsSupport,
-            'nfcSupport'        => $this->nfcSupport,
-            'hasQwertyKeyboard' => $this->hasQwertyKeyboard,
             'type'              => $this->type->getType(),
         ];
     }

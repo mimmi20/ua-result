@@ -39,16 +39,6 @@ interface BrowserInterface
     public function getModus();
 
     /**
-     * @return bool|null
-     */
-    public function getPdfSupport();
-
-    /**
-     * @return bool|null
-     */
-    public function getRssSupport();
-
-    /**
      * @return \BrowserDetector\Version\Version|null
      */
     public function getVersion();

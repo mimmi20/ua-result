@@ -31,19 +31,15 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
         $version      = new Version();
         $type         = new Type('unknown');
         $bits         = 64;
-        $pdfSupport   = true;
-        $rssSupport   = false;
         $modus        = 'Desktop Mode';
 
-        $object = new Browser($name, $manufacturer, $version, $type, $bits, $pdfSupport, $rssSupport, $modus);
+        $object = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
 
         self::assertSame($name, $object->getName());
         self::assertSame($manufacturer, $object->getManufacturer());
         self::assertSame($version, $object->getVersion());
         self::assertSame($type, $object->getType());
         self::assertSame($bits, $object->getBits());
-        self::assertSame($pdfSupport, $object->getPdfSupport());
-        self::assertSame($rssSupport, $object->getRssSupport());
         self::assertSame($modus, $object->getModus());
     }
 
@@ -61,8 +57,6 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($version, $object->getVersion());
         self::assertEquals($type, $object->getType());
         self::assertNull($object->getBits());
-        self::assertFalse($object->getPdfSupport());
-        self::assertFalse($object->getRssSupport());
         self::assertNull($object->getModus());
     }
 
@@ -78,11 +72,9 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
         $version      = (new VersionFactory())->set('0.0.2-beta');
         $type         = new Type('unknown');
         $bits         = 64;
-        $pdfSupport   = true;
-        $rssSupport   = false;
         $modus        = 'Desktop Mode';
 
-        $original = new Browser($name, $manufacturer, $version, $type, $bits, $pdfSupport, $rssSupport, $modus);
+        $original = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
 
         $array  = $original->toArray();
         $object = (new BrowserFactory())->fromArray($cache, $logger, $array);

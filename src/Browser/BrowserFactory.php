@@ -40,8 +40,6 @@ class BrowserFactory
     {
         $name         = isset($data['name']) ? $data['name'] : null;
         $modus        = isset($data['modus']) ? $data['modus'] : null;
-        $pdfSupport   = isset($data['pdfSupport']) ? $data['pdfSupport'] : null;
-        $rssSupport   = isset($data['rssSupport']) ? $data['rssSupport'] : null;
         $bits         = isset($data['bits']) ? $data['bits'] : null;
 
         $type = null;
@@ -67,6 +65,6 @@ class BrowserFactory
             }
         }
 
-        return new Browser($name, $manufacturer, $version, $type, $bits, $pdfSupport, $rssSupport, $modus);
+        return new Browser($name, $manufacturer, $version, $type, $bits, $modus);
     }
 }
