@@ -32,19 +32,9 @@ interface DeviceInterface
     public function getBrand();
 
     /**
-     * @return int|null
-     */
-    public function getColors();
-
-    /**
      * @return bool|null
      */
     public function getDualOrientation();
-
-    /**
-     * @return bool|null
-     */
-    public function getHasQwertyKeyboard();
 
     /**
      * @return \UaResult\Company\Company|null
@@ -55,11 +45,6 @@ interface DeviceInterface
      * @return string|null
      */
     public function getMarketingName();
-
-    /**
-     * @return bool|null
-     */
-    public function getNfcSupport();
 
     /**
      * @return string|null
@@ -75,11 +60,6 @@ interface DeviceInterface
      * @return int|null
      */
     public function getResolutionWidth();
-
-    /**
-     * @return bool|null
-     */
-    public function getSmsSupport();
 
     /**
      * @return \UaDeviceType\TypeInterface|null

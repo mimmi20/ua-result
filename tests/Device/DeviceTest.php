@@ -33,12 +33,8 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
         $resolutionWidth   = 480;
         $resolutionHeight  = 1080;
         $dualOrientation   = true;
-        $colors            = '68676';
-        $smsSupport        = true;
-        $nfcSupport        = false;
-        $hasQwertyKeyboard = true;
 
-        $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation, $colors, $smsSupport, $nfcSupport, $hasQwertyKeyboard);
+        $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
 
         self::assertSame($deviceName, $object->getDeviceName());
         self::assertSame($marketingName, $object->getMarketingName());
@@ -49,10 +45,6 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
         self::assertSame($resolutionWidth, $object->getResolutionWidth());
         self::assertSame($resolutionHeight, $object->getResolutionHeight());
         self::assertSame($dualOrientation, $object->getDualOrientation());
-        self::assertSame($colors, $object->getColors());
-        self::assertSame($smsSupport, $object->getSmsSupport());
-        self::assertSame($nfcSupport, $object->getNfcSupport());
-        self::assertSame($hasQwertyKeyboard, $object->getHasQwertyKeyboard());
     }
 
     public function testToarray()
@@ -71,12 +63,8 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
         $resolutionWidth   = 480;
         $resolutionHeight  = 1080;
         $dualOrientation   = true;
-        $colors            = '68676';
-        $smsSupport        = true;
-        $nfcSupport        = false;
-        $hasQwertyKeyboard = true;
 
-        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation, $colors, $smsSupport, $nfcSupport, $hasQwertyKeyboard);
+        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
 
         $array  = $original->toArray();
         $object = (new DeviceFactory())->fromArray($cache, $logger, $array);
@@ -90,10 +78,6 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
         self::assertSame($resolutionWidth, $object->getResolutionWidth());
         self::assertSame($resolutionHeight, $object->getResolutionHeight());
         self::assertSame($dualOrientation, $object->getDualOrientation());
-        self::assertSame($colors, $object->getColors());
-        self::assertSame($smsSupport, $object->getSmsSupport());
-        self::assertSame($nfcSupport, $object->getNfcSupport());
-        self::assertSame($hasQwertyKeyboard, $object->getHasQwertyKeyboard());
     }
 
     public function testFromEmptyArray()
@@ -118,10 +102,6 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
         self::assertNull($object->getResolutionWidth());
         self::assertNull($object->getResolutionHeight());
         self::assertNull($object->getDualOrientation());
-        self::assertNull($object->getColors());
-        self::assertNull($object->getSmsSupport());
-        self::assertNull($object->getNfcSupport());
-        self::assertNull($object->getHasQwertyKeyboard());
     }
 
     public function testFromarrayWithInvalidType()

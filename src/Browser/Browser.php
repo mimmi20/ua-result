@@ -47,16 +47,6 @@ class Browser implements BrowserInterface
     private $manufacturer = null;
 
     /**
-     * @var bool|null
-     */
-    private $pdfSupport = null;
-
-    /**
-     * @var bool|null
-     */
-    private $rssSupport = null;
-
-    /**
      * @var int|null
      */
     private $bits = null;
@@ -72,8 +62,6 @@ class Browser implements BrowserInterface
      * @param \BrowserDetector\Version\Version|null $version
      * @param \UaBrowserType\TypeInterface|null     $type
      * @param int|null                              $bits
-     * @param bool                                  $pdfSupport
-     * @param bool                                  $rssSupport
      * @param string|null                           $modus
      */
     public function __construct(
@@ -82,14 +70,10 @@ class Browser implements BrowserInterface
         Version $version = null,
         TypeInterface $type = null,
         $bits = null,
-        $pdfSupport = false,
-        $rssSupport = false,
         $modus = null
     ) {
         $this->name       = $name;
         $this->bits       = $bits;
-        $this->pdfSupport = $pdfSupport;
-        $this->rssSupport = $rssSupport;
         $this->modus      = $modus;
 
         if (null === $version) {
@@ -138,22 +122,6 @@ class Browser implements BrowserInterface
     }
 
     /**
-     * @return bool|null
-     */
-    public function getPdfSupport()
-    {
-        return $this->pdfSupport;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getRssSupport()
-    {
-        return $this->rssSupport;
-    }
-
-    /**
      * @return \BrowserDetector\Version\Version|null
      */
     public function getVersion()
@@ -187,8 +155,6 @@ class Browser implements BrowserInterface
             'modus'        => $this->modus,
             'version'      => $this->version->getVersion(),
             'manufacturer' => $this->manufacturer->getType(),
-            'pdfSupport'   => $this->pdfSupport,
-            'rssSupport'   => $this->rssSupport,
             'bits'         => $this->bits,
             'type'         => $this->type->getType(),
         ];

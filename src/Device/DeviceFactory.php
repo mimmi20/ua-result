@@ -43,10 +43,6 @@ class DeviceFactory
         $resolutionWidth   = isset($data['resolutionWidth']) ? $data['resolutionWidth'] : null;
         $resolutionHeight  = isset($data['resolutionHeight']) ? $data['resolutionHeight'] : null;
         $dualOrientation   = isset($data['dualOrientation']) ? $data['dualOrientation'] : null;
-        $colors            = isset($data['colors']) ? $data['colors'] : null;
-        $smsSupport        = isset($data['smsSupport']) ? $data['smsSupport'] : null;
-        $nfcSupport        = isset($data['nfcSupport']) ? $data['nfcSupport'] : null;
-        $hasQwertyKeyboard = isset($data['hasQwertyKeyboard']) ? $data['hasQwertyKeyboard'] : null;
 
         $type = null;
         if (isset($data['type'])) {
@@ -84,11 +80,7 @@ class DeviceFactory
             $pointingMethod,
             $resolutionWidth,
             $resolutionHeight,
-            $dualOrientation,
-            $colors,
-            $smsSupport,
-            $nfcSupport,
-            $hasQwertyKeyboard
+            $dualOrientation
         );
     }
 }
