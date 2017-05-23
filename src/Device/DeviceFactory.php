@@ -71,16 +71,6 @@ class DeviceFactory
             }
         }
 
-        return new Device(
-            $deviceName,
-            $marketingName,
-            $manufacturer,
-            $brand,
-            $type,
-            $pointingMethod,
-            $resolutionWidth,
-            $resolutionHeight,
-            $dualOrientation
-        );
+        return new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
     }
 }
