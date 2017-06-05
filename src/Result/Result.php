@@ -71,7 +71,7 @@ class Result implements ResultInterface
         BrowserInterface $browser = null,
         EngineInterface $engine = null
     ) {
-        $this->request  = $request;
+        $this->request = $request;
 
         if (null === $device) {
             $this->device = new Device(null, null);
@@ -146,11 +146,11 @@ class Result implements ResultInterface
     public function toArray($complete = true)
     {
         return [
-            'request'      => $this->request->toArray($complete),
-            'device'       => $this->device->toArray(),
-            'browser'      => $this->browser->toArray(),
-            'os'           => $this->os->toArray(),
-            'engine'       => $this->engine->toArray(),
+            'request' => $this->request->toArray($complete),
+            'device'  => $this->device->toArray(),
+            'browser' => $this->browser->toArray(),
+            'os'      => $this->os->toArray(),
+            'engine'  => $this->engine->toArray(),
         ];
     }
 }

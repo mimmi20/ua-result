@@ -93,13 +93,13 @@ class Device implements DeviceInterface
         $resolutionHeight = null,
         $dualOrientation = null
     ) {
-        $this->deviceName         = $deviceName;
-        $this->marketingName      = $marketingName;
-        $this->type               = $type;
-        $this->pointingMethod     = $pointingMethod;
-        $this->resolutionWidth    = $resolutionWidth;
-        $this->resolutionHeight   = $resolutionHeight;
-        $this->dualOrientation    = $dualOrientation;
+        $this->deviceName       = $deviceName;
+        $this->marketingName    = $marketingName;
+        $this->type             = $type;
+        $this->pointingMethod   = $pointingMethod;
+        $this->resolutionWidth  = $resolutionWidth;
+        $this->resolutionHeight = $resolutionHeight;
+        $this->dualOrientation  = $dualOrientation;
 
         if (null === $type) {
             $this->type = new Type('unknown');
@@ -198,15 +198,15 @@ class Device implements DeviceInterface
     public function toArray()
     {
         return [
-            'deviceName'        => $this->deviceName,
-            'marketingName'     => $this->marketingName,
-            'manufacturer'      => $this->manufacturer->getType(),
-            'brand'             => $this->brand->getType(),
-            'pointingMethod'    => $this->pointingMethod,
-            'resolutionWidth'   => $this->resolutionWidth,
-            'resolutionHeight'  => $this->resolutionHeight,
-            'dualOrientation'   => $this->dualOrientation,
-            'type'              => $this->type->getType(),
+            'deviceName'       => $this->deviceName,
+            'marketingName'    => $this->marketingName,
+            'manufacturer'     => $this->manufacturer->getType(),
+            'brand'            => $this->brand->getType(),
+            'pointingMethod'   => $this->pointingMethod,
+            'resolutionWidth'  => $this->resolutionWidth,
+            'resolutionHeight' => $this->resolutionHeight,
+            'dualOrientation'  => $this->dualOrientation,
+            'type'             => $this->type->getType(),
         ];
     }
 }

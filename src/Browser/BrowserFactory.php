@@ -38,9 +38,9 @@ class BrowserFactory
      */
     public static function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data)
     {
-        $name         = isset($data['name']) ? $data['name'] : null;
-        $modus        = isset($data['modus']) ? $data['modus'] : null;
-        $bits         = isset($data['bits']) ? $data['bits'] : null;
+        $name  = isset($data['name']) ? $data['name'] : null;
+        $modus = isset($data['modus']) ? $data['modus'] : null;
+        $bits  = isset($data['bits']) ? $data['bits'] : null;
 
         $type = null;
         if (isset($data['type'])) {

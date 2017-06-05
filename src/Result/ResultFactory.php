@@ -42,7 +42,7 @@ class ResultFactory
         if (isset($data['request'])) {
             $request = (new GenericRequestFactory())->fromArray((array) $data['request']);
         } else {
-            $request = (new GenericRequestFactory())->createRequestForUserAgent('');
+            $request = (new GenericRequestFactory())->createRequestFromString('');
         }
 
         $device = null;

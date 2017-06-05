@@ -13,10 +13,8 @@ namespace UaResultTest\Browser;
 
 use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionFactory;
-use Cache\Adapter\Filesystem\FilesystemCachePool;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
 use Psr\Log\NullLogger;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use UaBrowserType\Type;
 use UaResult\Browser\Browser;
 use UaResult\Browser\BrowserFactory;
@@ -62,9 +60,7 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
 
     public function testToarray()
     {
-        $adapter = new Local(__DIR__ . '/../cache/');
-        $cache   = new FilesystemCachePool(new Filesystem($adapter));
-
+        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $name         = 'TestBrowser';
@@ -84,9 +80,7 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
 
     public function testFromEmptyArray()
     {
-        $adapter = new Local(__DIR__ . '/../cache/');
-        $cache   = new FilesystemCachePool(new Filesystem($adapter));
-
+        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $version = new Version();
@@ -101,9 +95,7 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
 
     public function testFromarrayWithInvalidType()
     {
-        $adapter = new Local(__DIR__ . '/../cache/');
-        $cache   = new FilesystemCachePool(new Filesystem($adapter));
-
+        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $name         = 'test';
@@ -111,7 +103,7 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
         $type         = new Type('unknown');
         $manufacturer = new Company('Unknown', null);
 
-        $array  = [
+        $array = [
             'name'         => $name,
             'type'         => 'does-not-exist',
             'manufacturer' => 'unknown',
