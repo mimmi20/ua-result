@@ -18,6 +18,6 @@ phpunit.txt
 resources/browscap-*/
 tests/cache/
 tests/create-tests.php
-cache/cache/
+cache/*
 tests/temp/*.php
 tests/temp/*.ini

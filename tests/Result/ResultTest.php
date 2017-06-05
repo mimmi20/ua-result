@@ -26,7 +26,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
     public function testSetterGetter()
     {
         $requestFactory = new GenericRequestFactory();
-        $request        = $requestFactory->createRequestForUserAgent('test-ua');
+        $request        = $requestFactory->createRequestFromString('test-ua');
 
         $device  = new Device(null, null);
         $os      = new Os('unknown', 'unknown');
@@ -48,7 +48,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         $logger = new NullLogger();
 
         $requestFactory = new GenericRequestFactory();
-        $request        = $requestFactory->createRequestForUserAgent('test-ua');
+        $request        = $requestFactory->createRequestFromString('test-ua');
 
         $device  = new Device(null, null);
         $os      = new Os('unknown', 'unknown');
@@ -72,7 +72,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         $logger = new NullLogger();
 
         $requestFactory = new GenericRequestFactory();
-        $request        = $requestFactory->createRequestForUserAgent('');
+        $request        = $requestFactory->createRequestFromString('');
 
         $device  = new Device(null, null);
         $os      = new Os(null, null);
