@@ -11,10 +11,8 @@
 declare(strict_types = 1);
 namespace UaResultTest\Device;
 
-use Cache\Adapter\Filesystem\FilesystemCachePool;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
 use Psr\Log\NullLogger;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use UaDeviceType\Type;
 use UaResult\Company\Company;
 use UaResult\Device\Device;
@@ -24,15 +22,15 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetterGetter()
     {
-        $deviceName        = 'TestDevicename';
-        $marketingName     = 'TestMarketingname';
-        $manufacturer      = new Company('Unknown', null);
-        $brand             = new Company('Unknown', null);
-        $type              = new Type('unknown', 'unknown');
-        $pointingMethod    = 'touchscreen';
-        $resolutionWidth   = 480;
-        $resolutionHeight  = 1080;
-        $dualOrientation   = true;
+        $deviceName       = 'TestDevicename';
+        $marketingName    = 'TestMarketingname';
+        $manufacturer     = new Company('Unknown', null);
+        $brand            = new Company('Unknown', null);
+        $type             = new Type('unknown', 'unknown');
+        $pointingMethod   = 'touchscreen';
+        $resolutionWidth  = 480;
+        $resolutionHeight = 1080;
+        $dualOrientation  = true;
 
         $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
 
@@ -49,20 +47,18 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
 
     public function testToarray()
     {
-        $adapter = new Local(__DIR__ . '/../cache/');
-        $cache   = new FilesystemCachePool(new Filesystem($adapter));
-
+        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
-        $deviceName        = 'TestDevicename';
-        $marketingName     = 'TestMarketingname';
-        $manufacturer      = new Company('Unknown', null);
-        $brand             = new Company('Unknown', null);
-        $type              = new Type('unknown');
-        $pointingMethod    = 'touchscreen';
-        $resolutionWidth   = 480;
-        $resolutionHeight  = 1080;
-        $dualOrientation   = true;
+        $deviceName       = 'TestDevicename';
+        $marketingName    = 'TestMarketingname';
+        $manufacturer     = new Company('Unknown', null);
+        $brand            = new Company('Unknown', null);
+        $type             = new Type('unknown');
+        $pointingMethod   = 'touchscreen';
+        $resolutionWidth  = 480;
+        $resolutionHeight = 1080;
+        $dualOrientation  = true;
 
         $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
 
@@ -82,9 +78,7 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
 
     public function testFromEmptyArray()
     {
-        $adapter = new Local(__DIR__ . '/../cache/');
-        $cache   = new FilesystemCachePool(new Filesystem($adapter));
-
+        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $manufacturer = new Company('Unknown', null);
@@ -106,16 +100,14 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
 
     public function testFromarrayWithInvalidType()
     {
-        $adapter = new Local(__DIR__ . '/../cache/');
-        $cache   = new FilesystemCachePool(new Filesystem($adapter));
-
+        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $name         = 'test';
         $type         = new Type('unknown');
         $manufacturer = new Company('Unknown', null);
 
-        $array  = [
+        $array = [
             'deviceName'   => $name,
             'type'         => 'does-not-exist',
             'manufacturer' => 'unknown',

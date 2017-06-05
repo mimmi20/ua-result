@@ -11,10 +11,8 @@
 declare(strict_types = 1);
 namespace UaResultTest\Result;
 
-use Cache\Adapter\Filesystem\FilesystemCachePool;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
 use Psr\Log\NullLogger;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use UaResult\Browser\Browser;
 use UaResult\Device\Device;
 use UaResult\Engine\Engine;
@@ -30,10 +28,10 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         $requestFactory = new GenericRequestFactory();
         $request        = $requestFactory->createRequestForUserAgent('test-ua');
 
-        $device       = new Device(null, null);
-        $os           = new Os('unknown', 'unknown');
-        $browser      = new Browser('unknown');
-        $engine       = new Engine('unknown');
+        $device  = new Device(null, null);
+        $os      = new Os('unknown', 'unknown');
+        $browser = new Browser('unknown');
+        $engine  = new Engine('unknown');
 
         $object = new Result($request, $device, $os, $browser, $engine);
 
@@ -46,9 +44,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
 
     public function testToarray()
     {
-        $adapter = new Local(__DIR__ . '/../cache/');
-        $cache   = new FilesystemCachePool(new Filesystem($adapter));
-
+        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $requestFactory = new GenericRequestFactory();
@@ -72,9 +68,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
 
     public function testFromEmptyArray()
     {
-        $adapter = new Local(__DIR__ . '/../cache/');
-        $cache   = new FilesystemCachePool(new Filesystem($adapter));
-
+        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $requestFactory = new GenericRequestFactory();

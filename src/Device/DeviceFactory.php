@@ -37,12 +37,12 @@ class DeviceFactory
      */
     public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data)
     {
-        $deviceName        = isset($data['deviceName']) ? $data['deviceName'] : null;
-        $marketingName     = isset($data['marketingName']) ? $data['marketingName'] : null;
-        $pointingMethod    = isset($data['pointingMethod']) ? $data['pointingMethod'] : null;
-        $resolutionWidth   = isset($data['resolutionWidth']) ? $data['resolutionWidth'] : null;
-        $resolutionHeight  = isset($data['resolutionHeight']) ? $data['resolutionHeight'] : null;
-        $dualOrientation   = isset($data['dualOrientation']) ? $data['dualOrientation'] : null;
+        $deviceName       = isset($data['deviceName']) ? $data['deviceName'] : null;
+        $marketingName    = isset($data['marketingName']) ? $data['marketingName'] : null;
+        $pointingMethod   = isset($data['pointingMethod']) ? $data['pointingMethod'] : null;
+        $resolutionWidth  = isset($data['resolutionWidth']) ? $data['resolutionWidth'] : null;
+        $resolutionHeight = isset($data['resolutionHeight']) ? $data['resolutionHeight'] : null;
+        $dualOrientation  = isset($data['dualOrientation']) ? $data['dualOrientation'] : null;
 
         $type = null;
         if (isset($data['type'])) {

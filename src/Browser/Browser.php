@@ -72,9 +72,9 @@ class Browser implements BrowserInterface
         $bits = null,
         $modus = null
     ) {
-        $this->name       = $name;
-        $this->bits       = $bits;
-        $this->modus      = $modus;
+        $this->name  = $name;
+        $this->bits  = $bits;
+        $this->modus = $modus;
 
         if (null === $version) {
             $this->version = new Version();
