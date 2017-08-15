@@ -87,4 +87,24 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($browser, $object->getBrowser());
         self::assertEquals($engine, $object->getEngine());
     }
+
+    public function testClone()
+    {
+        $requestFactory = new GenericRequestFactory();
+        $request        = $requestFactory->createRequestFromString('test-ua');
+
+        $device  = new Device(null, null);
+        $os      = new Os('unknown', 'unknown');
+        $browser = new Browser('unknown');
+        $engine  = new Engine('unknown');
+
+        $original = new Result($request, $device, $os, $browser, $engine);
+        $cloned   = clone $original;
+
+        self::assertNotSame($original, $cloned);
+        self::assertNotSame($device, $cloned->getDevice());
+        self::assertNotSame($os, $cloned->getOs());
+        self::assertNotSame($browser, $cloned->getBrowser());
+        self::assertNotSame($engine, $cloned->getEngine());
+    }
 }

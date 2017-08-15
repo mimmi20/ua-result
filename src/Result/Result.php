@@ -98,6 +98,15 @@ class Result implements ResultInterface
         }
     }
 
+    public function __clone()
+    {
+        $this->request = clone $this->request;
+        $this->device  = clone $this->device;
+        $this->os      = clone $this->os;
+        $this->browser = clone $this->browser;
+        $this->engine  = clone $this->engine;
+    }
+
     /**
      * @return \UaResult\Browser\BrowserInterface|null
      */

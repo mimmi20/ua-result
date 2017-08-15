@@ -45,7 +45,7 @@ class BrowserFactory
         $type = null;
         if (isset($data['type'])) {
             try {
-                $type = (new TypeLoader($cache))->load($data['type']);
+                $type = (new TypeLoader())->load($data['type']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }

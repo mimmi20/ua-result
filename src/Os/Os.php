@@ -56,8 +56,13 @@ class Os implements OsInterface
      * @param \BrowserDetector\Version\Version|null $version
      * @param int|null                              $bits
      */
-    public function __construct($name, $marketingName, Company $manufacturer = null, Version $version = null, $bits = null)
-    {
+    public function __construct(
+        $name,
+        $marketingName,
+        Company $manufacturer = null,
+        Version $version = null,
+        int $bits = null
+    ) {
         $this->name          = $name;
         $this->marketingName = $marketingName;
         $this->bits          = $bits;
@@ -73,6 +78,12 @@ class Os implements OsInterface
         } else {
             $this->version = $version;
         }
+    }
+
+    public function __clone()
+    {
+        $this->manufacturer = clone $this->manufacturer;
+        $this->version      = clone $this->version;
     }
 
     /**

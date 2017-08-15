@@ -97,4 +97,20 @@ class OsTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($version, $object->getVersion());
         self::assertEquals($manufacturer, $object->getManufacturer());
     }
+
+    public function testClone()
+    {
+        $name          = 'TestPlatform';
+        $marketingName = 'TestMarketingname';
+        $manufacturer  = new Company('Unknown', null);
+        $version       = new Version();
+        $bits          = 64;
+
+        $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
+        $cloned   = clone $original;
+
+        self::assertNotSame($original, $cloned);
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($version, $cloned->getVersion());
+    }
 }
