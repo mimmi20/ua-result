@@ -84,4 +84,18 @@ class EngineTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($version, $object->getVersion());
         self::assertEquals($manufacturer, $object->getManufacturer());
     }
+
+    public function testClone()
+    {
+        $name         = 'TestBrowser';
+        $manufacturer = new Company('Unknown', null);
+        $version      = new Version();
+
+        $original = new Engine($name, $manufacturer, $version);
+        $cloned   = clone $original;
+
+        self::assertNotSame($original, $cloned);
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($version, $cloned->getVersion());
+    }
 }

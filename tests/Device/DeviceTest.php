@@ -121,4 +121,25 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($manufacturer, $object->getManufacturer());
         self::assertEquals($manufacturer, $object->getBrand());
     }
+
+    public function testClone()
+    {
+        $deviceName       = 'TestDevicename';
+        $marketingName    = 'TestMarketingname';
+        $manufacturer     = new Company('Unknown', null);
+        $brand            = new Company('Unknown', null);
+        $type             = new Type('unknown', 'unknown');
+        $pointingMethod   = 'touchscreen';
+        $resolutionWidth  = 480;
+        $resolutionHeight = 1080;
+        $dualOrientation  = true;
+
+        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
+        $cloned   = clone $original;
+
+        self::assertNotSame($original, $cloned);
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($brand, $cloned->getBrand());
+        self::assertNotSame($type, $cloned->getType());
+    }
 }

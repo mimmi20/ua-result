@@ -88,10 +88,10 @@ class Device implements DeviceInterface
         Company $manufacturer = null,
         Company $brand = null,
         TypeInterface $type = null,
-        $pointingMethod = null,
-        $resolutionWidth = null,
-        $resolutionHeight = null,
-        $dualOrientation = null
+        string $pointingMethod = null,
+        int $resolutionWidth = null,
+        int $resolutionHeight = null,
+        bool $dualOrientation = null
     ) {
         $this->deviceName       = $deviceName;
         $this->marketingName    = $marketingName;
@@ -118,6 +118,13 @@ class Device implements DeviceInterface
         } else {
             $this->brand = $brand;
         }
+    }
+
+    public function __clone()
+    {
+        $this->type         = clone $this->type;
+        $this->manufacturer = clone $this->manufacturer;
+        $this->brand        = clone $this->brand;
     }
 
     /**

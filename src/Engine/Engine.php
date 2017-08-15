@@ -61,6 +61,12 @@ class Engine implements EngineInterface
         }
     }
 
+    public function __clone()
+    {
+        $this->version      = clone $this->version;
+        $this->manufacturer = clone $this->manufacturer;
+    }
+
     /**
      * @return \UaResult\Company\Company|null
      */

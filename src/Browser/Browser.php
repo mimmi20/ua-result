@@ -69,8 +69,8 @@ class Browser implements BrowserInterface
         Company $manufacturer = null,
         Version $version = null,
         TypeInterface $type = null,
-        $bits = null,
-        $modus = null
+        int $bits = null,
+        string $modus = null
     ) {
         $this->name  = $name;
         $this->bits  = $bits;
@@ -93,6 +93,13 @@ class Browser implements BrowserInterface
         } else {
             $this->manufacturer = $manufacturer;
         }
+    }
+
+    public function __clone()
+    {
+        $this->version      = clone $this->version;
+        $this->type         = clone $this->type;
+        $this->manufacturer = clone $this->manufacturer;
     }
 
     /**

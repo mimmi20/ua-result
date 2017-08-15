@@ -115,4 +115,20 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($type, $object->getType());
         self::assertEquals($manufacturer, $object->getManufacturer());
     }
+
+    public function testClone()
+    {
+        $name         = 'TestBrowser';
+        $manufacturer = new Company('Unknown', null);
+        $version      = new Version();
+        $type         = new Type('unknown');
+
+        $original = new Browser($name, $manufacturer, $version, $type);
+        $cloned   = clone $original;
+
+        self::assertNotSame($original, $cloned);
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($version, $cloned->getVersion());
+        self::assertNotSame($type, $cloned->getType());
+    }
 }
