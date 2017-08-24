@@ -17,7 +17,6 @@ use UaResult\Browser\BrowserFactory;
 use UaResult\Device\DeviceFactory;
 use UaResult\Engine\EngineFactory;
 use UaResult\Os\OsFactory;
-use Wurfl\Request\GenericRequestFactory;
 
 /**
  * Browser detection class
@@ -37,12 +36,11 @@ class ResultFactory
      *
      * @return \UaResult\Result\Result
      */
-    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data)
+    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data): Result
     {
-        if (isset($data['request'])) {
-            $request = (new GenericRequestFactory())->fromArray((array) $data['request']);
-        } else {
-            $request = (new GenericRequestFactory())->createRequestFromString('');
+        $headers = [];
+        if (isset($data['headers'])) {
+            $headers = $data['headers'];
         }
 
         $device = null;
@@ -65,6 +63,6 @@ class ResultFactory
             $engine = (new EngineFactory())->fromArray($cache, $logger, (array) $data['engine']);
         }
 
-        return new Result($request, $device, $os, $browser, $engine);
+        return new Result($headers, $device, $os, $browser, $engine);
     }
 }

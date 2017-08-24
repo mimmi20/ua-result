@@ -19,7 +19,6 @@ use UaResult\Engine\Engine;
 use UaResult\Engine\EngineInterface;
 use UaResult\Os\Os;
 use UaResult\Os\OsInterface;
-use Wurfl\Request\GenericRequest;
 
 /**
  * @category  ua-result
@@ -31,9 +30,9 @@ use Wurfl\Request\GenericRequest;
 class Result implements ResultInterface
 {
     /**
-     * @var \Wurfl\Request\GenericRequest|null
+     * @var string[]
      */
-    private $request = null;
+    private $headers = [];
 
     /**
      * @var \UaResult\Device\DeviceInterface|null
@@ -58,20 +57,20 @@ class Result implements ResultInterface
     /**
      * the class constructor
      *
-     * @param \Wurfl\Request\GenericRequest      $request
+     * @param string[]                           $headers
      * @param \UaResult\Device\DeviceInterface   $device
      * @param \UaResult\Os\OsInterface           $os
      * @param \UaResult\Browser\BrowserInterface $browser
      * @param \UaResult\Engine\EngineInterface   $engine
      */
     public function __construct(
-        GenericRequest $request,
+        array $headers,
         DeviceInterface $device = null,
         OsInterface $os = null,
         BrowserInterface $browser = null,
         EngineInterface $engine = null
     ) {
-        $this->request = $request;
+        $this->headers = $headers;
 
         if (null === $device) {
             $this->device = new Device(null, null);
@@ -100,7 +99,6 @@ class Result implements ResultInterface
 
     public function __clone()
     {
-        $this->request = clone $this->request;
         $this->device  = clone $this->device;
         $this->os      = clone $this->os;
         $this->browser = clone $this->browser;
@@ -110,7 +108,7 @@ class Result implements ResultInterface
     /**
      * @return \UaResult\Browser\BrowserInterface|null
      */
-    public function getBrowser()
+    public function getBrowser(): ?BrowserInterface
     {
         return $this->browser;
     }
@@ -118,7 +116,7 @@ class Result implements ResultInterface
     /**
      * @return \UaResult\Device\DeviceInterface|null
      */
-    public function getDevice()
+    public function getDevice(): ?DeviceInterface
     {
         return $this->device;
     }
@@ -126,7 +124,7 @@ class Result implements ResultInterface
     /**
      * @return \UaResult\Engine\EngineInterface|null
      */
-    public function getEngine()
+    public function getEngine(): ?EngineInterface
     {
         return $this->engine;
     }
@@ -134,28 +132,26 @@ class Result implements ResultInterface
     /**
      * @return \UaResult\Os\OsInterface|null
      */
-    public function getOs()
+    public function getOs(): ?OsInterface
     {
         return $this->os;
     }
 
     /**
-     * @return \Wurfl\Request\GenericRequest|null
+     * @return string[]
      */
-    public function getRequest()
+    public function getHeaders(): array
     {
-        return $this->request;
+        return $this->headers;
     }
 
     /**
-     * @param bool $complete
-     *
      * @return array
      */
-    public function toArray($complete = true)
+    public function toArray(): array
     {
         return [
-            'request' => $this->request->toArray($complete),
+            'headers' => $this->headers,
             'device'  => $this->device->toArray(),
             'browser' => $this->browser->toArray(),
             'os'      => $this->os->toArray(),

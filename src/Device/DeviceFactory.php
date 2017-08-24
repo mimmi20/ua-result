@@ -17,32 +17,23 @@ use Psr\Log\LoggerInterface;
 use UaDeviceType\TypeLoader;
 use UaResult\Company\CompanyLoader;
 
-/**
- * Browser detection class
- *
- * @category  BrowserDetector
- *
- * @author    Thomas Mueller <mimmi20@live.de>
- * @copyright 2012-2016 Thomas Mueller
- * @license   http://www.opensource.org/licenses/MIT MIT License
- */
 class DeviceFactory
 {
     /**
      * @param \Psr\Cache\CacheItemPoolInterface $cache
      * @param \Psr\Log\LoggerInterface          $logger
-     * @param array                             $data
+     * @param string[]                          $data
      *
-     * @return \UaResult\Device\Device
+     * @return \UaResult\Device\DeviceInterface
      */
-    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data)
+    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data): DeviceInterface
     {
         $deviceName       = isset($data['deviceName']) ? $data['deviceName'] : null;
         $marketingName    = isset($data['marketingName']) ? $data['marketingName'] : null;
         $pointingMethod   = isset($data['pointingMethod']) ? $data['pointingMethod'] : null;
         $resolutionWidth  = isset($data['resolutionWidth']) ? $data['resolutionWidth'] : null;
         $resolutionHeight = isset($data['resolutionHeight']) ? $data['resolutionHeight'] : null;
-        $dualOrientation  = isset($data['dualOrientation']) ? $data['dualOrientation'] : null;
+        $dualOrientation  = isset($data['dualOrientation']) ? (bool) $data['dualOrientation'] : false;
 
         $type = null;
         if (isset($data['type'])) {

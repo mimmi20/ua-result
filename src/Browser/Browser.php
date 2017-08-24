@@ -12,9 +12,11 @@ declare(strict_types = 1);
 namespace UaResult\Browser;
 
 use BrowserDetector\Version\Version;
+use BrowserDetector\Version\VersionInterface;
 use UaBrowserType\Type;
 use UaBrowserType\TypeInterface;
 use UaResult\Company\Company;
+use UaResult\Company\CompanyInterface;
 
 /**
  * base class for all browsers to detect
@@ -37,12 +39,12 @@ class Browser implements BrowserInterface
     private $modus = null;
 
     /**
-     * @var \BrowserDetector\Version\Version|null
+     * @var \BrowserDetector\Version\VersionInterface|null
      */
     private $version = null;
 
     /**
-     * @var \UaResult\Company\Company|null
+     * @var \UaResult\Company\CompanyInterface|null
      */
     private $manufacturer = null;
 
@@ -57,20 +59,20 @@ class Browser implements BrowserInterface
     private $type = null;
 
     /**
-     * @param string                                $name
-     * @param \UaResult\Company\Company|null        $manufacturer
-     * @param \BrowserDetector\Version\Version|null $version
-     * @param \UaBrowserType\TypeInterface|null     $type
-     * @param int|null                              $bits
-     * @param string|null                           $modus
+     * @param string|null                                    $name
+     * @param \UaResult\Company\CompanyInterface|null        $manufacturer
+     * @param \BrowserDetector\Version\VersionInterface|null $version
+     * @param \UaBrowserType\TypeInterface|null              $type
+     * @param int|null                                       $bits
+     * @param string|null                                    $modus
      */
     public function __construct(
-        $name,
-        Company $manufacturer = null,
-        Version $version = null,
-        TypeInterface $type = null,
-        int $bits = null,
-        string $modus = null
+        ?string $name = null,
+        ?CompanyInterface $manufacturer = null,
+        ?VersionInterface $version = null,
+        ?TypeInterface $type = null,
+        ?int $bits = null,
+        ?string $modus = null
     ) {
         $this->name  = $name;
         $this->bits  = $bits;
@@ -105,17 +107,17 @@ class Browser implements BrowserInterface
     /**
      * gets the name of the browser
      *
-     * @return string
+     * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @return \UaResult\Company\Company|null
+     * @return \UaResult\Company\CompanyInterface|null
      */
-    public function getManufacturer()
+    public function getManufacturer(): ?CompanyInterface
     {
         return $this->manufacturer;
     }
@@ -123,15 +125,15 @@ class Browser implements BrowserInterface
     /**
      * @return string|null
      */
-    public function getModus()
+    public function getModus(): ?string
     {
         return $this->modus;
     }
 
     /**
-     * @return \BrowserDetector\Version\Version|null
+     * @return \BrowserDetector\Version\VersionInterface|null
      */
-    public function getVersion()
+    public function getVersion(): ?VersionInterface
     {
         return $this->version;
     }
@@ -139,7 +141,7 @@ class Browser implements BrowserInterface
     /**
      * @return int|null
      */
-    public function getBits()
+    public function getBits(): ?int
     {
         return $this->bits;
     }
@@ -147,15 +149,15 @@ class Browser implements BrowserInterface
     /**
      * @return \UaBrowserType\TypeInterface|null
      */
-    public function getType()
+    public function getType(): ?TypeInterface
     {
         return $this->type;
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'name'         => $this->name,

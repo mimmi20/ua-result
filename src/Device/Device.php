@@ -14,16 +14,8 @@ namespace UaResult\Device;
 use UaDeviceType\Type;
 use UaDeviceType\TypeInterface;
 use UaResult\Company\Company;
+use UaResult\Company\CompanyInterface;
 
-/**
- * BrowserDetector.ini parsing class with caching and update capabilities
- *
- * @category  ua-result
- *
- * @author    Thomas Mueller <mimmi20@live.de>
- * @copyright 2015, 2016 Thomas Mueller
- * @license   http://www.opensource.org/licenses/MIT MIT License
- */
 class Device implements DeviceInterface
 {
     /**
@@ -37,12 +29,12 @@ class Device implements DeviceInterface
     private $marketingName = null;
 
     /**
-     * @var \UaResult\Company\Company|null
+     * @var \UaResult\Company\CompanyInterface|null
      */
     private $manufacturer = null;
 
     /**
-     * @var \UaResult\Company\Company|null
+     * @var \UaResult\Company\CompanyInterface|null
      */
     private $brand = null;
 
@@ -62,9 +54,9 @@ class Device implements DeviceInterface
     private $resolutionHeight = null;
 
     /**
-     * @var bool|null
+     * @var bool
      */
-    private $dualOrientation = null;
+    private $dualOrientation = false;
 
     /**
      * @var \UaDeviceType\TypeInterface|null
@@ -72,26 +64,26 @@ class Device implements DeviceInterface
     private $type = null;
 
     /**
-     * @param string                           $deviceName
-     * @param string                           $marketingName
-     * @param \UaResult\Company\Company|null   $manufacturer
-     * @param \UaResult\Company\Company|null   $brand
-     * @param \UaDeviceType\TypeInterface|null $type
-     * @param string|null                      $pointingMethod
-     * @param int|null                         $resolutionWidth
-     * @param int|null                         $resolutionHeight
-     * @param bool|null                        $dualOrientation
+     * @param string|null                             $deviceName
+     * @param string|null                             $marketingName
+     * @param \UaResult\Company\CompanyInterface|null $manufacturer
+     * @param \UaResult\Company\CompanyInterface|null $brand
+     * @param \UaDeviceType\TypeInterface|null        $type
+     * @param string|null                             $pointingMethod
+     * @param int|null                                $resolutionWidth
+     * @param int|null                                $resolutionHeight
+     * @param bool|null                               $dualOrientation
      */
     public function __construct(
-        $deviceName,
-        $marketingName,
-        Company $manufacturer = null,
-        Company $brand = null,
-        TypeInterface $type = null,
-        string $pointingMethod = null,
-        int $resolutionWidth = null,
-        int $resolutionHeight = null,
-        bool $dualOrientation = null
+        ?string $deviceName = null,
+        ?string $marketingName = null,
+        ?CompanyInterface $manufacturer = null,
+        ?CompanyInterface $brand = null,
+        ?TypeInterface $type = null,
+        ?string $pointingMethod = null,
+        ?int $resolutionWidth = null,
+        ?int $resolutionHeight = null,
+        bool $dualOrientation = false
     ) {
         $this->deviceName       = $deviceName;
         $this->marketingName    = $marketingName;
@@ -130,31 +122,31 @@ class Device implements DeviceInterface
     /**
      * @return string|null
      */
-    public function getDeviceName()
+    public function getDeviceName(): ?string
     {
         return $this->deviceName;
     }
 
     /**
-     * @return \UaResult\Company\Company|null
+     * @return \UaResult\Company\CompanyInterface|null
      */
-    public function getBrand()
+    public function getBrand(): ?CompanyInterface
     {
         return $this->brand;
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
-    public function getDualOrientation()
+    public function getDualOrientation(): bool
     {
         return $this->dualOrientation;
     }
 
     /**
-     * @return \UaResult\Company\Company|null
+     * @return \UaResult\Company\CompanyInterface|null
      */
-    public function getManufacturer()
+    public function getManufacturer(): ?CompanyInterface
     {
         return $this->manufacturer;
     }
@@ -162,7 +154,7 @@ class Device implements DeviceInterface
     /**
      * @return string|null
      */
-    public function getMarketingName()
+    public function getMarketingName(): ?string
     {
         return $this->marketingName;
     }
@@ -170,7 +162,7 @@ class Device implements DeviceInterface
     /**
      * @return string|null
      */
-    public function getPointingMethod()
+    public function getPointingMethod(): ?string
     {
         return $this->pointingMethod;
     }
@@ -178,7 +170,7 @@ class Device implements DeviceInterface
     /**
      * @return int|null
      */
-    public function getResolutionHeight()
+    public function getResolutionHeight(): ?int
     {
         return $this->resolutionHeight;
     }
@@ -186,7 +178,7 @@ class Device implements DeviceInterface
     /**
      * @return int|null
      */
-    public function getResolutionWidth()
+    public function getResolutionWidth(): ?int
     {
         return $this->resolutionWidth;
     }
@@ -194,15 +186,15 @@ class Device implements DeviceInterface
     /**
      * @return \UaDeviceType\TypeInterface|null
      */
-    public function getType()
+    public function getType(): ?TypeInterface
     {
         return $this->type;
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'deviceName'       => $this->deviceName,

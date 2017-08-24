@@ -46,7 +46,7 @@ class OsTest extends \PHPUnit\Framework\TestCase
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
         $manufacturer  = new Company('Unknown', null);
-        $version       = (new VersionFactory())->set('0.0.0');
+        $version       = VersionFactory::set('0.0.0');
         $bits          = 64;
 
         $original = new Os($name, $marketingName, $manufacturer, $version, $bits);

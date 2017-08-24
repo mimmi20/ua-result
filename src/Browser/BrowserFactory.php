@@ -32,11 +32,11 @@ class BrowserFactory
     /**
      * @param \Psr\Cache\CacheItemPoolInterface $cache
      * @param \Psr\Log\LoggerInterface          $logger
-     * @param array                             $data
+     * @param string[]                          $data
      *
-     * @return \UaResult\Browser\Browser
+     * @return \UaResult\Browser\BrowserInterface
      */
-    public static function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data)
+    public static function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data): BrowserInterface
     {
         $name  = isset($data['name']) ? $data['name'] : null;
         $modus = isset($data['modus']) ? $data['modus'] : null;
@@ -53,7 +53,7 @@ class BrowserFactory
 
         $version = null;
         if (isset($data['version'])) {
-            $version = (new VersionFactory())->set($data['version']);
+            $version = VersionFactory::set($data['version']);
         }
 
         $manufacturer = null;
