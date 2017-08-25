@@ -12,7 +12,9 @@ declare(strict_types = 1);
 namespace UaResult\Engine;
 
 use BrowserDetector\Version\Version;
+use BrowserDetector\Version\VersionInterface;
 use UaResult\Company\Company;
+use UaResult\Company\CompanyInterface;
 
 /**
  * base class for all rendering engines to detect
@@ -30,22 +32,25 @@ class Engine implements EngineInterface
     private $name = null;
 
     /**
-     * @var \BrowserDetector\Version\Version|null
+     * @var \BrowserDetector\Version\VersionInterface|null
      */
     private $version = null;
 
     /**
-     * @var \UaResult\Company\Company|null
+     * @var \UaResult\Company\CompanyInterface|null
      */
     private $manufacturer = null;
 
     /**
-     * @param string                           $name
-     * @param \UaResult\Company\Company        $manufacturer
-     * @param \BrowserDetector\Version\Version $version
+     * @param string|null                                    $name
+     * @param \UaResult\Company\CompanyInterface|null        $manufacturer
+     * @param \BrowserDetector\Version\VersionInterface|null $version
      */
-    public function __construct($name, Company $manufacturer = null, Version $version = null)
-    {
+    public function __construct(
+        ?string $name = null,
+        ?CompanyInterface $manufacturer = null,
+        ?VersionInterface $version = null
+    ) {
         $this->name = $name;
 
         if (null === $version) {
@@ -68,9 +73,9 @@ class Engine implements EngineInterface
     }
 
     /**
-     * @return \UaResult\Company\Company|null
+     * @return \UaResult\Company\CompanyInterface|null
      */
-    public function getManufacturer()
+    public function getManufacturer(): ?CompanyInterface
     {
         return $this->manufacturer;
     }
@@ -78,23 +83,23 @@ class Engine implements EngineInterface
     /**
      * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @return \BrowserDetector\Version\Version|null
+     * @return \BrowserDetector\Version\VersionInterface|null
      */
-    public function getVersion()
+    public function getVersion(): ?VersionInterface
     {
         return $this->version;
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'name'         => $this->name,

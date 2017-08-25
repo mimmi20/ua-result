@@ -33,15 +33,15 @@ class EngineFactory
      * @param \Psr\Log\LoggerInterface          $logger
      * @param array                             $data
      *
-     * @return \UaResult\Engine\Engine
+     * @return \UaResult\Engine\EngineInterface
      */
-    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data)
+    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data): EngineInterface
     {
         $name = isset($data['name']) ? $data['name'] : null;
 
         $version = null;
         if (isset($data['version'])) {
-            $version = (new VersionFactory())->set($data['version']);
+            $version = VersionFactory::set($data['version']);
         }
 
         $manufacturer = null;

@@ -11,63 +11,58 @@
 declare(strict_types = 1);
 namespace UaResult\Device;
 
-/**
- * interface for all devices to detect
- *
- * @category  ua-result
- *
- * @copyright 2015, 2016 Thomas Mueller
- * @license   http://www.opensource.org/licenses/MIT MIT License
- */
+use UaDeviceType\TypeInterface;
+use UaResult\Company\CompanyInterface;
+
 interface DeviceInterface
 {
     /**
      * @return string|null
      */
-    public function getDeviceName();
+    public function getDeviceName(): ?string;
 
     /**
-     * @return \UaResult\Company\Company|null
+     * @return \UaResult\Company\CompanyInterface|null
      */
-    public function getBrand();
+    public function getBrand(): ?CompanyInterface;
 
     /**
-     * @return bool|null
+     * @return bool
      */
-    public function getDualOrientation();
+    public function getDualOrientation(): bool;
 
     /**
-     * @return \UaResult\Company\Company|null
+     * @return \UaResult\Company\CompanyInterface|null
      */
-    public function getManufacturer();
-
-    /**
-     * @return string|null
-     */
-    public function getMarketingName();
+    public function getManufacturer(): ?CompanyInterface;
 
     /**
      * @return string|null
      */
-    public function getPointingMethod();
+    public function getMarketingName(): ?string;
+
+    /**
+     * @return string|null
+     */
+    public function getPointingMethod(): ?string;
 
     /**
      * @return int|null
      */
-    public function getResolutionHeight();
+    public function getResolutionHeight(): ?int;
 
     /**
      * @return int|null
      */
-    public function getResolutionWidth();
+    public function getResolutionWidth(): ?int;
 
     /**
      * @return \UaDeviceType\TypeInterface|null
      */
-    public function getType();
+    public function getType(): ?TypeInterface;
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function toArray();
+    public function toArray(): array;
 }

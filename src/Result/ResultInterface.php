@@ -11,6 +11,11 @@
 declare(strict_types = 1);
 namespace UaResult\Result;
 
+use UaResult\Browser\BrowserInterface;
+use UaResult\Device\DeviceInterface;
+use UaResult\Engine\EngineInterface;
+use UaResult\Os\OsInterface;
+
 /**
  * BrowserDetector.ini parsing class with caching and update capabilities
  *
@@ -23,27 +28,32 @@ namespace UaResult\Result;
 interface ResultInterface
 {
     /**
-     * @return \UaResult\Browser\BrowserInterface
+     * @return \UaResult\Browser\BrowserInterface|null
      */
-    public function getBrowser();
+    public function getBrowser(): ?BrowserInterface;
 
     /**
-     * @return \UaResult\Device\DeviceInterface
+     * @return \UaResult\Device\DeviceInterface|null
      */
-    public function getDevice();
+    public function getDevice(): ?DeviceInterface;
 
     /**
-     * @return \UaResult\Engine\EngineInterface
+     * @return \UaResult\Engine\EngineInterface|null
      */
-    public function getEngine();
+    public function getEngine(): ?EngineInterface;
 
     /**
-     * @return \UaResult\Os\OsInterface
+     * @return \UaResult\Os\OsInterface|null
      */
-    public function getOs();
+    public function getOs(): ?OsInterface;
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function toArray();
+    public function getHeaders(): array;
+
+    /**
+     * @return string[]
+     */
+    public function toArray(): array;
 }

@@ -19,23 +19,20 @@ use UaResult\Engine\Engine;
 use UaResult\Os\Os;
 use UaResult\Result\Result;
 use UaResult\Result\ResultFactory;
-use Wurfl\Request\GenericRequestFactory;
 
 class ResultTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetterGetter()
     {
-        $requestFactory = new GenericRequestFactory();
-        $request        = $requestFactory->createRequestFromString('test-ua');
-
+        $headers = ['x-test-header' => 'test-ua'];
         $device  = new Device(null, null);
         $os      = new Os('unknown', 'unknown');
         $browser = new Browser('unknown');
         $engine  = new Engine('unknown');
 
-        $object = new Result($request, $device, $os, $browser, $engine);
+        $object = new Result($headers, $device, $os, $browser, $engine);
 
-        self::assertSame($request, $object->getRequest());
+        self::assertSame($headers, $object->getHeaders());
         self::assertSame($device, $object->getDevice());
         self::assertSame($os, $object->getOs());
         self::assertSame($browser, $object->getBrowser());
@@ -47,19 +44,17 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
-        $requestFactory = new GenericRequestFactory();
-        $request        = $requestFactory->createRequestFromString('test-ua');
-
+        $headers = ['x-test-header' => 'test-ua'];
         $device  = new Device(null, null);
         $os      = new Os('unknown', 'unknown');
         $browser = new Browser('unknown');
         $engine  = new Engine('unknown');
 
-        $original = new Result($request, $device, $os, $browser, $engine);
+        $original = new Result($headers, $device, $os, $browser, $engine);
         $array    = $original->toArray();
         $object   = (new ResultFactory())->fromArray($cache, $logger, $array);
 
-        self::assertEquals($request, $object->getRequest());
+        self::assertEquals($headers, $object->getHeaders());
         self::assertEquals($device, $object->getDevice());
         self::assertEquals($os, $object->getOs());
         self::assertEquals($browser, $object->getBrowser());
@@ -71,9 +66,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
-        $requestFactory = new GenericRequestFactory();
-        $request        = $requestFactory->createRequestFromString('');
-
+        $headers = [];
         $device  = new Device(null, null);
         $os      = new Os(null, null);
         $browser = new Browser(null);
@@ -81,7 +74,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
 
         $object = (new ResultFactory())->fromArray($cache, $logger, []);
 
-        self::assertEquals($request, $object->getRequest());
+        self::assertEquals($headers, $object->getHeaders());
         self::assertEquals($device, $object->getDevice());
         self::assertEquals($os, $object->getOs());
         self::assertEquals($browser, $object->getBrowser());
@@ -90,15 +83,13 @@ class ResultTest extends \PHPUnit\Framework\TestCase
 
     public function testClone()
     {
-        $requestFactory = new GenericRequestFactory();
-        $request        = $requestFactory->createRequestFromString('test-ua');
-
+        $headers = ['x-test-header' => 'test-ua'];
         $device  = new Device(null, null);
         $os      = new Os('unknown', 'unknown');
         $browser = new Browser('unknown');
         $engine  = new Engine('unknown');
 
-        $original = new Result($request, $device, $os, $browser, $engine);
+        $original = new Result($headers, $device, $os, $browser, $engine);
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);

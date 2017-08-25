@@ -95,7 +95,7 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
         self::assertNull($object->getPointingMethod());
         self::assertNull($object->getResolutionWidth());
         self::assertNull($object->getResolutionHeight());
-        self::assertNull($object->getDualOrientation());
+        self::assertFalse($object->getDualOrientation());
     }
 
     public function testFromarrayWithInvalidType()

@@ -11,6 +11,10 @@
 declare(strict_types = 1);
 namespace UaResult\Browser;
 
+use BrowserDetector\Version\VersionInterface;
+use UaBrowserType\TypeInterface;
+use UaResult\Company\CompanyInterface;
+
 /**
  * base class for all browsers to detect
  *
@@ -24,37 +28,37 @@ interface BrowserInterface
     /**
      * gets the name of the browser
      *
-     * @return string
+     * @return string|null
      */
-    public function getName();
+    public function getName(): ?string;
 
     /**
-     * @return \UaResult\Company\Company|null
+     * @return \UaResult\Company\CompanyInterface|null
      */
-    public function getManufacturer();
+    public function getManufacturer(): ?CompanyInterface;
 
     /**
      * @return string|null
      */
-    public function getModus();
+    public function getModus(): ?string;
 
     /**
-     * @return \BrowserDetector\Version\Version|null
+     * @return \BrowserDetector\Version\VersionInterface|null
      */
-    public function getVersion();
+    public function getVersion(): ?VersionInterface;
 
     /**
      * @return int|null
      */
-    public function getBits();
+    public function getBits(): ?int;
 
     /**
      * @return \UaBrowserType\TypeInterface|null
      */
-    public function getType();
+    public function getType(): ?TypeInterface;
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function toArray();
+    public function toArray(): array;
 }

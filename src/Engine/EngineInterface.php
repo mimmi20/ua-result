@@ -11,6 +11,9 @@
 declare(strict_types = 1);
 namespace UaResult\Engine;
 
+use BrowserDetector\Version\VersionInterface;
+use UaResult\Company\CompanyInterface;
+
 /**
  * interface for all rendering engines to detect
  *
@@ -22,22 +25,22 @@ namespace UaResult\Engine;
 interface EngineInterface
 {
     /**
-     * @return \UaResult\Company\Company|null
+     * @return \UaResult\Company\CompanyInterface|null
      */
-    public function getManufacturer();
+    public function getManufacturer(): ?CompanyInterface;
 
     /**
      * @return string|null
      */
-    public function getName();
+    public function getName(): ?string;
 
     /**
      * @return \BrowserDetector\Version\Version|null
      */
-    public function getVersion();
+    public function getVersion(): ?VersionInterface;
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function toArray();
+    public function toArray(): array;
 }

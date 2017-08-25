@@ -12,7 +12,9 @@ declare(strict_types = 1);
 namespace UaResult\Os;
 
 use BrowserDetector\Version\Version;
+use BrowserDetector\Version\VersionInterface;
 use UaResult\Company\Company;
+use UaResult\Company\CompanyInterface;
 
 /**
  * base class for all rendering platforms/operating systems to detect
@@ -35,12 +37,12 @@ class Os implements OsInterface
     private $marketingName = null;
 
     /**
-     * @var \BrowserDetector\Version\Version|null
+     * @var \BrowserDetector\Version\VersionInterface|null
      */
     private $version = null;
 
     /**
-     * @var \UaResult\Company\Company|null
+     * @var \UaResult\Company\CompanyInterface|null
      */
     private $manufacturer = null;
 
@@ -50,18 +52,18 @@ class Os implements OsInterface
     private $bits = null;
 
     /**
-     * @param string                                $name
-     * @param string                                $marketingName
-     * @param \UaResult\Company\Company|null        $manufacturer
-     * @param \BrowserDetector\Version\Version|null $version
-     * @param int|null                              $bits
+     * @param string|null                                    $name
+     * @param string|null                                    $marketingName
+     * @param \UaResult\Company\CompanyInterface|null        $manufacturer
+     * @param \BrowserDetector\Version\VersionInterface|null $version
+     * @param int|null                                       $bits
      */
     public function __construct(
-        $name,
-        $marketingName,
-        Company $manufacturer = null,
-        Version $version = null,
-        int $bits = null
+        ?string $name = null,
+        ?string $marketingName = null,
+        ?CompanyInterface $manufacturer = null,
+        ?VersionInterface $version = null,
+        ?int $bits = null
     ) {
         $this->name          = $name;
         $this->marketingName = $marketingName;
@@ -89,15 +91,15 @@ class Os implements OsInterface
     /**
      * @return int|null
      */
-    public function getBits()
+    public function getBits(): ?int
     {
         return $this->bits;
     }
 
     /**
-     * @return \UaResult\Company\Company|null
+     * @return \UaResult\Company\CompanyInterface|null
      */
-    public function getManufacturer()
+    public function getManufacturer(): ?CompanyInterface
     {
         return $this->manufacturer;
     }
@@ -105,7 +107,7 @@ class Os implements OsInterface
     /**
      * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -113,23 +115,23 @@ class Os implements OsInterface
     /**
      * @return string|null
      */
-    public function getMarketingName()
+    public function getMarketingName(): ?string
     {
         return $this->marketingName;
     }
 
     /**
-     * @return \BrowserDetector\Version\Version|null
+     * @return \BrowserDetector\Version\VersionInterface|null
      */
-    public function getVersion()
+    public function getVersion(): ?VersionInterface
     {
         return $this->version;
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'name'          => $this->name,

@@ -11,6 +11,9 @@
 declare(strict_types = 1);
 namespace UaResult\Os;
 
+use BrowserDetector\Version\VersionInterface;
+use UaResult\Company\CompanyInterface;
+
 /**
  * interface for all platforms/operating systems to detect
  *
@@ -24,30 +27,30 @@ interface OsInterface
     /**
      * @return int|null
      */
-    public function getBits();
+    public function getBits(): ?int;
 
     /**
-     * @return \UaResult\Company\Company|null
+     * @return \UaResult\Company\CompanyInterface|null
      */
-    public function getManufacturer();
-
-    /**
-     * @return string|null
-     */
-    public function getName();
+    public function getManufacturer(): ?CompanyInterface;
 
     /**
      * @return string|null
      */
-    public function getMarketingName();
+    public function getName(): ?string;
+
+    /**
+     * @return string|null
+     */
+    public function getMarketingName(): ?string;
 
     /**
      * @return \BrowserDetector\Version\Version|null
      */
-    public function getVersion();
+    public function getVersion(): ?VersionInterface;
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function toArray();
+    public function toArray(): array;
 }
