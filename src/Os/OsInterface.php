@@ -30,9 +30,9 @@ interface OsInterface
     public function getBits(): ?int;
 
     /**
-     * @return \UaResult\Company\CompanyInterface|null
+     * @return \UaResult\Company\CompanyInterface
      */
-    public function getManufacturer(): ?CompanyInterface;
+    public function getManufacturer(): CompanyInterface;
 
     /**
      * @return string|null
@@ -45,12 +45,12 @@ interface OsInterface
     public function getMarketingName(): ?string;
 
     /**
-     * @return \BrowserDetector\Version\Version|null
+     * @return \BrowserDetector\Version\Version
      */
-    public function getVersion(): ?VersionInterface;
+    public function getVersion(): VersionInterface;
 
     /**
-     * @return string[]
+     * @return (int|string|null)[]
      */
     public function toArray(): array;
 }

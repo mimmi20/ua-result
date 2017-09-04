@@ -22,7 +22,7 @@ class DeviceFactory
     /**
      * @param \Psr\Cache\CacheItemPoolInterface $cache
      * @param \Psr\Log\LoggerInterface          $logger
-     * @param string[]                          $data
+     * @param (string|int|bool)[]               $data
      *
      * @return \UaResult\Device\DeviceInterface
      */
@@ -31,8 +31,8 @@ class DeviceFactory
         $deviceName       = isset($data['deviceName']) ? $data['deviceName'] : null;
         $marketingName    = isset($data['marketingName']) ? $data['marketingName'] : null;
         $pointingMethod   = isset($data['pointingMethod']) ? $data['pointingMethod'] : null;
-        $resolutionWidth  = isset($data['resolutionWidth']) ? $data['resolutionWidth'] : null;
-        $resolutionHeight = isset($data['resolutionHeight']) ? $data['resolutionHeight'] : null;
+        $resolutionWidth  = isset($data['resolutionWidth']) ? (int) $data['resolutionWidth'] : null;
+        $resolutionHeight = isset($data['resolutionHeight']) ? (int) $data['resolutionHeight'] : null;
         $dualOrientation  = isset($data['dualOrientation']) ? (bool) $data['dualOrientation'] : false;
 
         $type = null;

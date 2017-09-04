@@ -32,14 +32,14 @@ class Engine implements EngineInterface
     private $name = null;
 
     /**
-     * @var \BrowserDetector\Version\VersionInterface|null
+     * @var \BrowserDetector\Version\VersionInterface
      */
-    private $version = null;
+    private $version;
 
     /**
-     * @var \UaResult\Company\CompanyInterface|null
+     * @var \UaResult\Company\CompanyInterface
      */
-    private $manufacturer = null;
+    private $manufacturer;
 
     /**
      * @param string|null                                    $name
@@ -73,9 +73,9 @@ class Engine implements EngineInterface
     }
 
     /**
-     * @return \UaResult\Company\CompanyInterface|null
+     * @return \UaResult\Company\CompanyInterface
      */
-    public function getManufacturer(): ?CompanyInterface
+    public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
@@ -89,15 +89,15 @@ class Engine implements EngineInterface
     }
 
     /**
-     * @return \BrowserDetector\Version\VersionInterface|null
+     * @return \BrowserDetector\Version\VersionInterface
      */
-    public function getVersion(): ?VersionInterface
+    public function getVersion(): VersionInterface
     {
         return $this->version;
     }
 
     /**
-     * @return string[]
+     * @return (string|null)[]
      */
     public function toArray(): array
     {

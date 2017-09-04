@@ -37,14 +37,14 @@ class Os implements OsInterface
     private $marketingName = null;
 
     /**
-     * @var \BrowserDetector\Version\VersionInterface|null
+     * @var \BrowserDetector\Version\VersionInterface
      */
-    private $version = null;
+    private $version;
 
     /**
-     * @var \UaResult\Company\CompanyInterface|null
+     * @var \UaResult\Company\CompanyInterface
      */
-    private $manufacturer = null;
+    private $manufacturer;
 
     /**
      * @var int|null
@@ -97,9 +97,9 @@ class Os implements OsInterface
     }
 
     /**
-     * @return \UaResult\Company\CompanyInterface|null
+     * @return \UaResult\Company\CompanyInterface
      */
-    public function getManufacturer(): ?CompanyInterface
+    public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
@@ -121,15 +121,15 @@ class Os implements OsInterface
     }
 
     /**
-     * @return \BrowserDetector\Version\VersionInterface|null
+     * @return \BrowserDetector\Version\VersionInterface
      */
-    public function getVersion(): ?VersionInterface
+    public function getVersion(): VersionInterface
     {
         return $this->version;
     }
 
     /**
-     * @return string[]
+     * @return (int|string|null)[]
      */
     public function toArray(): array
     {

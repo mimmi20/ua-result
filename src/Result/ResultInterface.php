@@ -28,24 +28,24 @@ use UaResult\Os\OsInterface;
 interface ResultInterface
 {
     /**
-     * @return \UaResult\Browser\BrowserInterface|null
+     * @return \UaResult\Browser\BrowserInterface
      */
-    public function getBrowser(): ?BrowserInterface;
+    public function getBrowser(): BrowserInterface;
 
     /**
-     * @return \UaResult\Device\DeviceInterface|null
+     * @return \UaResult\Device\DeviceInterface
      */
-    public function getDevice(): ?DeviceInterface;
+    public function getDevice(): DeviceInterface;
 
     /**
-     * @return \UaResult\Engine\EngineInterface|null
+     * @return \UaResult\Engine\EngineInterface
      */
-    public function getEngine(): ?EngineInterface;
+    public function getEngine(): EngineInterface;
 
     /**
-     * @return \UaResult\Os\OsInterface|null
+     * @return \UaResult\Os\OsInterface
      */
-    public function getOs(): ?OsInterface;
+    public function getOs(): OsInterface;
 
     /**
      * @return string[]
@@ -53,7 +53,7 @@ interface ResultInterface
     public function getHeaders(): array;
 
     /**
-     * @return string[]
+     * @return array[]
      */
     public function toArray(): array;
 }
