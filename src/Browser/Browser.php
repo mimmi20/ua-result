@@ -39,14 +39,14 @@ class Browser implements BrowserInterface
     private $modus = null;
 
     /**
-     * @var \BrowserDetector\Version\VersionInterface|null
+     * @var \BrowserDetector\Version\VersionInterface
      */
-    private $version = null;
+    private $version;
 
     /**
-     * @var \UaResult\Company\CompanyInterface|null
+     * @var \UaResult\Company\CompanyInterface
      */
-    private $manufacturer = null;
+    private $manufacturer;
 
     /**
      * @var int|null
@@ -54,9 +54,9 @@ class Browser implements BrowserInterface
     private $bits = null;
 
     /**
-     * @var \UaBrowserType\TypeInterface|null
+     * @var \UaBrowserType\TypeInterface
      */
-    private $type = null;
+    private $type;
 
     /**
      * @param string|null                                    $name
@@ -115,9 +115,9 @@ class Browser implements BrowserInterface
     }
 
     /**
-     * @return \UaResult\Company\CompanyInterface|null
+     * @return \UaResult\Company\CompanyInterface
      */
-    public function getManufacturer(): ?CompanyInterface
+    public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
@@ -131,9 +131,9 @@ class Browser implements BrowserInterface
     }
 
     /**
-     * @return \BrowserDetector\Version\VersionInterface|null
+     * @return \BrowserDetector\Version\VersionInterface
      */
-    public function getVersion(): ?VersionInterface
+    public function getVersion(): VersionInterface
     {
         return $this->version;
     }
@@ -147,15 +147,15 @@ class Browser implements BrowserInterface
     }
 
     /**
-     * @return \UaBrowserType\TypeInterface|null
+     * @return \UaBrowserType\TypeInterface
      */
-    public function getType(): ?TypeInterface
+    public function getType(): TypeInterface
     {
         return $this->type;
     }
 
     /**
-     * @return string[]
+     * @return (int|string|null)[]
      */
     public function toArray(): array
     {

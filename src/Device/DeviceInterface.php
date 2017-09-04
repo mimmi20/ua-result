@@ -22,9 +22,9 @@ interface DeviceInterface
     public function getDeviceName(): ?string;
 
     /**
-     * @return \UaResult\Company\CompanyInterface|null
+     * @return \UaResult\Company\CompanyInterface
      */
-    public function getBrand(): ?CompanyInterface;
+    public function getBrand(): CompanyInterface;
 
     /**
      * @return bool
@@ -32,9 +32,9 @@ interface DeviceInterface
     public function getDualOrientation(): bool;
 
     /**
-     * @return \UaResult\Company\CompanyInterface|null
+     * @return \UaResult\Company\CompanyInterface
      */
-    public function getManufacturer(): ?CompanyInterface;
+    public function getManufacturer(): CompanyInterface;
 
     /**
      * @return string|null
@@ -57,12 +57,12 @@ interface DeviceInterface
     public function getResolutionWidth(): ?int;
 
     /**
-     * @return \UaDeviceType\TypeInterface|null
+     * @return \UaDeviceType\TypeInterface
      */
-    public function getType(): ?TypeInterface;
+    public function getType(): TypeInterface;
 
     /**
-     * @return string[]
+     * @return (bool|int|string|null)[]
      */
     public function toArray(): array;
 }

@@ -25,9 +25,9 @@ use UaResult\Company\CompanyInterface;
 interface EngineInterface
 {
     /**
-     * @return \UaResult\Company\CompanyInterface|null
+     * @return \UaResult\Company\CompanyInterface
      */
-    public function getManufacturer(): ?CompanyInterface;
+    public function getManufacturer(): CompanyInterface;
 
     /**
      * @return string|null
@@ -35,12 +35,12 @@ interface EngineInterface
     public function getName(): ?string;
 
     /**
-     * @return \BrowserDetector\Version\Version|null
+     * @return \BrowserDetector\Version\VersionInterface
      */
-    public function getVersion(): ?VersionInterface;
+    public function getVersion(): VersionInterface;
 
     /**
-     * @return string[]
+     * @return (string|null)[]
      */
     public function toArray(): array;
 }

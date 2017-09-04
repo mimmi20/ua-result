@@ -35,24 +35,24 @@ class Result implements ResultInterface
     private $headers = [];
 
     /**
-     * @var \UaResult\Device\DeviceInterface|null
+     * @var \UaResult\Device\DeviceInterface
      */
-    private $device = null;
+    private $device;
 
     /**
-     * @var \UaResult\Browser\BrowserInterface|null
+     * @var \UaResult\Browser\BrowserInterface
      */
-    private $browser = null;
+    private $browser;
 
     /**
-     * @var \UaResult\Os\OsInterface|null
+     * @var \UaResult\Os\OsInterface
      */
-    private $os = null;
+    private $os;
 
     /**
-     * @var \UaResult\Engine\EngineInterface|null
+     * @var \UaResult\Engine\EngineInterface
      */
-    private $engine = null;
+    private $engine;
 
     /**
      * the class constructor
@@ -106,33 +106,33 @@ class Result implements ResultInterface
     }
 
     /**
-     * @return \UaResult\Browser\BrowserInterface|null
+     * @return \UaResult\Browser\BrowserInterface
      */
-    public function getBrowser(): ?BrowserInterface
+    public function getBrowser(): BrowserInterface
     {
         return $this->browser;
     }
 
     /**
-     * @return \UaResult\Device\DeviceInterface|null
+     * @return \UaResult\Device\DeviceInterface
      */
-    public function getDevice(): ?DeviceInterface
+    public function getDevice(): DeviceInterface
     {
         return $this->device;
     }
 
     /**
-     * @return \UaResult\Engine\EngineInterface|null
+     * @return \UaResult\Engine\EngineInterface
      */
-    public function getEngine(): ?EngineInterface
+    public function getEngine(): EngineInterface
     {
         return $this->engine;
     }
 
     /**
-     * @return \UaResult\Os\OsInterface|null
+     * @return \UaResult\Os\OsInterface
      */
-    public function getOs(): ?OsInterface
+    public function getOs(): OsInterface
     {
         return $this->os;
     }
@@ -146,7 +146,7 @@ class Result implements ResultInterface
     }
 
     /**
-     * @return array
+     * @return array[]
      */
     public function toArray(): array
     {

@@ -32,7 +32,7 @@ class BrowserFactory
     /**
      * @param \Psr\Cache\CacheItemPoolInterface $cache
      * @param \Psr\Log\LoggerInterface          $logger
-     * @param string[]                          $data
+     * @param (string|int)[]                    $data
      *
      * @return \UaResult\Browser\BrowserInterface
      */
@@ -40,7 +40,7 @@ class BrowserFactory
     {
         $name  = isset($data['name']) ? $data['name'] : null;
         $modus = isset($data['modus']) ? $data['modus'] : null;
-        $bits  = isset($data['bits']) ? $data['bits'] : null;
+        $bits  = isset($data['bits']) ? (int) $data['bits'] : null;
 
         $type = null;
         if (isset($data['type'])) {

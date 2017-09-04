@@ -29,14 +29,14 @@ class Device implements DeviceInterface
     private $marketingName = null;
 
     /**
-     * @var \UaResult\Company\CompanyInterface|null
+     * @var \UaResult\Company\CompanyInterface
      */
-    private $manufacturer = null;
+    private $manufacturer;
 
     /**
-     * @var \UaResult\Company\CompanyInterface|null
+     * @var \UaResult\Company\CompanyInterface
      */
-    private $brand = null;
+    private $brand;
 
     /**
      * @var string|null
@@ -59,9 +59,9 @@ class Device implements DeviceInterface
     private $dualOrientation = false;
 
     /**
-     * @var \UaDeviceType\TypeInterface|null
+     * @var \UaDeviceType\TypeInterface
      */
-    private $type = null;
+    private $type;
 
     /**
      * @param string|null                             $deviceName
@@ -72,7 +72,7 @@ class Device implements DeviceInterface
      * @param string|null                             $pointingMethod
      * @param int|null                                $resolutionWidth
      * @param int|null                                $resolutionHeight
-     * @param bool|null                               $dualOrientation
+     * @param bool                                    $dualOrientation
      */
     public function __construct(
         ?string $deviceName = null,
@@ -87,7 +87,6 @@ class Device implements DeviceInterface
     ) {
         $this->deviceName       = $deviceName;
         $this->marketingName    = $marketingName;
-        $this->type             = $type;
         $this->pointingMethod   = $pointingMethod;
         $this->resolutionWidth  = $resolutionWidth;
         $this->resolutionHeight = $resolutionHeight;
@@ -128,9 +127,9 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return \UaResult\Company\CompanyInterface|null
+     * @return \UaResult\Company\CompanyInterface
      */
-    public function getBrand(): ?CompanyInterface
+    public function getBrand(): CompanyInterface
     {
         return $this->brand;
     }
@@ -144,9 +143,9 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return \UaResult\Company\CompanyInterface|null
+     * @return \UaResult\Company\CompanyInterface
      */
-    public function getManufacturer(): ?CompanyInterface
+    public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
@@ -184,15 +183,15 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return \UaDeviceType\TypeInterface|null
+     * @return \UaDeviceType\TypeInterface
      */
-    public function getType(): ?TypeInterface
+    public function getType(): TypeInterface
     {
         return $this->type;
     }
 
     /**
-     * @return string[]
+     * @return (bool|int|string|null)[]
      */
     public function toArray(): array
     {

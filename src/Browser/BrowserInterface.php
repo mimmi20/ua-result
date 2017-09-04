@@ -33,9 +33,9 @@ interface BrowserInterface
     public function getName(): ?string;
 
     /**
-     * @return \UaResult\Company\CompanyInterface|null
+     * @return \UaResult\Company\CompanyInterface
      */
-    public function getManufacturer(): ?CompanyInterface;
+    public function getManufacturer(): CompanyInterface;
 
     /**
      * @return string|null
@@ -43,9 +43,9 @@ interface BrowserInterface
     public function getModus(): ?string;
 
     /**
-     * @return \BrowserDetector\Version\VersionInterface|null
+     * @return \BrowserDetector\Version\VersionInterface
      */
-    public function getVersion(): ?VersionInterface;
+    public function getVersion(): VersionInterface;
 
     /**
      * @return int|null
@@ -53,12 +53,12 @@ interface BrowserInterface
     public function getBits(): ?int;
 
     /**
-     * @return \UaBrowserType\TypeInterface|null
+     * @return \UaBrowserType\TypeInterface
      */
-    public function getType(): ?TypeInterface;
+    public function getType(): TypeInterface;
 
     /**
-     * @return string[]
+     * @return (int|string|null)[]
      */
     public function toArray(): array;
 }
