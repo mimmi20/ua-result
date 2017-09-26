@@ -31,12 +31,12 @@ class Browser implements BrowserInterface
     /**
      * @var string|null
      */
-    private $name = null;
+    private $name;
 
     /**
      * @var string|null
      */
-    private $modus = null;
+    private $modus;
 
     /**
      * @var \BrowserDetector\Version\VersionInterface
@@ -51,7 +51,7 @@ class Browser implements BrowserInterface
     /**
      * @var int|null
      */
-    private $bits = null;
+    private $bits;
 
     /**
      * @var \UaBrowserType\TypeInterface

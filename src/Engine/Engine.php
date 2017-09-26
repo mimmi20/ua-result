@@ -29,7 +29,7 @@ class Engine implements EngineInterface
     /**
      * @var string|null
      */
-    private $name = null;
+    private $name;
 
     /**
      * @var \BrowserDetector\Version\VersionInterface

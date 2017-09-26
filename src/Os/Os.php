@@ -29,12 +29,12 @@ class Os implements OsInterface
     /**
      * @var string|null
      */
-    private $name = null;
+    private $name;
 
     /**
      * @var string|null
      */
-    private $marketingName = null;
+    private $marketingName;
 
     /**
      * @var \BrowserDetector\Version\VersionInterface
@@ -49,7 +49,7 @@ class Os implements OsInterface
     /**
      * @var int|null
      */
-    private $bits = null;
+    private $bits;
 
     /**
      * @param string|null                                    $name

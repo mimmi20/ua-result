@@ -21,12 +21,12 @@ class Device implements DeviceInterface
     /**
      * @var string|null
      */
-    private $deviceName = null;
+    private $deviceName;
 
     /**
      * @var string|null
      */
-    private $marketingName = null;
+    private $marketingName;
 
     /**
      * @var \UaResult\Company\CompanyInterface
@@ -41,17 +41,17 @@ class Device implements DeviceInterface
     /**
      * @var string|null
      */
-    private $pointingMethod = null;
+    private $pointingMethod;
 
     /**
      * @var int|null
      */
-    private $resolutionWidth = null;
+    private $resolutionWidth;
 
     /**
      * @var int|null
      */
-    private $resolutionHeight = null;
+    private $resolutionHeight;
 
     /**
      * @var bool
