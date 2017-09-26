@@ -22,7 +22,7 @@ use UaResult\Result\ResultFactory;
 
 class ResultTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSetterGetter()
+    public function testSetterGetter(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
         $device  = new Device(null, null);
@@ -39,7 +39,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         self::assertSame($engine, $object->getEngine());
     }
 
-    public function testToarray()
+    public function testToarray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
@@ -61,7 +61,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($engine, $object->getEngine());
     }
 
-    public function testFromEmptyArray()
+    public function testFromEmptyArray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
@@ -81,7 +81,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($engine, $object->getEngine());
     }
 
-    public function testClone()
+    public function testClone(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
         $device  = new Device(null, null);

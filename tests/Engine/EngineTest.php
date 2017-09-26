@@ -21,7 +21,7 @@ use UaResult\Engine\EngineFactory;
 
 class EngineTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSetterGetter()
+    public function testSetterGetter(): void
     {
         $name         = 'TestBrowser';
         $manufacturer = new Company('Unknown', null);
@@ -34,7 +34,7 @@ class EngineTest extends \PHPUnit\Framework\TestCase
         self::assertSame($version, $object->getVersion());
     }
 
-    public function testToarray()
+    public function testToarray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
@@ -53,7 +53,7 @@ class EngineTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($version, $object->getVersion());
     }
 
-    public function testFromEmptyArray()
+    public function testFromEmptyArray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
@@ -65,7 +65,7 @@ class EngineTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($version, $object->getVersion());
     }
 
-    public function testFromarrayWithInvalidManufacturer()
+    public function testFromarrayWithInvalidManufacturer(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
@@ -85,7 +85,7 @@ class EngineTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($manufacturer, $object->getManufacturer());
     }
 
-    public function testClone()
+    public function testClone(): void
     {
         $name         = 'TestBrowser';
         $manufacturer = new Company('Unknown', null);
