@@ -111,6 +111,11 @@ class Device implements DeviceInterface
         }
     }
 
+    /**
+     * clones the actual object
+     *
+     * @return Device
+     */
     public function __clone()
     {
         $this->type         = clone $this->type;

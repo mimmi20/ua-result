@@ -22,6 +22,9 @@ use UaResult\Company\Company;
 
 class BrowserTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @return void
+     */
     public function testSetterGetter(): void
     {
         $name         = 'TestBrowser';
@@ -41,6 +44,9 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
         self::assertSame($modus, $object->getModus());
     }
 
+    /**
+     * @return void
+     */
     public function testDefaultSetterGetter(): void
     {
         $name         = 'TestBrowser';
@@ -58,6 +64,9 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
         self::assertNull($object->getModus());
     }
 
+    /**
+     * @return void
+     */
     public function testToarray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
@@ -78,6 +87,9 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($original, $object);
     }
 
+    /**
+     * @return void
+     */
     public function testFromEmptyArray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
@@ -93,6 +105,9 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($type, $object->getType());
     }
 
+    /**
+     * @return void
+     */
     public function testFromarrayWithInvalidType(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
@@ -116,6 +131,9 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($manufacturer, $object->getManufacturer());
     }
 
+    /**
+     * @return void
+     */
     public function testClone(): void
     {
         $name         = 'TestBrowser';

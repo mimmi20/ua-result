@@ -97,6 +97,11 @@ class Browser implements BrowserInterface
         }
     }
 
+    /**
+     * clones the actual object
+     *
+     * @return Browser
+     */
     public function __clone()
     {
         $this->version      = clone $this->version;

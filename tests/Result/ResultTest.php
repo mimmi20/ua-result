@@ -22,6 +22,9 @@ use UaResult\Result\ResultFactory;
 
 class ResultTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @return void
+     */
     public function testSetterGetter(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
@@ -39,6 +42,9 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         self::assertSame($engine, $object->getEngine());
     }
 
+    /**
+     * @return void
+     */
     public function testToarray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
@@ -61,6 +67,9 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($engine, $object->getEngine());
     }
 
+    /**
+     * @return void
+     */
     public function testFromEmptyArray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
@@ -81,6 +90,9 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($engine, $object->getEngine());
     }
 
+    /**
+     * @return void
+     */
     public function testClone(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
