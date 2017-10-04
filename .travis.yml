@@ -15,6 +15,10 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+addons:
+  code_climate:
+    repo_token: e9650ed0414401c75d7c53c195e9ffd1dc2fd2a6d3a4fcbfaa7e7d5ec3771244
+
 before_install:
   - phpenv config-rm xdebug.ini || echo "xdebug not available"
   - echo 'opcache.enable=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
