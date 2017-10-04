@@ -66,6 +66,11 @@ class Engine implements EngineInterface
         }
     }
 
+    /**
+     * clones the actual object
+     *
+     * @return Engine
+     */
     public function __clone()
     {
         $this->version      = clone $this->version;

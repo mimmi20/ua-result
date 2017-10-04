@@ -97,6 +97,11 @@ class Result implements ResultInterface
         }
     }
 
+    /**
+     * clones the actual object
+     *
+     * @return Result
+     */
     public function __clone()
     {
         $this->device  = clone $this->device;

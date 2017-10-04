@@ -21,6 +21,9 @@ use UaResult\Os\OsFactory;
 
 class OsTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @return void
+     */
     public function testSetterGetter(): void
     {
         $name          = 'TestPlatform';
@@ -38,6 +41,9 @@ class OsTest extends \PHPUnit\Framework\TestCase
         self::assertSame($bits, $object->getBits());
     }
 
+    /**
+     * @return void
+     */
     public function testToarray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
@@ -61,6 +67,9 @@ class OsTest extends \PHPUnit\Framework\TestCase
         self::assertSame($bits, $object->getBits());
     }
 
+    /**
+     * @return void
+     */
     public function testFromEmptyArray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
@@ -78,6 +87,9 @@ class OsTest extends \PHPUnit\Framework\TestCase
         self::assertNull($object->getBits());
     }
 
+    /**
+     * @return void
+     */
     public function testFromarrayWithInvalidManufacturer(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
@@ -98,6 +110,9 @@ class OsTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($manufacturer, $object->getManufacturer());
     }
 
+    /**
+     * @return void
+     */
     public function testClone(): void
     {
         $name          = 'TestPlatform';

@@ -82,6 +82,11 @@ class Os implements OsInterface
         }
     }
 
+    /**
+     * clones the actual object
+     *
+     * @return Os
+     */
     public function __clone()
     {
         $this->manufacturer = clone $this->manufacturer;

@@ -20,6 +20,9 @@ use UaResult\Device\DeviceFactory;
 
 class DeviceTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @return void
+     */
     public function testSetterGetter(): void
     {
         $deviceName       = 'TestDevicename';
@@ -45,6 +48,9 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
         self::assertSame($dualOrientation, $object->getDualOrientation());
     }
 
+    /**
+     * @return void
+     */
     public function testToarray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
@@ -76,6 +82,9 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
         self::assertSame($dualOrientation, $object->getDualOrientation());
     }
 
+    /**
+     * @return void
+     */
     public function testFromEmptyArray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
@@ -98,6 +107,9 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($object->getDualOrientation());
     }
 
+    /**
+     * @return void
+     */
     public function testFromarrayWithInvalidType(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
@@ -122,6 +134,9 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($manufacturer, $object->getBrand());
     }
 
+    /**
+     * @return void
+     */
     public function testClone(): void
     {
         $deviceName       = 'TestDevicename';
