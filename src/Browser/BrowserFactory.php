@@ -45,7 +45,7 @@ class BrowserFactory
         $type = null;
         if (isset($data['type'])) {
             try {
-                $type = (new TypeLoader())->load($data['type']);
+                $type = TypeLoader::getInstance()->load($data['type']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
@@ -59,7 +59,7 @@ class BrowserFactory
         $manufacturer = null;
         if (isset($data['manufacturer'])) {
             try {
-                $manufacturer = (new CompanyLoader($cache))->load($data['manufacturer']);
+                $manufacturer = CompanyLoader::getInstance($cache)->load($data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }

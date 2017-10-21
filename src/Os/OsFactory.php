@@ -49,7 +49,7 @@ class OsFactory
         $manufacturer = null;
         if (isset($data['manufacturer'])) {
             try {
-                $manufacturer = (new CompanyLoader($cache))->load($data['manufacturer']);
+                $manufacturer = CompanyLoader::getInstance($cache)->load($data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
