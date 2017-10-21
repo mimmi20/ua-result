@@ -38,7 +38,7 @@ class DeviceFactory
         $type = null;
         if (isset($data['type'])) {
             try {
-                $type = (new TypeLoader())->load($data['type']);
+                $type = TypeLoader::getInstance()->load($data['type']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
@@ -47,7 +47,7 @@ class DeviceFactory
         $manufacturer = null;
         if (isset($data['manufacturer'])) {
             try {
-                $manufacturer = (new CompanyLoader($cache))->load($data['manufacturer']);
+                $manufacturer = CompanyLoader::getInstance($cache)->load($data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
@@ -56,7 +56,7 @@ class DeviceFactory
         $brand = null;
         if (isset($data['brand'])) {
             try {
-                $brand = (new CompanyLoader($cache))->load($data['brand']);
+                $brand = CompanyLoader::getInstance($cache)->load($data['brand']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
