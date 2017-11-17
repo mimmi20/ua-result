@@ -45,7 +45,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function testToarray(): void
+    public function testToArray(): void
     {
         $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
@@ -58,6 +58,31 @@ class ResultTest extends \PHPUnit\Framework\TestCase
 
         $original = new Result($headers, $device, $os, $browser, $engine);
         $array    = $original->toArray();
+        $object   = (new ResultFactory())->fromArray($cache, $logger, $array);
+
+        self::assertEquals($headers, $object->getHeaders());
+        self::assertEquals($device, $object->getDevice());
+        self::assertEquals($os, $object->getOs());
+        self::assertEquals($browser, $object->getBrowser());
+        self::assertEquals($engine, $object->getEngine());
+    }
+
+    /**
+     * @return void
+     */
+    public function testToArrayWhenFromJson(): void
+    {
+        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
+        $logger = new NullLogger();
+
+        $headers = ['x-test-header' => 'test-ua'];
+        $device  = new Device(null, null);
+        $os      = new Os('unknown', 'unknown');
+        $browser = new Browser('unknown');
+        $engine  = new Engine('unknown');
+
+        $original = new Result($headers, $device, $os, $browser, $engine);
+        $array    = (array) json_decode(json_encode($original->toArray()));
         $object   = (new ResultFactory())->fromArray($cache, $logger, $array);
 
         self::assertEquals($headers, $object->getHeaders());
