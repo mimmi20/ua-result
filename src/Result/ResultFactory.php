@@ -40,7 +40,7 @@ class ResultFactory
     {
         $headers = [];
         if (isset($data['headers'])) {
-            $headers = $data['headers'];
+            $headers = (array) $data['headers'];
         }
 
         $device = null;
