@@ -47,7 +47,7 @@ class EngineFactory
         $manufacturer = null;
         if (isset($data['manufacturer'])) {
             try {
-                $manufacturer = CompanyLoader::getInstance($cache)->load($data['manufacturer']);
+                $manufacturer = CompanyLoader::getInstance($cache, $logger)->load($data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
