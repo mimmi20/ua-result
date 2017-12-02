@@ -22,15 +22,15 @@ class DeviceFactory
     /**
      * @param \Psr\Cache\CacheItemPoolInterface $cache
      * @param \Psr\Log\LoggerInterface          $logger
-     * @param (string|int|bool)[]               $data
+     * @param (string|int|bool|null)[]          $data
      *
      * @return \UaResult\Device\DeviceInterface
      */
     public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data): DeviceInterface
     {
-        $deviceName       = isset($data['deviceName']) ? $data['deviceName'] : null;
-        $marketingName    = isset($data['marketingName']) ? $data['marketingName'] : null;
-        $pointingMethod   = isset($data['pointingMethod']) ? $data['pointingMethod'] : null;
+        $deviceName       = isset($data['deviceName']) ? (string) $data['deviceName'] : null;
+        $marketingName    = isset($data['marketingName']) ? (string) $data['marketingName'] : null;
+        $pointingMethod   = isset($data['pointingMethod']) ? (string) $data['pointingMethod'] : null;
         $resolutionWidth  = isset($data['resolutionWidth']) ? (int) $data['resolutionWidth'] : null;
         $resolutionHeight = isset($data['resolutionHeight']) ? (int) $data['resolutionHeight'] : null;
         $dualOrientation  = isset($data['dualOrientation']) ? (bool) $data['dualOrientation'] : false;
@@ -38,7 +38,7 @@ class DeviceFactory
         $type = null;
         if (isset($data['type'])) {
             try {
-                $type = TypeLoader::getInstance()->load($data['type']);
+                $type = TypeLoader::getInstance()->load((string) $data['type']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
@@ -47,7 +47,7 @@ class DeviceFactory
         $manufacturer = null;
         if (isset($data['manufacturer'])) {
             try {
-                $manufacturer = CompanyLoader::getInstance($cache)->load($data['manufacturer']);
+                $manufacturer = CompanyLoader::getInstance($cache, $logger)->load((string) $data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
@@ -56,7 +56,7 @@ class DeviceFactory
         $brand = null;
         if (isset($data['brand'])) {
             try {
-                $brand = CompanyLoader::getInstance($cache)->load($data['brand']);
+                $brand = CompanyLoader::getInstance($cache, $logger)->load((string) $data['brand']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }

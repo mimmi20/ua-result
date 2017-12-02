@@ -21,17 +21,17 @@ addons:
     repo_token: e9650ed0414401c75d7c53c195e9ffd1dc2fd2a6d3a4fcbfaa7e7d5ec3771244
 
 before_install:
+  - stty cols 120
   - phpenv config-rm xdebug.ini || echo "xdebug not available"
   - echo 'opcache.enable=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo 'opcache.enable_cli=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - travis_retry composer self-update
 
-install:
-  - travis_retry composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest $COMPOSER_FLAGS -vv
+install: travis_retry composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest $COMPOSER_FLAGS -vv
 
 script:
   - composer validate
-  - vendor/bin/phpunit --colors --no-coverage
+  - vendor/bin/phpunit --colors --columns 117 --no-coverage
 
 jobs:
   allow_failures:
@@ -41,33 +41,36 @@ jobs:
       env: COMPOSER_FLAGS="--ignore-platform-reqs"
     - stage: test with coverage
       php: 7.1
-      env: COMPOSER_FLAGS=""
+      env:
+        - COVERAGE=yes
+        - COMPOSER_FLAGS=""
       before_install:
+        - stty cols 120
         - echo 'opcache.enable=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
         - echo 'opcache.enable_cli=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
         - travis_retry composer self-update
-      script: vendor/bin/phpunit --colors --coverage-clover=clover.xml --coverage-text
+      script: vendor/bin/phpunit --colors --columns 117 --coverage-clover=clover.xml --coverage-text
       after_success:
-        - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar && php -n coveralls.phar --verbose --coverage_clover=clover.xml
+        - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.2/coveralls.phar && php -n coveralls.phar --verbose --coverage_clover=clover.xml
         - bash <(curl -s https://codecov.io/bash) -f clover.xml -F phpunit
     - stage: check coding style
       php: 7.1
       env:
         - COMPOSER_FLAGS=""
-        - TEST_SET="phpcs"
+        - TEST=phpcs
       script: vendor/bin/phpcs --colors
     - stage: check coding style
       php: 7.1
       env:
         - COMPOSER_FLAGS=""
-        - TEST_SET="php-cs-fixer"
+        - TEST=php-cs-fixer
       script: vendor/bin/php-cs-fixer fix --dry-run -vv
     - stage: static code analysis
       php: 7.1
       env:
         - COMPOSER_FLAGS=""
-        - TEST_SET="phpstan"
-      script: vendor/bin/phpstan analyse -l 7 -c phpstan.neon --autoload-file=vendor/autoload.php --memory-limit=768M --no-progress src tests
+        - TEST=phpstan
+      script: vendor/bin/phpstan.phar analyse -l 7 -c phpstan.neon --autoload-file=vendor/autoload.php --memory-limit=768M --no-progress src tests
 
 notifications:
   email: false

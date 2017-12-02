@@ -32,20 +32,20 @@ class BrowserFactory
     /**
      * @param \Psr\Cache\CacheItemPoolInterface $cache
      * @param \Psr\Log\LoggerInterface          $logger
-     * @param (string|int)[]                    $data
+     * @param (string|int|null)[]               $data
      *
      * @return \UaResult\Browser\BrowserInterface
      */
     public static function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data): BrowserInterface
     {
-        $name  = isset($data['name']) ? $data['name'] : null;
-        $modus = isset($data['modus']) ? $data['modus'] : null;
+        $name  = isset($data['name']) ? (string) $data['name'] : null;
+        $modus = isset($data['modus']) ? (string) $data['modus'] : null;
         $bits  = isset($data['bits']) ? (int) $data['bits'] : null;
 
         $type = null;
         if (isset($data['type'])) {
             try {
-                $type = TypeLoader::getInstance()->load($data['type']);
+                $type = TypeLoader::getInstance()->load((string) $data['type']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
@@ -53,13 +53,13 @@ class BrowserFactory
 
         $version = null;
         if (isset($data['version'])) {
-            $version = VersionFactory::set($data['version']);
+            $version = VersionFactory::set((string) $data['version']);
         }
 
         $manufacturer = null;
         if (isset($data['manufacturer'])) {
             try {
-                $manufacturer = CompanyLoader::getInstance($cache)->load($data['manufacturer']);
+                $manufacturer = CompanyLoader::getInstance($cache, $logger)->load((string) $data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
