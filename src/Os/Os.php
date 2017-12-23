@@ -134,7 +134,7 @@ class Os implements OsInterface
     }
 
     /**
-     * @return (int|string|null)[]
+     * @return array
      */
     public function toArray(): array
     {

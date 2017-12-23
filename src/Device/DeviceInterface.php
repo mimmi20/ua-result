@@ -62,7 +62,7 @@ interface DeviceInterface
     public function getType(): TypeInterface;
 
     /**
-     * @return (bool|int|string|null)[]
+     * @return array
      */
     public function toArray(): array;
 }

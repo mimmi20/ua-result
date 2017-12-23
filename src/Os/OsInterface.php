@@ -50,7 +50,7 @@ interface OsInterface
     public function getVersion(): VersionInterface;
 
     /**
-     * @return (int|string|null)[]
+     * @return array
      */
     public function toArray(): array;
 }

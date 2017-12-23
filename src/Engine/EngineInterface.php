@@ -40,7 +40,7 @@ interface EngineInterface
     public function getVersion(): VersionInterface;
 
     /**
-     * @return (string|null)[]
+     * @return array
      */
     public function toArray(): array;
 }

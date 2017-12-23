@@ -13,7 +13,6 @@ namespace UaResult\Os;
 
 use BrowserDetector\Loader\NotFoundException;
 use BrowserDetector\Version\VersionFactory;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use UaResult\Company\CompanyLoader;
 
@@ -29,13 +28,12 @@ use UaResult\Company\CompanyLoader;
 class OsFactory
 {
     /**
-     * @param \Psr\Cache\CacheItemPoolInterface $cache
-     * @param \Psr\Log\LoggerInterface          $logger
-     * @param array                             $data
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param array                    $data
      *
      * @return \UaResult\Os\OsInterface
      */
-    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data): OsInterface
+    public function fromArray(LoggerInterface $logger, array $data): OsInterface
     {
         $name          = isset($data['name']) ? $data['name'] : null;
         $marketingName = isset($data['marketingName']) ? $data['marketingName'] : null;
@@ -49,7 +47,7 @@ class OsFactory
         $manufacturer = null;
         if (isset($data['manufacturer'])) {
             try {
-                $manufacturer = CompanyLoader::getInstance($cache, $logger)->load($data['manufacturer']);
+                $manufacturer = CompanyLoader::getInstance()->load($data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }

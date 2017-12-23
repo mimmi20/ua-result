@@ -11,7 +11,6 @@
 declare(strict_types = 1);
 namespace UaResult\Result;
 
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use UaResult\Browser\BrowserFactory;
 use UaResult\Device\DeviceFactory;
@@ -30,13 +29,12 @@ use UaResult\Os\OsFactory;
 class ResultFactory
 {
     /**
-     * @param \Psr\Cache\CacheItemPoolInterface $cache
-     * @param \Psr\Log\LoggerInterface          $logger
-     * @param array                             $data
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param array                    $data
      *
      * @return \UaResult\Result\Result
      */
-    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data): Result
+    public function fromArray(LoggerInterface $logger, array $data): Result
     {
         $headers = [];
         if (isset($data['headers'])) {
@@ -45,22 +43,22 @@ class ResultFactory
 
         $device = null;
         if (isset($data['device'])) {
-            $device = (new DeviceFactory())->fromArray($cache, $logger, (array) $data['device']);
+            $device = (new DeviceFactory())->fromArray($logger, (array) $data['device']);
         }
 
         $browser = null;
         if (isset($data['browser'])) {
-            $browser = (new BrowserFactory())->fromArray($cache, $logger, (array) $data['browser']);
+            $browser = (new BrowserFactory())->fromArray($logger, (array) $data['browser']);
         }
 
         $os = null;
         if (isset($data['os'])) {
-            $os = (new OsFactory())->fromArray($cache, $logger, (array) $data['os']);
+            $os = (new OsFactory())->fromArray($logger, (array) $data['os']);
         }
 
         $engine = null;
         if (isset($data['engine'])) {
-            $engine = (new EngineFactory())->fromArray($cache, $logger, (array) $data['engine']);
+            $engine = (new EngineFactory())->fromArray($logger, (array) $data['engine']);
         }
 
         return new Result($headers, $device, $os, $browser, $engine);

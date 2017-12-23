@@ -102,7 +102,7 @@ class Engine implements EngineInterface
     }
 
     /**
-     * @return (string|null)[]
+     * @return array
      */
     public function toArray(): array
     {

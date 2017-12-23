@@ -11,14 +11,14 @@
 declare(strict_types = 1);
 namespace UaResultTest\Device;
 
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use UaDeviceType\Type;
 use UaResult\Company\Company;
 use UaResult\Device\Device;
 use UaResult\Device\DeviceFactory;
 
-class DeviceTest extends \PHPUnit\Framework\TestCase
+class DeviceTest extends TestCase
 {
     /**
      * @return void
@@ -53,7 +53,6 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
      */
     public function testToarray(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $deviceName       = 'TestDevicename';
@@ -69,7 +68,7 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
         $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
 
         $array  = $original->toArray();
-        $object = (new DeviceFactory())->fromArray($cache, $logger, $array);
+        $object = (new DeviceFactory())->fromArray($logger, $array);
 
         self::assertSame($deviceName, $object->getDeviceName());
         self::assertSame($marketingName, $object->getMarketingName());
@@ -87,14 +86,13 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
      */
     public function testFromEmptyArray(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $manufacturer = new Company('Unknown', null);
         $brand        = new Company('Unknown', null);
         $type         = new Type('unknown');
 
-        $object = (new DeviceFactory())->fromArray($cache, $logger, []);
+        $object = (new DeviceFactory())->fromArray($logger, []);
 
         self::assertNull($object->getDeviceName());
         self::assertNull($object->getMarketingName());
@@ -112,7 +110,6 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
      */
     public function testFromarrayWithInvalidType(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $name         = 'test';
@@ -126,7 +123,7 @@ class DeviceTest extends \PHPUnit\Framework\TestCase
             'brand'        => 'does-not-exist',
         ];
 
-        $object = (new DeviceFactory())->fromArray($cache, $logger, $array);
+        $object = (new DeviceFactory())->fromArray($logger, $array);
 
         self::assertSame($name, $object->getDeviceName());
         self::assertEquals($type, $object->getType());
