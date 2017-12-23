@@ -13,14 +13,14 @@ namespace UaResultTest\Browser;
 
 use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionFactory;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use UaBrowserType\Type;
 use UaResult\Browser\Browser;
 use UaResult\Browser\BrowserFactory;
 use UaResult\Company\Company;
 
-class BrowserTest extends \PHPUnit\Framework\TestCase
+class BrowserTest extends TestCase
 {
     /**
      * @return void
@@ -69,7 +69,6 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
      */
     public function testToarray(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $name         = 'TestBrowser';
@@ -82,7 +81,7 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
         $original = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
 
         $array  = $original->toArray();
-        $object = (new BrowserFactory())->fromArray($cache, $logger, $array);
+        $object = (new BrowserFactory())->fromArray($logger, $array);
 
         self::assertEquals($original, $object);
     }
@@ -92,13 +91,12 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
      */
     public function testFromEmptyArray(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $version = new Version();
         $type    = new Type('unknown');
 
-        $object = (new BrowserFactory())->fromArray($cache, $logger, []);
+        $object = (new BrowserFactory())->fromArray($logger, []);
 
         self::assertNull($object->getName());
         self::assertEquals($version, $object->getVersion());
@@ -110,7 +108,6 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
      */
     public function testFromarrayWithInvalidType(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $name         = 'test';
@@ -123,7 +120,7 @@ class BrowserTest extends \PHPUnit\Framework\TestCase
             'type'         => 'does-not-exist',
             'manufacturer' => 'unknown',
         ];
-        $object = (new BrowserFactory())->fromArray($cache, $logger, $array);
+        $object = (new BrowserFactory())->fromArray($logger, $array);
 
         self::assertSame($name, $object->getName());
         self::assertEquals($version, $object->getVersion());

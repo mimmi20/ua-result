@@ -58,7 +58,7 @@ interface BrowserInterface
     public function getType(): TypeInterface;
 
     /**
-     * @return (int|string|null)[]
+     * @return array
      */
     public function toArray(): array;
 }

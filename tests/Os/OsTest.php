@@ -13,13 +13,13 @@ namespace UaResultTest\Os;
 
 use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionFactory;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use UaResult\Company\Company;
 use UaResult\Os\Os;
 use UaResult\Os\OsFactory;
 
-class OsTest extends \PHPUnit\Framework\TestCase
+class OsTest extends TestCase
 {
     /**
      * @return void
@@ -46,7 +46,6 @@ class OsTest extends \PHPUnit\Framework\TestCase
      */
     public function testToarray(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $name          = 'TestPlatform';
@@ -58,7 +57,7 @@ class OsTest extends \PHPUnit\Framework\TestCase
         $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
 
         $array  = $original->toArray();
-        $object = (new OsFactory())->fromArray($cache, $logger, $array);
+        $object = (new OsFactory())->fromArray($logger, $array);
 
         self::assertSame($name, $object->getName());
         self::assertSame($marketingName, $object->getMarketingName());
@@ -72,13 +71,12 @@ class OsTest extends \PHPUnit\Framework\TestCase
      */
     public function testFromEmptyArray(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $manufacturer = new Company('Unknown', null);
         $version      = new Version();
 
-        $object = (new OsFactory())->fromArray($cache, $logger, []);
+        $object = (new OsFactory())->fromArray($logger, []);
 
         self::assertNull($object->getName());
         self::assertNull($object->getMarketingName());
@@ -92,7 +90,6 @@ class OsTest extends \PHPUnit\Framework\TestCase
      */
     public function testFromarrayWithInvalidManufacturer(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $name         = 'test';
@@ -103,7 +100,7 @@ class OsTest extends \PHPUnit\Framework\TestCase
             'name'         => $name,
             'manufacturer' => 'unknown',
         ];
-        $object = (new OsFactory())->fromArray($cache, $logger, $array);
+        $object = (new OsFactory())->fromArray($logger, $array);
 
         self::assertSame($name, $object->getName());
         self::assertEquals($version, $object->getVersion());

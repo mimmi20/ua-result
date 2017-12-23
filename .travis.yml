@@ -5,6 +5,7 @@ dist: trusty
 php:
   - 7.1
   - 7.2
+  - nightly
 
 os: linux
 
@@ -29,9 +30,7 @@ before_install:
 
 install: travis_retry composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest $COMPOSER_FLAGS -vv
 
-script:
-  - composer validate
-  - vendor/bin/phpunit --colors --columns 117 --no-coverage
+script: vendor/bin/phpunit --colors --columns 117 --no-coverage
 
 jobs:
   allow_failures:
@@ -39,6 +38,7 @@ jobs:
   include:
     - php: nightly
       env: COMPOSER_FLAGS="--ignore-platform-reqs"
+
     - stage: test with coverage
       php: 7.1
       env:
@@ -53,18 +53,21 @@ jobs:
       after_success:
         - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.2/coveralls.phar && php -n coveralls.phar --verbose --coverage_clover=clover.xml
         - bash <(curl -s https://codecov.io/bash) -f clover.xml -F phpunit
+
     - stage: check coding style
       php: 7.1
       env:
         - COMPOSER_FLAGS=""
         - TEST=phpcs
       script: vendor/bin/phpcs --colors
+
     - stage: check coding style
       php: 7.1
       env:
         - COMPOSER_FLAGS=""
         - TEST=php-cs-fixer
       script: vendor/bin/php-cs-fixer fix --dry-run -vv
+
     - stage: static code analysis
       php: 7.1
       env:

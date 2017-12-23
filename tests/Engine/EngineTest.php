@@ -13,13 +13,13 @@ namespace UaResultTest\Engine;
 
 use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionFactory;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use UaResult\Company\Company;
 use UaResult\Engine\Engine;
 use UaResult\Engine\EngineFactory;
 
-class EngineTest extends \PHPUnit\Framework\TestCase
+class EngineTest extends TestCase
 {
     /**
      * @return void
@@ -42,7 +42,6 @@ class EngineTest extends \PHPUnit\Framework\TestCase
      */
     public function testToarray(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $name         = 'TestBrowser';
@@ -52,7 +51,7 @@ class EngineTest extends \PHPUnit\Framework\TestCase
         $original = new Engine($name, $manufacturer, $version);
 
         $array  = $original->toArray();
-        $object = (new EngineFactory())->fromArray($cache, $logger, $array);
+        $object = (new EngineFactory())->fromArray($logger, $array);
 
         self::assertSame($name, $object->getName());
         self::assertEquals($manufacturer, $object->getManufacturer());
@@ -64,11 +63,10 @@ class EngineTest extends \PHPUnit\Framework\TestCase
      */
     public function testFromEmptyArray(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $version = new Version();
-        $object  = (new EngineFactory())->fromArray($cache, $logger, []);
+        $object  = (new EngineFactory())->fromArray($logger, []);
 
         self::assertNull($object->getName());
         self::assertEquals($version, $object->getVersion());
@@ -79,7 +77,6 @@ class EngineTest extends \PHPUnit\Framework\TestCase
      */
     public function testFromarrayWithInvalidManufacturer(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $name         = 'test';
@@ -90,7 +87,7 @@ class EngineTest extends \PHPUnit\Framework\TestCase
             'name'         => $name,
             'manufacturer' => 'unknown',
         ];
-        $object = (new EngineFactory())->fromArray($cache, $logger, $array);
+        $object = (new EngineFactory())->fromArray($logger, $array);
 
         self::assertSame($name, $object->getName());
         self::assertEquals($version, $object->getVersion());

@@ -160,7 +160,7 @@ class Browser implements BrowserInterface
     }
 
     /**
-     * @return (int|string|null)[]
+     * @return array
      */
     public function toArray(): array
     {

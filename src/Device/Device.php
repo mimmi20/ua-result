@@ -196,7 +196,7 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return (bool|int|string|null)[]
+     * @return array
      */
     public function toArray(): array
     {

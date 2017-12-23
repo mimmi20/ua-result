@@ -12,7 +12,6 @@ declare(strict_types = 1);
 namespace UaResult\Device;
 
 use BrowserDetector\Loader\NotFoundException;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use UaDeviceType\TypeLoader;
 use UaResult\Company\CompanyLoader;
@@ -20,13 +19,12 @@ use UaResult\Company\CompanyLoader;
 class DeviceFactory
 {
     /**
-     * @param \Psr\Cache\CacheItemPoolInterface $cache
-     * @param \Psr\Log\LoggerInterface          $logger
-     * @param (string|int|bool|null)[]          $data
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param array                    $data
      *
      * @return \UaResult\Device\DeviceInterface
      */
-    public function fromArray(CacheItemPoolInterface $cache, LoggerInterface $logger, array $data): DeviceInterface
+    public function fromArray(LoggerInterface $logger, array $data): DeviceInterface
     {
         $deviceName       = isset($data['deviceName']) ? (string) $data['deviceName'] : null;
         $marketingName    = isset($data['marketingName']) ? (string) $data['marketingName'] : null;
@@ -47,7 +45,7 @@ class DeviceFactory
         $manufacturer = null;
         if (isset($data['manufacturer'])) {
             try {
-                $manufacturer = CompanyLoader::getInstance($cache, $logger)->load((string) $data['manufacturer']);
+                $manufacturer = CompanyLoader::getInstance()->load((string) $data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
@@ -56,7 +54,7 @@ class DeviceFactory
         $brand = null;
         if (isset($data['brand'])) {
             try {
-                $brand = CompanyLoader::getInstance($cache, $logger)->load((string) $data['brand']);
+                $brand = CompanyLoader::getInstance()->load((string) $data['brand']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }

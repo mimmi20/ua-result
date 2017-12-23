@@ -11,8 +11,8 @@
 declare(strict_types = 1);
 namespace UaResultTest\Result;
 
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use UaResult\Browser\Browser;
 use UaResult\Device\Device;
 use UaResult\Engine\Engine;
@@ -20,7 +20,7 @@ use UaResult\Os\Os;
 use UaResult\Result\Result;
 use UaResult\Result\ResultFactory;
 
-class ResultTest extends \PHPUnit\Framework\TestCase
+class ResultTest extends TestCase
 {
     /**
      * @return void
@@ -47,7 +47,6 @@ class ResultTest extends \PHPUnit\Framework\TestCase
      */
     public function testToArray(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $headers = ['x-test-header' => 'test-ua'];
@@ -58,7 +57,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
 
         $original = new Result($headers, $device, $os, $browser, $engine);
         $array    = $original->toArray();
-        $object   = (new ResultFactory())->fromArray($cache, $logger, $array);
+        $object   = (new ResultFactory())->fromArray($logger, $array);
 
         self::assertEquals($headers, $object->getHeaders());
         self::assertEquals($device, $object->getDevice());
@@ -72,7 +71,6 @@ class ResultTest extends \PHPUnit\Framework\TestCase
      */
     public function testToArrayWhenFromJson(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $headers = ['x-test-header' => 'test-ua'];
@@ -83,7 +81,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
 
         $original = new Result($headers, $device, $os, $browser, $engine);
         $array    = (array) json_decode(json_encode($original->toArray()));
-        $object   = (new ResultFactory())->fromArray($cache, $logger, $array);
+        $object   = (new ResultFactory())->fromArray($logger, $array);
 
         self::assertEquals($headers, $object->getHeaders());
         self::assertEquals($device, $object->getDevice());
@@ -97,7 +95,6 @@ class ResultTest extends \PHPUnit\Framework\TestCase
      */
     public function testFromEmptyArray(): void
     {
-        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../cache/');
         $logger = new NullLogger();
 
         $headers = [];
@@ -106,7 +103,7 @@ class ResultTest extends \PHPUnit\Framework\TestCase
         $browser = new Browser(null);
         $engine  = new Engine(null);
 
-        $object = (new ResultFactory())->fromArray($cache, $logger, []);
+        $object = (new ResultFactory())->fromArray($logger, []);
 
         self::assertEquals($headers, $object->getHeaders());
         self::assertEquals($device, $object->getDevice());
