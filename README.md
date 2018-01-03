@@ -1,12 +1,27 @@
-Useragent Detector Result
-=========================
+# Useragent Detector Result
+
+[![Latest Stable Version](https://poser.pugx.org/mimmi20/ua-result/v/stable?format=flat-square)](https://packagist.org/packages/mimmi20/ua-result)
+[![Latest Unstable Version](https://poser.pugx.org/mimmi20/ua-result/v/unstable?format=flat-square)](https://packagist.org/packages/mimmi20/ua-result)
+[![License](https://poser.pugx.org/mimmi20/ua-result/license?format=flat-square)](https://packagist.org/packages/mimmi20/ua-result)
+
+## Code Status
+
+[![Build Status](https://travis-ci.org/mimmi20/ua-result.svg?branch=master)](https://travis-ci.org/mimmi20/ua-result)
+[![codecov](https://codecov.io/gh/mimmi20/ua-result/branch/master/graph/badge.svg)](https://codecov.io/gh/mimmi20/ua-result)
+[![Maintainability](https://api.codeclimate.com/v1/badges/efc2b31f75f5155795f6/maintainability)](https://codeclimate.com/github/mimmi20/ua-result/maintainability)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/mimmi20/ua-result.svg)](http://isitmaintained.com/project/mimmi20/ua-result "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/mimmi20/ua-result.svg)](http://isitmaintained.com/project/mimmi20/ua-result "Percentage of issues still open")
+[![Dependency Status](https://gemnasium.com/badges/github.com/mimmi20/ua-result.svg)](https://gemnasium.com/github.com/mimmi20/ua-result)
+
+
+## Description
 
 This library provides a set of classes representing a result of an useragent detection.
 
 ## Requirements
 
-This library requires PHP 7.0+.
-Also a PSR-3 compatible logger and a PSR-6 compatible cache are required.
+This library requires PHP 7.1+.
+Also a PSR-3 compatible logger is required.
 
 ## Installation
 
@@ -121,17 +136,6 @@ $manBrand   = $platform->getManufacturer()->getBrandName();
 // get the version
 $name = $platform->getVersion()->getVersion();
 ```
-
-## Project status
-
-[![Latest Stable Version](https://poser.pugx.org/mimmi20/ua-result/v/stable)](https://packagist.org/packages/mimmi20/ua-result)
-[![Latest Unstable Version](https://poser.pugx.org/mimmi20/ua-result/v/unstable)](https://packagist.org/packages/mimmi20/ua-result)
-[![License](https://poser.pugx.org/mimmi20/ua-result/license)](https://packagist.org/packages/mimmi20/ua-result)
-
-[![Build Status](https://api.travis-ci.org/mimmi20/ua-result.png?branch=master)](https://travis-ci.org/mimmi20/ua-result)
-
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mimmi20/ua-result/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mimmi20/ua-result/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/mimmi20/ua-result/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mimmi20/ua-result/?branch=master)
 
 ## Issues and feature requests
 
