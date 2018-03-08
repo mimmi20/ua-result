@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2017, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2018, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,8 +11,8 @@
 declare(strict_types = 1);
 namespace UaResult\Device;
 
-use UaDeviceType\Type;
 use UaDeviceType\TypeInterface;
+use UaDeviceType\Unknown;
 use UaResult\Company\Company;
 use UaResult\Company\CompanyInterface;
 
@@ -93,7 +93,7 @@ class Device implements DeviceInterface
         $this->dualOrientation  = $dualOrientation;
 
         if (null === $type) {
-            $this->type = new Type('unknown');
+            $this->type = new Unknown();
         } else {
             $this->type = $type;
         }
@@ -114,7 +114,7 @@ class Device implements DeviceInterface
     /**
      * clones the actual object
      *
-     * @return Device
+     * @return void
      */
     public function __clone()
     {

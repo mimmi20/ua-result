@@ -21,6 +21,12 @@ addons:
   code_climate:
     repo_token: e9650ed0414401c75d7c53c195e9ffd1dc2fd2a6d3a4fcbfaa7e7d5ec3771244
 
+stages:
+  - composer validate
+  - static code analysis
+  - test
+  - test with coverage
+
 before_install:
   - stty cols 120
   - phpenv config-rm xdebug.ini || echo "xdebug not available"
@@ -54,14 +60,20 @@ jobs:
         - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.2/coveralls.phar && php -n coveralls.phar --verbose --coverage_clover=clover.xml
         - bash <(curl -s https://codecov.io/bash) -f clover.xml -F phpunit
 
-    - stage: check coding style
+    - stage: composer validate
+      php: 7.1
+      env: COMPOSER_FLAGS=""
+      install: skip
+      script: composer validate
+
+    - stage: static code analysis
       php: 7.1
       env:
         - COMPOSER_FLAGS=""
         - TEST=phpcs
       script: vendor/bin/phpcs --colors
 
-    - stage: check coding style
+    - stage: static code analysis
       php: 7.1
       env:
         - COMPOSER_FLAGS=""

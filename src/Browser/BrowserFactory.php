@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2017, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2018, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,15 +17,6 @@ use Psr\Log\LoggerInterface;
 use UaBrowserType\TypeLoader;
 use UaResult\Company\CompanyLoader;
 
-/**
- * Browser detection class
- *
- * @category  BrowserDetector
- *
- * @author    Thomas Mueller <mimmi20@live.de>
- * @copyright 2012-2016 Thomas Mueller
- * @license   http://www.opensource.org/licenses/MIT MIT License
- */
 class BrowserFactory
 {
     /**
@@ -43,7 +34,7 @@ class BrowserFactory
         $type = null;
         if (isset($data['type'])) {
             try {
-                $type = TypeLoader::getInstance()->load((string) $data['type']);
+                $type = (new TypeLoader())->load((string) $data['type']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }

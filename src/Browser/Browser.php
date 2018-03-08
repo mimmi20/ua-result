@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2017, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2018, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,19 +13,11 @@ namespace UaResult\Browser;
 
 use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionInterface;
-use UaBrowserType\Type;
 use UaBrowserType\TypeInterface;
+use UaBrowserType\Unknown;
 use UaResult\Company\Company;
 use UaResult\Company\CompanyInterface;
 
-/**
- * base class for all browsers to detect
- *
- * @category  ua-result
- *
- * @copyright 2015, 2016 Thomas Mueller
- * @license   http://www.opensource.org/licenses/MIT MIT License
- */
 class Browser implements BrowserInterface
 {
     /**
@@ -85,7 +77,7 @@ class Browser implements BrowserInterface
         }
 
         if (null === $type) {
-            $this->type = new Type('unknown');
+            $this->type = new Unknown();
         } else {
             $this->type = $type;
         }
@@ -100,7 +92,7 @@ class Browser implements BrowserInterface
     /**
      * clones the actual object
      *
-     * @return Browser
+     * @return void
      */
     public function __clone()
     {

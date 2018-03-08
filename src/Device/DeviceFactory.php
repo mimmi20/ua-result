@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2017, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2018, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -36,7 +36,7 @@ class DeviceFactory
         $type = null;
         if (isset($data['type'])) {
             try {
-                $type = TypeLoader::getInstance()->load((string) $data['type']);
+                $type = (new TypeLoader())->load((string) $data['type']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
