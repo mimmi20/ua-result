@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2017, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2018, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,7 +13,7 @@ namespace UaResultTest\Device;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
-use UaDeviceType\Type;
+use UaDeviceType\Unknown;
 use UaResult\Company\Company;
 use UaResult\Device\Device;
 use UaResult\Device\DeviceFactory;
@@ -29,7 +29,7 @@ class DeviceTest extends TestCase
         $marketingName    = 'TestMarketingname';
         $manufacturer     = new Company('Unknown', null);
         $brand            = new Company('Unknown', null);
-        $type             = new Type('unknown', 'unknown');
+        $type             = new Unknown();
         $pointingMethod   = 'touchscreen';
         $resolutionWidth  = 480;
         $resolutionHeight = 1080;
@@ -59,7 +59,7 @@ class DeviceTest extends TestCase
         $marketingName    = 'TestMarketingname';
         $manufacturer     = new Company('Unknown', null);
         $brand            = new Company('Unknown', null);
-        $type             = new Type('unknown');
+        $type             = new Unknown();
         $pointingMethod   = 'touchscreen';
         $resolutionWidth  = 480;
         $resolutionHeight = 1080;
@@ -90,7 +90,7 @@ class DeviceTest extends TestCase
 
         $manufacturer = new Company('Unknown', null);
         $brand        = new Company('Unknown', null);
-        $type         = new Type('unknown');
+        $type         = new Unknown();
 
         $object = (new DeviceFactory())->fromArray($logger, []);
 
@@ -113,7 +113,7 @@ class DeviceTest extends TestCase
         $logger = new NullLogger();
 
         $name         = 'test';
-        $type         = new Type('unknown');
+        $type         = new Unknown();
         $manufacturer = new Company('Unknown', null);
 
         $array = [
@@ -140,7 +140,7 @@ class DeviceTest extends TestCase
         $marketingName    = 'TestMarketingname';
         $manufacturer     = new Company('Unknown', null);
         $brand            = new Company('Unknown', null);
-        $type             = new Type('unknown', 'unknown');
+        $type             = new Unknown();
         $pointingMethod   = 'touchscreen';
         $resolutionWidth  = 480;
         $resolutionHeight = 1080;

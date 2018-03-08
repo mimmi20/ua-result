@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2017, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2018, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@ use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
-use UaBrowserType\Type;
+use UaBrowserType\Unknown;
 use UaResult\Browser\Browser;
 use UaResult\Browser\BrowserFactory;
 use UaResult\Company\Company;
@@ -30,7 +30,7 @@ class BrowserTest extends TestCase
         $name         = 'TestBrowser';
         $manufacturer = new Company('Unknown', null);
         $version      = new Version();
-        $type         = new Type('unknown');
+        $type         = new Unknown();
         $bits         = 64;
         $modus        = 'Desktop Mode';
 
@@ -52,7 +52,7 @@ class BrowserTest extends TestCase
         $name         = 'TestBrowser';
         $manufacturer = new Company('Unknown', null);
         $version      = new Version();
-        $type         = new Type('unknown');
+        $type         = new Unknown();
 
         $object = new Browser($name);
 
@@ -74,7 +74,7 @@ class BrowserTest extends TestCase
         $name         = 'TestBrowser';
         $manufacturer = new Company('Unknown', null);
         $version      = VersionFactory::set('0.0.2-beta');
-        $type         = new Type('unknown');
+        $type         = new Unknown();
         $bits         = 64;
         $modus        = 'Desktop Mode';
 
@@ -94,7 +94,7 @@ class BrowserTest extends TestCase
         $logger = new NullLogger();
 
         $version = new Version();
-        $type    = new Type('unknown');
+        $type    = new Unknown();
 
         $object = (new BrowserFactory())->fromArray($logger, []);
 
@@ -112,7 +112,7 @@ class BrowserTest extends TestCase
 
         $name         = 'test';
         $version      = new Version();
-        $type         = new Type('unknown');
+        $type         = new Unknown();
         $manufacturer = new Company('Unknown', null);
 
         $array = [
@@ -136,7 +136,7 @@ class BrowserTest extends TestCase
         $name         = 'TestBrowser';
         $manufacturer = new Company('Unknown', null);
         $version      = new Version();
-        $type         = new Type('unknown');
+        $type         = new Unknown();
 
         $original = new Browser($name, $manufacturer, $version, $type);
         $cloned   = clone $original;
