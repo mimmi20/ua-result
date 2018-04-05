@@ -24,14 +24,14 @@
   ],
   "require": {
     "php": "^7.1",
-    "mimmi20/browser-detector-version": "~4.0.4",
+    "mimmi20/browser-detector-version": "~5.0.1",
     "mimmi20/ua-browser-type": "~6.0.0",
     "mimmi20/ua-device-type": "~6.0.0",
     "mimmi20/ua-result-company": "~3.2.6",
     "psr/log": "^1.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.10 || ^3.0",
+    "friendsofphp/php-cs-fixer": "^2.11",
     "localheinz/composer-normalize": "^0.6.0",
     "phpstan/phpstan": "^0.9",
     "phpunit/phpunit": "^6.5 || ^7.0",

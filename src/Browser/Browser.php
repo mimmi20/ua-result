@@ -157,12 +157,12 @@ class Browser implements BrowserInterface
     public function toArray(): array
     {
         return [
-            'name'         => $this->name,
-            'modus'        => $this->modus,
-            'version'      => $this->version->getVersion(),
+            'name' => $this->name,
+            'modus' => $this->modus,
+            'version' => $this->version->getVersion(),
             'manufacturer' => $this->manufacturer->getType(),
-            'bits'         => $this->bits,
-            'type'         => $this->type->getType(),
+            'bits' => $this->bits,
+            'type' => $this->type->getType(),
         ];
     }
 }

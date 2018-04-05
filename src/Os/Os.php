@@ -131,11 +131,11 @@ class Os implements OsInterface
     public function toArray(): array
     {
         return [
-            'name'          => $this->name,
+            'name' => $this->name,
             'marketingName' => $this->marketingName,
-            'version'       => $this->version->getVersion(),
-            'manufacturer'  => $this->manufacturer->getType(),
-            'bits'          => $this->bits,
+            'version' => $this->version->getVersion(),
+            'manufacturer' => $this->manufacturer->getType(),
+            'bits' => $this->bits,
         ];
     }
 }

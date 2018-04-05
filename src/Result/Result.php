@@ -150,10 +150,10 @@ class Result implements ResultInterface
     {
         return [
             'headers' => $this->headers,
-            'device'  => $this->device->toArray(),
+            'device' => $this->device->toArray(),
             'browser' => $this->browser->toArray(),
-            'os'      => $this->os->toArray(),
-            'engine'  => $this->engine->toArray(),
+            'os' => $this->os->toArray(),
+            'engine' => $this->engine->toArray(),
         ];
     }
 }

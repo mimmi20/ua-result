@@ -73,7 +73,7 @@ class BrowserTest extends TestCase
 
         $name         = 'TestBrowser';
         $manufacturer = new Company('Unknown', null);
-        $version      = VersionFactory::set('0.0.2-beta');
+        $version      = (new VersionFactory())->set('0.0.2-beta');
         $type         = new Unknown();
         $bits         = 64;
         $modus        = 'Desktop Mode';
@@ -116,8 +116,8 @@ class BrowserTest extends TestCase
         $manufacturer = new Company('Unknown', null);
 
         $array = [
-            'name'         => $name,
-            'type'         => 'does-not-exist',
+            'name' => $name,
+            'type' => 'does-not-exist',
             'manufacturer' => 'unknown',
         ];
         $object = (new BrowserFactory())->fromArray($logger, $array);

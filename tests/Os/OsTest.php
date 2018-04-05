@@ -51,7 +51,7 @@ class OsTest extends TestCase
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
         $manufacturer  = new Company('Unknown', null);
-        $version       = VersionFactory::set('0.0.0');
+        $version       = (new VersionFactory())->set('0.0.0');
         $bits          = 64;
 
         $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
@@ -97,7 +97,7 @@ class OsTest extends TestCase
         $manufacturer = new Company('Unknown', null);
 
         $array = [
-            'name'         => $name,
+            'name' => $name,
             'manufacturer' => 'unknown',
         ];
         $object = (new OsFactory())->fromArray($logger, $array);

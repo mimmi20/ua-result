@@ -42,7 +42,7 @@ class BrowserFactory
 
         $version = null;
         if (isset($data['version'])) {
-            $version = VersionFactory::set((string) $data['version']);
+            $version = (new VersionFactory())->set((string) $data['version']);
         }
 
         $manufacturer = null;
