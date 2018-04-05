@@ -117,10 +117,10 @@ class DeviceTest extends TestCase
         $manufacturer = new Company('Unknown', null);
 
         $array = [
-            'deviceName'   => $name,
-            'type'         => 'does-not-exist',
+            'deviceName' => $name,
+            'type' => 'does-not-exist',
             'manufacturer' => 'unknown',
-            'brand'        => 'does-not-exist',
+            'brand' => 'does-not-exist',
         ];
 
         $object = (new DeviceFactory())->fromArray($logger, $array);

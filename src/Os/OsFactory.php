@@ -32,7 +32,7 @@ class OsFactory
 
         $version = null;
         if (isset($data['version'])) {
-            $version = VersionFactory::set($data['version']);
+            $version = (new VersionFactory())->set($data['version']);
         }
 
         $manufacturer = null;

@@ -46,7 +46,7 @@ class EngineTest extends TestCase
 
         $name         = 'TestBrowser';
         $manufacturer = new Company('Unknown', null);
-        $version      = VersionFactory::set('0.0.2-beta');
+        $version      = (new VersionFactory())->set('0.0.2-beta');
 
         $original = new Engine($name, $manufacturer, $version);
 
@@ -84,7 +84,7 @@ class EngineTest extends TestCase
         $manufacturer = new Company('Unknown', null);
 
         $array = [
-            'name'         => $name,
+            'name' => $name,
             'manufacturer' => 'unknown',
         ];
         $object = (new EngineFactory())->fromArray($logger, $array);

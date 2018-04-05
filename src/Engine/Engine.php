@@ -99,8 +99,8 @@ class Engine implements EngineInterface
     public function toArray(): array
     {
         return [
-            'name'         => $this->name,
-            'version'      => $this->version->getVersion(),
+            'name' => $this->name,
+            'version' => $this->version->getVersion(),
             'manufacturer' => $this->manufacturer->getType(),
         ];
     }

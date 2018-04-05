@@ -201,15 +201,15 @@ class Device implements DeviceInterface
     public function toArray(): array
     {
         return [
-            'deviceName'       => $this->deviceName,
-            'marketingName'    => $this->marketingName,
-            'manufacturer'     => $this->manufacturer->getType(),
-            'brand'            => $this->brand->getType(),
-            'pointingMethod'   => $this->pointingMethod,
-            'resolutionWidth'  => $this->resolutionWidth,
+            'deviceName' => $this->deviceName,
+            'marketingName' => $this->marketingName,
+            'manufacturer' => $this->manufacturer->getType(),
+            'brand' => $this->brand->getType(),
+            'pointingMethod' => $this->pointingMethod,
+            'resolutionWidth' => $this->resolutionWidth,
             'resolutionHeight' => $this->resolutionHeight,
-            'dualOrientation'  => $this->dualOrientation,
-            'type'             => $this->type->getType(),
+            'dualOrientation' => $this->dualOrientation,
+            'type' => $this->type->getType(),
         ];
     }
 }
