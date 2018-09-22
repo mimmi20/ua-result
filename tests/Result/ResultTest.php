@@ -11,6 +11,7 @@
 declare(strict_types = 1);
 namespace UaResultTest\Result;
 
+use JsonClass\Json;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use UaResult\Browser\Browser;
@@ -80,7 +81,7 @@ class ResultTest extends TestCase
         $engine  = new Engine('unknown');
 
         $original = new Result($headers, $device, $os, $browser, $engine);
-        $array    = (array) json_decode(json_encode($original->toArray()));
+        $array    = (new Json())->decode((new Json())->encode($original->toArray()), true);
         $object   = (new ResultFactory())->fromArray($logger, $array);
 
         self::assertEquals($headers, $object->getHeaders());

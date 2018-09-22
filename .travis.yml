@@ -5,7 +5,7 @@ dist: trusty
 php:
   - 7.1
   - 7.2
-  - nightly
+  - 7.3
 
 os: linux
 
@@ -39,7 +39,9 @@ install: travis_retry composer update --optimize-autoloader --prefer-dist --pref
 script: vendor/bin/phpunit --colors --columns 117 --no-coverage
 
 jobs:
+  fast_finish: true
   allow_failures:
+    - php: 7.3
     - php: nightly
   include:
     - php: nightly
@@ -85,7 +87,7 @@ jobs:
       env:
         - COMPOSER_FLAGS=""
         - TEST=phpstan
-      script: vendor/bin/phpstan analyse -l 7 -c phpstan.neon --autoload-file=vendor/autoload.php --memory-limit=768M --no-progress src tests
+      script: vendor/bin/phpstan analyse -l max -c phpstan.neon --autoload-file=vendor/autoload.php --memory-limit=768M --no-progress src tests
 
 notifications:
   email: false
