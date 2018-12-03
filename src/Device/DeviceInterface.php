@@ -42,19 +42,9 @@ interface DeviceInterface
     public function getMarketingName(): ?string;
 
     /**
-     * @return string|null
+     * @return \UaResult\Device\DisplayInterface|null
      */
-    public function getPointingMethod(): ?string;
-
-    /**
-     * @return int|null
-     */
-    public function getResolutionHeight(): ?int;
-
-    /**
-     * @return int|null
-     */
-    public function getResolutionWidth(): ?int;
+    public function getDisplay(): ?DisplayInterface;
 
     /**
      * @return \UaDeviceType\TypeInterface

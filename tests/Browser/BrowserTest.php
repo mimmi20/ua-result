@@ -11,6 +11,8 @@
 declare(strict_types = 1);
 namespace UaResultTest\Browser;
 
+use BrowserDetector\Loader\LoaderInterface;
+use BrowserDetector\Loader\NotFoundException;
 use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionFactory;
 use PHPUnit\Framework\TestCase;
@@ -69,7 +71,36 @@ class BrowserTest extends TestCase
      */
     public function testToarray(): void
     {
-        $logger = new NullLogger();
+        $logger = $this->getMockBuilder(NullLogger::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+            ->getMock();
+        $logger
+            ->expects(self::never())
+            ->method('debug');
+        $logger
+            ->expects(self::never())
+            ->method('info');
+        $logger
+            ->expects(self::never())
+            ->method('notice');
+        $logger
+            ->expects(self::never())
+            ->method('warning');
+        $logger
+            ->expects(self::never())
+            ->method('error');
+        $logger
+            ->expects(self::never())
+            ->method('critical');
+        $logger
+            ->expects(self::never())
+            ->method('alert');
+        $logger
+            ->expects(self::never())
+            ->method('emergency');
+
+        $loader = $this->createMock(LoaderInterface::class);
 
         $name         = 'TestBrowser';
         $manufacturer = new Company('Unknown', null);
@@ -80,8 +111,11 @@ class BrowserTest extends TestCase
 
         $original = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
 
-        $array  = $original->toArray();
-        $object = (new BrowserFactory())->fromArray($logger, $array);
+        $array = $original->toArray();
+
+        /** @var NullLogger $logger */
+        /** @var LoaderInterface $loader */
+        $object = (new BrowserFactory($loader))->fromArray($logger, $array);
 
         self::assertEquals($original, $object);
     }
@@ -91,12 +125,43 @@ class BrowserTest extends TestCase
      */
     public function testFromEmptyArray(): void
     {
-        $logger = new NullLogger();
+        $logger = $this->getMockBuilder(NullLogger::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+            ->getMock();
+        $logger
+            ->expects(self::never())
+            ->method('debug');
+        $logger
+            ->expects(self::never())
+            ->method('info');
+        $logger
+            ->expects(self::never())
+            ->method('notice');
+        $logger
+            ->expects(self::never())
+            ->method('warning');
+        $logger
+            ->expects(self::never())
+            ->method('error');
+        $logger
+            ->expects(self::never())
+            ->method('critical');
+        $logger
+            ->expects(self::never())
+            ->method('alert');
+        $logger
+            ->expects(self::never())
+            ->method('emergency');
+
+        $loader = $this->createMock(LoaderInterface::class);
 
         $version = new Version();
         $type    = new Unknown();
 
-        $object = (new BrowserFactory())->fromArray($logger, []);
+        /** @var NullLogger $logger */
+        /** @var LoaderInterface $loader */
+        $object = (new BrowserFactory($loader))->fromArray($logger, []);
 
         self::assertNull($object->getName());
         self::assertEquals($version, $object->getVersion());
@@ -108,7 +173,37 @@ class BrowserTest extends TestCase
      */
     public function testFromarrayWithInvalidType(): void
     {
-        $logger = new NullLogger();
+        $logger = $this->getMockBuilder(NullLogger::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+            ->getMock();
+        $logger
+            ->expects(self::never())
+            ->method('debug');
+        $logger
+            ->expects(self::once())
+            ->method('info')
+            ->with(new NotFoundException('the browser type with key "does-not-exist" was not found'));
+        $logger
+            ->expects(self::never())
+            ->method('notice');
+        $logger
+            ->expects(self::never())
+            ->method('warning');
+        $logger
+            ->expects(self::never())
+            ->method('error');
+        $logger
+            ->expects(self::never())
+            ->method('critical');
+        $logger
+            ->expects(self::never())
+            ->method('alert');
+        $logger
+            ->expects(self::never())
+            ->method('emergency');
+
+        $loader = $this->createMock(LoaderInterface::class);
 
         $name         = 'test';
         $version      = new Version();
@@ -120,7 +215,10 @@ class BrowserTest extends TestCase
             'type' => 'does-not-exist',
             'manufacturer' => 'unknown',
         ];
-        $object = (new BrowserFactory())->fromArray($logger, $array);
+
+        /** @var NullLogger $logger */
+        /** @var LoaderInterface $loader */
+        $object = (new BrowserFactory($loader))->fromArray($logger, $array);
 
         self::assertSame($name, $object->getName());
         self::assertEquals($version, $object->getVersion());

@@ -11,6 +11,7 @@
 declare(strict_types = 1);
 namespace UaResult\Result;
 
+use BrowserDetector\Loader\LoaderInterface;
 use Psr\Log\LoggerInterface;
 use UaResult\Browser\BrowserFactory;
 use UaResult\Device\DeviceFactory;
@@ -19,6 +20,21 @@ use UaResult\Os\OsFactory;
 
 class ResultFactory
 {
+    /**
+     * @var \BrowserDetector\Loader\LoaderInterface
+     */
+    private $loader;
+
+    /**
+     * BrowserFactory constructor.
+     *
+     * @param \BrowserDetector\Loader\LoaderInterface $loader
+     */
+    public function __construct(LoaderInterface $loader)
+    {
+        $this->loader = $loader;
+    }
+
     /**
      * @param \Psr\Log\LoggerInterface $logger
      * @param array                    $data
@@ -34,22 +50,22 @@ class ResultFactory
 
         $device = null;
         if (isset($data['device'])) {
-            $device = (new DeviceFactory())->fromArray($logger, (array) $data['device']);
+            $device = (new DeviceFactory($this->loader))->fromArray($logger, (array) $data['device']);
         }
 
         $browser = null;
         if (isset($data['browser'])) {
-            $browser = (new BrowserFactory())->fromArray($logger, (array) $data['browser']);
+            $browser = (new BrowserFactory($this->loader))->fromArray($logger, (array) $data['browser']);
         }
 
         $os = null;
         if (isset($data['os'])) {
-            $os = (new OsFactory())->fromArray($logger, (array) $data['os']);
+            $os = (new OsFactory($this->loader))->fromArray($logger, (array) $data['os']);
         }
 
         $engine = null;
         if (isset($data['engine'])) {
-            $engine = (new EngineFactory())->fromArray($logger, (array) $data['engine']);
+            $engine = (new EngineFactory($this->loader))->fromArray($logger, (array) $data['engine']);
         }
 
         return new Result($headers, $device, $os, $browser, $engine);

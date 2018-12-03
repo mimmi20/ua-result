@@ -39,19 +39,9 @@ class Device implements DeviceInterface
     private $brand;
 
     /**
-     * @var string|null
+     * @var \UaResult\Device\DisplayInterface
      */
-    private $pointingMethod;
-
-    /**
-     * @var int|null
-     */
-    private $resolutionWidth;
-
-    /**
-     * @var int|null
-     */
-    private $resolutionHeight;
+    private $display;
 
     /**
      * @var bool
@@ -69,9 +59,7 @@ class Device implements DeviceInterface
      * @param \UaResult\Company\CompanyInterface|null $manufacturer
      * @param \UaResult\Company\CompanyInterface|null $brand
      * @param \UaDeviceType\TypeInterface|null        $type
-     * @param string|null                             $pointingMethod
-     * @param int|null                                $resolutionWidth
-     * @param int|null                                $resolutionHeight
+     * @param \UaResult\Device\DisplayInterface|null  $display
      * @param bool                                    $dualOrientation
      */
     public function __construct(
@@ -80,17 +68,12 @@ class Device implements DeviceInterface
         ?CompanyInterface $manufacturer = null,
         ?CompanyInterface $brand = null,
         ?TypeInterface $type = null,
-        ?string $pointingMethod = null,
-        ?int $resolutionWidth = null,
-        ?int $resolutionHeight = null,
+        ?DisplayInterface $display = null,
         bool $dualOrientation = false
     ) {
-        $this->deviceName       = $deviceName;
-        $this->marketingName    = $marketingName;
-        $this->pointingMethod   = $pointingMethod;
-        $this->resolutionWidth  = $resolutionWidth;
-        $this->resolutionHeight = $resolutionHeight;
-        $this->dualOrientation  = $dualOrientation;
+        $this->deviceName      = $deviceName;
+        $this->marketingName   = $marketingName;
+        $this->dualOrientation = $dualOrientation;
 
         if (null === $type) {
             $this->type = new Unknown();
@@ -108,6 +91,12 @@ class Device implements DeviceInterface
             $this->brand = new Company('Unknown', null);
         } else {
             $this->brand = $brand;
+        }
+
+        if (null === $display) {
+            $this->display = new Display(null, null, null, null);
+        } else {
+            $this->display = $display;
         }
     }
 
@@ -164,27 +153,11 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return string|null
+     * @return \UaResult\Device\DisplayInterface|null
      */
-    public function getPointingMethod(): ?string
+    public function getDisplay(): ?DisplayInterface
     {
-        return $this->pointingMethod;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getResolutionHeight(): ?int
-    {
-        return $this->resolutionHeight;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getResolutionWidth(): ?int
-    {
-        return $this->resolutionWidth;
+        return $this->display;
     }
 
     /**
@@ -205,9 +178,7 @@ class Device implements DeviceInterface
             'marketingName' => $this->marketingName,
             'manufacturer' => $this->manufacturer->getType(),
             'brand' => $this->brand->getType(),
-            'pointingMethod' => $this->pointingMethod,
-            'resolutionWidth' => $this->resolutionWidth,
-            'resolutionHeight' => $this->resolutionHeight,
+            'display' => $this->display->toArray(),
             'dualOrientation' => $this->dualOrientation,
             'type' => $this->type->getType(),
         ];

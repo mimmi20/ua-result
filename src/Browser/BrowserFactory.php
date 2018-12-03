@@ -11,21 +11,36 @@
 declare(strict_types = 1);
 namespace UaResult\Browser;
 
+use BrowserDetector\Loader\LoaderInterface;
 use BrowserDetector\Loader\NotFoundException;
 use BrowserDetector\Version\VersionFactory;
 use Psr\Log\LoggerInterface;
 use UaBrowserType\TypeLoader;
-use UaResult\Company\CompanyLoader;
 
 class BrowserFactory
 {
+    /**
+     * @var \BrowserDetector\Loader\LoaderInterface
+     */
+    private $loader;
+
+    /**
+     * BrowserFactory constructor.
+     *
+     * @param \BrowserDetector\Loader\LoaderInterface $loader
+     */
+    public function __construct(LoaderInterface $loader)
+    {
+        $this->loader = $loader;
+    }
+
     /**
      * @param \Psr\Log\LoggerInterface $logger
      * @param array                    $data
      *
      * @return \UaResult\Browser\BrowserInterface
      */
-    public static function fromArray(LoggerInterface $logger, array $data): BrowserInterface
+    public function fromArray(LoggerInterface $logger, array $data): BrowserInterface
     {
         $name  = isset($data['name']) ? (string) $data['name'] : null;
         $modus = isset($data['modus']) ? (string) $data['modus'] : null;
@@ -48,7 +63,7 @@ class BrowserFactory
         $manufacturer = null;
         if (isset($data['manufacturer'])) {
             try {
-                $manufacturer = CompanyLoader::getInstance()->load((string) $data['manufacturer']);
+                $manufacturer = $this->loader->load((string) $data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }

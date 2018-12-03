@@ -11,12 +11,15 @@
 declare(strict_types = 1);
 namespace UaResultTest\Device;
 
+use BrowserDetector\Loader\LoaderInterface;
+use BrowserDetector\Loader\NotFoundException;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use UaDeviceType\Unknown;
 use UaResult\Company\Company;
 use UaResult\Device\Device;
 use UaResult\Device\DeviceFactory;
+use UaResult\Device\Display;
 
 class DeviceTest extends TestCase
 {
@@ -25,26 +28,22 @@ class DeviceTest extends TestCase
      */
     public function testSetterGetter(): void
     {
-        $deviceName       = 'TestDevicename';
-        $marketingName    = 'TestMarketingname';
-        $manufacturer     = new Company('Unknown', null);
-        $brand            = new Company('Unknown', null);
-        $type             = new Unknown();
-        $pointingMethod   = 'touchscreen';
-        $resolutionWidth  = 480;
-        $resolutionHeight = 1080;
-        $dualOrientation  = true;
+        $deviceName      = 'TestDevicename';
+        $marketingName   = 'TestMarketingname';
+        $manufacturer    = new Company('Unknown', null);
+        $brand           = new Company('Unknown', null);
+        $type            = new Unknown();
+        $display         = new Display(null, null, null, null);
+        $dualOrientation = true;
 
-        $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
+        $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation);
 
         self::assertSame($deviceName, $object->getDeviceName());
         self::assertSame($marketingName, $object->getMarketingName());
         self::assertSame($manufacturer, $object->getManufacturer());
         self::assertSame($brand, $object->getBrand());
         self::assertSame($type, $object->getType());
-        self::assertSame($pointingMethod, $object->getPointingMethod());
-        self::assertSame($resolutionWidth, $object->getResolutionWidth());
-        self::assertSame($resolutionHeight, $object->getResolutionHeight());
+        self::assertEquals($display, $object->getDisplay());
         self::assertSame($dualOrientation, $object->getDualOrientation());
     }
 
@@ -53,31 +52,59 @@ class DeviceTest extends TestCase
      */
     public function testToarray(): void
     {
-        $logger = new NullLogger();
+        $logger = $this->getMockBuilder(NullLogger::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+            ->getMock();
+        $logger
+            ->expects(self::never())
+            ->method('debug');
+        $logger
+            ->expects(self::never())
+            ->method('info');
+        $logger
+            ->expects(self::never())
+            ->method('notice');
+        $logger
+            ->expects(self::never())
+            ->method('warning');
+        $logger
+            ->expects(self::never())
+            ->method('error');
+        $logger
+            ->expects(self::never())
+            ->method('critical');
+        $logger
+            ->expects(self::never())
+            ->method('alert');
+        $logger
+            ->expects(self::never())
+            ->method('emergency');
 
-        $deviceName       = 'TestDevicename';
-        $marketingName    = 'TestMarketingname';
-        $manufacturer     = new Company('Unknown', null);
-        $brand            = new Company('Unknown', null);
-        $type             = new Unknown();
-        $pointingMethod   = 'touchscreen';
-        $resolutionWidth  = 480;
-        $resolutionHeight = 1080;
-        $dualOrientation  = true;
+        $loader = $this->createMock(LoaderInterface::class);
 
-        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
+        $deviceName      = 'TestDevicename';
+        $marketingName   = 'TestMarketingname';
+        $manufacturer    = new Company('Unknown', null);
+        $brand           = new Company('Unknown', null);
+        $type            = new Unknown();
+        $display         = new Display(null, null, null, null);
+        $dualOrientation = true;
 
-        $array  = $original->toArray();
-        $object = (new DeviceFactory())->fromArray($logger, $array);
+        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation);
+
+        $array = $original->toArray();
+
+        /** @var NullLogger $logger */
+        /** @var LoaderInterface $loader */
+        $object = (new DeviceFactory($loader))->fromArray($logger, $array);
 
         self::assertSame($deviceName, $object->getDeviceName());
         self::assertSame($marketingName, $object->getMarketingName());
         self::assertEquals($manufacturer, $object->getManufacturer());
         self::assertEquals($brand, $object->getBrand());
         self::assertEquals($type, $object->getType());
-        self::assertSame($pointingMethod, $object->getPointingMethod());
-        self::assertSame($resolutionWidth, $object->getResolutionWidth());
-        self::assertSame($resolutionHeight, $object->getResolutionHeight());
+        self::assertEquals($display, $object->getDisplay());
         self::assertSame($dualOrientation, $object->getDualOrientation());
     }
 
@@ -86,22 +113,52 @@ class DeviceTest extends TestCase
      */
     public function testFromEmptyArray(): void
     {
-        $logger = new NullLogger();
+        $logger = $this->getMockBuilder(NullLogger::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+            ->getMock();
+        $logger
+            ->expects(self::never())
+            ->method('debug');
+        $logger
+            ->expects(self::never())
+            ->method('info');
+        $logger
+            ->expects(self::never())
+            ->method('notice');
+        $logger
+            ->expects(self::never())
+            ->method('warning');
+        $logger
+            ->expects(self::never())
+            ->method('error');
+        $logger
+            ->expects(self::never())
+            ->method('critical');
+        $logger
+            ->expects(self::never())
+            ->method('alert');
+        $logger
+            ->expects(self::never())
+            ->method('emergency');
+
+        $loader = $this->createMock(LoaderInterface::class);
 
         $manufacturer = new Company('Unknown', null);
         $brand        = new Company('Unknown', null);
         $type         = new Unknown();
+        $display      = new Display(null, null, null, null);
 
-        $object = (new DeviceFactory())->fromArray($logger, []);
+        /** @var NullLogger $logger */
+        /** @var LoaderInterface $loader */
+        $object = (new DeviceFactory($loader))->fromArray($logger, []);
 
         self::assertNull($object->getDeviceName());
         self::assertNull($object->getMarketingName());
         self::assertEquals($manufacturer, $object->getManufacturer());
         self::assertEquals($brand, $object->getBrand());
         self::assertEquals($type, $object->getType());
-        self::assertNull($object->getPointingMethod());
-        self::assertNull($object->getResolutionWidth());
-        self::assertNull($object->getResolutionHeight());
+        self::assertEquals($display, $object->getDisplay());
         self::assertFalse($object->getDualOrientation());
     }
 
@@ -110,7 +167,37 @@ class DeviceTest extends TestCase
      */
     public function testFromarrayWithInvalidType(): void
     {
-        $logger = new NullLogger();
+        $logger = $this->getMockBuilder(NullLogger::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+            ->getMock();
+        $logger
+            ->expects(self::never())
+            ->method('debug');
+        $logger
+            ->expects(self::once())
+            ->method('info')
+            ->with(new NotFoundException('the device type with key "does-not-exist" was not found'));
+        $logger
+            ->expects(self::never())
+            ->method('notice');
+        $logger
+            ->expects(self::never())
+            ->method('warning');
+        $logger
+            ->expects(self::never())
+            ->method('error');
+        $logger
+            ->expects(self::never())
+            ->method('critical');
+        $logger
+            ->expects(self::never())
+            ->method('alert');
+        $logger
+            ->expects(self::never())
+            ->method('emergency');
+
+        $loader = $this->createMock(LoaderInterface::class);
 
         $name         = 'test';
         $type         = new Unknown();
@@ -123,7 +210,9 @@ class DeviceTest extends TestCase
             'brand' => 'does-not-exist',
         ];
 
-        $object = (new DeviceFactory())->fromArray($logger, $array);
+        /** @var NullLogger $logger */
+        /** @var LoaderInterface $loader */
+        $object = (new DeviceFactory($loader))->fromArray($logger, $array);
 
         self::assertSame($name, $object->getDeviceName());
         self::assertEquals($type, $object->getType());
@@ -136,17 +225,15 @@ class DeviceTest extends TestCase
      */
     public function testClone(): void
     {
-        $deviceName       = 'TestDevicename';
-        $marketingName    = 'TestMarketingname';
-        $manufacturer     = new Company('Unknown', null);
-        $brand            = new Company('Unknown', null);
-        $type             = new Unknown();
-        $pointingMethod   = 'touchscreen';
-        $resolutionWidth  = 480;
-        $resolutionHeight = 1080;
-        $dualOrientation  = true;
+        $deviceName      = 'TestDevicename';
+        $marketingName   = 'TestMarketingname';
+        $manufacturer    = new Company('Unknown', null);
+        $brand           = new Company('Unknown', null);
+        $type            = new Unknown();
+        $display         = new Display(null, null, null, null);
+        $dualOrientation = true;
 
-        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
+        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation);
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);

@@ -11,13 +11,28 @@
 declare(strict_types = 1);
 namespace UaResult\Device;
 
+use BrowserDetector\Loader\LoaderInterface;
 use BrowserDetector\Loader\NotFoundException;
 use Psr\Log\LoggerInterface;
 use UaDeviceType\TypeLoader;
-use UaResult\Company\CompanyLoader;
 
 class DeviceFactory
 {
+    /**
+     * @var \BrowserDetector\Loader\LoaderInterface
+     */
+    private $loader;
+
+    /**
+     * BrowserFactory constructor.
+     *
+     * @param \BrowserDetector\Loader\LoaderInterface $loader
+     */
+    public function __construct(LoaderInterface $loader)
+    {
+        $this->loader = $loader;
+    }
+
     /**
      * @param \Psr\Log\LoggerInterface $logger
      * @param array                    $data
@@ -26,12 +41,9 @@ class DeviceFactory
      */
     public function fromArray(LoggerInterface $logger, array $data): DeviceInterface
     {
-        $deviceName       = isset($data['deviceName']) ? (string) $data['deviceName'] : null;
-        $marketingName    = isset($data['marketingName']) ? (string) $data['marketingName'] : null;
-        $pointingMethod   = isset($data['pointingMethod']) ? (string) $data['pointingMethod'] : null;
-        $resolutionWidth  = isset($data['resolutionWidth']) ? (int) $data['resolutionWidth'] : null;
-        $resolutionHeight = isset($data['resolutionHeight']) ? (int) $data['resolutionHeight'] : null;
-        $dualOrientation  = isset($data['dualOrientation']) ? (bool) $data['dualOrientation'] : false;
+        $deviceName      = isset($data['deviceName']) ? (string) $data['deviceName'] : null;
+        $marketingName   = isset($data['marketingName']) ? (string) $data['marketingName'] : null;
+        $dualOrientation = isset($data['dualOrientation']) ? (bool) $data['dualOrientation'] : false;
 
         $type = null;
         if (isset($data['type'])) {
@@ -45,7 +57,7 @@ class DeviceFactory
         $manufacturer = null;
         if (isset($data['manufacturer'])) {
             try {
-                $manufacturer = CompanyLoader::getInstance()->load((string) $data['manufacturer']);
+                $manufacturer = $this->loader->load((string) $data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
@@ -54,12 +66,21 @@ class DeviceFactory
         $brand = null;
         if (isset($data['brand'])) {
             try {
-                $brand = CompanyLoader::getInstance()->load((string) $data['brand']);
+                $brand = $this->loader->load((string) $data['brand']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
         }
 
-        return new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
+        $display = null;
+        if (isset($data['display'])) {
+            try {
+                $display = (new DisplayFactory())->fromArray($logger, $data['display']);
+            } catch (NotFoundException $e) {
+                $logger->info($e);
+            }
+        }
+
+        return new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation);
     }
 }

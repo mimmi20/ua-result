@@ -11,6 +11,7 @@
 declare(strict_types = 1);
 namespace UaResultTest\Result;
 
+use BrowserDetector\Loader\LoaderInterface;
 use JsonClass\Json;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
@@ -48,7 +49,36 @@ class ResultTest extends TestCase
      */
     public function testToArray(): void
     {
-        $logger = new NullLogger();
+        $logger = $this->getMockBuilder(NullLogger::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+            ->getMock();
+        $logger
+            ->expects(self::never())
+            ->method('debug');
+        $logger
+            ->expects(self::never())
+            ->method('info');
+        $logger
+            ->expects(self::never())
+            ->method('notice');
+        $logger
+            ->expects(self::never())
+            ->method('warning');
+        $logger
+            ->expects(self::never())
+            ->method('error');
+        $logger
+            ->expects(self::never())
+            ->method('critical');
+        $logger
+            ->expects(self::never())
+            ->method('alert');
+        $logger
+            ->expects(self::never())
+            ->method('emergency');
+
+        $loader = $this->createMock(LoaderInterface::class);
 
         $headers = ['x-test-header' => 'test-ua'];
         $device  = new Device(null, null);
@@ -58,7 +88,10 @@ class ResultTest extends TestCase
 
         $original = new Result($headers, $device, $os, $browser, $engine);
         $array    = $original->toArray();
-        $object   = (new ResultFactory())->fromArray($logger, $array);
+
+        /** @var NullLogger $logger */
+        /** @var LoaderInterface $loader */
+        $object = (new ResultFactory($loader))->fromArray($logger, $array);
 
         self::assertEquals($headers, $object->getHeaders());
         self::assertEquals($device, $object->getDevice());
@@ -72,7 +105,36 @@ class ResultTest extends TestCase
      */
     public function testToArrayWhenFromJson(): void
     {
-        $logger = new NullLogger();
+        $logger = $this->getMockBuilder(NullLogger::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+            ->getMock();
+        $logger
+            ->expects(self::never())
+            ->method('debug');
+        $logger
+            ->expects(self::never())
+            ->method('info');
+        $logger
+            ->expects(self::never())
+            ->method('notice');
+        $logger
+            ->expects(self::never())
+            ->method('warning');
+        $logger
+            ->expects(self::never())
+            ->method('error');
+        $logger
+            ->expects(self::never())
+            ->method('critical');
+        $logger
+            ->expects(self::never())
+            ->method('alert');
+        $logger
+            ->expects(self::never())
+            ->method('emergency');
+
+        $loader = $this->createMock(LoaderInterface::class);
 
         $headers = ['x-test-header' => 'test-ua'];
         $device  = new Device(null, null);
@@ -82,7 +144,10 @@ class ResultTest extends TestCase
 
         $original = new Result($headers, $device, $os, $browser, $engine);
         $array    = (new Json())->decode((new Json())->encode($original->toArray()), true);
-        $object   = (new ResultFactory())->fromArray($logger, $array);
+
+        /** @var NullLogger $logger */
+        /** @var LoaderInterface $loader */
+        $object = (new ResultFactory($loader))->fromArray($logger, $array);
 
         self::assertEquals($headers, $object->getHeaders());
         self::assertEquals($device, $object->getDevice());
@@ -96,7 +161,36 @@ class ResultTest extends TestCase
      */
     public function testFromEmptyArray(): void
     {
-        $logger = new NullLogger();
+        $logger = $this->getMockBuilder(NullLogger::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+            ->getMock();
+        $logger
+            ->expects(self::never())
+            ->method('debug');
+        $logger
+            ->expects(self::never())
+            ->method('info');
+        $logger
+            ->expects(self::never())
+            ->method('notice');
+        $logger
+            ->expects(self::never())
+            ->method('warning');
+        $logger
+            ->expects(self::never())
+            ->method('error');
+        $logger
+            ->expects(self::never())
+            ->method('critical');
+        $logger
+            ->expects(self::never())
+            ->method('alert');
+        $logger
+            ->expects(self::never())
+            ->method('emergency');
+
+        $loader = $this->createMock(LoaderInterface::class);
 
         $headers = [];
         $device  = new Device(null, null);
@@ -104,7 +198,9 @@ class ResultTest extends TestCase
         $browser = new Browser(null);
         $engine  = new Engine(null);
 
-        $object = (new ResultFactory())->fromArray($logger, []);
+        /** @var NullLogger $logger */
+        /** @var LoaderInterface $loader */
+        $object = (new ResultFactory($loader))->fromArray($logger, []);
 
         self::assertEquals($headers, $object->getHeaders());
         self::assertEquals($device, $object->getDevice());

@@ -17,3 +17,4 @@ parameters:
     - */tests/*/data/*
   ignoreErrors:
     - '~NotFoundException given~'
+    - '~MockObject~'
