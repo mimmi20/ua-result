@@ -22,16 +22,16 @@ class BrowserFactory
     /**
      * @var \BrowserDetector\Loader\LoaderInterface
      */
-    private $loader;
+    private $companyLoader;
 
     /**
      * BrowserFactory constructor.
      *
-     * @param \BrowserDetector\Loader\LoaderInterface $loader
+     * @param \BrowserDetector\Loader\LoaderInterface $companyLoader
      */
-    public function __construct(LoaderInterface $loader)
+    public function __construct(LoaderInterface $companyLoader)
     {
-        $this->loader = $loader;
+        $this->companyLoader = $companyLoader;
     }
 
     /**
@@ -63,7 +63,7 @@ class BrowserFactory
         $manufacturer = null;
         if (isset($data['manufacturer'])) {
             try {
-                $manufacturer = $this->loader->load((string) $data['manufacturer']);
+                $manufacturer = $this->companyLoader->load((string) $data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }

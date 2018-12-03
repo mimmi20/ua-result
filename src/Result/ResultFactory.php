@@ -15,6 +15,7 @@ use BrowserDetector\Loader\LoaderInterface;
 use Psr\Log\LoggerInterface;
 use UaResult\Browser\BrowserFactory;
 use UaResult\Device\DeviceFactory;
+use UaResult\Device\DisplayFactory;
 use UaResult\Engine\EngineFactory;
 use UaResult\Os\OsFactory;
 
@@ -50,7 +51,7 @@ class ResultFactory
 
         $device = null;
         if (isset($data['device'])) {
-            $device = (new DeviceFactory($this->loader))->fromArray($logger, (array) $data['device']);
+            $device = (new DeviceFactory($this->loader, new DisplayFactory()))->fromArray($logger, (array) $data['device']);
         }
 
         $browser = null;

@@ -20,6 +20,7 @@ use UaResult\Company\Company;
 use UaResult\Device\Device;
 use UaResult\Device\DeviceFactory;
 use UaResult\Device\Display;
+use UaResult\Device\DisplayFactory;
 
 class DeviceTest extends TestCase
 {
@@ -81,14 +82,20 @@ class DeviceTest extends TestCase
             ->expects(self::never())
             ->method('emergency');
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $companyLoader = $this->createMock(LoaderInterface::class);
+
+        $display = new Display(null, null, null, null);
+
+        $displayFactory = $this->getMockBuilder(DisplayFactory::class)->getMock();
+        $displayFactory->expects(self::once())
+            ->method('fromArray')
+            ->willReturn($display);
 
         $deviceName      = 'TestDevicename';
         $marketingName   = 'TestMarketingname';
         $manufacturer    = new Company('Unknown', null);
         $brand           = new Company('Unknown', null);
         $type            = new Unknown();
-        $display         = new Display(null, null, null, null);
         $dualOrientation = true;
 
         $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation);
@@ -96,8 +103,9 @@ class DeviceTest extends TestCase
         $array = $original->toArray();
 
         /** @var NullLogger $logger */
-        /** @var LoaderInterface $loader */
-        $object = (new DeviceFactory($loader))->fromArray($logger, $array);
+        /** @var LoaderInterface $companyLoader */
+        /** @var DisplayFactory $displayFactory */
+        $object = (new DeviceFactory($companyLoader, $displayFactory))->fromArray($logger, $array);
 
         self::assertSame($deviceName, $object->getDeviceName());
         self::assertSame($marketingName, $object->getMarketingName());
@@ -142,7 +150,8 @@ class DeviceTest extends TestCase
             ->expects(self::never())
             ->method('emergency');
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $companyLoader  = $this->createMock(LoaderInterface::class);
+        $displayFactory = $this->createMock(DisplayFactory::class);
 
         $manufacturer = new Company('Unknown', null);
         $brand        = new Company('Unknown', null);
@@ -150,8 +159,9 @@ class DeviceTest extends TestCase
         $display      = new Display(null, null, null, null);
 
         /** @var NullLogger $logger */
-        /** @var LoaderInterface $loader */
-        $object = (new DeviceFactory($loader))->fromArray($logger, []);
+        /** @var LoaderInterface $companyLoader */
+        /** @var DisplayFactory $displayFactory */
+        $object = (new DeviceFactory($companyLoader, $displayFactory))->fromArray($logger, []);
 
         self::assertNull($object->getDeviceName());
         self::assertNull($object->getMarketingName());
@@ -197,7 +207,8 @@ class DeviceTest extends TestCase
             ->expects(self::never())
             ->method('emergency');
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $companyLoader  = $this->createMock(LoaderInterface::class);
+        $displayFactory = $this->createMock(DisplayFactory::class);
 
         $name         = 'test';
         $type         = new Unknown();
@@ -211,8 +222,9 @@ class DeviceTest extends TestCase
         ];
 
         /** @var NullLogger $logger */
-        /** @var LoaderInterface $loader */
-        $object = (new DeviceFactory($loader))->fromArray($logger, $array);
+        /** @var LoaderInterface $companyLoader */
+        /** @var DisplayFactory $displayFactory */
+        $object = (new DeviceFactory($companyLoader, $displayFactory))->fromArray($logger, $array);
 
         self::assertSame($name, $object->getDeviceName());
         self::assertEquals($type, $object->getType());

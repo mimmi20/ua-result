@@ -78,7 +78,7 @@ class ResultTest extends TestCase
             ->expects(self::never())
             ->method('emergency');
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $companyLoader = $this->createMock(LoaderInterface::class);
 
         $headers = ['x-test-header' => 'test-ua'];
         $device  = new Device(null, null);
@@ -90,8 +90,8 @@ class ResultTest extends TestCase
         $array    = $original->toArray();
 
         /** @var NullLogger $logger */
-        /** @var LoaderInterface $loader */
-        $object = (new ResultFactory($loader))->fromArray($logger, $array);
+        /** @var LoaderInterface $companyLoader */
+        $object = (new ResultFactory($companyLoader))->fromArray($logger, $array);
 
         self::assertEquals($headers, $object->getHeaders());
         self::assertEquals($device, $object->getDevice());
@@ -134,7 +134,7 @@ class ResultTest extends TestCase
             ->expects(self::never())
             ->method('emergency');
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $companyLoader = $this->createMock(LoaderInterface::class);
 
         $headers = ['x-test-header' => 'test-ua'];
         $device  = new Device(null, null);
@@ -146,8 +146,8 @@ class ResultTest extends TestCase
         $array    = (new Json())->decode((new Json())->encode($original->toArray()), true);
 
         /** @var NullLogger $logger */
-        /** @var LoaderInterface $loader */
-        $object = (new ResultFactory($loader))->fromArray($logger, $array);
+        /** @var LoaderInterface $companyLoader */
+        $object = (new ResultFactory($companyLoader))->fromArray($logger, $array);
 
         self::assertEquals($headers, $object->getHeaders());
         self::assertEquals($device, $object->getDevice());
@@ -190,7 +190,7 @@ class ResultTest extends TestCase
             ->expects(self::never())
             ->method('emergency');
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $companyLoader = $this->createMock(LoaderInterface::class);
 
         $headers = [];
         $device  = new Device(null, null);
@@ -199,8 +199,8 @@ class ResultTest extends TestCase
         $engine  = new Engine(null);
 
         /** @var NullLogger $logger */
-        /** @var LoaderInterface $loader */
-        $object = (new ResultFactory($loader))->fromArray($logger, []);
+        /** @var LoaderInterface $companyLoader */
+        $object = (new ResultFactory($companyLoader))->fromArray($logger, []);
 
         self::assertEquals($headers, $object->getHeaders());
         self::assertEquals($device, $object->getDevice());

@@ -21,16 +21,23 @@ class DeviceFactory
     /**
      * @var \BrowserDetector\Loader\LoaderInterface
      */
-    private $loader;
+    private $companyLoader;
+
+    /**
+     * @var DisplayFactory
+     */
+    private $displayFactory;
 
     /**
      * BrowserFactory constructor.
      *
-     * @param \BrowserDetector\Loader\LoaderInterface $loader
+     * @param \BrowserDetector\Loader\LoaderInterface $companyLoader
+     * @param \UaResult\Device\DisplayFactory         $displayFactory
      */
-    public function __construct(LoaderInterface $loader)
+    public function __construct(LoaderInterface $companyLoader, DisplayFactory $displayFactory)
     {
-        $this->loader = $loader;
+        $this->companyLoader  = $companyLoader;
+        $this->displayFactory = $displayFactory;
     }
 
     /**
@@ -57,7 +64,7 @@ class DeviceFactory
         $manufacturer = null;
         if (isset($data['manufacturer'])) {
             try {
-                $manufacturer = $this->loader->load((string) $data['manufacturer']);
+                $manufacturer = $this->companyLoader->load((string) $data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
@@ -66,7 +73,7 @@ class DeviceFactory
         $brand = null;
         if (isset($data['brand'])) {
             try {
-                $brand = $this->loader->load((string) $data['brand']);
+                $brand = $this->companyLoader->load((string) $data['brand']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
@@ -75,7 +82,7 @@ class DeviceFactory
         $display = null;
         if (isset($data['display'])) {
             try {
-                $display = (new DisplayFactory())->fromArray($logger, $data['display']);
+                $display = $this->displayFactory->fromArray($logger, $data['display']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }

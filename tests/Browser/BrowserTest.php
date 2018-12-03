@@ -100,7 +100,7 @@ class BrowserTest extends TestCase
             ->expects(self::never())
             ->method('emergency');
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $companyLoader = $this->createMock(LoaderInterface::class);
 
         $name         = 'TestBrowser';
         $manufacturer = new Company('Unknown', null);
@@ -114,8 +114,8 @@ class BrowserTest extends TestCase
         $array = $original->toArray();
 
         /** @var NullLogger $logger */
-        /** @var LoaderInterface $loader */
-        $object = (new BrowserFactory($loader))->fromArray($logger, $array);
+        /** @var LoaderInterface $companyLoader */
+        $object = (new BrowserFactory($companyLoader))->fromArray($logger, $array);
 
         self::assertEquals($original, $object);
     }
@@ -154,14 +154,14 @@ class BrowserTest extends TestCase
             ->expects(self::never())
             ->method('emergency');
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $companyLoader = $this->createMock(LoaderInterface::class);
 
         $version = new Version();
         $type    = new Unknown();
 
         /** @var NullLogger $logger */
-        /** @var LoaderInterface $loader */
-        $object = (new BrowserFactory($loader))->fromArray($logger, []);
+        /** @var LoaderInterface $companyLoader */
+        $object = (new BrowserFactory($companyLoader))->fromArray($logger, []);
 
         self::assertNull($object->getName());
         self::assertEquals($version, $object->getVersion());
@@ -203,7 +203,7 @@ class BrowserTest extends TestCase
             ->expects(self::never())
             ->method('emergency');
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $companyLoader = $this->createMock(LoaderInterface::class);
 
         $name         = 'test';
         $version      = new Version();
@@ -217,8 +217,8 @@ class BrowserTest extends TestCase
         ];
 
         /** @var NullLogger $logger */
-        /** @var LoaderInterface $loader */
-        $object = (new BrowserFactory($loader))->fromArray($logger, $array);
+        /** @var LoaderInterface $companyLoader */
+        $object = (new BrowserFactory($companyLoader))->fromArray($logger, $array);
 
         self::assertSame($name, $object->getName());
         self::assertEquals($version, $object->getVersion());
@@ -243,5 +243,60 @@ class BrowserTest extends TestCase
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($version, $cloned->getVersion());
         self::assertNotSame($type, $cloned->getType());
+    }
+
+    /**
+     * @return void
+     */
+    public function testLoaderError(): void
+    {
+        $e = new NotFoundException('testmessage');
+
+        $logger = $this->getMockBuilder(NullLogger::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+            ->getMock();
+        $logger
+            ->expects(self::never())
+            ->method('debug');
+        $logger
+            ->expects(self::once())
+            ->method('info')
+            ->with($e);
+        $logger
+            ->expects(self::never())
+            ->method('notice');
+        $logger
+            ->expects(self::never())
+            ->method('warning');
+        $logger
+            ->expects(self::never())
+            ->method('error');
+        $logger
+            ->expects(self::never())
+            ->method('critical');
+        $logger
+            ->expects(self::never())
+            ->method('alert');
+        $logger
+            ->expects(self::never())
+            ->method('emergency');
+
+        $companyLoader = $this->getMockBuilder(LoaderInterface::class)->getMock();
+        $companyLoader->expects(self::once())
+            ->method('load')
+            ->willThrowException($e);
+
+        $name = 'test';
+
+        $array = [
+            'name' => $name,
+            'type' => 'browser',
+            'manufacturer' => 'unknown',
+        ];
+
+        /* @var NullLogger $logger */
+        /* @var LoaderInterface $companyLoader */
+        (new BrowserFactory($companyLoader))->fromArray($logger, $array);
     }
 }

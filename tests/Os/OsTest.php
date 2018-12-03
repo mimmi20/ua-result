@@ -12,6 +12,7 @@ declare(strict_types = 1);
 namespace UaResultTest\Os;
 
 use BrowserDetector\Loader\LoaderInterface;
+use BrowserDetector\Loader\NotFoundException;
 use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionFactory;
 use PHPUnit\Framework\TestCase;
@@ -76,7 +77,7 @@ class OsTest extends TestCase
             ->expects(self::never())
             ->method('emergency');
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $companyLoader = $this->createMock(LoaderInterface::class);
 
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
@@ -89,8 +90,8 @@ class OsTest extends TestCase
         $array = $original->toArray();
 
         /** @var NullLogger $logger */
-        /** @var LoaderInterface $loader */
-        $object = (new OsFactory($loader))->fromArray($logger, $array);
+        /** @var LoaderInterface $companyLoader */
+        $object = (new OsFactory($companyLoader))->fromArray($logger, $array);
 
         self::assertSame($name, $object->getName());
         self::assertSame($marketingName, $object->getMarketingName());
@@ -133,14 +134,14 @@ class OsTest extends TestCase
             ->expects(self::never())
             ->method('emergency');
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $companyLoader = $this->createMock(LoaderInterface::class);
 
         $manufacturer = new Company('Unknown', null);
         $version      = new Version();
 
         /** @var NullLogger $logger */
-        /** @var LoaderInterface $loader */
-        $object = (new OsFactory($loader))->fromArray($logger, []);
+        /** @var LoaderInterface $companyLoader */
+        $object = (new OsFactory($companyLoader))->fromArray($logger, []);
 
         self::assertNull($object->getName());
         self::assertNull($object->getMarketingName());
@@ -183,7 +184,7 @@ class OsTest extends TestCase
             ->expects(self::never())
             ->method('emergency');
 
-        $loader = $this->createMock(LoaderInterface::class);
+        $companyLoader = $this->createMock(LoaderInterface::class);
 
         $name         = 'test';
         $version      = new Version();
@@ -195,8 +196,8 @@ class OsTest extends TestCase
         ];
 
         /** @var NullLogger $logger */
-        /** @var LoaderInterface $loader */
-        $object = (new OsFactory($loader))->fromArray($logger, $array);
+        /** @var LoaderInterface $companyLoader */
+        $object = (new OsFactory($companyLoader))->fromArray($logger, $array);
 
         self::assertSame($name, $object->getName());
         self::assertEquals($version, $object->getVersion());
@@ -220,5 +221,59 @@ class OsTest extends TestCase
         self::assertNotSame($original, $cloned);
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($version, $cloned->getVersion());
+    }
+
+    /**
+     * @return void
+     */
+    public function testLoaderError(): void
+    {
+        $e = new NotFoundException('testmessage');
+
+        $logger = $this->getMockBuilder(NullLogger::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+            ->getMock();
+        $logger
+            ->expects(self::never())
+            ->method('debug');
+        $logger
+            ->expects(self::once())
+            ->method('info')
+            ->with($e);
+        $logger
+            ->expects(self::never())
+            ->method('notice');
+        $logger
+            ->expects(self::never())
+            ->method('warning');
+        $logger
+            ->expects(self::never())
+            ->method('error');
+        $logger
+            ->expects(self::never())
+            ->method('critical');
+        $logger
+            ->expects(self::never())
+            ->method('alert');
+        $logger
+            ->expects(self::never())
+            ->method('emergency');
+
+        $companyLoader = $this->getMockBuilder(LoaderInterface::class)->getMock();
+        $companyLoader->expects(self::once())
+            ->method('load')
+            ->willThrowException($e);
+
+        $name = 'test';
+
+        $array = [
+            'name' => $name,
+            'manufacturer' => 'unknown',
+        ];
+
+        /* @var NullLogger $logger */
+        /* @var LoaderInterface $companyLoader */
+        (new OsFactory($companyLoader))->fromArray($logger, $array);
     }
 }
