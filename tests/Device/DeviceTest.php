@@ -253,4 +253,67 @@ class DeviceTest extends TestCase
         self::assertNotSame($brand, $cloned->getBrand());
         self::assertNotSame($type, $cloned->getType());
     }
+
+    /**
+     * @return void
+     */
+    public function testLoaderError(): void
+    {
+        $e = new NotFoundException('testmessage');
+
+        $logger = $this->getMockBuilder(NullLogger::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+            ->getMock();
+        $logger
+            ->expects(self::never())
+            ->method('debug');
+        $logger
+            ->expects(self::exactly(3))
+            ->method('info')
+            ->with($e);
+        $logger
+            ->expects(self::never())
+            ->method('notice');
+        $logger
+            ->expects(self::never())
+            ->method('warning');
+        $logger
+            ->expects(self::never())
+            ->method('error');
+        $logger
+            ->expects(self::never())
+            ->method('critical');
+        $logger
+            ->expects(self::never())
+            ->method('alert');
+        $logger
+            ->expects(self::never())
+            ->method('emergency');
+
+        $companyLoader = $this->getMockBuilder(LoaderInterface::class)->getMock();
+        $companyLoader->expects(self::exactly(2))
+            ->method('load')
+            ->willThrowException($e);
+
+        $displayFactory = $this->getMockBuilder(DisplayFactory::class)->getMock();
+        $displayFactory->expects(self::once())
+            ->method('fromArray')
+            ->willThrowException($e);
+
+        $name = 'test';
+
+        $array = [
+            'deviceName' => $name,
+            'type' => 'unknown',
+            'manufacturer' => 'unknown',
+            'brand' => 'unknown',
+            'display' => ['unknown'],
+        ];
+
+        /* @var NullLogger $logger */
+        /* @var LoaderInterface $companyLoader */
+        /* @var DisplayFactory $displayFactory */
+        (new DeviceFactory($companyLoader, $displayFactory))->fromArray($logger, $array);
+    }
 }

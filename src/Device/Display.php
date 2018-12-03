@@ -62,6 +62,16 @@ class Display implements DisplayInterface
     }
 
     /**
+     * clones the actual object
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        $this->type = clone $this->type;
+    }
+
+    /**
      * Returns the Width of the Display
      *
      * @return int|null
