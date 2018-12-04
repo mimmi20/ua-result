@@ -45,27 +45,27 @@ class ResultFactory
     public function fromArray(LoggerInterface $logger, array $data): Result
     {
         $headers = [];
-        if (isset($data['headers'])) {
+        if (array_key_exists('headers', $data)) {
             $headers = (array) $data['headers'];
         }
 
         $device = null;
-        if (isset($data['device'])) {
+        if (array_key_exists('device', $data)) {
             $device = (new DeviceFactory($this->loader, new DisplayFactory()))->fromArray($logger, (array) $data['device']);
         }
 
         $browser = null;
-        if (isset($data['browser'])) {
+        if (array_key_exists('browser', $data)) {
             $browser = (new BrowserFactory($this->loader))->fromArray($logger, (array) $data['browser']);
         }
 
         $os = null;
-        if (isset($data['os'])) {
+        if (array_key_exists('os', $data)) {
             $os = (new OsFactory($this->loader))->fromArray($logger, (array) $data['os']);
         }
 
         $engine = null;
-        if (isset($data['engine'])) {
+        if (array_key_exists('engine', $data)) {
             $engine = (new EngineFactory($this->loader))->fromArray($logger, (array) $data['engine']);
         }
 

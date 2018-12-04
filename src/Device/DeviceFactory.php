@@ -48,41 +48,41 @@ class DeviceFactory
      */
     public function fromArray(LoggerInterface $logger, array $data): DeviceInterface
     {
-        $deviceName      = isset($data['deviceName']) ? (string) $data['deviceName'] : null;
-        $marketingName   = isset($data['marketingName']) ? (string) $data['marketingName'] : null;
-        $dualOrientation = isset($data['dualOrientation']) ? (bool) $data['dualOrientation'] : false;
+        $deviceName      = array_key_exists('deviceName', $data) ? $data['deviceName'] : null;
+        $marketingName   = array_key_exists('marketingName', $data) ? $data['marketingName'] : null;
+        $dualOrientation = array_key_exists('dualOrientation', $data) ? $data['dualOrientation'] : false;
 
         $type = null;
-        if (isset($data['type'])) {
+        if (array_key_exists('type', $data)) {
             try {
-                $type = (new TypeLoader())->load((string) $data['type']);
+                $type = (new TypeLoader())->load($data['type']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
         }
 
         $manufacturer = null;
-        if (isset($data['manufacturer'])) {
+        if (array_key_exists('manufacturer', $data)) {
             try {
-                $manufacturer = $this->companyLoader->load((string) $data['manufacturer']);
+                $manufacturer = $this->companyLoader->load($data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
         }
 
         $brand = null;
-        if (isset($data['brand'])) {
+        if (array_key_exists('brand', $data)) {
             try {
-                $brand = $this->companyLoader->load((string) $data['brand']);
+                $brand = $this->companyLoader->load($data['brand']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
         }
 
         $display = null;
-        if (isset($data['display'])) {
+        if (array_key_exists('display', $data)) {
             try {
-                $display = $this->displayFactory->fromArray($logger, $data['display']);
+                $display = $this->displayFactory->fromArray($logger, (array) $data['display']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }

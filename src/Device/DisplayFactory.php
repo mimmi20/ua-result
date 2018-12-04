@@ -25,14 +25,14 @@ class DisplayFactory
      */
     public function fromArray(LoggerInterface $logger, array $data): DisplayInterface
     {
-        $width  = array_key_exists('width', $data) ? (int) $data['width'] : null;
-        $height = array_key_exists('height', $data) ? (int) $data['height'] : null;
-        $touch  = array_key_exists('touch', $data) ? (bool) $data['touch'] : null;
+        $width  = array_key_exists('width', $data) ? $data['width'] : null;
+        $height = array_key_exists('height', $data) ? $data['height'] : null;
+        $touch  = array_key_exists('touch', $data) ? $data['touch'] : null;
 
         $type = null;
         if (isset($data['type'])) {
             try {
-                $type = (new TypeLoader())->load((string) $data['type']);
+                $type = (new TypeLoader())->load($data['type']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }

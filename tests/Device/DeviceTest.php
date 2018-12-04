@@ -102,6 +102,21 @@ class DeviceTest extends TestCase
 
         $array = $original->toArray();
 
+        self::assertArrayHasKey('deviceName', $array);
+        self::assertInternalType('string', $array['deviceName']);
+        self::assertArrayHasKey('marketingName', $array);
+        self::assertInternalType('string', $array['marketingName']);
+        self::assertArrayHasKey('manufacturer', $array);
+        self::assertInternalType('string', $array['manufacturer']);
+        self::assertArrayHasKey('brand', $array);
+        self::assertInternalType('string', $array['brand']);
+        self::assertArrayHasKey('dualOrientation', $array);
+        self::assertInternalType('bool', $array['dualOrientation']);
+        self::assertArrayHasKey('type', $array);
+        self::assertInternalType('string', $array['type']);
+        self::assertArrayHasKey('display', $array);
+        self::assertInternalType('array', $array['display']);
+
         /** @var NullLogger $logger */
         /** @var LoaderInterface $companyLoader */
         /** @var DisplayFactory $displayFactory */

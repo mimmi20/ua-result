@@ -42,28 +42,28 @@ class BrowserFactory
      */
     public function fromArray(LoggerInterface $logger, array $data): BrowserInterface
     {
-        $name  = isset($data['name']) ? (string) $data['name'] : null;
-        $modus = isset($data['modus']) ? (string) $data['modus'] : null;
-        $bits  = isset($data['bits']) ? (int) $data['bits'] : null;
+        $name  = array_key_exists('name', $data) ? $data['name'] : null;
+        $modus = array_key_exists('modus', $data) ? $data['modus'] : null;
+        $bits  = array_key_exists('bits', $data) ? $data['bits'] : null;
 
         $type = null;
-        if (isset($data['type'])) {
+        if (array_key_exists('type', $data)) {
             try {
-                $type = (new TypeLoader())->load((string) $data['type']);
+                $type = (new TypeLoader())->load($data['type']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }
         }
 
         $version = null;
-        if (isset($data['version'])) {
-            $version = (new VersionFactory())->set((string) $data['version']);
+        if (array_key_exists('version', $data)) {
+            $version = (new VersionFactory())->set($data['version']);
         }
 
         $manufacturer = null;
-        if (isset($data['manufacturer'])) {
+        if (array_key_exists('manufacturer', $data)) {
             try {
-                $manufacturer = $this->companyLoader->load((string) $data['manufacturer']);
+                $manufacturer = $this->companyLoader->load($data['manufacturer']);
             } catch (NotFoundException $e) {
                 $logger->info($e);
             }

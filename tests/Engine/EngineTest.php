@@ -83,6 +83,13 @@ class EngineTest extends TestCase
 
         $array = $original->toArray();
 
+        self::assertArrayHasKey('name', $array);
+        self::assertInternalType('string', $array['name']);
+        self::assertArrayHasKey('version', $array);
+        self::assertInternalType('string', $array['version']);
+        self::assertArrayHasKey('manufacturer', $array);
+        self::assertInternalType('string', $array['manufacturer']);
+
         /** @var NullLogger $logger */
         /** @var LoaderInterface $companyLoader */
         $object = (new EngineFactory($companyLoader))->fromArray($logger, $array);

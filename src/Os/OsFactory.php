@@ -41,17 +41,17 @@ class OsFactory
      */
     public function fromArray(LoggerInterface $logger, array $data): OsInterface
     {
-        $name          = isset($data['name']) ? $data['name'] : null;
-        $marketingName = isset($data['marketingName']) ? $data['marketingName'] : null;
-        $bits          = isset($data['bits']) ? $data['bits'] : null;
+        $name          = array_key_exists('name', $data) ? $data['name'] : null;
+        $marketingName = array_key_exists('marketingName', $data) ? $data['marketingName'] : null;
+        $bits          = array_key_exists('bits', $data) ? $data['bits'] : null;
 
         $version = null;
-        if (isset($data['version'])) {
+        if (array_key_exists('version', $data)) {
             $version = (new VersionFactory())->set($data['version']);
         }
 
         $manufacturer = null;
-        if (isset($data['manufacturer'])) {
+        if (array_key_exists('manufacturer', $data)) {
             try {
                 $manufacturer = $this->companyLoader->load($data['manufacturer']);
             } catch (NotFoundException $e) {

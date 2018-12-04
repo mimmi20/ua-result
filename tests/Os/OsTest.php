@@ -89,6 +89,16 @@ class OsTest extends TestCase
 
         $array = $original->toArray();
 
+        self::assertArrayHasKey('name', $array);
+        self::assertInternalType('string', $array['name']);
+        self::assertArrayHasKey('marketingName', $array);
+        self::assertInternalType('string', $array['marketingName']);
+        self::assertArrayHasKey('version', $array);
+        self::assertInternalType('string', $array['version']);
+        self::assertArrayHasKey('manufacturer', $array);
+        self::assertInternalType('string', $array['manufacturer']);
+        self::assertArrayHasKey('bits', $array);
+
         /** @var NullLogger $logger */
         /** @var LoaderInterface $companyLoader */
         $object = (new OsFactory($companyLoader))->fromArray($logger, $array);

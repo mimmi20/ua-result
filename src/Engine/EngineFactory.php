@@ -41,15 +41,15 @@ class EngineFactory
      */
     public function fromArray(LoggerInterface $logger, array $data): EngineInterface
     {
-        $name = isset($data['name']) ? $data['name'] : null;
+        $name = array_key_exists('name', $data) ? $data['name'] : null;
 
         $version = null;
-        if (isset($data['version'])) {
+        if (array_key_exists('version', $data)) {
             $version = (new VersionFactory())->set($data['version']);
         }
 
         $manufacturer = null;
-        if (isset($data['manufacturer'])) {
+        if (array_key_exists('manufacturer', $data)) {
             try {
                 $manufacturer = $this->companyLoader->load($data['manufacturer']);
             } catch (NotFoundException $e) {

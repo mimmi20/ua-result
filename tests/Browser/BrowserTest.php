@@ -113,6 +113,17 @@ class BrowserTest extends TestCase
 
         $array = $original->toArray();
 
+        self::assertArrayHasKey('name', $array);
+        self::assertInternalType('string', $array['name']);
+        self::assertArrayHasKey('modus', $array);
+        self::assertArrayHasKey('version', $array);
+        self::assertInternalType('string', $array['version']);
+        self::assertArrayHasKey('manufacturer', $array);
+        self::assertInternalType('string', $array['manufacturer']);
+        self::assertArrayHasKey('bits', $array);
+        self::assertArrayHasKey('type', $array);
+        self::assertInternalType('string', $array['type']);
+
         /** @var NullLogger $logger */
         /** @var LoaderInterface $companyLoader */
         $object = (new BrowserFactory($companyLoader))->fromArray($logger, $array);

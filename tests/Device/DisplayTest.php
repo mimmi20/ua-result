@@ -81,6 +81,11 @@ class DisplayTest extends TestCase
 
         $array = $original->toArray();
 
+        self::assertArrayHasKey('width', $array);
+        self::assertArrayHasKey('height', $array);
+        self::assertArrayHasKey('touch', $array);
+        self::assertArrayHasKey('type', $array);
+
         /** @var NullLogger $logger */
         $object = (new DisplayFactory())->fromArray($logger, $array);
 
