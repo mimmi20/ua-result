@@ -14,7 +14,7 @@ namespace UaResultTest\Company;
 use PHPUnit\Framework\TestCase;
 use UaResult\Company\Company;
 
-class CompanyTest extends TestCase
+final class CompanyTest extends TestCase
 {
     /**
      * @return void

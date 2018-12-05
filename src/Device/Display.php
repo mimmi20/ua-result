@@ -12,9 +12,8 @@ declare(strict_types = 1);
 namespace UaResult\Device;
 
 use UaResult\Device\DisplayType\DisplayTypeInterface;
-use UaResult\Device\DisplayType\Unknown;
 
-class Display implements DisplayInterface
+final class Display implements DisplayInterface
 {
     /**
      * @var int|null
@@ -39,26 +38,21 @@ class Display implements DisplayInterface
     /**
      * Display constructor.
      *
-     * @param int|null                                               $width
-     * @param int|null                                               $height
-     * @param bool|null                                              $touch
-     * @param \UaResult\Device\DisplayType\DisplayTypeInterface|null $type
+     * @param int|null                                          $width
+     * @param int|null                                          $height
+     * @param bool|null                                         $touch
+     * @param \UaResult\Device\DisplayType\DisplayTypeInterface $type
      */
     public function __construct(
         ?int $width,
         ?int $height,
         ?bool $touch,
-        ?DisplayTypeInterface $type
+        DisplayTypeInterface $type
     ) {
         $this->width  = $width;
         $this->height = $height;
         $this->touch  = $touch;
-
-        if (null === $type) {
-            $this->type = new Unknown();
-        } else {
-            $this->type = $type;
-        }
+        $this->type   = $type;
     }
 
     /**
@@ -104,9 +98,9 @@ class Display implements DisplayInterface
     /**
      * Returns the display type
      *
-     * @return \UaResult\Device\DisplayType\DisplayTypeInterface|null
+     * @return \UaResult\Device\DisplayType\DisplayTypeInterface
      */
-    public function getType(): ?DisplayTypeInterface
+    public function getType(): DisplayTypeInterface
     {
         return $this->type;
     }

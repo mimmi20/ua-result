@@ -11,12 +11,10 @@
 declare(strict_types = 1);
 namespace UaResult\Os;
 
-use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionInterface;
-use UaResult\Company\Company;
 use UaResult\Company\CompanyInterface;
 
-class Os implements OsInterface
+final class Os implements OsInterface
 {
     /**
      * @var string|null
@@ -44,34 +42,24 @@ class Os implements OsInterface
     private $bits;
 
     /**
-     * @param string|null                                    $name
-     * @param string|null                                    $marketingName
-     * @param \UaResult\Company\CompanyInterface|null        $manufacturer
-     * @param \BrowserDetector\Version\VersionInterface|null $version
-     * @param int|null                                       $bits
+     * @param string|null                               $name
+     * @param string|null                               $marketingName
+     * @param \UaResult\Company\CompanyInterface        $manufacturer
+     * @param \BrowserDetector\Version\VersionInterface $version
+     * @param int|null                                  $bits
      */
     public function __construct(
-        ?string $name = null,
-        ?string $marketingName = null,
-        ?CompanyInterface $manufacturer = null,
-        ?VersionInterface $version = null,
-        ?int $bits = null
+        ?string $name,
+        ?string $marketingName,
+        CompanyInterface $manufacturer,
+        VersionInterface $version,
+        ?int $bits
     ) {
         $this->name          = $name;
         $this->marketingName = $marketingName;
+        $this->manufacturer  = $manufacturer;
+        $this->version       = $version;
         $this->bits          = $bits;
-
-        if (null === $manufacturer) {
-            $this->manufacturer = new Company('Unknown', null);
-        } else {
-            $this->manufacturer = $manufacturer;
-        }
-
-        if (null === $version) {
-            $this->version = new Version();
-        } else {
-            $this->version = $version;
-        }
     }
 
     /**

@@ -14,15 +14,7 @@ namespace UaResult\Device\DisplayType;
 use BrowserDetector\Loader\LoaderInterface;
 use BrowserDetector\Loader\NotFoundException;
 
-/**
- * Browser detection class
- *
- * @category  BrowserDetector
- *
- * @copyright 2012-2016 Thomas Mueller
- * @license   http://www.opensource.org/licenses/MIT MIT License
- */
-class TypeLoader implements LoaderInterface
+final class TypeLoader implements LoaderInterface
 {
     private const OPTIONS = [
         Cga::TYPE => Cga::class,

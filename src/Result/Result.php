@@ -20,7 +20,7 @@ use UaResult\Engine\EngineInterface;
 use UaResult\Os\Os;
 use UaResult\Os\OsInterface;
 
-class Result implements ResultInterface
+final class Result implements ResultInterface
 {
     /**
      * @var string[]
@@ -58,36 +58,16 @@ class Result implements ResultInterface
      */
     public function __construct(
         array $headers,
-        DeviceInterface $device = null,
-        OsInterface $os = null,
-        BrowserInterface $browser = null,
-        EngineInterface $engine = null
+        DeviceInterface $device,
+        OsInterface $os,
+        BrowserInterface $browser,
+        EngineInterface $engine
     ) {
         $this->headers = $headers;
-
-        if (null === $device) {
-            $this->device = new Device(null, null);
-        } else {
-            $this->device = $device;
-        }
-
-        if (null === $os) {
-            $this->os = new Os(null, null);
-        } else {
-            $this->os = $os;
-        }
-
-        if (null === $browser) {
-            $this->browser = new Browser(null);
-        } else {
-            $this->browser = $browser;
-        }
-
-        if (null === $engine) {
-            $this->engine = new Engine(null);
-        } else {
-            $this->engine = $engine;
-        }
+        $this->device  = $device;
+        $this->os      = $os;
+        $this->browser = $browser;
+        $this->engine  = $engine;
     }
 
     /**

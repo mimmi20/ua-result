@@ -14,7 +14,7 @@ namespace UaResultTest\Device\DisplayType;
 use PHPUnit\Framework\TestCase;
 use UaResult\Device\DisplayType\Unknown;
 
-class UnknownTest extends TestCase
+final class UnknownTest extends TestCase
 {
     /**
      * tests the constructor and the getter

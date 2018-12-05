@@ -52,6 +52,16 @@ interface DeviceInterface
     public function getType(): TypeInterface;
 
     /**
+     * @return int
+     */
+    public function getSimCount(): int;
+
+    /**
+     * @return \UaResult\Device\MarketInterface
+     */
+    public function getMarket(): MarketInterface;
+
+    /**
      * @return array
      */
     public function toArray(): array;

@@ -11,18 +11,14 @@
 declare(strict_types = 1);
 namespace UaResultTest\Device;
 
-use BrowserDetector\Loader\LoaderInterface;
-use BrowserDetector\Loader\NotFoundException;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
-use UaDeviceType\Unknown;
-use UaResult\Company\Company;
+use UaDeviceType\TypeInterface;
+use UaResult\Company\CompanyInterface;
 use UaResult\Device\Device;
-use UaResult\Device\DeviceFactory;
-use UaResult\Device\Display;
-use UaResult\Device\DisplayFactory;
+use UaResult\Device\DisplayInterface;
+use UaResult\Device\MarketInterface;
 
-class DeviceTest extends TestCase
+final class DeviceTest extends TestCase
 {
     /**
      * @return void
@@ -31,21 +27,30 @@ class DeviceTest extends TestCase
     {
         $deviceName      = 'TestDevicename';
         $marketingName   = 'TestMarketingname';
-        $manufacturer    = new Company('Unknown', null);
-        $brand           = new Company('Unknown', null);
-        $type            = new Unknown();
-        $display         = new Display(null, null, null, null);
+        $manufacturer    = $this->createMock(CompanyInterface::class);
+        $brand           = $this->createMock(CompanyInterface::class);
+        $type            = $this->createMock(TypeInterface::class);
+        $display         = $this->createMock(DisplayInterface::class);
         $dualOrientation = true;
+        $simCount        = 0;
+        $market          = $this->createMock(MarketInterface::class);
 
-        $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation);
+        /** @var CompanyInterface $manufacturer */
+        /** @var CompanyInterface $brand */
+        /** @var TypeInterface $type */
+        /** @var DisplayInterface $display */
+        /** @var MarketInterface $market */
+        $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation, $simCount, $market);
 
         self::assertSame($deviceName, $object->getDeviceName());
         self::assertSame($marketingName, $object->getMarketingName());
         self::assertSame($manufacturer, $object->getManufacturer());
         self::assertSame($brand, $object->getBrand());
         self::assertSame($type, $object->getType());
-        self::assertEquals($display, $object->getDisplay());
+        self::assertSame($display, $object->getDisplay());
         self::assertSame($dualOrientation, $object->getDualOrientation());
+        self::assertSame($simCount, $object->getSimCount());
+        self::assertSame($market, $object->getMarket());
     }
 
     /**
@@ -53,52 +58,22 @@ class DeviceTest extends TestCase
      */
     public function testToarray(): void
     {
-        $logger = $this->getMockBuilder(NullLogger::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
-            ->getMock();
-        $logger
-            ->expects(self::never())
-            ->method('debug');
-        $logger
-            ->expects(self::never())
-            ->method('info');
-        $logger
-            ->expects(self::never())
-            ->method('notice');
-        $logger
-            ->expects(self::never())
-            ->method('warning');
-        $logger
-            ->expects(self::never())
-            ->method('error');
-        $logger
-            ->expects(self::never())
-            ->method('critical');
-        $logger
-            ->expects(self::never())
-            ->method('alert');
-        $logger
-            ->expects(self::never())
-            ->method('emergency');
-
-        $companyLoader = $this->createMock(LoaderInterface::class);
-
-        $display = new Display(null, null, null, null);
-
-        $displayFactory = $this->getMockBuilder(DisplayFactory::class)->getMock();
-        $displayFactory->expects(self::once())
-            ->method('fromArray')
-            ->willReturn($display);
-
         $deviceName      = 'TestDevicename';
         $marketingName   = 'TestMarketingname';
-        $manufacturer    = new Company('Unknown', null);
-        $brand           = new Company('Unknown', null);
-        $type            = new Unknown();
+        $manufacturer    = $this->createMock(CompanyInterface::class);
+        $brand           = $this->createMock(CompanyInterface::class);
+        $type            = $this->createMock(TypeInterface::class);
+        $display         = $this->createMock(DisplayInterface::class);
         $dualOrientation = true;
+        $simCount        = 0;
+        $market          = $this->createMock(MarketInterface::class);
 
-        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation);
+        /** @var CompanyInterface $manufacturer */
+        /** @var CompanyInterface $brand */
+        /** @var TypeInterface $type */
+        /** @var DisplayInterface $display */
+        /** @var MarketInterface $market */
+        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation, $simCount, $market);
 
         $array = $original->toArray();
 
@@ -116,135 +91,10 @@ class DeviceTest extends TestCase
         self::assertInternalType('string', $array['type']);
         self::assertArrayHasKey('display', $array);
         self::assertInternalType('array', $array['display']);
-
-        /** @var NullLogger $logger */
-        /** @var LoaderInterface $companyLoader */
-        /** @var DisplayFactory $displayFactory */
-        $object = (new DeviceFactory($companyLoader, $displayFactory))->fromArray($logger, $array);
-
-        self::assertSame($deviceName, $object->getDeviceName());
-        self::assertSame($marketingName, $object->getMarketingName());
-        self::assertEquals($manufacturer, $object->getManufacturer());
-        self::assertEquals($brand, $object->getBrand());
-        self::assertEquals($type, $object->getType());
-        self::assertEquals($display, $object->getDisplay());
-        self::assertSame($dualOrientation, $object->getDualOrientation());
-    }
-
-    /**
-     * @return void
-     */
-    public function testFromEmptyArray(): void
-    {
-        $logger = $this->getMockBuilder(NullLogger::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
-            ->getMock();
-        $logger
-            ->expects(self::never())
-            ->method('debug');
-        $logger
-            ->expects(self::never())
-            ->method('info');
-        $logger
-            ->expects(self::never())
-            ->method('notice');
-        $logger
-            ->expects(self::never())
-            ->method('warning');
-        $logger
-            ->expects(self::never())
-            ->method('error');
-        $logger
-            ->expects(self::never())
-            ->method('critical');
-        $logger
-            ->expects(self::never())
-            ->method('alert');
-        $logger
-            ->expects(self::never())
-            ->method('emergency');
-
-        $companyLoader  = $this->createMock(LoaderInterface::class);
-        $displayFactory = $this->createMock(DisplayFactory::class);
-
-        $manufacturer = new Company('Unknown', null);
-        $brand        = new Company('Unknown', null);
-        $type         = new Unknown();
-        $display      = new Display(null, null, null, null);
-
-        /** @var NullLogger $logger */
-        /** @var LoaderInterface $companyLoader */
-        /** @var DisplayFactory $displayFactory */
-        $object = (new DeviceFactory($companyLoader, $displayFactory))->fromArray($logger, []);
-
-        self::assertNull($object->getDeviceName());
-        self::assertNull($object->getMarketingName());
-        self::assertEquals($manufacturer, $object->getManufacturer());
-        self::assertEquals($brand, $object->getBrand());
-        self::assertEquals($type, $object->getType());
-        self::assertEquals($display, $object->getDisplay());
-        self::assertFalse($object->getDualOrientation());
-    }
-
-    /**
-     * @return void
-     */
-    public function testFromarrayWithInvalidType(): void
-    {
-        $logger = $this->getMockBuilder(NullLogger::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
-            ->getMock();
-        $logger
-            ->expects(self::never())
-            ->method('debug');
-        $logger
-            ->expects(self::once())
-            ->method('info')
-            ->with(new NotFoundException('the device type with key "does-not-exist" was not found'));
-        $logger
-            ->expects(self::never())
-            ->method('notice');
-        $logger
-            ->expects(self::never())
-            ->method('warning');
-        $logger
-            ->expects(self::never())
-            ->method('error');
-        $logger
-            ->expects(self::never())
-            ->method('critical');
-        $logger
-            ->expects(self::never())
-            ->method('alert');
-        $logger
-            ->expects(self::never())
-            ->method('emergency');
-
-        $companyLoader  = $this->createMock(LoaderInterface::class);
-        $displayFactory = $this->createMock(DisplayFactory::class);
-
-        $name         = 'test';
-        $type         = new Unknown();
-        $manufacturer = new Company('Unknown', null);
-
-        $array = [
-            'deviceName' => $name,
-            'type' => 'does-not-exist',
-            'manufacturer' => 'unknown',
-            'brand' => 'does-not-exist',
-        ];
-
-        /** @var NullLogger $logger */
-        /** @var LoaderInterface $companyLoader */
-        /** @var DisplayFactory $displayFactory */
-        $object = (new DeviceFactory($companyLoader, $displayFactory))->fromArray($logger, $array);
-
-        self::assertSame($name, $object->getDeviceName());
-        self::assertEquals($type, $object->getType());
-        self::assertEquals($manufacturer, $object->getManufacturer());
-        self::assertEquals($manufacturer, $object->getBrand());
+        self::assertArrayHasKey('simCount', $array);
+        self::assertInternalType('int', $array['simCount']);
+        self::assertArrayHasKey('market', $array);
+        self::assertInternalType('array', $array['market']);
     }
 
     /**
@@ -254,81 +104,26 @@ class DeviceTest extends TestCase
     {
         $deviceName      = 'TestDevicename';
         $marketingName   = 'TestMarketingname';
-        $manufacturer    = new Company('Unknown', null);
-        $brand           = new Company('Unknown', null);
-        $type            = new Unknown();
-        $display         = new Display(null, null, null, null);
+        $manufacturer    = $this->createMock(CompanyInterface::class);
+        $brand           = $this->createMock(CompanyInterface::class);
+        $type            = $this->createMock(TypeInterface::class);
+        $display         = $this->createMock(DisplayInterface::class);
         $dualOrientation = true;
+        $simCount        = 0;
+        $market          = $this->createMock(MarketInterface::class);
 
-        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation);
+        /** @var CompanyInterface $manufacturer */
+        /** @var CompanyInterface $brand */
+        /** @var TypeInterface $type */
+        /** @var DisplayInterface $display */
+        /** @var MarketInterface $market */
+        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation, $simCount, $market);
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($brand, $cloned->getBrand());
         self::assertNotSame($type, $cloned->getType());
-    }
-
-    /**
-     * @return void
-     */
-    public function testLoaderError(): void
-    {
-        $e = new NotFoundException('testmessage');
-
-        $logger = $this->getMockBuilder(NullLogger::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
-            ->getMock();
-        $logger
-            ->expects(self::never())
-            ->method('debug');
-        $logger
-            ->expects(self::exactly(3))
-            ->method('info')
-            ->with($e);
-        $logger
-            ->expects(self::never())
-            ->method('notice');
-        $logger
-            ->expects(self::never())
-            ->method('warning');
-        $logger
-            ->expects(self::never())
-            ->method('error');
-        $logger
-            ->expects(self::never())
-            ->method('critical');
-        $logger
-            ->expects(self::never())
-            ->method('alert');
-        $logger
-            ->expects(self::never())
-            ->method('emergency');
-
-        $companyLoader = $this->getMockBuilder(LoaderInterface::class)->getMock();
-        $companyLoader->expects(self::exactly(2))
-            ->method('load')
-            ->willThrowException($e);
-
-        $displayFactory = $this->getMockBuilder(DisplayFactory::class)->getMock();
-        $displayFactory->expects(self::once())
-            ->method('fromArray')
-            ->willThrowException($e);
-
-        $name = 'test';
-
-        $array = [
-            'deviceName' => $name,
-            'type' => 'unknown',
-            'manufacturer' => 'unknown',
-            'brand' => 'unknown',
-            'display' => ['unknown'],
-        ];
-
-        /* @var NullLogger $logger */
-        /* @var LoaderInterface $companyLoader */
-        /* @var DisplayFactory $displayFactory */
-        (new DeviceFactory($companyLoader, $displayFactory))->fromArray($logger, $array);
+        self::assertNotSame($market, $cloned->getMarket());
     }
 }

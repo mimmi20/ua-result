@@ -11,12 +11,6 @@
 declare(strict_types = 1);
 namespace UaResult\Company;
 
-/**
- * @category  ua-result
- *
- * @copyright 2015, 2016 Thomas Mueller
- * @license   http://www.opensource.org/licenses/MIT MIT License
- */
 interface CompanyInterface
 {
     /**

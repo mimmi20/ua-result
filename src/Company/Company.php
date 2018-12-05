@@ -11,13 +11,7 @@
 declare(strict_types = 1);
 namespace UaResult\Company;
 
-/**
- * @category  ua-result
- *
- * @copyright 2015, 2016 Thomas Mueller
- * @license   http://www.opensource.org/licenses/MIT MIT License
- */
-class Company implements CompanyInterface
+final class Company implements CompanyInterface
 {
     /**
      * the type name of the device
@@ -45,7 +39,7 @@ class Company implements CompanyInterface
      * @param string|null $name
      * @param string|null $brandname
      */
-    public function __construct(string $type, ?string $name = null, ?string $brandname = null)
+    public function __construct(string $type, ?string $name, ?string $brandname)
     {
         $this->type      = $type;
         $this->name      = $name;
