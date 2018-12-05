@@ -26,14 +26,16 @@
     "php": "^7.1",
     "ext-json": "*",
     "mimmi20/browser-detector-version": "~5.2.0",
-    "mimmi20/ua-browser-type": "~6.0.2",
-    "mimmi20/ua-device-type": "~6.0.1",
+    "mimmi20/ua-browser-type": "~7.0.0",
+    "mimmi20/ua-device-type": "~7.0.0",
+    "mimmi20/ua-display-size": "~1.0.0",
     "psr/log": "^1.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.13",
     "infection/infection": "^0.11.2",
     "localheinz/composer-normalize": "^1.0.0",
+    "localheinz/phpstan-rules": "^0.4",
     "mimmi20/json-class": "~1.0.0",
     "pepakriz/phpstan-exception-rules": "^0.3",
     "phpstan/phpstan": "^0.10",

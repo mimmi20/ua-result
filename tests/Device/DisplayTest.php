@@ -12,8 +12,8 @@ declare(strict_types = 1);
 namespace UaResultTest\Device;
 
 use PHPUnit\Framework\TestCase;
+use UaDisplaySize\DisplayTypeInterface;
 use UaResult\Device\Display;
-use UaResult\Device\DisplayType\DisplayTypeInterface;
 
 final class DisplayTest extends TestCase
 {
@@ -26,14 +26,16 @@ final class DisplayTest extends TestCase
         $height  = 1234;
         $touch   = true;
         $display = $this->createMock(DisplayTypeInterface::class);
+        $size    = 5.7;
 
         /** @var DisplayTypeInterface $display */
-        $object = new Display($width, $height, $touch, $display);
+        $object = new Display($width, $height, $touch, $display, $size);
 
         self::assertSame($width, $object->getWidth());
         self::assertSame($height, $object->getHeight());
         self::assertSame($touch, $object->hasTouch());
         self::assertSame($display, $object->getType());
+        self::assertSame($size, $object->getSize());
     }
 
     /**
@@ -45,9 +47,10 @@ final class DisplayTest extends TestCase
         $height  = 1234;
         $touch   = true;
         $display = $this->createMock(DisplayTypeInterface::class);
+        $size    = 5.7;
 
         /** @var DisplayTypeInterface $display */
-        $original = new Display($width, $height, $touch, $display);
+        $original = new Display($width, $height, $touch, $display, $size);
 
         $array = $original->toArray();
 
@@ -55,6 +58,7 @@ final class DisplayTest extends TestCase
         self::assertArrayHasKey('height', $array);
         self::assertArrayHasKey('touch', $array);
         self::assertArrayHasKey('type', $array);
+        self::assertArrayHasKey('size', $array);
     }
 
     /**
@@ -66,9 +70,10 @@ final class DisplayTest extends TestCase
         $height  = 1234;
         $touch   = true;
         $display = $this->createMock(DisplayTypeInterface::class);
+        $size    = 5.7;
 
         /** @var DisplayTypeInterface $display */
-        $original = new Display($width, $height, $touch, $display);
+        $original = new Display($width, $height, $touch, $display, $size);
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);

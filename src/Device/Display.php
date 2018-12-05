@@ -11,7 +11,7 @@
 declare(strict_types = 1);
 namespace UaResult\Device;
 
-use UaResult\Device\DisplayType\DisplayTypeInterface;
+use UaDisplaySize\DisplayTypeInterface;
 
 final class Display implements DisplayInterface
 {
@@ -36,23 +36,31 @@ final class Display implements DisplayInterface
     private $type;
 
     /**
+     * @var float|null
+     */
+    private $size;
+
+    /**
      * Display constructor.
      *
-     * @param int|null                                          $width
-     * @param int|null                                          $height
-     * @param bool|null                                         $touch
-     * @param \UaResult\Device\DisplayType\DisplayTypeInterface $type
+     * @param int|null                            $width
+     * @param int|null                            $height
+     * @param bool|null                           $touch
+     * @param \UaDisplaySize\DisplayTypeInterface $type
+     * @param float|null                          $size
      */
     public function __construct(
         ?int $width,
         ?int $height,
         ?bool $touch,
-        DisplayTypeInterface $type
+        DisplayTypeInterface $type,
+        ?float $size
     ) {
         $this->width  = $width;
         $this->height = $height;
         $this->touch  = $touch;
         $this->type   = $type;
+        $this->size   = $size;
     }
 
     /**
@@ -98,11 +106,21 @@ final class Display implements DisplayInterface
     /**
      * Returns the display type
      *
-     * @return \UaResult\Device\DisplayType\DisplayTypeInterface
+     * @return \UaDisplaySize\DisplayTypeInterface
      */
     public function getType(): DisplayTypeInterface
     {
         return $this->type;
+    }
+
+    /**
+     * returns the size of the display
+     *
+     * @return float|null
+     */
+    public function getSize(): ?float
+    {
+        return $this->size;
     }
 
     /**
@@ -115,6 +133,7 @@ final class Display implements DisplayInterface
             'height' => $this->height,
             'touch' => $this->touch,
             'type' => $this->type->getType(),
+            'size' => $this->size,
         ];
     }
 }

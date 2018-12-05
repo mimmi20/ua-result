@@ -11,7 +11,7 @@
 declare(strict_types = 1);
 namespace UaResult\Device;
 
-use UaResult\Device\DisplayType\DisplayTypeInterface;
+use UaDisplaySize\DisplayTypeInterface;
 
 interface DisplayInterface
 {
@@ -39,9 +39,16 @@ interface DisplayInterface
     /**
      * Returns the display type
      *
-     * @return \UaResult\Device\DisplayType\DisplayTypeInterface|null
+     * @return \UaDisplaySize\DisplayTypeInterface
      */
     public function getType(): ?DisplayTypeInterface;
+
+    /**
+     * returns the size of the display
+     *
+     * @return float|null
+     */
+    public function getSize(): ?float;
 
     /**
      * @return array
