@@ -62,6 +62,11 @@ final class Device implements DeviceInterface
     private $market;
 
     /**
+     * @var array
+     */
+    private $connections = [];
+
+    /**
      * @param string|null                        $deviceName
      * @param string|null                        $marketingName
      * @param \UaResult\Company\CompanyInterface $manufacturer
@@ -71,6 +76,7 @@ final class Device implements DeviceInterface
      * @param bool                               $dualOrientation
      * @param int                                $simCount
      * @param \UaResult\Device\MarketInterface   $market
+     * @param array                              $connections
      */
     public function __construct(
         ?string $deviceName,
@@ -81,7 +87,8 @@ final class Device implements DeviceInterface
         DisplayInterface $display,
         bool $dualOrientation,
         int $simCount,
-        MarketInterface $market
+        MarketInterface $market,
+        array $connections
     ) {
         $this->deviceName      = $deviceName;
         $this->marketingName   = $marketingName;
@@ -92,6 +99,7 @@ final class Device implements DeviceInterface
         $this->dualOrientation = $dualOrientation;
         $this->simCount        = $simCount;
         $this->market          = $market;
+        $this->connections     = $connections;
     }
 
     /**
@@ -183,6 +191,14 @@ final class Device implements DeviceInterface
     /**
      * @return array
      */
+    public function getConnections(): array
+    {
+        return $this->connections;
+    }
+
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         return [
@@ -195,6 +211,7 @@ final class Device implements DeviceInterface
             'type' => $this->type->getType(),
             'simCount' => $this->simCount,
             'market' => $this->market->toArray(),
+            'connections' => $this->connections,
         ];
     }
 }

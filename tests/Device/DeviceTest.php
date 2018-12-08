@@ -34,13 +34,14 @@ final class DeviceTest extends TestCase
         $dualOrientation = true;
         $simCount        = 0;
         $market          = $this->createMock(MarketInterface::class);
+        $connections     = ['Wi-Fi'];
 
         /** @var CompanyInterface $manufacturer */
         /** @var CompanyInterface $brand */
         /** @var TypeInterface $type */
         /** @var DisplayInterface $display */
         /** @var MarketInterface $market */
-        $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation, $simCount, $market);
+        $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation, $simCount, $market, $connections);
 
         self::assertSame($deviceName, $object->getDeviceName());
         self::assertSame($marketingName, $object->getMarketingName());
@@ -51,6 +52,7 @@ final class DeviceTest extends TestCase
         self::assertSame($dualOrientation, $object->getDualOrientation());
         self::assertSame($simCount, $object->getSimCount());
         self::assertSame($market, $object->getMarket());
+        self::assertSame($connections, $object->getConnections());
     }
 
     /**
@@ -67,13 +69,14 @@ final class DeviceTest extends TestCase
         $dualOrientation = true;
         $simCount        = 0;
         $market          = $this->createMock(MarketInterface::class);
+        $connections     = ['Wi-Fi'];
 
         /** @var CompanyInterface $manufacturer */
         /** @var CompanyInterface $brand */
         /** @var TypeInterface $type */
         /** @var DisplayInterface $display */
         /** @var MarketInterface $market */
-        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation, $simCount, $market);
+        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation, $simCount, $market, $connections);
 
         $array = $original->toArray();
 
@@ -95,6 +98,8 @@ final class DeviceTest extends TestCase
         self::assertInternalType('int', $array['simCount']);
         self::assertArrayHasKey('market', $array);
         self::assertInternalType('array', $array['market']);
+        self::assertArrayHasKey('connections', $array);
+        self::assertInternalType('array', $array['connections']);
     }
 
     /**
@@ -111,13 +116,14 @@ final class DeviceTest extends TestCase
         $dualOrientation = true;
         $simCount        = 0;
         $market          = $this->createMock(MarketInterface::class);
+        $connections     = ['Wi-Fi'];
 
         /** @var CompanyInterface $manufacturer */
         /** @var CompanyInterface $brand */
         /** @var TypeInterface $type */
         /** @var DisplayInterface $display */
         /** @var MarketInterface $market */
-        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation, $simCount, $market);
+        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation, $simCount, $market, $connections);
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);

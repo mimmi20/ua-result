@@ -64,5 +64,10 @@ interface DeviceInterface
     /**
      * @return array
      */
+    public function getConnections(): array;
+
+    /**
+     * @return array
+     */
     public function toArray(): array;
 }
