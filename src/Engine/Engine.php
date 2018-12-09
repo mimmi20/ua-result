@@ -11,7 +11,6 @@
 declare(strict_types = 1);
 namespace UaResult\Engine;
 
-use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionInterface;
 use UaResult\Company\CompanyInterface;
 

@@ -11,7 +11,6 @@
 declare(strict_types = 1);
 namespace UaResult\Browser;
 
-use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionInterface;
 use UaBrowserType\TypeInterface;
 use UaResult\Company\CompanyInterface;
@@ -75,7 +74,7 @@ final class Browser implements BrowserInterface
     /**
      * clones the actual object
      *
-     * @return void
+     * @return Browser
      */
     public function __clone()
     {
