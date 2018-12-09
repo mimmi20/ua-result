@@ -11,14 +11,11 @@
 declare(strict_types = 1);
 namespace UaResult\Browser;
 
-use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionInterface;
 use UaBrowserType\TypeInterface;
-use UaBrowserType\Unknown;
-use UaResult\Company\Company;
 use UaResult\Company\CompanyInterface;
 
-class Browser implements BrowserInterface
+final class Browser implements BrowserInterface
 {
     /**
      * @var string|null
@@ -51,48 +48,33 @@ class Browser implements BrowserInterface
     private $type;
 
     /**
-     * @param string|null                                    $name
-     * @param \UaResult\Company\CompanyInterface|null        $manufacturer
-     * @param \BrowserDetector\Version\VersionInterface|null $version
-     * @param \UaBrowserType\TypeInterface|null              $type
-     * @param int|null                                       $bits
-     * @param string|null                                    $modus
+     * @param string|null                               $name
+     * @param \UaResult\Company\CompanyInterface        $manufacturer
+     * @param \BrowserDetector\Version\VersionInterface $version
+     * @param \UaBrowserType\TypeInterface              $type
+     * @param int|null                                  $bits
+     * @param string|null                               $modus
      */
     public function __construct(
-        ?string $name = null,
-        ?CompanyInterface $manufacturer = null,
-        ?VersionInterface $version = null,
-        ?TypeInterface $type = null,
-        ?int $bits = null,
-        ?string $modus = null
+        ?string $name,
+        CompanyInterface $manufacturer,
+        VersionInterface $version,
+        TypeInterface $type,
+        ?int $bits,
+        ?string $modus
     ) {
-        $this->name  = $name;
-        $this->bits  = $bits;
-        $this->modus = $modus;
-
-        if (null === $version) {
-            $this->version = new Version();
-        } else {
-            $this->version = $version;
-        }
-
-        if (null === $type) {
-            $this->type = new Unknown();
-        } else {
-            $this->type = $type;
-        }
-
-        if (null === $manufacturer) {
-            $this->manufacturer = new Company('Unknown', null);
-        } else {
-            $this->manufacturer = $manufacturer;
-        }
+        $this->name         = $name;
+        $this->manufacturer = $manufacturer;
+        $this->version      = $version;
+        $this->type         = $type;
+        $this->bits         = $bits;
+        $this->modus        = $modus;
     }
 
     /**
      * clones the actual object
      *
-     * @return void
+     * @return Browser
      */
     public function __clone()
     {

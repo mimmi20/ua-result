@@ -12,11 +12,9 @@ declare(strict_types = 1);
 namespace UaResult\Device;
 
 use UaDeviceType\TypeInterface;
-use UaDeviceType\Unknown;
-use UaResult\Company\Company;
 use UaResult\Company\CompanyInterface;
 
-class Device implements DeviceInterface
+final class Device implements DeviceInterface
 {
     /**
      * @var string|null
@@ -39,19 +37,9 @@ class Device implements DeviceInterface
     private $brand;
 
     /**
-     * @var string|null
+     * @var \UaResult\Device\DisplayInterface
      */
-    private $pointingMethod;
-
-    /**
-     * @var int|null
-     */
-    private $resolutionWidth;
-
-    /**
-     * @var int|null
-     */
-    private $resolutionHeight;
+    private $display;
 
     /**
      * @var bool
@@ -64,51 +52,54 @@ class Device implements DeviceInterface
     private $type;
 
     /**
-     * @param string|null                             $deviceName
-     * @param string|null                             $marketingName
-     * @param \UaResult\Company\CompanyInterface|null $manufacturer
-     * @param \UaResult\Company\CompanyInterface|null $brand
-     * @param \UaDeviceType\TypeInterface|null        $type
-     * @param string|null                             $pointingMethod
-     * @param int|null                                $resolutionWidth
-     * @param int|null                                $resolutionHeight
-     * @param bool                                    $dualOrientation
+     * @var int
+     */
+    private $simCount;
+
+    /**
+     * @var \UaResult\Device\MarketInterface
+     */
+    private $market;
+
+    /**
+     * @var array
+     */
+    private $connections = [];
+
+    /**
+     * @param string|null                        $deviceName
+     * @param string|null                        $marketingName
+     * @param \UaResult\Company\CompanyInterface $manufacturer
+     * @param \UaResult\Company\CompanyInterface $brand
+     * @param \UaDeviceType\TypeInterface        $type
+     * @param \UaResult\Device\DisplayInterface  $display
+     * @param bool                               $dualOrientation
+     * @param int                                $simCount
+     * @param \UaResult\Device\MarketInterface   $market
+     * @param array                              $connections
      */
     public function __construct(
-        ?string $deviceName = null,
-        ?string $marketingName = null,
-        ?CompanyInterface $manufacturer = null,
-        ?CompanyInterface $brand = null,
-        ?TypeInterface $type = null,
-        ?string $pointingMethod = null,
-        ?int $resolutionWidth = null,
-        ?int $resolutionHeight = null,
-        bool $dualOrientation = false
+        ?string $deviceName,
+        ?string $marketingName,
+        CompanyInterface $manufacturer,
+        CompanyInterface $brand,
+        TypeInterface $type,
+        DisplayInterface $display,
+        bool $dualOrientation,
+        int $simCount,
+        MarketInterface $market,
+        array $connections
     ) {
-        $this->deviceName       = $deviceName;
-        $this->marketingName    = $marketingName;
-        $this->pointingMethod   = $pointingMethod;
-        $this->resolutionWidth  = $resolutionWidth;
-        $this->resolutionHeight = $resolutionHeight;
-        $this->dualOrientation  = $dualOrientation;
-
-        if (null === $type) {
-            $this->type = new Unknown();
-        } else {
-            $this->type = $type;
-        }
-
-        if (null === $manufacturer) {
-            $this->manufacturer = new Company('Unknown', null);
-        } else {
-            $this->manufacturer = $manufacturer;
-        }
-
-        if (null === $brand) {
-            $this->brand = new Company('Unknown', null);
-        } else {
-            $this->brand = $brand;
-        }
+        $this->deviceName      = $deviceName;
+        $this->marketingName   = $marketingName;
+        $this->manufacturer    = $manufacturer;
+        $this->brand           = $brand;
+        $this->type            = $type;
+        $this->display         = $display;
+        $this->dualOrientation = $dualOrientation;
+        $this->simCount        = $simCount;
+        $this->market          = $market;
+        $this->connections     = $connections;
     }
 
     /**
@@ -121,6 +112,8 @@ class Device implements DeviceInterface
         $this->type         = clone $this->type;
         $this->manufacturer = clone $this->manufacturer;
         $this->brand        = clone $this->brand;
+        $this->display      = clone $this->display;
+        $this->market       = clone $this->market;
     }
 
     /**
@@ -164,27 +157,11 @@ class Device implements DeviceInterface
     }
 
     /**
-     * @return string|null
+     * @return \UaResult\Device\DisplayInterface|null
      */
-    public function getPointingMethod(): ?string
+    public function getDisplay(): ?DisplayInterface
     {
-        return $this->pointingMethod;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getResolutionHeight(): ?int
-    {
-        return $this->resolutionHeight;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getResolutionWidth(): ?int
-    {
-        return $this->resolutionWidth;
+        return $this->display;
     }
 
     /**
@@ -193,6 +170,30 @@ class Device implements DeviceInterface
     public function getType(): TypeInterface
     {
         return $this->type;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSimCount(): int
+    {
+        return $this->simCount;
+    }
+
+    /**
+     * @return \UaResult\Device\MarketInterface
+     */
+    public function getMarket(): MarketInterface
+    {
+        return $this->market;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConnections(): array
+    {
+        return $this->connections;
     }
 
     /**
@@ -205,11 +206,12 @@ class Device implements DeviceInterface
             'marketingName' => $this->marketingName,
             'manufacturer' => $this->manufacturer->getType(),
             'brand' => $this->brand->getType(),
-            'pointingMethod' => $this->pointingMethod,
-            'resolutionWidth' => $this->resolutionWidth,
-            'resolutionHeight' => $this->resolutionHeight,
+            'display' => $this->display->toArray(),
             'dualOrientation' => $this->dualOrientation,
             'type' => $this->type->getType(),
+            'simCount' => $this->simCount,
+            'market' => $this->market->toArray(),
+            'connections' => $this->connections,
         ];
     }
 }

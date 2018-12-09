@@ -11,12 +11,10 @@
 declare(strict_types = 1);
 namespace UaResult\Engine;
 
-use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionInterface;
-use UaResult\Company\Company;
 use UaResult\Company\CompanyInterface;
 
-class Engine implements EngineInterface
+final class Engine implements EngineInterface
 {
     /**
      * @var string|null
@@ -34,28 +32,18 @@ class Engine implements EngineInterface
     private $manufacturer;
 
     /**
-     * @param string|null                                    $name
-     * @param \UaResult\Company\CompanyInterface|null        $manufacturer
-     * @param \BrowserDetector\Version\VersionInterface|null $version
+     * @param string|null                               $name
+     * @param \UaResult\Company\CompanyInterface        $manufacturer
+     * @param \BrowserDetector\Version\VersionInterface $version
      */
     public function __construct(
-        ?string $name = null,
-        ?CompanyInterface $manufacturer = null,
-        ?VersionInterface $version = null
+        ?string $name,
+        CompanyInterface $manufacturer,
+        VersionInterface $version
     ) {
-        $this->name = $name;
-
-        if (null === $version) {
-            $this->version = new Version();
-        } else {
-            $this->version = $version;
-        }
-
-        if (null === $manufacturer) {
-            $this->manufacturer = new Company('Unknown', null);
-        } else {
-            $this->manufacturer = $manufacturer;
-        }
+        $this->name         = $name;
+        $this->manufacturer = $manufacturer;
+        $this->version      = $version;
     }
 
     /**

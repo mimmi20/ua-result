@@ -12,14 +12,12 @@ declare(strict_types = 1);
 namespace UaResultTest\Os;
 
 use BrowserDetector\Version\Version;
-use BrowserDetector\Version\VersionFactory;
+use BrowserDetector\Version\VersionInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
-use UaResult\Company\Company;
+use UaResult\Company\CompanyInterface;
 use UaResult\Os\Os;
-use UaResult\Os\OsFactory;
 
-class OsTest extends TestCase
+final class OsTest extends TestCase
 {
     /**
      * @return void
@@ -28,10 +26,12 @@ class OsTest extends TestCase
     {
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = new Company('Unknown', null);
-        $version       = new Version();
+        $manufacturer  = $this->createMock(CompanyInterface::class);
+        $version       = $this->createMock(VersionInterface::class);
         $bits          = 64;
 
+        /** @var CompanyInterface $manufacturer */
+        /** @var VersionInterface $version */
         $object = new Os($name, $marketingName, $manufacturer, $version, $bits);
 
         self::assertSame($name, $object->getName());
@@ -46,65 +46,27 @@ class OsTest extends TestCase
      */
     public function testToarray(): void
     {
-        $logger = new NullLogger();
-
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = new Company('Unknown', null);
-        $version       = (new VersionFactory())->set('0.0.0');
+        $manufacturer  = $this->createMock(CompanyInterface::class);
+        $version       = $this->createMock(VersionInterface::class);
         $bits          = 64;
 
+        /** @var CompanyInterface $manufacturer */
+        /** @var VersionInterface $version */
         $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
 
-        $array  = $original->toArray();
-        $object = (new OsFactory())->fromArray($logger, $array);
+        $array = $original->toArray();
 
-        self::assertSame($name, $object->getName());
-        self::assertSame($marketingName, $object->getMarketingName());
-        self::assertEquals($manufacturer, $object->getManufacturer());
-        self::assertEquals($version, $object->getVersion());
-        self::assertSame($bits, $object->getBits());
-    }
-
-    /**
-     * @return void
-     */
-    public function testFromEmptyArray(): void
-    {
-        $logger = new NullLogger();
-
-        $manufacturer = new Company('Unknown', null);
-        $version      = new Version();
-
-        $object = (new OsFactory())->fromArray($logger, []);
-
-        self::assertNull($object->getName());
-        self::assertNull($object->getMarketingName());
-        self::assertEquals($manufacturer, $object->getManufacturer());
-        self::assertEquals($version, $object->getVersion());
-        self::assertNull($object->getBits());
-    }
-
-    /**
-     * @return void
-     */
-    public function testFromarrayWithInvalidManufacturer(): void
-    {
-        $logger = new NullLogger();
-
-        $name         = 'test';
-        $version      = new Version();
-        $manufacturer = new Company('Unknown', null);
-
-        $array = [
-            'name' => $name,
-            'manufacturer' => 'unknown',
-        ];
-        $object = (new OsFactory())->fromArray($logger, $array);
-
-        self::assertSame($name, $object->getName());
-        self::assertEquals($version, $object->getVersion());
-        self::assertEquals($manufacturer, $object->getManufacturer());
+        self::assertArrayHasKey('name', $array);
+        self::assertInternalType('string', $array['name']);
+        self::assertArrayHasKey('marketingName', $array);
+        self::assertInternalType('string', $array['marketingName']);
+        self::assertArrayHasKey('version', $array);
+        self::assertInternalType('string', $array['version']);
+        self::assertArrayHasKey('manufacturer', $array);
+        self::assertInternalType('string', $array['manufacturer']);
+        self::assertArrayHasKey('bits', $array);
     }
 
     /**
@@ -114,10 +76,12 @@ class OsTest extends TestCase
     {
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = new Company('Unknown', null);
-        $version       = new Version();
+        $manufacturer  = $this->createMock(CompanyInterface::class);
+        $version       = $this->createMock(VersionInterface::class);
         $bits          = 64;
 
+        /** @var CompanyInterface $manufacturer */
+        /** @var VersionInterface $version */
         $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
         $cloned   = clone $original;
 

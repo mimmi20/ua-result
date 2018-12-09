@@ -12,28 +12,29 @@ declare(strict_types = 1);
 namespace UaResultTest\Browser;
 
 use BrowserDetector\Version\Version;
-use BrowserDetector\Version\VersionFactory;
+use BrowserDetector\Version\VersionInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
-use UaBrowserType\Unknown;
+use UaBrowserType\TypeInterface;
 use UaResult\Browser\Browser;
-use UaResult\Browser\BrowserFactory;
-use UaResult\Company\Company;
+use UaResult\Company\CompanyInterface;
 
-class BrowserTest extends TestCase
+final class BrowserTest extends TestCase
 {
     /**
      * @return void
      */
     public function testSetterGetter(): void
     {
-        $name         = 'TestBrowser';
-        $manufacturer = new Company('Unknown', null);
-        $version      = new Version();
-        $type         = new Unknown();
         $bits         = 64;
         $modus        = 'Desktop Mode';
+        $name         = 'TestBrowser';
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $version      = $this->createMock(VersionInterface::class);
+        $type         = $this->createMock(TypeInterface::class);
 
+        /** @var CompanyInterface $manufacturer */
+        /** @var VersionInterface $version */
+        /** @var TypeInterface $type */
         $object = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
 
         self::assertSame($name, $object->getName());
@@ -47,85 +48,32 @@ class BrowserTest extends TestCase
     /**
      * @return void
      */
-    public function testDefaultSetterGetter(): void
-    {
-        $name         = 'TestBrowser';
-        $manufacturer = new Company('Unknown', null);
-        $version      = new Version();
-        $type         = new Unknown();
-
-        $object = new Browser($name);
-
-        self::assertSame($name, $object->getName());
-        self::assertEquals($manufacturer, $object->getManufacturer());
-        self::assertEquals($version, $object->getVersion());
-        self::assertEquals($type, $object->getType());
-        self::assertNull($object->getBits());
-        self::assertNull($object->getModus());
-    }
-
-    /**
-     * @return void
-     */
     public function testToarray(): void
     {
-        $logger = new NullLogger();
-
-        $name         = 'TestBrowser';
-        $manufacturer = new Company('Unknown', null);
-        $version      = (new VersionFactory())->set('0.0.2-beta');
-        $type         = new Unknown();
         $bits         = 64;
         $modus        = 'Desktop Mode';
+        $name         = 'TestBrowser';
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $version      = $this->createMock(VersionInterface::class);
+        $type         = $this->createMock(TypeInterface::class);
 
+        /** @var CompanyInterface $manufacturer */
+        /** @var VersionInterface $version */
+        /** @var TypeInterface $type */
         $original = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
 
-        $array  = $original->toArray();
-        $object = (new BrowserFactory())->fromArray($logger, $array);
+        $array = $original->toArray();
 
-        self::assertEquals($original, $object);
-    }
-
-    /**
-     * @return void
-     */
-    public function testFromEmptyArray(): void
-    {
-        $logger = new NullLogger();
-
-        $version = new Version();
-        $type    = new Unknown();
-
-        $object = (new BrowserFactory())->fromArray($logger, []);
-
-        self::assertNull($object->getName());
-        self::assertEquals($version, $object->getVersion());
-        self::assertEquals($type, $object->getType());
-    }
-
-    /**
-     * @return void
-     */
-    public function testFromarrayWithInvalidType(): void
-    {
-        $logger = new NullLogger();
-
-        $name         = 'test';
-        $version      = new Version();
-        $type         = new Unknown();
-        $manufacturer = new Company('Unknown', null);
-
-        $array = [
-            'name' => $name,
-            'type' => 'does-not-exist',
-            'manufacturer' => 'unknown',
-        ];
-        $object = (new BrowserFactory())->fromArray($logger, $array);
-
-        self::assertSame($name, $object->getName());
-        self::assertEquals($version, $object->getVersion());
-        self::assertEquals($type, $object->getType());
-        self::assertEquals($manufacturer, $object->getManufacturer());
+        self::assertArrayHasKey('name', $array);
+        self::assertInternalType('string', $array['name']);
+        self::assertArrayHasKey('modus', $array);
+        self::assertArrayHasKey('version', $array);
+        self::assertInternalType('string', $array['version']);
+        self::assertArrayHasKey('manufacturer', $array);
+        self::assertInternalType('string', $array['manufacturer']);
+        self::assertArrayHasKey('bits', $array);
+        self::assertArrayHasKey('type', $array);
+        self::assertInternalType('string', $array['type']);
     }
 
     /**
@@ -134,11 +82,14 @@ class BrowserTest extends TestCase
     public function testClone(): void
     {
         $name         = 'TestBrowser';
-        $manufacturer = new Company('Unknown', null);
-        $version      = new Version();
-        $type         = new Unknown();
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $version      = $this->createMock(VersionInterface::class);
+        $type         = $this->createMock(TypeInterface::class);
 
-        $original = new Browser($name, $manufacturer, $version, $type);
+        /** @var CompanyInterface $manufacturer */
+        /** @var VersionInterface $version */
+        /** @var TypeInterface $type */
+        $original = new Browser($name, $manufacturer, $version, $type, null, null);
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);

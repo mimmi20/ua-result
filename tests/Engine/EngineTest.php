@@ -12,14 +12,12 @@ declare(strict_types = 1);
 namespace UaResultTest\Engine;
 
 use BrowserDetector\Version\Version;
-use BrowserDetector\Version\VersionFactory;
+use BrowserDetector\Version\VersionInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
-use UaResult\Company\Company;
+use UaResult\Company\CompanyInterface;
 use UaResult\Engine\Engine;
-use UaResult\Engine\EngineFactory;
 
-class EngineTest extends TestCase
+final class EngineTest extends TestCase
 {
     /**
      * @return void
@@ -27,9 +25,11 @@ class EngineTest extends TestCase
     public function testSetterGetter(): void
     {
         $name         = 'TestBrowser';
-        $manufacturer = new Company('Unknown', null);
-        $version      = new Version();
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $version      = $this->createMock(VersionInterface::class);
 
+        /** @var CompanyInterface $manufacturer */
+        /** @var VersionInterface $version */
         $object = new Engine($name, $manufacturer, $version);
 
         self::assertSame($name, $object->getName());
@@ -42,56 +42,22 @@ class EngineTest extends TestCase
      */
     public function testToarray(): void
     {
-        $logger = new NullLogger();
-
         $name         = 'TestBrowser';
-        $manufacturer = new Company('Unknown', null);
-        $version      = (new VersionFactory())->set('0.0.2-beta');
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $version      = $this->createMock(VersionInterface::class);
 
+        /** @var CompanyInterface $manufacturer */
+        /** @var VersionInterface $version */
         $original = new Engine($name, $manufacturer, $version);
 
-        $array  = $original->toArray();
-        $object = (new EngineFactory())->fromArray($logger, $array);
+        $array = $original->toArray();
 
-        self::assertSame($name, $object->getName());
-        self::assertEquals($manufacturer, $object->getManufacturer());
-        self::assertEquals($version, $object->getVersion());
-    }
-
-    /**
-     * @return void
-     */
-    public function testFromEmptyArray(): void
-    {
-        $logger = new NullLogger();
-
-        $version = new Version();
-        $object  = (new EngineFactory())->fromArray($logger, []);
-
-        self::assertNull($object->getName());
-        self::assertEquals($version, $object->getVersion());
-    }
-
-    /**
-     * @return void
-     */
-    public function testFromarrayWithInvalidManufacturer(): void
-    {
-        $logger = new NullLogger();
-
-        $name         = 'test';
-        $version      = new Version();
-        $manufacturer = new Company('Unknown', null);
-
-        $array = [
-            'name' => $name,
-            'manufacturer' => 'unknown',
-        ];
-        $object = (new EngineFactory())->fromArray($logger, $array);
-
-        self::assertSame($name, $object->getName());
-        self::assertEquals($version, $object->getVersion());
-        self::assertEquals($manufacturer, $object->getManufacturer());
+        self::assertArrayHasKey('name', $array);
+        self::assertInternalType('string', $array['name']);
+        self::assertArrayHasKey('version', $array);
+        self::assertInternalType('string', $array['version']);
+        self::assertArrayHasKey('manufacturer', $array);
+        self::assertInternalType('string', $array['manufacturer']);
     }
 
     /**
@@ -100,9 +66,11 @@ class EngineTest extends TestCase
     public function testClone(): void
     {
         $name         = 'TestBrowser';
-        $manufacturer = new Company('Unknown', null);
-        $version      = new Version();
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $version      = $this->createMock(VersionInterface::class);
 
+        /** @var CompanyInterface $manufacturer */
+        /** @var VersionInterface $version */
         $original = new Engine($name, $manufacturer, $version);
         $cloned   = clone $original;
 

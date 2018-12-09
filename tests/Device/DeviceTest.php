@@ -12,40 +12,47 @@ declare(strict_types = 1);
 namespace UaResultTest\Device;
 
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
-use UaDeviceType\Unknown;
-use UaResult\Company\Company;
+use UaDeviceType\TypeInterface;
+use UaResult\Company\CompanyInterface;
 use UaResult\Device\Device;
-use UaResult\Device\DeviceFactory;
+use UaResult\Device\DisplayInterface;
+use UaResult\Device\MarketInterface;
 
-class DeviceTest extends TestCase
+final class DeviceTest extends TestCase
 {
     /**
      * @return void
      */
     public function testSetterGetter(): void
     {
-        $deviceName       = 'TestDevicename';
-        $marketingName    = 'TestMarketingname';
-        $manufacturer     = new Company('Unknown', null);
-        $brand            = new Company('Unknown', null);
-        $type             = new Unknown();
-        $pointingMethod   = 'touchscreen';
-        $resolutionWidth  = 480;
-        $resolutionHeight = 1080;
-        $dualOrientation  = true;
+        $deviceName      = 'TestDevicename';
+        $marketingName   = 'TestMarketingname';
+        $manufacturer    = $this->createMock(CompanyInterface::class);
+        $brand           = $this->createMock(CompanyInterface::class);
+        $type            = $this->createMock(TypeInterface::class);
+        $display         = $this->createMock(DisplayInterface::class);
+        $dualOrientation = true;
+        $simCount        = 0;
+        $market          = $this->createMock(MarketInterface::class);
+        $connections     = ['Wi-Fi'];
 
-        $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
+        /** @var CompanyInterface $manufacturer */
+        /** @var CompanyInterface $brand */
+        /** @var TypeInterface $type */
+        /** @var DisplayInterface $display */
+        /** @var MarketInterface $market */
+        $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation, $simCount, $market, $connections);
 
         self::assertSame($deviceName, $object->getDeviceName());
         self::assertSame($marketingName, $object->getMarketingName());
         self::assertSame($manufacturer, $object->getManufacturer());
         self::assertSame($brand, $object->getBrand());
         self::assertSame($type, $object->getType());
-        self::assertSame($pointingMethod, $object->getPointingMethod());
-        self::assertSame($resolutionWidth, $object->getResolutionWidth());
-        self::assertSame($resolutionHeight, $object->getResolutionHeight());
+        self::assertSame($display, $object->getDisplay());
         self::assertSame($dualOrientation, $object->getDualOrientation());
+        self::assertSame($simCount, $object->getSimCount());
+        self::assertSame($market, $object->getMarket());
+        self::assertSame($connections, $object->getConnections());
     }
 
     /**
@@ -53,82 +60,46 @@ class DeviceTest extends TestCase
      */
     public function testToarray(): void
     {
-        $logger = new NullLogger();
+        $deviceName      = 'TestDevicename';
+        $marketingName   = 'TestMarketingname';
+        $manufacturer    = $this->createMock(CompanyInterface::class);
+        $brand           = $this->createMock(CompanyInterface::class);
+        $type            = $this->createMock(TypeInterface::class);
+        $display         = $this->createMock(DisplayInterface::class);
+        $dualOrientation = true;
+        $simCount        = 0;
+        $market          = $this->createMock(MarketInterface::class);
+        $connections     = ['Wi-Fi'];
 
-        $deviceName       = 'TestDevicename';
-        $marketingName    = 'TestMarketingname';
-        $manufacturer     = new Company('Unknown', null);
-        $brand            = new Company('Unknown', null);
-        $type             = new Unknown();
-        $pointingMethod   = 'touchscreen';
-        $resolutionWidth  = 480;
-        $resolutionHeight = 1080;
-        $dualOrientation  = true;
+        /** @var CompanyInterface $manufacturer */
+        /** @var CompanyInterface $brand */
+        /** @var TypeInterface $type */
+        /** @var DisplayInterface $display */
+        /** @var MarketInterface $market */
+        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation, $simCount, $market, $connections);
 
-        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
+        $array = $original->toArray();
 
-        $array  = $original->toArray();
-        $object = (new DeviceFactory())->fromArray($logger, $array);
-
-        self::assertSame($deviceName, $object->getDeviceName());
-        self::assertSame($marketingName, $object->getMarketingName());
-        self::assertEquals($manufacturer, $object->getManufacturer());
-        self::assertEquals($brand, $object->getBrand());
-        self::assertEquals($type, $object->getType());
-        self::assertSame($pointingMethod, $object->getPointingMethod());
-        self::assertSame($resolutionWidth, $object->getResolutionWidth());
-        self::assertSame($resolutionHeight, $object->getResolutionHeight());
-        self::assertSame($dualOrientation, $object->getDualOrientation());
-    }
-
-    /**
-     * @return void
-     */
-    public function testFromEmptyArray(): void
-    {
-        $logger = new NullLogger();
-
-        $manufacturer = new Company('Unknown', null);
-        $brand        = new Company('Unknown', null);
-        $type         = new Unknown();
-
-        $object = (new DeviceFactory())->fromArray($logger, []);
-
-        self::assertNull($object->getDeviceName());
-        self::assertNull($object->getMarketingName());
-        self::assertEquals($manufacturer, $object->getManufacturer());
-        self::assertEquals($brand, $object->getBrand());
-        self::assertEquals($type, $object->getType());
-        self::assertNull($object->getPointingMethod());
-        self::assertNull($object->getResolutionWidth());
-        self::assertNull($object->getResolutionHeight());
-        self::assertFalse($object->getDualOrientation());
-    }
-
-    /**
-     * @return void
-     */
-    public function testFromarrayWithInvalidType(): void
-    {
-        $logger = new NullLogger();
-
-        $name         = 'test';
-        $type         = new Unknown();
-        $manufacturer = new Company('Unknown', null);
-
-        $array = [
-            'deviceName' => $name,
-            'type' => 'does-not-exist',
-            'manufacturer' => 'unknown',
-            'brand' => 'does-not-exist',
-        ];
-
-        $object = (new DeviceFactory())->fromArray($logger, $array);
-
-        self::assertSame($name, $object->getDeviceName());
-        self::assertEquals($type, $object->getType());
-        self::assertEquals($manufacturer, $object->getManufacturer());
-        self::assertEquals($manufacturer, $object->getBrand());
+        self::assertArrayHasKey('deviceName', $array);
+        self::assertInternalType('string', $array['deviceName']);
+        self::assertArrayHasKey('marketingName', $array);
+        self::assertInternalType('string', $array['marketingName']);
+        self::assertArrayHasKey('manufacturer', $array);
+        self::assertInternalType('string', $array['manufacturer']);
+        self::assertArrayHasKey('brand', $array);
+        self::assertInternalType('string', $array['brand']);
+        self::assertArrayHasKey('dualOrientation', $array);
+        self::assertInternalType('bool', $array['dualOrientation']);
+        self::assertArrayHasKey('type', $array);
+        self::assertInternalType('string', $array['type']);
+        self::assertArrayHasKey('display', $array);
+        self::assertInternalType('array', $array['display']);
+        self::assertArrayHasKey('simCount', $array);
+        self::assertInternalType('int', $array['simCount']);
+        self::assertArrayHasKey('market', $array);
+        self::assertInternalType('array', $array['market']);
+        self::assertArrayHasKey('connections', $array);
+        self::assertInternalType('array', $array['connections']);
     }
 
     /**
@@ -136,22 +107,29 @@ class DeviceTest extends TestCase
      */
     public function testClone(): void
     {
-        $deviceName       = 'TestDevicename';
-        $marketingName    = 'TestMarketingname';
-        $manufacturer     = new Company('Unknown', null);
-        $brand            = new Company('Unknown', null);
-        $type             = new Unknown();
-        $pointingMethod   = 'touchscreen';
-        $resolutionWidth  = 480;
-        $resolutionHeight = 1080;
-        $dualOrientation  = true;
+        $deviceName      = 'TestDevicename';
+        $marketingName   = 'TestMarketingname';
+        $manufacturer    = $this->createMock(CompanyInterface::class);
+        $brand           = $this->createMock(CompanyInterface::class);
+        $type            = $this->createMock(TypeInterface::class);
+        $display         = $this->createMock(DisplayInterface::class);
+        $dualOrientation = true;
+        $simCount        = 0;
+        $market          = $this->createMock(MarketInterface::class);
+        $connections     = ['Wi-Fi'];
 
-        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $pointingMethod, $resolutionWidth, $resolutionHeight, $dualOrientation);
+        /** @var CompanyInterface $manufacturer */
+        /** @var CompanyInterface $brand */
+        /** @var TypeInterface $type */
+        /** @var DisplayInterface $display */
+        /** @var MarketInterface $market */
+        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display, $dualOrientation, $simCount, $market, $connections);
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($brand, $cloned->getBrand());
         self::assertNotSame($type, $cloned->getType());
+        self::assertNotSame($market, $cloned->getMarket());
     }
 }

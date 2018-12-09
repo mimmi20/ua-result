@@ -42,24 +42,29 @@ interface DeviceInterface
     public function getMarketingName(): ?string;
 
     /**
-     * @return string|null
+     * @return \UaResult\Device\DisplayInterface|null
      */
-    public function getPointingMethod(): ?string;
-
-    /**
-     * @return int|null
-     */
-    public function getResolutionHeight(): ?int;
-
-    /**
-     * @return int|null
-     */
-    public function getResolutionWidth(): ?int;
+    public function getDisplay(): ?DisplayInterface;
 
     /**
      * @return \UaDeviceType\TypeInterface
      */
     public function getType(): TypeInterface;
+
+    /**
+     * @return int
+     */
+    public function getSimCount(): int;
+
+    /**
+     * @return \UaResult\Device\MarketInterface
+     */
+    public function getMarket(): MarketInterface;
+
+    /**
+     * @return array
+     */
+    public function getConnections(): array;
 
     /**
      * @return array

@@ -11,17 +11,18 @@
 declare(strict_types = 1);
 namespace UaResultTest\Result;
 
-use JsonClass\Json;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
 use UaResult\Browser\Browser;
+use UaResult\Browser\BrowserInterface;
 use UaResult\Device\Device;
+use UaResult\Device\DeviceInterface;
 use UaResult\Engine\Engine;
+use UaResult\Engine\EngineInterface;
 use UaResult\Os\Os;
+use UaResult\Os\OsInterface;
 use UaResult\Result\Result;
-use UaResult\Result\ResultFactory;
 
-class ResultTest extends TestCase
+final class ResultTest extends TestCase
 {
     /**
      * @return void
@@ -29,11 +30,15 @@ class ResultTest extends TestCase
     public function testSetterGetter(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
-        $device  = new Device(null, null);
-        $os      = new Os('unknown', 'unknown');
-        $browser = new Browser('unknown');
-        $engine  = new Engine('unknown');
+        $device  = $this->createMock(DeviceInterface::class);
+        $os      = $this->createMock(OsInterface::class);
+        $browser = $this->createMock(BrowserInterface::class);
+        $engine  = $this->createMock(EngineInterface::class);
 
+        /** @var DeviceInterface $device */
+        /** @var OsInterface $os */
+        /** @var BrowserInterface $browser */
+        /** @var EngineInterface $engine */
         $object = new Result($headers, $device, $os, $browser, $engine);
 
         self::assertSame($headers, $object->getHeaders());
@@ -48,69 +53,29 @@ class ResultTest extends TestCase
      */
     public function testToArray(): void
     {
-        $logger = new NullLogger();
-
         $headers = ['x-test-header' => 'test-ua'];
-        $device  = new Device(null, null);
-        $os      = new Os('unknown', 'unknown');
-        $browser = new Browser('unknown');
-        $engine  = new Engine('unknown');
+        $device  = $this->createMock(DeviceInterface::class);
+        $os      = $this->createMock(OsInterface::class);
+        $browser = $this->createMock(BrowserInterface::class);
+        $engine  = $this->createMock(EngineInterface::class);
 
+        /** @var DeviceInterface $device */
+        /** @var OsInterface $os */
+        /** @var BrowserInterface $browser */
+        /** @var EngineInterface $engine */
         $original = new Result($headers, $device, $os, $browser, $engine);
         $array    = $original->toArray();
-        $object   = (new ResultFactory())->fromArray($logger, $array);
 
-        self::assertEquals($headers, $object->getHeaders());
-        self::assertEquals($device, $object->getDevice());
-        self::assertEquals($os, $object->getOs());
-        self::assertEquals($browser, $object->getBrowser());
-        self::assertEquals($engine, $object->getEngine());
-    }
-
-    /**
-     * @return void
-     */
-    public function testToArrayWhenFromJson(): void
-    {
-        $logger = new NullLogger();
-
-        $headers = ['x-test-header' => 'test-ua'];
-        $device  = new Device(null, null);
-        $os      = new Os('unknown', 'unknown');
-        $browser = new Browser('unknown');
-        $engine  = new Engine('unknown');
-
-        $original = new Result($headers, $device, $os, $browser, $engine);
-        $array    = (new Json())->decode((new Json())->encode($original->toArray()), true);
-        $object   = (new ResultFactory())->fromArray($logger, $array);
-
-        self::assertEquals($headers, $object->getHeaders());
-        self::assertEquals($device, $object->getDevice());
-        self::assertEquals($os, $object->getOs());
-        self::assertEquals($browser, $object->getBrowser());
-        self::assertEquals($engine, $object->getEngine());
-    }
-
-    /**
-     * @return void
-     */
-    public function testFromEmptyArray(): void
-    {
-        $logger = new NullLogger();
-
-        $headers = [];
-        $device  = new Device(null, null);
-        $os      = new Os(null, null);
-        $browser = new Browser(null);
-        $engine  = new Engine(null);
-
-        $object = (new ResultFactory())->fromArray($logger, []);
-
-        self::assertEquals($headers, $object->getHeaders());
-        self::assertEquals($device, $object->getDevice());
-        self::assertEquals($os, $object->getOs());
-        self::assertEquals($browser, $object->getBrowser());
-        self::assertEquals($engine, $object->getEngine());
+        self::assertArrayHasKey('headers', $array);
+        self::assertInternalType('array', $array['headers']);
+        self::assertArrayHasKey('device', $array);
+        self::assertInternalType('array', $array['device']);
+        self::assertArrayHasKey('browser', $array);
+        self::assertInternalType('array', $array['browser']);
+        self::assertArrayHasKey('os', $array);
+        self::assertInternalType('array', $array['os']);
+        self::assertArrayHasKey('engine', $array);
+        self::assertInternalType('array', $array['engine']);
     }
 
     /**
@@ -119,11 +84,15 @@ class ResultTest extends TestCase
     public function testClone(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
-        $device  = new Device(null, null);
-        $os      = new Os('unknown', 'unknown');
-        $browser = new Browser('unknown');
-        $engine  = new Engine('unknown');
+        $device  = $this->createMock(DeviceInterface::class);
+        $os      = $this->createMock(OsInterface::class);
+        $browser = $this->createMock(BrowserInterface::class);
+        $engine  = $this->createMock(EngineInterface::class);
 
+        /** @var DeviceInterface $device */
+        /** @var OsInterface $os */
+        /** @var BrowserInterface $browser */
+        /** @var EngineInterface $engine */
         $original = new Result($headers, $device, $os, $browser, $engine);
         $cloned   = clone $original;
 
