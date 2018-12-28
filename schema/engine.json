@@ -1,27 +1,35 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "properties": {
-    "name": {
-      "anyOf": [
-        {
+  "$id": "https://raw.githubusercontent.com/mimmi20/ua-result/master/schema/engine.json",
+
+  "definitions": {
+    "engine": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "version": {
           "type": "string"
         },
-        {
-          "type": "null"
+        "manufacturer": {
+          "type": "string"
         }
+      },
+      "required": [
+        "name",
+        "version",
+        "manufacturer"
       ]
-    },
-    "version": {
-      "type": "string"
-    },
-    "manufacturer": {
-      "type": "string"
     }
   },
-  "required": [
-    "name",
-    "version",
-    "manufacturer"
-  ]
+
+  "$ref": "#/definitions/engine"
 }

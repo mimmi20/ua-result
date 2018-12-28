@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/mimmi20/ua-result/master/schema/result.json",
+
+  "definitions": {
+    "result": {
+
+      "type": "object",
+      "properties": {
+        "headers": {"$ref": "headers.json#/definitions/headers"},
+        "device": {"$ref": "device.json#/definitions/device"},
+        "browser": {"$ref": "browser.json#/definitions/browser"},
+        "os": {"$ref": "platform.json#/definitions/os"},
+        "engine": {"$ref": "engine.json#/definitions/engine"}
+      },
+      "required": [
+        "headers",
+        "device",
+        "browser",
+        "os",
+        "engine"
+      ]
+    }
+  },
+
+  "$ref": "#/definitions/result"
+}
