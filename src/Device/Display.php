@@ -16,16 +16,6 @@ use UaDisplaySize\DisplayTypeInterface;
 final class Display implements DisplayInterface
 {
     /**
-     * @var int|null
-     */
-    private $width;
-
-    /**
-     * @var int|null
-     */
-    private $height;
-
-    /**
      * @var bool|null
      */
     private $touch;
@@ -43,24 +33,18 @@ final class Display implements DisplayInterface
     /**
      * Display constructor.
      *
-     * @param int|null                            $width
-     * @param int|null                            $height
      * @param bool|null                           $touch
      * @param \UaDisplaySize\DisplayTypeInterface $type
      * @param float|null                          $size
      */
     public function __construct(
-        ?int $width,
-        ?int $height,
         ?bool $touch,
         DisplayTypeInterface $type,
         ?float $size
     ) {
-        $this->width  = $width;
-        $this->height = $height;
-        $this->touch  = $touch;
-        $this->type   = $type;
-        $this->size   = $size;
+        $this->touch = $touch;
+        $this->type  = $type;
+        $this->size  = $size;
     }
 
     /**
@@ -71,26 +55,6 @@ final class Display implements DisplayInterface
     public function __clone()
     {
         $this->type = clone $this->type;
-    }
-
-    /**
-     * Returns the Width of the Display
-     *
-     * @return int|null
-     */
-    public function getWidth(): ?int
-    {
-        return $this->width;
-    }
-
-    /**
-     * Returns the Height of the Display
-     *
-     * @return int|null
-     */
-    public function getHeight(): ?int
-    {
-        return $this->height;
     }
 
     /**
@@ -129,10 +93,9 @@ final class Display implements DisplayInterface
     public function toArray(): array
     {
         return [
-            'width' => $this->width,
-            'height' => $this->height,
+            'width' => $this->type->getWidth(),
+            'height' => $this->type->getHeight(),
             'touch' => $this->touch,
-            'type' => $this->type->getType(),
             'size' => $this->size,
         ];
     }
