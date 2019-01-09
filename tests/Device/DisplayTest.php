@@ -22,17 +22,13 @@ final class DisplayTest extends TestCase
      */
     public function testSetterGetter(): void
     {
-        $width   = 4711;
-        $height  = 1234;
         $touch   = true;
         $display = $this->createMock(DisplayTypeInterface::class);
         $size    = 5.7;
 
         /** @var DisplayTypeInterface $display */
-        $object = new Display($width, $height, $touch, $display, $size);
+        $object = new Display($touch, $display, $size);
 
-        self::assertSame($width, $object->getWidth());
-        self::assertSame($height, $object->getHeight());
         self::assertSame($touch, $object->hasTouch());
         self::assertSame($display, $object->getType());
         self::assertSame($size, $object->getSize());
@@ -46,19 +42,30 @@ final class DisplayTest extends TestCase
         $width   = 4711;
         $height  = 1234;
         $touch   = true;
-        $display = $this->createMock(DisplayTypeInterface::class);
-        $size    = 5.7;
+        $display = $this->getMockBuilder(DisplayTypeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $display->expects(self::once())
+            ->method('getHeight')
+            ->willReturn($height);
+        $display->expects(self::once())
+            ->method('getWidth')
+            ->willReturn($width);
+        $size = 5.7;
 
         /** @var DisplayTypeInterface $display */
-        $original = new Display($width, $height, $touch, $display, $size);
+        $original = new Display($touch, $display, $size);
 
         $array = $original->toArray();
 
         self::assertArrayHasKey('width', $array);
+        self::assertSame($width, $array['width']);
         self::assertArrayHasKey('height', $array);
+        self::assertSame($height, $array['height']);
         self::assertArrayHasKey('touch', $array);
-        self::assertArrayHasKey('type', $array);
+        self::assertTrue($array['touch']);
         self::assertArrayHasKey('size', $array);
+        self::assertSame($size, $array['size']);
     }
 
     /**
@@ -66,14 +73,12 @@ final class DisplayTest extends TestCase
      */
     public function testClone(): void
     {
-        $width   = 4711;
-        $height  = 1234;
         $touch   = true;
         $display = $this->createMock(DisplayTypeInterface::class);
         $size    = 5.7;
 
         /** @var DisplayTypeInterface $display */
-        $original = new Display($width, $height, $touch, $display, $size);
+        $original = new Display($touch, $display, $size);
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);

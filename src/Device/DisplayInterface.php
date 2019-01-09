@@ -16,20 +16,6 @@ use UaDisplaySize\DisplayTypeInterface;
 interface DisplayInterface
 {
     /**
-     * Returns the Width of the Display
-     *
-     * @return int|null
-     */
-    public function getWidth(): ?int;
-
-    /**
-     * Returns the Height of the Display
-     *
-     * @return int|null
-     */
-    public function getHeight(): ?int;
-
-    /**
      * Returns TRUE, if the display is a touchscreen
      *
      * @return bool|null
@@ -41,7 +27,7 @@ interface DisplayInterface
      *
      * @return \UaDisplaySize\DisplayTypeInterface
      */
-    public function getType(): ?DisplayTypeInterface;
+    public function getType(): DisplayTypeInterface;
 
     /**
      * returns the size of the display
