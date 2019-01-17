@@ -42,29 +42,9 @@ final class Device implements DeviceInterface
     private $display;
 
     /**
-     * @var bool
-     */
-    private $dualOrientation = false;
-
-    /**
      * @var \UaDeviceType\TypeInterface
      */
     private $type;
-
-    /**
-     * @var int
-     */
-    private $simCount;
-
-    /**
-     * @var \UaResult\Device\MarketInterface
-     */
-    private $market;
-
-    /**
-     * @var array
-     */
-    private $connections = [];
 
     /**
      * @param string|null                        $deviceName
@@ -73,10 +53,6 @@ final class Device implements DeviceInterface
      * @param \UaResult\Company\CompanyInterface $brand
      * @param \UaDeviceType\TypeInterface        $type
      * @param \UaResult\Device\DisplayInterface  $display
-     * @param bool                               $dualOrientation
-     * @param int                                $simCount
-     * @param \UaResult\Device\MarketInterface   $market
-     * @param array                              $connections
      */
     public function __construct(
         ?string $deviceName,
@@ -84,22 +60,14 @@ final class Device implements DeviceInterface
         CompanyInterface $manufacturer,
         CompanyInterface $brand,
         TypeInterface $type,
-        DisplayInterface $display,
-        bool $dualOrientation,
-        int $simCount,
-        MarketInterface $market,
-        array $connections
+        DisplayInterface $display
     ) {
-        $this->deviceName      = $deviceName;
-        $this->marketingName   = $marketingName;
-        $this->manufacturer    = $manufacturer;
-        $this->brand           = $brand;
-        $this->type            = $type;
-        $this->display         = $display;
-        $this->dualOrientation = $dualOrientation;
-        $this->simCount        = $simCount;
-        $this->market          = $market;
-        $this->connections     = $connections;
+        $this->deviceName    = $deviceName;
+        $this->marketingName = $marketingName;
+        $this->manufacturer  = $manufacturer;
+        $this->brand         = $brand;
+        $this->type          = $type;
+        $this->display       = $display;
     }
 
     /**
@@ -113,7 +81,6 @@ final class Device implements DeviceInterface
         $this->manufacturer = clone $this->manufacturer;
         $this->brand        = clone $this->brand;
         $this->display      = clone $this->display;
-        $this->market       = clone $this->market;
     }
 
     /**
@@ -130,14 +97,6 @@ final class Device implements DeviceInterface
     public function getBrand(): CompanyInterface
     {
         return $this->brand;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getDualOrientation(): bool
-    {
-        return $this->dualOrientation;
     }
 
     /**
@@ -173,30 +132,6 @@ final class Device implements DeviceInterface
     }
 
     /**
-     * @return int
-     */
-    public function getSimCount(): int
-    {
-        return $this->simCount;
-    }
-
-    /**
-     * @return \UaResult\Device\MarketInterface
-     */
-    public function getMarket(): MarketInterface
-    {
-        return $this->market;
-    }
-
-    /**
-     * @return array
-     */
-    public function getConnections(): array
-    {
-        return $this->connections;
-    }
-
-    /**
      * @return array
      */
     public function toArray(): array
@@ -207,11 +142,7 @@ final class Device implements DeviceInterface
             'manufacturer' => $this->manufacturer->getType(),
             'brand' => $this->brand->getType(),
             'display' => $this->display->toArray(),
-            'dualOrientation' => $this->dualOrientation,
             'type' => $this->type->getType(),
-            'simCount' => $this->simCount,
-            'market' => $this->market->toArray(),
-            'connections' => $this->connections,
         ];
     }
 }

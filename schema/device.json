@@ -33,23 +33,8 @@
           "type": "string"
         },
         "display": {"$ref": "display.json#/definitions/display"},
-        "dualOrientation": {
-          "type": "boolean"
-        },
         "type": {
           "type": "string"
-        },
-        "simCount": {
-          "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
-        },
-        "market": {"$ref": "market.json#/definitions/market"},
-        "connections": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
       },
       "required": [
@@ -58,11 +43,7 @@
         "manufacturer",
         "brand",
         "display",
-        "dualOrientation",
-        "type",
-        "simCount",
-        "market",
-        "connections"
+        "type"
       ]
     }
   },
