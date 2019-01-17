@@ -67,15 +67,15 @@ final class ResultTest extends TestCase
         $array    = $original->toArray();
 
         self::assertArrayHasKey('headers', $array);
-        self::assertInternalType('array', $array['headers']);
+        self::assertIsArray($array['headers']);
         self::assertArrayHasKey('device', $array);
-        self::assertInternalType('array', $array['device']);
+        self::assertIsArray($array['device']);
         self::assertArrayHasKey('browser', $array);
-        self::assertInternalType('array', $array['browser']);
+        self::assertIsArray($array['browser']);
         self::assertArrayHasKey('os', $array);
-        self::assertInternalType('array', $array['os']);
+        self::assertIsArray($array['os']);
         self::assertArrayHasKey('engine', $array);
-        self::assertInternalType('array', $array['engine']);
+        self::assertIsArray($array['engine']);
     }
 
     /**

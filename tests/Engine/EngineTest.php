@@ -53,11 +53,11 @@ final class EngineTest extends TestCase
         $array = $original->toArray();
 
         self::assertArrayHasKey('name', $array);
-        self::assertInternalType('string', $array['name']);
+        self::assertIsString($array['name']);
         self::assertArrayHasKey('version', $array);
-        self::assertInternalType('string', $array['version']);
+        self::assertIsString($array['version']);
         self::assertArrayHasKey('manufacturer', $array);
-        self::assertInternalType('string', $array['manufacturer']);
+        self::assertIsString($array['manufacturer']);
     }
 
     /**

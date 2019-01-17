@@ -27,11 +27,6 @@ interface DeviceInterface
     public function getBrand(): CompanyInterface;
 
     /**
-     * @return bool
-     */
-    public function getDualOrientation(): bool;
-
-    /**
      * @return \UaResult\Company\CompanyInterface
      */
     public function getManufacturer(): CompanyInterface;
@@ -50,21 +45,6 @@ interface DeviceInterface
      * @return \UaDeviceType\TypeInterface
      */
     public function getType(): TypeInterface;
-
-    /**
-     * @return int
-     */
-    public function getSimCount(): int;
-
-    /**
-     * @return \UaResult\Device\MarketInterface
-     */
-    public function getMarket(): MarketInterface;
-
-    /**
-     * @return array
-     */
-    public function getConnections(): array;
 
     /**
      * @return array
