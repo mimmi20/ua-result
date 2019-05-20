@@ -33,7 +33,7 @@
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.14",
-    "infection/infection": "^0.12.0",
+    "infection/infection": "^0.12.0 || ^0.13.0",
     "localheinz/composer-normalize": "^1.1.0",
     "localheinz/phpstan-rules": "^0.7 || ^0.8 || ^0.9",
     "mimmi20/json-class": "~2.0.2",
