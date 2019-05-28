@@ -20,6 +20,9 @@ use UaResult\Engine\Engine;
 final class EngineTest extends TestCase
 {
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     *
      * @return void
      */
     public function testSetterGetter(): void
@@ -32,12 +35,16 @@ final class EngineTest extends TestCase
         /** @var VersionInterface $version */
         $object = new Engine($name, $manufacturer, $version);
 
-        self::assertSame($name, $object->getName());
-        self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($version, $object->getVersion());
+        static::assertSame($name, $object->getName());
+        static::assertSame($manufacturer, $object->getManufacturer());
+        static::assertSame($version, $object->getVersion());
     }
 
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \UnexpectedValueException
+     *
      * @return void
      */
     public function testToarray(): void
@@ -52,15 +59,18 @@ final class EngineTest extends TestCase
 
         $array = $original->toArray();
 
-        self::assertArrayHasKey('name', $array);
-        self::assertIsString($array['name']);
-        self::assertArrayHasKey('version', $array);
-        self::assertIsString($array['version']);
-        self::assertArrayHasKey('manufacturer', $array);
-        self::assertIsString($array['manufacturer']);
+        static::assertArrayHasKey('name', $array);
+        static::assertIsString($array['name']);
+        static::assertArrayHasKey('version', $array);
+        static::assertIsString($array['version']);
+        static::assertArrayHasKey('manufacturer', $array);
+        static::assertIsString($array['manufacturer']);
     }
 
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     *
      * @return void
      */
     public function testClone(): void
@@ -74,8 +84,8 @@ final class EngineTest extends TestCase
         $original = new Engine($name, $manufacturer, $version);
         $cloned   = clone $original;
 
-        self::assertNotSame($original, $cloned);
-        self::assertNotSame($manufacturer, $cloned->getManufacturer());
-        self::assertNotSame($version, $cloned->getVersion());
+        static::assertNotSame($original, $cloned);
+        static::assertNotSame($manufacturer, $cloned->getManufacturer());
+        static::assertNotSame($version, $cloned->getVersion());
     }
 }

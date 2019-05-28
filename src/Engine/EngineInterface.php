@@ -32,6 +32,8 @@ interface EngineInterface
     public function getVersion(): VersionInterface;
 
     /**
+     * @throws \UnexpectedValueException
+     *
      * @return array
      */
     public function toArray(): array;

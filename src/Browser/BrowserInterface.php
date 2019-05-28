@@ -50,6 +50,8 @@ interface BrowserInterface
     public function getType(): TypeInterface;
 
     /**
+     * @throws \UnexpectedValueException
+     *
      * @return array
      */
     public function toArray(): array;

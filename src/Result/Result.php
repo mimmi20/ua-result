@@ -124,6 +124,8 @@ final class Result implements ResultInterface
     }
 
     /**
+     * @throws \UnexpectedValueException
+     *
      * @return array[]
      */
     public function toArray(): array

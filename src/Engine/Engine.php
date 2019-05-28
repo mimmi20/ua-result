@@ -82,6 +82,8 @@ final class Engine implements EngineInterface
     }
 
     /**
+     * @throws \UnexpectedValueException
+     *
      * @return array
      */
     public function toArray(): array

@@ -134,6 +134,8 @@ final class Browser implements BrowserInterface
     }
 
     /**
+     * @throws \UnexpectedValueException
+     *
      * @return array
      */
     public function toArray(): array

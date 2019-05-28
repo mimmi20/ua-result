@@ -11,7 +11,6 @@
 declare(strict_types = 1);
 namespace UaResultTest\Browser;
 
-use BrowserDetector\Version\Version;
 use BrowserDetector\Version\VersionInterface;
 use PHPUnit\Framework\TestCase;
 use UaBrowserType\TypeInterface;
@@ -21,6 +20,9 @@ use UaResult\Company\CompanyInterface;
 final class BrowserTest extends TestCase
 {
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     *
      * @return void
      */
     public function testSetterGetter(): void
@@ -37,15 +39,19 @@ final class BrowserTest extends TestCase
         /** @var TypeInterface $type */
         $object = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
 
-        self::assertSame($name, $object->getName());
-        self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($version, $object->getVersion());
-        self::assertSame($type, $object->getType());
-        self::assertSame($bits, $object->getBits());
-        self::assertSame($modus, $object->getModus());
+        static::assertSame($name, $object->getName());
+        static::assertSame($manufacturer, $object->getManufacturer());
+        static::assertSame($version, $object->getVersion());
+        static::assertSame($type, $object->getType());
+        static::assertSame($bits, $object->getBits());
+        static::assertSame($modus, $object->getModus());
     }
 
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \UnexpectedValueException
+     *
      * @return void
      */
     public function testToarray(): void
@@ -64,19 +70,22 @@ final class BrowserTest extends TestCase
 
         $array = $original->toArray();
 
-        self::assertArrayHasKey('name', $array);
-        self::assertIsString($array['name']);
-        self::assertArrayHasKey('modus', $array);
-        self::assertArrayHasKey('version', $array);
-        self::assertIsString($array['version']);
-        self::assertArrayHasKey('manufacturer', $array);
-        self::assertIsString($array['manufacturer']);
-        self::assertArrayHasKey('bits', $array);
-        self::assertArrayHasKey('type', $array);
-        self::assertIsString($array['type']);
+        static::assertArrayHasKey('name', $array);
+        static::assertIsString($array['name']);
+        static::assertArrayHasKey('modus', $array);
+        static::assertArrayHasKey('version', $array);
+        static::assertIsString($array['version']);
+        static::assertArrayHasKey('manufacturer', $array);
+        static::assertIsString($array['manufacturer']);
+        static::assertArrayHasKey('bits', $array);
+        static::assertArrayHasKey('type', $array);
+        static::assertIsString($array['type']);
     }
 
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     *
      * @return void
      */
     public function testClone(): void
@@ -92,9 +101,9 @@ final class BrowserTest extends TestCase
         $original = new Browser($name, $manufacturer, $version, $type, null, null);
         $cloned   = clone $original;
 
-        self::assertNotSame($original, $cloned);
-        self::assertNotSame($manufacturer, $cloned->getManufacturer());
-        self::assertNotSame($version, $cloned->getVersion());
-        self::assertNotSame($type, $cloned->getType());
+        static::assertNotSame($original, $cloned);
+        static::assertNotSame($manufacturer, $cloned->getManufacturer());
+        static::assertNotSame($version, $cloned->getVersion());
+        static::assertNotSame($type, $cloned->getType());
     }
 }

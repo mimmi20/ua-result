@@ -114,6 +114,8 @@ final class Os implements OsInterface
     }
 
     /**
+     * @throws \UnexpectedValueException
+     *
      * @return array
      */
     public function toArray(): array
