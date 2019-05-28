@@ -20,6 +20,9 @@ use UaResult\Device\DisplayInterface;
 final class DeviceTest extends TestCase
 {
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     *
      * @return void
      */
     public function testSetterGetter(): void
@@ -37,15 +40,18 @@ final class DeviceTest extends TestCase
         /** @var DisplayInterface $display */
         $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display);
 
-        self::assertSame($deviceName, $object->getDeviceName());
-        self::assertSame($marketingName, $object->getMarketingName());
-        self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($brand, $object->getBrand());
-        self::assertSame($type, $object->getType());
-        self::assertSame($display, $object->getDisplay());
+        static::assertSame($deviceName, $object->getDeviceName());
+        static::assertSame($marketingName, $object->getMarketingName());
+        static::assertSame($manufacturer, $object->getManufacturer());
+        static::assertSame($brand, $object->getBrand());
+        static::assertSame($type, $object->getType());
+        static::assertSame($display, $object->getDisplay());
     }
 
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     *
      * @return void
      */
     public function testToarray(): void
@@ -65,21 +71,24 @@ final class DeviceTest extends TestCase
 
         $array = $original->toArray();
 
-        self::assertArrayHasKey('deviceName', $array);
-        self::assertIsString($array['deviceName']);
-        self::assertArrayHasKey('marketingName', $array);
-        self::assertIsString($array['marketingName']);
-        self::assertArrayHasKey('manufacturer', $array);
-        self::assertIsString($array['manufacturer']);
-        self::assertArrayHasKey('brand', $array);
-        self::assertIsString($array['brand']);
-        self::assertArrayHasKey('type', $array);
-        self::assertIsString($array['type']);
-        self::assertArrayHasKey('display', $array);
-        self::assertIsArray($array['display']);
+        static::assertArrayHasKey('deviceName', $array);
+        static::assertIsString($array['deviceName']);
+        static::assertArrayHasKey('marketingName', $array);
+        static::assertIsString($array['marketingName']);
+        static::assertArrayHasKey('manufacturer', $array);
+        static::assertIsString($array['manufacturer']);
+        static::assertArrayHasKey('brand', $array);
+        static::assertIsString($array['brand']);
+        static::assertArrayHasKey('type', $array);
+        static::assertIsString($array['type']);
+        static::assertArrayHasKey('display', $array);
+        static::assertIsArray($array['display']);
     }
 
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     *
      * @return void
      */
     public function testClone(): void
@@ -98,9 +107,9 @@ final class DeviceTest extends TestCase
         $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display);
         $cloned   = clone $original;
 
-        self::assertNotSame($original, $cloned);
-        self::assertNotSame($manufacturer, $cloned->getManufacturer());
-        self::assertNotSame($brand, $cloned->getBrand());
-        self::assertNotSame($type, $cloned->getType());
+        static::assertNotSame($original, $cloned);
+        static::assertNotSame($manufacturer, $cloned->getManufacturer());
+        static::assertNotSame($brand, $cloned->getBrand());
+        static::assertNotSame($type, $cloned->getType());
     }
 }

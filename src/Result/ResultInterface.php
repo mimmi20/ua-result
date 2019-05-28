@@ -44,6 +44,8 @@ interface ResultInterface
     public function getHeaders(): array;
 
     /**
+     * @throws \UnexpectedValueException
+     *
      * @return array[]
      */
     public function toArray(): array;

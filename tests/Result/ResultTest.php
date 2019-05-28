@@ -25,6 +25,9 @@ use UaResult\Result\Result;
 final class ResultTest extends TestCase
 {
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     *
      * @return void
      */
     public function testSetterGetter(): void
@@ -41,14 +44,18 @@ final class ResultTest extends TestCase
         /** @var EngineInterface $engine */
         $object = new Result($headers, $device, $os, $browser, $engine);
 
-        self::assertSame($headers, $object->getHeaders());
-        self::assertSame($device, $object->getDevice());
-        self::assertSame($os, $object->getOs());
-        self::assertSame($browser, $object->getBrowser());
-        self::assertSame($engine, $object->getEngine());
+        static::assertSame($headers, $object->getHeaders());
+        static::assertSame($device, $object->getDevice());
+        static::assertSame($os, $object->getOs());
+        static::assertSame($browser, $object->getBrowser());
+        static::assertSame($engine, $object->getEngine());
     }
 
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \UnexpectedValueException
+     *
      * @return void
      */
     public function testToArray(): void
@@ -66,19 +73,22 @@ final class ResultTest extends TestCase
         $original = new Result($headers, $device, $os, $browser, $engine);
         $array    = $original->toArray();
 
-        self::assertArrayHasKey('headers', $array);
-        self::assertIsArray($array['headers']);
-        self::assertArrayHasKey('device', $array);
-        self::assertIsArray($array['device']);
-        self::assertArrayHasKey('browser', $array);
-        self::assertIsArray($array['browser']);
-        self::assertArrayHasKey('os', $array);
-        self::assertIsArray($array['os']);
-        self::assertArrayHasKey('engine', $array);
-        self::assertIsArray($array['engine']);
+        static::assertArrayHasKey('headers', $array);
+        static::assertIsArray($array['headers']);
+        static::assertArrayHasKey('device', $array);
+        static::assertIsArray($array['device']);
+        static::assertArrayHasKey('browser', $array);
+        static::assertIsArray($array['browser']);
+        static::assertArrayHasKey('os', $array);
+        static::assertIsArray($array['os']);
+        static::assertArrayHasKey('engine', $array);
+        static::assertIsArray($array['engine']);
     }
 
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     *
      * @return void
      */
     public function testClone(): void
@@ -96,10 +106,10 @@ final class ResultTest extends TestCase
         $original = new Result($headers, $device, $os, $browser, $engine);
         $cloned   = clone $original;
 
-        self::assertNotSame($original, $cloned);
-        self::assertNotSame($device, $cloned->getDevice());
-        self::assertNotSame($os, $cloned->getOs());
-        self::assertNotSame($browser, $cloned->getBrowser());
-        self::assertNotSame($engine, $cloned->getEngine());
+        static::assertNotSame($original, $cloned);
+        static::assertNotSame($device, $cloned->getDevice());
+        static::assertNotSame($os, $cloned->getOs());
+        static::assertNotSame($browser, $cloned->getBrowser());
+        static::assertNotSame($engine, $cloned->getEngine());
     }
 }

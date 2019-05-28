@@ -37,11 +37,13 @@ interface OsInterface
     public function getMarketingName(): ?string;
 
     /**
-     * @return \BrowserDetector\Version\Version
+     * @return \BrowserDetector\Version\VersionInterface
      */
     public function getVersion(): VersionInterface;
 
     /**
+     * @throws \UnexpectedValueException
+     *
      * @return array
      */
     public function toArray(): array;

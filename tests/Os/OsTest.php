@@ -20,6 +20,9 @@ use UaResult\Os\Os;
 final class OsTest extends TestCase
 {
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     *
      * @return void
      */
     public function testSetterGetter(): void
@@ -34,14 +37,18 @@ final class OsTest extends TestCase
         /** @var VersionInterface $version */
         $object = new Os($name, $marketingName, $manufacturer, $version, $bits);
 
-        self::assertSame($name, $object->getName());
-        self::assertSame($marketingName, $object->getMarketingName());
-        self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($version, $object->getVersion());
-        self::assertSame($bits, $object->getBits());
+        static::assertSame($name, $object->getName());
+        static::assertSame($marketingName, $object->getMarketingName());
+        static::assertSame($manufacturer, $object->getManufacturer());
+        static::assertSame($version, $object->getVersion());
+        static::assertSame($bits, $object->getBits());
     }
 
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \UnexpectedValueException
+     *
      * @return void
      */
     public function testToarray(): void
@@ -58,18 +65,21 @@ final class OsTest extends TestCase
 
         $array = $original->toArray();
 
-        self::assertArrayHasKey('name', $array);
-        self::assertIsString($array['name']);
-        self::assertArrayHasKey('marketingName', $array);
-        self::assertIsString($array['marketingName']);
-        self::assertArrayHasKey('version', $array);
-        self::assertIsString($array['version']);
-        self::assertArrayHasKey('manufacturer', $array);
-        self::assertIsString($array['manufacturer']);
-        self::assertArrayHasKey('bits', $array);
+        static::assertArrayHasKey('name', $array);
+        static::assertIsString($array['name']);
+        static::assertArrayHasKey('marketingName', $array);
+        static::assertIsString($array['marketingName']);
+        static::assertArrayHasKey('version', $array);
+        static::assertIsString($array['version']);
+        static::assertArrayHasKey('manufacturer', $array);
+        static::assertIsString($array['manufacturer']);
+        static::assertArrayHasKey('bits', $array);
     }
 
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     *
      * @return void
      */
     public function testClone(): void
@@ -85,8 +95,8 @@ final class OsTest extends TestCase
         $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
         $cloned   = clone $original;
 
-        self::assertNotSame($original, $cloned);
-        self::assertNotSame($manufacturer, $cloned->getManufacturer());
-        self::assertNotSame($version, $cloned->getVersion());
+        static::assertNotSame($original, $cloned);
+        static::assertNotSame($manufacturer, $cloned->getManufacturer());
+        static::assertNotSame($version, $cloned->getVersion());
     }
 }

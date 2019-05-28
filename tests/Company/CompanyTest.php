@@ -17,6 +17,9 @@ use UaResult\Company\Company;
 final class CompanyTest extends TestCase
 {
     /**
+     * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\Exception
+     *
      * @return void
      */
     public function testSetterGetter(): void
@@ -27,8 +30,8 @@ final class CompanyTest extends TestCase
 
         $object = new Company($type, $name, $brandname);
 
-        self::assertSame($type, $object->getType());
-        self::assertSame($name, $object->getName());
-        self::assertSame($brandname, $object->getBrandName());
+        static::assertSame($type, $object->getType());
+        static::assertSame($name, $object->getName());
+        static::assertSame($brandname, $object->getBrandName());
     }
 }
