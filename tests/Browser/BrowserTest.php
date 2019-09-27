@@ -49,6 +49,7 @@ final class BrowserTest extends TestCase
 
     /**
      * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\MockObject\RuntimeException
      * @throws \PHPUnit\Framework\Exception
      * @throws \UnexpectedValueException
      *
@@ -56,12 +57,33 @@ final class BrowserTest extends TestCase
      */
     public function testToarray(): void
     {
-        $bits         = 64;
-        $modus        = 'Desktop Mode';
-        $name         = 'TestBrowser';
-        $manufacturer = $this->createMock(CompanyInterface::class);
-        $version      = $this->createMock(VersionInterface::class);
-        $type         = $this->createMock(TypeInterface::class);
+        $bits          = 64;
+        $modus         = 'Desktop Mode';
+        $name          = 'TestBrowser';
+        $versionString = '1.0';
+        $typeString    = 'xyz';
+        $manuString    = 'abc';
+
+        $manufacturer = $this->getMockBuilder(CompanyInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $manufacturer->expects(static::once())
+            ->method('getType')
+            ->willReturn($manuString);
+
+        $version = $this->getMockBuilder(VersionInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $version->expects(static::once())
+            ->method('getVersion')
+            ->willReturn($versionString);
+
+        $type = $this->getMockBuilder(TypeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $type->expects(static::once())
+            ->method('getType')
+            ->willReturn($typeString);
 
         /** @var CompanyInterface $manufacturer */
         /** @var VersionInterface $version */
@@ -75,11 +97,14 @@ final class BrowserTest extends TestCase
         static::assertArrayHasKey('modus', $array);
         static::assertArrayHasKey('version', $array);
         static::assertIsString($array['version']);
+        static::assertSame($versionString, $array['version']);
         static::assertArrayHasKey('manufacturer', $array);
         static::assertIsString($array['manufacturer']);
+        static::assertSame($manuString, $array['manufacturer']);
         static::assertArrayHasKey('bits', $array);
         static::assertArrayHasKey('type', $array);
         static::assertIsString($array['type']);
+        static::assertSame($typeString, $array['type']);
     }
 
     /**
