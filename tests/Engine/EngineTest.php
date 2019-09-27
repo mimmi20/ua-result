@@ -42,6 +42,7 @@ final class EngineTest extends TestCase
 
     /**
      * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\MockObject\RuntimeException
      * @throws \PHPUnit\Framework\Exception
      * @throws \UnexpectedValueException
      *
@@ -49,9 +50,23 @@ final class EngineTest extends TestCase
      */
     public function testToarray(): void
     {
-        $name         = 'TestBrowser';
-        $manufacturer = $this->createMock(CompanyInterface::class);
-        $version      = $this->createMock(VersionInterface::class);
+        $name          = 'TestBrowser';
+        $versionString = '1.0';
+        $manuString    = 'abc';
+
+        $manufacturer = $this->getMockBuilder(CompanyInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $manufacturer->expects(static::once())
+            ->method('getType')
+            ->willReturn($manuString);
+
+        $version = $this->getMockBuilder(VersionInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $version->expects(static::once())
+            ->method('getVersion')
+            ->willReturn($versionString);
 
         /** @var CompanyInterface $manufacturer */
         /** @var VersionInterface $version */
@@ -63,8 +78,10 @@ final class EngineTest extends TestCase
         static::assertIsString($array['name']);
         static::assertArrayHasKey('version', $array);
         static::assertIsString($array['version']);
+        static::assertSame($versionString, $array['version']);
         static::assertArrayHasKey('manufacturer', $array);
         static::assertIsString($array['manufacturer']);
+        static::assertSame($manuString, $array['manufacturer']);
     }
 
     /**

@@ -46,6 +46,7 @@ final class OsTest extends TestCase
 
     /**
      * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\MockObject\RuntimeException
      * @throws \PHPUnit\Framework\Exception
      * @throws \UnexpectedValueException
      *
@@ -55,9 +56,23 @@ final class OsTest extends TestCase
     {
         $name          = 'TestPlatform';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = $this->createMock(CompanyInterface::class);
-        $version       = $this->createMock(VersionInterface::class);
+        $versionString = '1.0';
         $bits          = 64;
+        $manuString    = 'abc';
+
+        $manufacturer = $this->getMockBuilder(CompanyInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $manufacturer->expects(static::once())
+            ->method('getType')
+            ->willReturn($manuString);
+
+        $version = $this->getMockBuilder(VersionInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $version->expects(static::once())
+            ->method('getVersion')
+            ->willReturn($versionString);
 
         /** @var CompanyInterface $manufacturer */
         /** @var VersionInterface $version */
@@ -71,8 +86,10 @@ final class OsTest extends TestCase
         static::assertIsString($array['marketingName']);
         static::assertArrayHasKey('version', $array);
         static::assertIsString($array['version']);
+        static::assertSame($versionString, $array['version']);
         static::assertArrayHasKey('manufacturer', $array);
         static::assertIsString($array['manufacturer']);
+        static::assertSame($manuString, $array['manufacturer']);
         static::assertArrayHasKey('bits', $array);
     }
 

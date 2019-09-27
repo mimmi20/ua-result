@@ -50,6 +50,7 @@ final class DeviceTest extends TestCase
 
     /**
      * @throws \InvalidArgumentException
+     * @throws \PHPUnit\Framework\MockObject\RuntimeException
      * @throws \PHPUnit\Framework\Exception
      *
      * @return void
@@ -58,10 +59,32 @@ final class DeviceTest extends TestCase
     {
         $deviceName    = 'TestDevicename';
         $marketingName = 'TestMarketingname';
-        $manufacturer  = $this->createMock(CompanyInterface::class);
-        $brand         = $this->createMock(CompanyInterface::class);
-        $type          = $this->createMock(TypeInterface::class);
-        $display       = $this->createMock(DisplayInterface::class);
+        $typeString    = 'xyz';
+        $manuString    = 'abc';
+        $brandString   = 'def';
+
+        $manufacturer = $this->getMockBuilder(CompanyInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $manufacturer->expects(static::once())
+            ->method('getType')
+            ->willReturn($manuString);
+
+        $brand = $this->getMockBuilder(CompanyInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $brand->expects(static::once())
+            ->method('getType')
+            ->willReturn($brandString);
+
+        $type = $this->getMockBuilder(TypeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $type->expects(static::once())
+            ->method('getType')
+            ->willReturn($typeString);
+
+        $display = $this->createMock(DisplayInterface::class);
 
         /** @var CompanyInterface $manufacturer */
         /** @var CompanyInterface $brand */
@@ -77,10 +100,13 @@ final class DeviceTest extends TestCase
         static::assertIsString($array['marketingName']);
         static::assertArrayHasKey('manufacturer', $array);
         static::assertIsString($array['manufacturer']);
+        static::assertSame($manuString, $array['manufacturer']);
         static::assertArrayHasKey('brand', $array);
         static::assertIsString($array['brand']);
+        static::assertSame($brandString, $array['brand']);
         static::assertArrayHasKey('type', $array);
         static::assertIsString($array['type']);
+        static::assertSame($typeString, $array['type']);
         static::assertArrayHasKey('display', $array);
         static::assertIsArray($array['display']);
     }
