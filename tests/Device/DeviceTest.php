@@ -40,12 +40,12 @@ final class DeviceTest extends TestCase
         /** @var DisplayInterface $display */
         $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display);
 
-        static::assertSame($deviceName, $object->getDeviceName());
-        static::assertSame($marketingName, $object->getMarketingName());
-        static::assertSame($manufacturer, $object->getManufacturer());
-        static::assertSame($brand, $object->getBrand());
-        static::assertSame($type, $object->getType());
-        static::assertSame($display, $object->getDisplay());
+        self::assertSame($deviceName, $object->getDeviceName());
+        self::assertSame($marketingName, $object->getMarketingName());
+        self::assertSame($manufacturer, $object->getManufacturer());
+        self::assertSame($brand, $object->getBrand());
+        self::assertSame($type, $object->getType());
+        self::assertSame($display, $object->getDisplay());
     }
 
     /**
@@ -66,21 +66,21 @@ final class DeviceTest extends TestCase
         $manufacturer = $this->getMockBuilder(CompanyInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $manufacturer->expects(static::once())
+        $manufacturer->expects(self::once())
             ->method('getType')
             ->willReturn($manuString);
 
         $brand = $this->getMockBuilder(CompanyInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $brand->expects(static::once())
+        $brand->expects(self::once())
             ->method('getType')
             ->willReturn($brandString);
 
         $type = $this->getMockBuilder(TypeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $type->expects(static::once())
+        $type->expects(self::once())
             ->method('getType')
             ->willReturn($typeString);
 
@@ -94,21 +94,21 @@ final class DeviceTest extends TestCase
 
         $array = $original->toArray();
 
-        static::assertArrayHasKey('deviceName', $array);
-        static::assertIsString($array['deviceName']);
-        static::assertArrayHasKey('marketingName', $array);
-        static::assertIsString($array['marketingName']);
-        static::assertArrayHasKey('manufacturer', $array);
-        static::assertIsString($array['manufacturer']);
-        static::assertSame($manuString, $array['manufacturer']);
-        static::assertArrayHasKey('brand', $array);
-        static::assertIsString($array['brand']);
-        static::assertSame($brandString, $array['brand']);
-        static::assertArrayHasKey('type', $array);
-        static::assertIsString($array['type']);
-        static::assertSame($typeString, $array['type']);
-        static::assertArrayHasKey('display', $array);
-        static::assertIsArray($array['display']);
+        self::assertArrayHasKey('deviceName', $array);
+        self::assertIsString($array['deviceName']);
+        self::assertArrayHasKey('marketingName', $array);
+        self::assertIsString($array['marketingName']);
+        self::assertArrayHasKey('manufacturer', $array);
+        self::assertIsString($array['manufacturer']);
+        self::assertSame($manuString, $array['manufacturer']);
+        self::assertArrayHasKey('brand', $array);
+        self::assertIsString($array['brand']);
+        self::assertSame($brandString, $array['brand']);
+        self::assertArrayHasKey('type', $array);
+        self::assertIsString($array['type']);
+        self::assertSame($typeString, $array['type']);
+        self::assertArrayHasKey('display', $array);
+        self::assertIsArray($array['display']);
     }
 
     /**
@@ -133,9 +133,9 @@ final class DeviceTest extends TestCase
         $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display);
         $cloned   = clone $original;
 
-        static::assertNotSame($original, $cloned);
-        static::assertNotSame($manufacturer, $cloned->getManufacturer());
-        static::assertNotSame($brand, $cloned->getBrand());
-        static::assertNotSame($type, $cloned->getType());
+        self::assertNotSame($original, $cloned);
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($brand, $cloned->getBrand());
+        self::assertNotSame($type, $cloned->getType());
     }
 }

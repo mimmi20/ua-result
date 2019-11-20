@@ -32,9 +32,9 @@ final class DisplayTest extends TestCase
         /** @var DisplayTypeInterface $display */
         $object = new Display($touch, $display, $size);
 
-        static::assertTrue($object->hasTouch());
-        static::assertSame($display, $object->getType());
-        static::assertSame($size, $object->getSize());
+        self::assertTrue($object->hasTouch());
+        self::assertSame($display, $object->getType());
+        self::assertSame($size, $object->getSize());
     }
 
     /**
@@ -52,10 +52,10 @@ final class DisplayTest extends TestCase
         $display = $this->getMockBuilder(DisplayTypeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $display->expects(static::once())
+        $display->expects(self::once())
             ->method('getHeight')
             ->willReturn($height);
-        $display->expects(static::once())
+        $display->expects(self::once())
             ->method('getWidth')
             ->willReturn($width);
         $size = 5.7;
@@ -65,14 +65,14 @@ final class DisplayTest extends TestCase
 
         $array = $original->toArray();
 
-        static::assertArrayHasKey('width', $array);
-        static::assertSame($width, $array['width']);
-        static::assertArrayHasKey('height', $array);
-        static::assertSame($height, $array['height']);
-        static::assertArrayHasKey('touch', $array);
-        static::assertTrue($array['touch']);
-        static::assertArrayHasKey('size', $array);
-        static::assertSame($size, $array['size']);
+        self::assertArrayHasKey('width', $array);
+        self::assertSame($width, $array['width']);
+        self::assertArrayHasKey('height', $array);
+        self::assertSame($height, $array['height']);
+        self::assertArrayHasKey('touch', $array);
+        self::assertTrue($array['touch']);
+        self::assertArrayHasKey('size', $array);
+        self::assertSame($size, $array['size']);
     }
 
     /**
@@ -91,7 +91,7 @@ final class DisplayTest extends TestCase
         $original = new Display($touch, $display, $size);
         $cloned   = clone $original;
 
-        static::assertNotSame($original, $cloned);
-        static::assertNotSame($display, $cloned->getType());
+        self::assertNotSame($original, $cloned);
+        self::assertNotSame($display, $cloned->getType());
     }
 }

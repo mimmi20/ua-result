@@ -35,9 +35,9 @@ final class EngineTest extends TestCase
         /** @var VersionInterface $version */
         $object = new Engine($name, $manufacturer, $version);
 
-        static::assertSame($name, $object->getName());
-        static::assertSame($manufacturer, $object->getManufacturer());
-        static::assertSame($version, $object->getVersion());
+        self::assertSame($name, $object->getName());
+        self::assertSame($manufacturer, $object->getManufacturer());
+        self::assertSame($version, $object->getVersion());
     }
 
     /**
@@ -57,14 +57,14 @@ final class EngineTest extends TestCase
         $manufacturer = $this->getMockBuilder(CompanyInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $manufacturer->expects(static::once())
+        $manufacturer->expects(self::once())
             ->method('getType')
             ->willReturn($manuString);
 
         $version = $this->getMockBuilder(VersionInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $version->expects(static::once())
+        $version->expects(self::once())
             ->method('getVersion')
             ->willReturn($versionString);
 
@@ -74,14 +74,14 @@ final class EngineTest extends TestCase
 
         $array = $original->toArray();
 
-        static::assertArrayHasKey('name', $array);
-        static::assertIsString($array['name']);
-        static::assertArrayHasKey('version', $array);
-        static::assertIsString($array['version']);
-        static::assertSame($versionString, $array['version']);
-        static::assertArrayHasKey('manufacturer', $array);
-        static::assertIsString($array['manufacturer']);
-        static::assertSame($manuString, $array['manufacturer']);
+        self::assertArrayHasKey('name', $array);
+        self::assertIsString($array['name']);
+        self::assertArrayHasKey('version', $array);
+        self::assertIsString($array['version']);
+        self::assertSame($versionString, $array['version']);
+        self::assertArrayHasKey('manufacturer', $array);
+        self::assertIsString($array['manufacturer']);
+        self::assertSame($manuString, $array['manufacturer']);
     }
 
     /**
@@ -101,8 +101,8 @@ final class EngineTest extends TestCase
         $original = new Engine($name, $manufacturer, $version);
         $cloned   = clone $original;
 
-        static::assertNotSame($original, $cloned);
-        static::assertNotSame($manufacturer, $cloned->getManufacturer());
-        static::assertNotSame($version, $cloned->getVersion());
+        self::assertNotSame($original, $cloned);
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($version, $cloned->getVersion());
     }
 }

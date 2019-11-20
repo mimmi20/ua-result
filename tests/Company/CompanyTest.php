@@ -30,8 +30,8 @@ final class CompanyTest extends TestCase
 
         $object = new Company($type, $name, $brandname);
 
-        static::assertSame($type, $object->getType());
-        static::assertSame($name, $object->getName());
-        static::assertSame($brandname, $object->getBrandName());
+        self::assertSame($type, $object->getType());
+        self::assertSame($name, $object->getName());
+        self::assertSame($brandname, $object->getBrandName());
     }
 }

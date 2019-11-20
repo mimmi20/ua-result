@@ -37,11 +37,11 @@ final class OsTest extends TestCase
         /** @var VersionInterface $version */
         $object = new Os($name, $marketingName, $manufacturer, $version, $bits);
 
-        static::assertSame($name, $object->getName());
-        static::assertSame($marketingName, $object->getMarketingName());
-        static::assertSame($manufacturer, $object->getManufacturer());
-        static::assertSame($version, $object->getVersion());
-        static::assertSame($bits, $object->getBits());
+        self::assertSame($name, $object->getName());
+        self::assertSame($marketingName, $object->getMarketingName());
+        self::assertSame($manufacturer, $object->getManufacturer());
+        self::assertSame($version, $object->getVersion());
+        self::assertSame($bits, $object->getBits());
     }
 
     /**
@@ -63,14 +63,14 @@ final class OsTest extends TestCase
         $manufacturer = $this->getMockBuilder(CompanyInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $manufacturer->expects(static::once())
+        $manufacturer->expects(self::once())
             ->method('getType')
             ->willReturn($manuString);
 
         $version = $this->getMockBuilder(VersionInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $version->expects(static::once())
+        $version->expects(self::once())
             ->method('getVersion')
             ->willReturn($versionString);
 
@@ -80,17 +80,17 @@ final class OsTest extends TestCase
 
         $array = $original->toArray();
 
-        static::assertArrayHasKey('name', $array);
-        static::assertIsString($array['name']);
-        static::assertArrayHasKey('marketingName', $array);
-        static::assertIsString($array['marketingName']);
-        static::assertArrayHasKey('version', $array);
-        static::assertIsString($array['version']);
-        static::assertSame($versionString, $array['version']);
-        static::assertArrayHasKey('manufacturer', $array);
-        static::assertIsString($array['manufacturer']);
-        static::assertSame($manuString, $array['manufacturer']);
-        static::assertArrayHasKey('bits', $array);
+        self::assertArrayHasKey('name', $array);
+        self::assertIsString($array['name']);
+        self::assertArrayHasKey('marketingName', $array);
+        self::assertIsString($array['marketingName']);
+        self::assertArrayHasKey('version', $array);
+        self::assertIsString($array['version']);
+        self::assertSame($versionString, $array['version']);
+        self::assertArrayHasKey('manufacturer', $array);
+        self::assertIsString($array['manufacturer']);
+        self::assertSame($manuString, $array['manufacturer']);
+        self::assertArrayHasKey('bits', $array);
     }
 
     /**
@@ -112,8 +112,8 @@ final class OsTest extends TestCase
         $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
         $cloned   = clone $original;
 
-        static::assertNotSame($original, $cloned);
-        static::assertNotSame($manufacturer, $cloned->getManufacturer());
-        static::assertNotSame($version, $cloned->getVersion());
+        self::assertNotSame($original, $cloned);
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($version, $cloned->getVersion());
     }
 }
