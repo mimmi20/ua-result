@@ -39,12 +39,12 @@ final class BrowserTest extends TestCase
         /** @var TypeInterface $type */
         $object = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
 
-        static::assertSame($name, $object->getName());
-        static::assertSame($manufacturer, $object->getManufacturer());
-        static::assertSame($version, $object->getVersion());
-        static::assertSame($type, $object->getType());
-        static::assertSame($bits, $object->getBits());
-        static::assertSame($modus, $object->getModus());
+        self::assertSame($name, $object->getName());
+        self::assertSame($manufacturer, $object->getManufacturer());
+        self::assertSame($version, $object->getVersion());
+        self::assertSame($type, $object->getType());
+        self::assertSame($bits, $object->getBits());
+        self::assertSame($modus, $object->getModus());
     }
 
     /**
@@ -67,21 +67,21 @@ final class BrowserTest extends TestCase
         $manufacturer = $this->getMockBuilder(CompanyInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $manufacturer->expects(static::once())
+        $manufacturer->expects(self::once())
             ->method('getType')
             ->willReturn($manuString);
 
         $version = $this->getMockBuilder(VersionInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $version->expects(static::once())
+        $version->expects(self::once())
             ->method('getVersion')
             ->willReturn($versionString);
 
         $type = $this->getMockBuilder(TypeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $type->expects(static::once())
+        $type->expects(self::once())
             ->method('getType')
             ->willReturn($typeString);
 
@@ -92,19 +92,19 @@ final class BrowserTest extends TestCase
 
         $array = $original->toArray();
 
-        static::assertArrayHasKey('name', $array);
-        static::assertIsString($array['name']);
-        static::assertArrayHasKey('modus', $array);
-        static::assertArrayHasKey('version', $array);
-        static::assertIsString($array['version']);
-        static::assertSame($versionString, $array['version']);
-        static::assertArrayHasKey('manufacturer', $array);
-        static::assertIsString($array['manufacturer']);
-        static::assertSame($manuString, $array['manufacturer']);
-        static::assertArrayHasKey('bits', $array);
-        static::assertArrayHasKey('type', $array);
-        static::assertIsString($array['type']);
-        static::assertSame($typeString, $array['type']);
+        self::assertArrayHasKey('name', $array);
+        self::assertIsString($array['name']);
+        self::assertArrayHasKey('modus', $array);
+        self::assertArrayHasKey('version', $array);
+        self::assertIsString($array['version']);
+        self::assertSame($versionString, $array['version']);
+        self::assertArrayHasKey('manufacturer', $array);
+        self::assertIsString($array['manufacturer']);
+        self::assertSame($manuString, $array['manufacturer']);
+        self::assertArrayHasKey('bits', $array);
+        self::assertArrayHasKey('type', $array);
+        self::assertIsString($array['type']);
+        self::assertSame($typeString, $array['type']);
     }
 
     /**
@@ -126,9 +126,9 @@ final class BrowserTest extends TestCase
         $original = new Browser($name, $manufacturer, $version, $type, null, null);
         $cloned   = clone $original;
 
-        static::assertNotSame($original, $cloned);
-        static::assertNotSame($manufacturer, $cloned->getManufacturer());
-        static::assertNotSame($version, $cloned->getVersion());
-        static::assertNotSame($type, $cloned->getType());
+        self::assertNotSame($original, $cloned);
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($version, $cloned->getVersion());
+        self::assertNotSame($type, $cloned->getType());
     }
 }
