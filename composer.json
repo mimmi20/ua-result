@@ -27,7 +27,7 @@
     "ext-json": "*",
     "mimmi20/browser-detector-version": "~6.0.3",
     "mimmi20/ua-browser-type": "~7.0.3",
-    "mimmi20/ua-device-type": "~7.1.3",
+    "mimmi20/ua-device-type": "~7.1.5",
     "mimmi20/ua-display-size": "~1.0.17",
     "psr/log": "^1.0.0"
   },
