@@ -9,6 +9,7 @@ parameters:
     - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/src/Util/Tokens.php
   excludes_analyse:
     - */tests/*/data/*
+  checkMissingIterableValueType: false
   ignoreErrors:
     - '~has a nullable return type declaration~'
     - '~with a nullable type declaration~'
@@ -16,8 +17,9 @@ parameters:
   exceptionRules:
     reportUnusedCatchesOfUncheckedExceptions: false
     uncheckedExceptions: []
-  classesAllowedToBeExtended:
-  	- UnexpectedValueException
+  ergebnis:
+    classesAllowedToBeExtended:
+      - UnexpectedValueException
 
 includes:
   - vendor/phpstan/phpstan-strict-rules/rules.neon
@@ -25,4 +27,4 @@ includes:
   - vendor/phpstan/phpstan-phpunit/rules.neon
   - vendor/pepakriz/phpstan-exception-rules/extension.neon
   - vendor/phpstan/phpstan-deprecation-rules/rules.neon
-  - vendor/localheinz/phpstan-rules/rules.neon
+  - vendor/ergebnis/phpstan-rules/rules.neon
