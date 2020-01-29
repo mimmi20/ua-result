@@ -44,3 +44,5 @@ phpstan.neon         export-ignore text eol=lf
 phpunit.xml          export-ignore text eol=lf
 /tests               export-ignore
 /cache               export-ignore
+/.github             export-ignore
+/.dependabot         export-ignore
