@@ -25,25 +25,25 @@
   "require": {
     "php": "^7.1",
     "ext-json": "*",
-    "mimmi20/browser-detector-version": "~6.0.9",
-    "mimmi20/ua-browser-type": "~7.0.7",
-    "mimmi20/ua-device-type": "~7.1.6",
-    "mimmi20/ua-display-size": "~1.0.41",
+    "mimmi20/browser-detector-version": "~6.0.10",
+    "mimmi20/ua-browser-type": "~7.0.8",
+    "mimmi20/ua-device-type": "~7.1.7",
+    "mimmi20/ua-display-size": "~2.0.0",
     "psr/log": "^1.1.2"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.2.2",
-    "ergebnis/phpstan-rules": "^0.14.2",
+    "ergebnis/composer-normalize": "^2.2.4",
+    "ergebnis/phpstan-rules": "^0.14.3",
     "friendsofphp/php-cs-fixer": "^2.16.1",
-    "infection/infection": "^0.13.6",
-    "mimmi20/json-class": "~2.0.8",
+    "infection/infection": "^0.13.6 || ^0.15.3",
+    "mimmi20/json-class": "~2.0.9",
     "pepakriz/phpstan-exception-rules": "^0.10.1",
-    "phpstan/phpstan": "^0.12.8",
+    "phpstan/phpstan": "^0.12.14",
     "phpstan/phpstan-deprecation-rules": "^0.12.2",
     "phpstan/phpstan-phpunit": "^0.12.6",
     "phpstan/phpstan-strict-rules": "^0.12.2",
-    "phpunit/phpunit": "^7.5.19 || ^8.5.0",
-    "squizlabs/php_codesniffer": "^3.5.3"
+    "phpunit/phpunit": "^7.5.20 || ^8.5.2 || ^9.0.1",
+    "squizlabs/php_codesniffer": "^3.5.4"
   },
   "config": {
     "platform": {
