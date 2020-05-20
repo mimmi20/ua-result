@@ -16,29 +16,19 @@ use UaResult\Company\CompanyInterface;
 
 final class Os implements OsInterface
 {
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private $name;
 
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private $marketingName;
 
-    /**
-     * @var \BrowserDetector\Version\VersionInterface
-     */
+    /** @var \BrowserDetector\Version\VersionInterface */
     private $version;
 
-    /**
-     * @var \UaResult\Company\CompanyInterface
-     */
+    /** @var \UaResult\Company\CompanyInterface */
     private $manufacturer;
 
-    /**
-     * @var int|null
-     */
+    /** @var int|null */
     private $bits;
 
     /**

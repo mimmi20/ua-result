@@ -16,34 +16,22 @@ use UaResult\Company\CompanyInterface;
 
 final class Device implements DeviceInterface
 {
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private $deviceName;
 
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private $marketingName;
 
-    /**
-     * @var \UaResult\Company\CompanyInterface
-     */
+    /** @var \UaResult\Company\CompanyInterface */
     private $manufacturer;
 
-    /**
-     * @var \UaResult\Company\CompanyInterface
-     */
+    /** @var \UaResult\Company\CompanyInterface */
     private $brand;
 
-    /**
-     * @var \UaResult\Device\DisplayInterface
-     */
+    /** @var \UaResult\Device\DisplayInterface */
     private $display;
 
-    /**
-     * @var \UaDeviceType\TypeInterface
-     */
+    /** @var \UaDeviceType\TypeInterface */
     private $type;
 
     /**

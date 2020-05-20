@@ -15,24 +15,16 @@ use UaDisplaySize\DisplayTypeInterface;
 
 final class Display implements DisplayInterface
 {
-    /**
-     * @var bool|null
-     */
+    /** @var bool|null */
     private $touch;
 
-    /**
-     * @var DisplayTypeInterface
-     */
+    /** @var DisplayTypeInterface */
     private $type;
 
-    /**
-     * @var float|null
-     */
+    /** @var float|null */
     private $size;
 
     /**
-     * Display constructor.
-     *
      * @param bool|null                           $touch
      * @param \UaDisplaySize\DisplayTypeInterface $type
      * @param float|null                          $size
