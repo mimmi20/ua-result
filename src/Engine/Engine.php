@@ -16,19 +16,13 @@ use UaResult\Company\CompanyInterface;
 
 final class Engine implements EngineInterface
 {
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private $name;
 
-    /**
-     * @var \BrowserDetector\Version\VersionInterface
-     */
+    /** @var \BrowserDetector\Version\VersionInterface */
     private $version;
 
-    /**
-     * @var \UaResult\Company\CompanyInterface
-     */
+    /** @var \UaResult\Company\CompanyInterface */
     private $manufacturer;
 
     /**

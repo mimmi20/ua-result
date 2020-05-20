@@ -17,34 +17,22 @@ use UaResult\Company\CompanyInterface;
 
 final class Browser implements BrowserInterface
 {
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private $name;
 
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private $modus;
 
-    /**
-     * @var \BrowserDetector\Version\VersionInterface
-     */
+    /** @var \BrowserDetector\Version\VersionInterface */
     private $version;
 
-    /**
-     * @var \UaResult\Company\CompanyInterface
-     */
+    /** @var \UaResult\Company\CompanyInterface */
     private $manufacturer;
 
-    /**
-     * @var int|null
-     */
+    /** @var int|null */
     private $bits;
 
-    /**
-     * @var \UaBrowserType\TypeInterface
-     */
+    /** @var \UaBrowserType\TypeInterface */
     private $type;
 
     /**

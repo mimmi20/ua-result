@@ -18,29 +18,19 @@ use UaResult\Os\OsInterface;
 
 final class Result implements ResultInterface
 {
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private $headers = [];
 
-    /**
-     * @var \UaResult\Device\DeviceInterface
-     */
+    /** @var \UaResult\Device\DeviceInterface */
     private $device;
 
-    /**
-     * @var \UaResult\Browser\BrowserInterface
-     */
+    /** @var \UaResult\Browser\BrowserInterface */
     private $browser;
 
-    /**
-     * @var \UaResult\Os\OsInterface
-     */
+    /** @var \UaResult\Os\OsInterface */
     private $os;
 
-    /**
-     * @var \UaResult\Engine\EngineInterface
-     */
+    /** @var \UaResult\Engine\EngineInterface */
     private $engine;
 
     /**
