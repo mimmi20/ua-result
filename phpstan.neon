@@ -1,5 +1,8 @@
 parameters:
   level: max
+  parallel:
+    maximumNumberOfProcesses: 1
+    processTimeout: 200.0
   paths:
     - src
     - tests
@@ -20,11 +23,3 @@ parameters:
   ergebnis:
     classesAllowedToBeExtended:
       - UnexpectedValueException
-
-includes:
-  - vendor/phpstan/phpstan-strict-rules/rules.neon
-  - vendor/phpstan/phpstan-phpunit/extension.neon
-  - vendor/phpstan/phpstan-phpunit/rules.neon
-  - vendor/pepakriz/phpstan-exception-rules/extension.neon
-  - vendor/phpstan/phpstan-deprecation-rules/rules.neon
-  - vendor/ergebnis/phpstan-rules/rules.neon
