@@ -8,7 +8,7 @@ name: "Continuous Integration"
 
 jobs:
   validate:
-    name: "Validate"
+    name: "Validate composer"
 
     runs-on: "ubuntu-latest"
 
@@ -17,6 +17,9 @@ jobs:
       matrix:
         php-versions:
           - "7.1"
+
+        dependencies:
+          - ""
 
     steps:
       - name: "Checkout"
@@ -41,11 +44,11 @@ jobs:
         uses: "actions/cache@v1"
         with:
           path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
-          key: "php-${{ matrix.php-versions }}-composer--${{ hashFiles('composer.lock') }}"
-          restore-keys: "php-${{ matrix.php-versions }}-composer--"
+          key: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
+          restore-keys: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv "
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv ${{ matrix.dependencies }}"
 
       - name: "Run composer-normalize"
         run: "composer normalize --dry-run"
@@ -65,7 +68,11 @@ jobs:
           - "7.2"
           - "7.3"
           - "7.4"
-          #- "8.0"
+#          - "8.0"
+
+        dependencies:
+          - "--prefer-lowest"
+          - ""
 
     steps:
       - name: "Checkout"
@@ -87,17 +94,17 @@ jobs:
         uses: "actions/cache@v1"
         with:
           path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
-          key: "php-${{ matrix.php-versions }}-composer--${{ hashFiles('composer.lock') }}"
-          restore-keys: "php-${{ matrix.php-versions }}-composer--"
+          key: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
+          restore-keys: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv "
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv ${{ matrix.dependencies }}"
 
       - name: "Check dependencies with composer"
         run: "composer outdated --direct --strict"
 
   coding-standards:
-    name: "Coding Standards"
+    name: "Check Coding Standards"
 
     needs: "install"
 
@@ -109,6 +116,9 @@ jobs:
         php-versions:
           - "7.1"
 
+        dependencies:
+          - ""
+
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v2"
@@ -129,11 +139,11 @@ jobs:
         uses: "actions/cache@v1"
         with:
           path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
-          key: "php-${{ matrix.php-versions }}-composer--${{ hashFiles('composer.lock') }}"
-          restore-keys: "php-${{ matrix.php-versions }}-composer--"
+          key: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
+          restore-keys: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv "
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv ${{ matrix.dependencies }}"
 
       - name: "Run friendsofphp/php-cs-fixer"
         run: "vendor/bin/php-cs-fixer fix --dry-run -vv"
@@ -154,6 +164,9 @@ jobs:
         php-versions:
           - "7.1"
 
+        dependencies:
+          - ""
+
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v2"
@@ -174,11 +187,11 @@ jobs:
         uses: "actions/cache@v1"
         with:
           path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
-          key: "php-${{ matrix.php-versions }}-composer--${{ hashFiles('composer.lock') }}"
-          restore-keys: "php-${{ matrix.php-versions }}-composer--"
+          key: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
+          restore-keys: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv "
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv ${{ matrix.dependencies }}"
 
       - name: "Run phpstan/phpstan"
         run: "vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=768M --no-progress"
@@ -197,6 +210,13 @@ jobs:
       matrix:
         php-versions:
           - "7.1"
+          - "7.2"
+          - "7.3"
+          - "7.4"
+#          - "8.0"
+
+        dependencies:
+          - ""
 
     steps:
       - name: "Checkout"
@@ -218,11 +238,11 @@ jobs:
         uses: "actions/cache@v1"
         with:
           path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
-          key: "php-${{ matrix.php-versions }}-composer--${{ hashFiles('composer.lock') }}"
-          restore-keys: "php-${{ matrix.php-versions }}-composer--"
+          key: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
+          restore-keys: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv "
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv ${{ matrix.dependencies }}"
 
       - name: "Run unit tests with phpunit/phpunit"
         run: "vendor/bin/phpunit -c phpunit.xml --colors --no-coverage"
@@ -239,6 +259,9 @@ jobs:
       matrix:
         php-versions:
           - "7.1"
+
+        dependencies:
+          - ""
 
     steps:
       - name: "Checkout"
@@ -260,14 +283,17 @@ jobs:
         uses: "actions/cache@v1"
         with:
           path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
-          key: "php-${{ matrix.php-versions }}-composer--${{ hashFiles('composer.lock') }}"
-          restore-keys: "php-${{ matrix.php-versions }}-composer--"
+          key: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
+          restore-keys: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv "
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv ${{ matrix.dependencies }}"
+
+      - name: "Create cache directory for phpunit/phpunit"
+        run: "mkdir -p .build/coverage"
 
       - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --colors --coverage-clover=clover.xml --coverage-text"
+        run: "vendor/bin/phpunit -c phpunit.xml --colors --coverage-clover=clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/junit.xml"
 
       - name: "Upload coverage to Codecov"
         uses: "codecov/codecov-action@master"
@@ -291,6 +317,9 @@ jobs:
         php-versions:
           - "7.1"
 
+        dependencies:
+          - ""
+
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v2"
@@ -311,11 +340,11 @@ jobs:
         uses: "actions/cache@v1"
         with:
           path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
-          key: "php-${{ matrix.php-versions }}-composer--${{ hashFiles('composer.lock') }}"
-          restore-keys: "php-${{ matrix.php-versions }}-composer--"
+          key: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
+          restore-keys: "php-${{ matrix.php-versions }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv "
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction --no-suggest -vv ${{ matrix.dependencies }}"
 
       - name: "Run mutation tests with infection/infection"
         run: "vendor/bin/infection --min-covered-msi=95 --min-msi=95"
