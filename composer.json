@@ -40,7 +40,7 @@
     "pepakriz/phpstan-exception-rules": "^0.11.1",
     "phpstan/extension-installer": "^1.0.4",
     "phpstan/phpstan": "^0.12.33",
-    "phpstan/phpstan-deprecation-rules": "^0.12.4",
+    "phpstan/phpstan-deprecation-rules": "^0.12.5",
     "phpstan/phpstan-phpunit": "^0.12.12",
     "phpstan/phpstan-strict-rules": "^0.12.4",
     "phpunit/phpunit": "^7.5.20 || ^8.5.5 || ^9.1.5"
