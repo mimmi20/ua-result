@@ -33,7 +33,7 @@
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.6.1",
-    "ergebnis/phpstan-rules": "^0.15.0",
+    "ergebnis/phpstan-rules": "^0.15.1",
     "infection/infection": "^0.13.6 || ^0.16.3",
     "mimmi20/coding-standard": "~1.0.1",
     "mimmi20/json-class": "~2.0.11",
