@@ -36,7 +36,7 @@
     "ergebnis/phpstan-rules": "^0.15.1",
     "infection/infection": "^0.13.6 || ^0.16.3",
     "mimmi20/coding-standard": "~1.0.1",
-    "mimmi20/json-class": "~2.0.11",
+    "mimmi20/json-class": "~2.0.12",
     "pepakriz/phpstan-exception-rules": "^0.11.1",
     "phpstan/extension-installer": "^1.0.4",
     "phpstan/phpstan": "^0.12.37",
