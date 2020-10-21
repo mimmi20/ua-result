@@ -6,20 +6,15 @@ parameters:
   paths:
     - src
     - tests
-  autoload_files:
+  scanFiles:
     - %currentWorkingDirectory%/vendor/autoload.php
     - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php
     - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/src/Util/Tokens.php
   excludes_analyse:
     - */tests/*/data/*
   checkMissingIterableValueType: false
-  ignoreErrors:
-    - '~has a nullable return type declaration~'
-    - '~with a nullable type declaration~'
-    - '~Call to static method PHPUnit\\Framework\\Assert::assertIsArray\(\) with array will always evaluate to true~'
+#  ignoreErrors:
+#    - '~has a nullable return type declaration~'
   exceptionRules:
     reportUnusedCatchesOfUncheckedExceptions: false
     uncheckedExceptions: []
-  ergebnis:
-    classesAllowedToBeExtended:
-      - UnexpectedValueException
