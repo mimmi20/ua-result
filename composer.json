@@ -35,7 +35,7 @@
     "ergebnis/composer-normalize": "~2.8.0",
     "infection/infection": "~0.13.6 || ~0.18",
     "mimmi20/coding-standard": "~1.0.4",
-    "mimmi20/json-class": "~2.0.13",
+    "mimmi20/json-class": "~2.0.14",
     "pepakriz/phpstan-exception-rules": "~0.11.1",
     "phpstan/extension-installer": "~1.0.5",
     "phpstan/phpstan": "~0.12.50",
