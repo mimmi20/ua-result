@@ -37,7 +37,7 @@
     "mimmi20/json-class": "~2.0.14",
     "pepakriz/phpstan-exception-rules": "~0.11.2",
     "phpstan/extension-installer": "~1.0.5",
-    "phpstan/phpstan": "~0.12.55",
+    "phpstan/phpstan": "~0.12.56",
     "phpstan/phpstan-deprecation-rules": "~0.12.5",
     "phpstan/phpstan-phpunit": "~0.12.16",
     "phpunit/phpunit": "~7.5.20 || ~8.5.8 || ~9.4.2"
