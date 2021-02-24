@@ -11,42 +11,36 @@
 declare(strict_types = 1);
 namespace UaResult\Device;
 
-use UaDisplaySize\DisplayTypeInterface;
-
 final class Display implements DisplayInterface
 {
     /** @var bool|null */
     private $touch;
 
-    /** @var DisplayTypeInterface */
-    private $type;
+    /** @var int|null */
+    private $height;
+
+    /** @var int|null */
+    private $width;
 
     /** @var float|null */
     private $size;
 
     /**
-     * @param bool|null                           $touch
-     * @param \UaDisplaySize\DisplayTypeInterface $type
-     * @param float|null                          $size
+     * @param bool|null  $touch
+     * @param int|null   $width
+     * @param int|null   $height
+     * @param float|null $size
      */
     public function __construct(
+        ?int $width,
+        ?int $height,
         ?bool $touch,
-        DisplayTypeInterface $type,
         ?float $size
     ) {
-        $this->touch = $touch;
-        $this->type  = $type;
-        $this->size  = $size;
-    }
-
-    /**
-     * clones the actual object
-     *
-     * @return void
-     */
-    public function __clone()
-    {
-        $this->type = clone $this->type;
+        $this->width  = $width;
+        $this->height = $height;
+        $this->touch  = $touch;
+        $this->size   = $size;
     }
 
     /**
@@ -60,13 +54,23 @@ final class Display implements DisplayInterface
     }
 
     /**
-     * Returns the display type
+     * Returns the display height
      *
-     * @return \UaDisplaySize\DisplayTypeInterface
+     * @return int|null
      */
-    public function getType(): DisplayTypeInterface
+    public function getHeight(): ?int
     {
-        return $this->type;
+        return $this->height;
+    }
+
+    /**
+     * Returns the display width
+     *
+     * @return int|null
+     */
+    public function getWidth(): ?int
+    {
+        return $this->width;
     }
 
     /**
@@ -85,8 +89,8 @@ final class Display implements DisplayInterface
     public function toArray(): array
     {
         return [
-            'width' => $this->type->getWidth(),
-            'height' => $this->type->getHeight(),
+            'width' => $this->width,
+            'height' => $this->height,
             'touch' => $this->touch,
             'size' => $this->size,
         ];

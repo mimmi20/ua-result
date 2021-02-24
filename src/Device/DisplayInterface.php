@@ -11,8 +11,6 @@
 declare(strict_types = 1);
 namespace UaResult\Device;
 
-use UaDisplaySize\DisplayTypeInterface;
-
 interface DisplayInterface
 {
     /**
@@ -23,11 +21,18 @@ interface DisplayInterface
     public function hasTouch(): ?bool;
 
     /**
-     * Returns the display type
+     * Returns the display height
      *
-     * @return \UaDisplaySize\DisplayTypeInterface
+     * @return int|null
      */
-    public function getType(): DisplayTypeInterface;
+    public function getHeight(): ?int;
+
+    /**
+     * Returns the display width
+     *
+     * @return int|null
+     */
+    public function getWidth(): ?int;
 
     /**
      * returns the size of the display
