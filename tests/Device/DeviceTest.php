@@ -50,7 +50,6 @@ final class DeviceTest extends TestCase
 
     /**
      * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\MockObject\RuntimeException
      * @throws \PHPUnit\Framework\Exception
      *
      * @return void
