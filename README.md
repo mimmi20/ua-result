@@ -6,7 +6,6 @@
 
 ## Code Status
 
-[![Build Status](https://travis-ci.org/mimmi20/ua-result.svg?branch=master)](https://travis-ci.org/mimmi20/ua-result)
 [![codecov](https://codecov.io/gh/mimmi20/ua-result/branch/master/graph/badge.svg)](https://codecov.io/gh/mimmi20/ua-result)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/mimmi20/ua-result.svg)](http://isitmaintained.com/project/mimmi20/ua-result "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/mimmi20/ua-result.svg)](http://isitmaintained.com/project/mimmi20/ua-result "Percentage of issues still open")
