@@ -45,7 +45,6 @@ final class OsTest extends TestCase
 
     /**
      * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\MockObject\RuntimeException
      * @throws \PHPUnit\Framework\Exception
      * @throws \UnexpectedValueException
      *
