@@ -9,21 +9,25 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResultTest\Browser;
 
 use BrowserDetector\Version\VersionInterface;
+use InvalidArgumentException;
+use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaBrowserType\TypeInterface;
 use UaResult\Browser\Browser;
 use UaResult\Company\CompanyInterface;
+use UnexpectedValueException;
+
+use function assert;
 
 final class BrowserTest extends TestCase
 {
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testSetterGetter(): void
     {
@@ -34,9 +38,9 @@ final class BrowserTest extends TestCase
         $version      = $this->createMock(VersionInterface::class);
         $type         = $this->createMock(TypeInterface::class);
 
-        /** @var CompanyInterface $manufacturer */
-        /** @var VersionInterface $version */
-        /** @var TypeInterface $type */
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
+        assert($type instanceof TypeInterface);
         $object = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
 
         self::assertSame($name, $object->getName());
@@ -48,11 +52,9 @@ final class BrowserTest extends TestCase
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     * @throws \UnexpectedValueException
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
+     * @throws UnexpectedValueException
      */
     public function testToarray(): void
     {
@@ -84,9 +86,9 @@ final class BrowserTest extends TestCase
             ->method('getType')
             ->willReturn($typeString);
 
-        /** @var CompanyInterface $manufacturer */
-        /** @var VersionInterface $version */
-        /** @var TypeInterface $type */
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
+        assert($type instanceof TypeInterface);
         $original = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
 
         $array = $original->toArray();
@@ -107,10 +109,8 @@ final class BrowserTest extends TestCase
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testClone(): void
     {
@@ -119,9 +119,9 @@ final class BrowserTest extends TestCase
         $version      = $this->createMock(VersionInterface::class);
         $type         = $this->createMock(TypeInterface::class);
 
-        /** @var CompanyInterface $manufacturer */
-        /** @var VersionInterface $version */
-        /** @var TypeInterface $type */
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
+        assert($type instanceof TypeInterface);
         $original = new Browser($name, $manufacturer, $version, $type, null, null);
         $cloned   = clone $original;
 

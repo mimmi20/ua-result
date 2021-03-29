@@ -9,21 +9,24 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResultTest\Device;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaDeviceType\TypeInterface;
 use UaResult\Company\CompanyInterface;
 use UaResult\Device\Device;
 use UaResult\Device\DisplayInterface;
 
+use function assert;
+
 final class DeviceTest extends TestCase
 {
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testSetterGetter(): void
     {
@@ -34,10 +37,10 @@ final class DeviceTest extends TestCase
         $type          = $this->createMock(TypeInterface::class);
         $display       = $this->createMock(DisplayInterface::class);
 
-        /** @var CompanyInterface $manufacturer */
-        /** @var CompanyInterface $brand */
-        /** @var TypeInterface $type */
-        /** @var DisplayInterface $display */
+        assert($manufacturer instanceof CompanyInterface);
+        assert($brand instanceof CompanyInterface);
+        assert($type instanceof TypeInterface);
+        assert($display instanceof DisplayInterface);
         $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display);
 
         self::assertSame($deviceName, $object->getDeviceName());
@@ -49,10 +52,8 @@ final class DeviceTest extends TestCase
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testToarray(): void
     {
@@ -85,10 +86,10 @@ final class DeviceTest extends TestCase
 
         $display = $this->createMock(DisplayInterface::class);
 
-        /** @var CompanyInterface $manufacturer */
-        /** @var CompanyInterface $brand */
-        /** @var TypeInterface $type */
-        /** @var DisplayInterface $display */
+        assert($manufacturer instanceof CompanyInterface);
+        assert($brand instanceof CompanyInterface);
+        assert($type instanceof TypeInterface);
+        assert($display instanceof DisplayInterface);
         $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display);
 
         $array = $original->toArray();
@@ -111,10 +112,8 @@ final class DeviceTest extends TestCase
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testClone(): void
     {
@@ -125,10 +124,10 @@ final class DeviceTest extends TestCase
         $type          = $this->createMock(TypeInterface::class);
         $display       = $this->createMock(DisplayInterface::class);
 
-        /** @var CompanyInterface $manufacturer */
-        /** @var CompanyInterface $brand */
-        /** @var TypeInterface $type */
-        /** @var DisplayInterface $display */
+        assert($manufacturer instanceof CompanyInterface);
+        assert($brand instanceof CompanyInterface);
+        assert($type instanceof TypeInterface);
+        assert($display instanceof DisplayInterface);
         $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display);
         $cloned   = clone $original;
 

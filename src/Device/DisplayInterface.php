@@ -9,40 +9,33 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Device;
 
 interface DisplayInterface
 {
     /**
      * Returns TRUE, if the display is a touchscreen
-     *
-     * @return bool|null
      */
     public function hasTouch(): ?bool;
 
     /**
      * Returns the display height
-     *
-     * @return int|null
      */
     public function getHeight(): ?int;
 
     /**
      * Returns the display width
-     *
-     * @return int|null
      */
     public function getWidth(): ?int;
 
     /**
      * returns the size of the display
-     *
-     * @return float|null
      */
     public function getSize(): ?float;
 
     /**
-     * @return array
+     * @return array<string, bool|float|int|null>
      */
     public function toArray(): array;
 }

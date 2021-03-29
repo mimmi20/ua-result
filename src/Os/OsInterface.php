@@ -9,42 +9,29 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Os;
 
 use BrowserDetector\Version\VersionInterface;
 use UaResult\Company\CompanyInterface;
+use UnexpectedValueException;
 
 interface OsInterface
 {
-    /**
-     * @return int|null
-     */
     public function getBits(): ?int;
 
-    /**
-     * @return \UaResult\Company\CompanyInterface
-     */
     public function getManufacturer(): CompanyInterface;
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string;
 
-    /**
-     * @return string|null
-     */
     public function getMarketingName(): ?string;
 
-    /**
-     * @return \BrowserDetector\Version\VersionInterface
-     */
     public function getVersion(): VersionInterface;
 
     /**
-     * @throws \UnexpectedValueException
+     * @return array<string, int|string|null>
      *
-     * @return array
+     * @throws UnexpectedValueException
      */
     public function toArray(): array;
 }

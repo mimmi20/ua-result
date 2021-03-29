@@ -9,22 +9,26 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResultTest\Result;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaResult\Browser\BrowserInterface;
 use UaResult\Device\DeviceInterface;
 use UaResult\Engine\EngineInterface;
 use UaResult\Os\OsInterface;
 use UaResult\Result\Result;
+use UnexpectedValueException;
+
+use function assert;
 
 final class ResultTest extends TestCase
 {
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testSetterGetter(): void
     {
@@ -34,10 +38,10 @@ final class ResultTest extends TestCase
         $browser = $this->createMock(BrowserInterface::class);
         $engine  = $this->createMock(EngineInterface::class);
 
-        /** @var DeviceInterface $device */
-        /** @var OsInterface $os */
-        /** @var BrowserInterface $browser */
-        /** @var EngineInterface $engine */
+        assert($device instanceof DeviceInterface);
+        assert($os instanceof OsInterface);
+        assert($browser instanceof BrowserInterface);
+        assert($engine instanceof EngineInterface);
         $object = new Result($headers, $device, $os, $browser, $engine);
 
         self::assertSame($headers, $object->getHeaders());
@@ -48,11 +52,9 @@ final class ResultTest extends TestCase
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     * @throws \UnexpectedValueException
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
+     * @throws UnexpectedValueException
      */
     public function testToArray(): void
     {
@@ -62,10 +64,10 @@ final class ResultTest extends TestCase
         $browser = $this->createMock(BrowserInterface::class);
         $engine  = $this->createMock(EngineInterface::class);
 
-        /** @var DeviceInterface $device */
-        /** @var OsInterface $os */
-        /** @var BrowserInterface $browser */
-        /** @var EngineInterface $engine */
+        assert($device instanceof DeviceInterface);
+        assert($os instanceof OsInterface);
+        assert($browser instanceof BrowserInterface);
+        assert($engine instanceof EngineInterface);
         $original = new Result($headers, $device, $os, $browser, $engine);
         $array    = $original->toArray();
 
@@ -82,10 +84,8 @@ final class ResultTest extends TestCase
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testClone(): void
     {
@@ -95,10 +95,10 @@ final class ResultTest extends TestCase
         $browser = $this->createMock(BrowserInterface::class);
         $engine  = $this->createMock(EngineInterface::class);
 
-        /** @var DeviceInterface $device */
-        /** @var OsInterface $os */
-        /** @var BrowserInterface $browser */
-        /** @var EngineInterface $engine */
+        assert($device instanceof DeviceInterface);
+        assert($os instanceof OsInterface);
+        assert($browser instanceof BrowserInterface);
+        assert($engine instanceof EngineInterface);
         $original = new Result($headers, $device, $os, $browser, $engine);
         $cloned   = clone $original;
 

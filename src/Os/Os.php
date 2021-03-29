@@ -9,35 +9,25 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Os;
 
 use BrowserDetector\Version\VersionInterface;
 use UaResult\Company\CompanyInterface;
+use UnexpectedValueException;
 
 final class Os implements OsInterface
 {
-    /** @var string|null */
-    private $name;
+    private ?string $name = null;
 
-    /** @var string|null */
-    private $marketingName;
+    private ?string $marketingName = null;
 
-    /** @var \BrowserDetector\Version\VersionInterface */
-    private $version;
+    private VersionInterface $version;
 
-    /** @var \UaResult\Company\CompanyInterface */
-    private $manufacturer;
+    private CompanyInterface $manufacturer;
 
-    /** @var int|null */
-    private $bits;
+    private ?int $bits = null;
 
-    /**
-     * @param string|null                               $name
-     * @param string|null                               $marketingName
-     * @param \UaResult\Company\CompanyInterface        $manufacturer
-     * @param \BrowserDetector\Version\VersionInterface $version
-     * @param int|null                                  $bits
-     */
     public function __construct(
         ?string $name,
         ?string $marketingName,
@@ -63,50 +53,35 @@ final class Os implements OsInterface
         $this->version      = clone $this->version;
     }
 
-    /**
-     * @return int|null
-     */
     public function getBits(): ?int
     {
         return $this->bits;
     }
 
-    /**
-     * @return \UaResult\Company\CompanyInterface
-     */
     public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @return string|null
-     */
     public function getMarketingName(): ?string
     {
         return $this->marketingName;
     }
 
-    /**
-     * @return \BrowserDetector\Version\VersionInterface
-     */
     public function getVersion(): VersionInterface
     {
         return $this->version;
     }
 
     /**
-     * @throws \UnexpectedValueException
+     * @return array<string, int|string|null>
      *
-     * @return array
+     * @throws UnexpectedValueException
      */
     public function toArray(): array
     {

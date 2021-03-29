@@ -9,27 +9,21 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Engine;
 
 use BrowserDetector\Version\VersionInterface;
 use UaResult\Company\CompanyInterface;
+use UnexpectedValueException;
 
 final class Engine implements EngineInterface
 {
-    /** @var string|null */
-    private $name;
+    private ?string $name = null;
 
-    /** @var \BrowserDetector\Version\VersionInterface */
-    private $version;
+    private VersionInterface $version;
 
-    /** @var \UaResult\Company\CompanyInterface */
-    private $manufacturer;
+    private CompanyInterface $manufacturer;
 
-    /**
-     * @param string|null                               $name
-     * @param \UaResult\Company\CompanyInterface        $manufacturer
-     * @param \BrowserDetector\Version\VersionInterface $version
-     */
     public function __construct(
         ?string $name,
         CompanyInterface $manufacturer,
@@ -51,34 +45,25 @@ final class Engine implements EngineInterface
         $this->manufacturer = clone $this->manufacturer;
     }
 
-    /**
-     * @return \UaResult\Company\CompanyInterface
-     */
     public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @return \BrowserDetector\Version\VersionInterface
-     */
     public function getVersion(): VersionInterface
     {
         return $this->version;
     }
 
     /**
-     * @throws \UnexpectedValueException
+     * @return array<string, string|null>
      *
-     * @return array
+     * @throws UnexpectedValueException
      */
     public function toArray(): array
     {

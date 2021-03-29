@@ -9,28 +9,19 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Device;
 
 final class Display implements DisplayInterface
 {
-    /** @var bool|null */
-    private $touch;
+    private ?bool $touch = null;
 
-    /** @var int|null */
-    private $height;
+    private ?int $height = null;
 
-    /** @var int|null */
-    private $width;
+    private ?int $width = null;
 
-    /** @var float|null */
-    private $size;
+    private ?float $size = null;
 
-    /**
-     * @param bool|null  $touch
-     * @param int|null   $width
-     * @param int|null   $height
-     * @param float|null $size
-     */
     public function __construct(
         ?int $width,
         ?int $height,
@@ -45,8 +36,6 @@ final class Display implements DisplayInterface
 
     /**
      * Returns TRUE, if the display is a touchscreen
-     *
-     * @return bool|null
      */
     public function hasTouch(): ?bool
     {
@@ -55,8 +44,6 @@ final class Display implements DisplayInterface
 
     /**
      * Returns the display height
-     *
-     * @return int|null
      */
     public function getHeight(): ?int
     {
@@ -65,8 +52,6 @@ final class Display implements DisplayInterface
 
     /**
      * Returns the display width
-     *
-     * @return int|null
      */
     public function getWidth(): ?int
     {
@@ -75,8 +60,6 @@ final class Display implements DisplayInterface
 
     /**
      * returns the size of the display
-     *
-     * @return float|null
      */
     public function getSize(): ?float
     {
@@ -84,7 +67,7 @@ final class Display implements DisplayInterface
     }
 
     /**
-     * @return array
+     * @return array<string, bool|float|int|null>
      */
     public function toArray(): array
     {

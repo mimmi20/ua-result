@@ -9,6 +9,7 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Device;
 
 use UaDeviceType\TypeInterface;
@@ -16,32 +17,18 @@ use UaResult\Company\CompanyInterface;
 
 final class Device implements DeviceInterface
 {
-    /** @var string|null */
-    private $deviceName;
+    private ?string $deviceName = null;
 
-    /** @var string|null */
-    private $marketingName;
+    private ?string $marketingName = null;
 
-    /** @var \UaResult\Company\CompanyInterface */
-    private $manufacturer;
+    private CompanyInterface $manufacturer;
 
-    /** @var \UaResult\Company\CompanyInterface */
-    private $brand;
+    private CompanyInterface $brand;
 
-    /** @var \UaResult\Device\DisplayInterface */
-    private $display;
+    private DisplayInterface $display;
 
-    /** @var \UaDeviceType\TypeInterface */
-    private $type;
+    private TypeInterface $type;
 
-    /**
-     * @param string|null                        $deviceName
-     * @param string|null                        $marketingName
-     * @param \UaResult\Company\CompanyInterface $manufacturer
-     * @param \UaResult\Company\CompanyInterface $brand
-     * @param \UaDeviceType\TypeInterface        $type
-     * @param \UaResult\Device\DisplayInterface  $display
-     */
     public function __construct(
         ?string $deviceName,
         ?string $marketingName,
@@ -71,56 +58,38 @@ final class Device implements DeviceInterface
         $this->display      = clone $this->display;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDeviceName(): ?string
     {
         return $this->deviceName;
     }
 
-    /**
-     * @return \UaResult\Company\CompanyInterface
-     */
     public function getBrand(): CompanyInterface
     {
         return $this->brand;
     }
 
-    /**
-     * @return \UaResult\Company\CompanyInterface
-     */
     public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
 
-    /**
-     * @return string|null
-     */
     public function getMarketingName(): ?string
     {
         return $this->marketingName;
     }
 
-    /**
-     * @return \UaResult\Device\DisplayInterface|null
-     */
     public function getDisplay(): ?DisplayInterface
     {
         return $this->display;
     }
 
-    /**
-     * @return \UaDeviceType\TypeInterface
-     */
     public function getType(): TypeInterface
     {
         return $this->type;
     }
 
     /**
-     * @return array
+     * @return array<string, (string|array<string, (int|float|bool|null)>|null)>
      */
     public function toArray(): array
     {

@@ -9,18 +9,19 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResultTest\Company;
 
+use InvalidArgumentException;
+use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaResult\Company\Company;
 
 final class CompanyTest extends TestCase
 {
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testSetterGetter(): void
     {

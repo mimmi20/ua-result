@@ -9,40 +9,28 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Browser;
 
 use BrowserDetector\Version\VersionInterface;
 use UaBrowserType\TypeInterface;
 use UaResult\Company\CompanyInterface;
+use UnexpectedValueException;
 
 final class Browser implements BrowserInterface
 {
-    /** @var string|null */
-    private $name;
+    private ?string $name = null;
 
-    /** @var string|null */
-    private $modus;
+    private ?string $modus = null;
 
-    /** @var \BrowserDetector\Version\VersionInterface */
-    private $version;
+    private VersionInterface $version;
 
-    /** @var \UaResult\Company\CompanyInterface */
-    private $manufacturer;
+    private CompanyInterface $manufacturer;
 
-    /** @var int|null */
-    private $bits;
+    private ?int $bits = null;
 
-    /** @var \UaBrowserType\TypeInterface */
-    private $type;
+    private TypeInterface $type;
 
-    /**
-     * @param string|null                               $name
-     * @param \UaResult\Company\CompanyInterface        $manufacturer
-     * @param \BrowserDetector\Version\VersionInterface $version
-     * @param \UaBrowserType\TypeInterface              $type
-     * @param int|null                                  $bits
-     * @param string|null                               $modus
-     */
     public function __construct(
         ?string $name,
         CompanyInterface $manufacturer,
@@ -73,58 +61,41 @@ final class Browser implements BrowserInterface
 
     /**
      * gets the name of the browser
-     *
-     * @return string|null
      */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @return \UaResult\Company\CompanyInterface
-     */
     public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
 
-    /**
-     * @return string|null
-     */
     public function getModus(): ?string
     {
         return $this->modus;
     }
 
-    /**
-     * @return \BrowserDetector\Version\VersionInterface
-     */
     public function getVersion(): VersionInterface
     {
         return $this->version;
     }
 
-    /**
-     * @return int|null
-     */
     public function getBits(): ?int
     {
         return $this->bits;
     }
 
-    /**
-     * @return \UaBrowserType\TypeInterface
-     */
     public function getType(): TypeInterface
     {
         return $this->type;
     }
 
     /**
-     * @throws \UnexpectedValueException
+     * @return array<string, int|string|null>
      *
-     * @return array
+     * @throws UnexpectedValueException
      */
     public function toArray(): array
     {

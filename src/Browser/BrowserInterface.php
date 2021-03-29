@@ -9,50 +9,35 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Browser;
 
 use BrowserDetector\Version\VersionInterface;
 use UaBrowserType\TypeInterface;
 use UaResult\Company\CompanyInterface;
+use UnexpectedValueException;
 
 interface BrowserInterface
 {
     /**
      * gets the name of the browser
-     *
-     * @return string|null
      */
     public function getName(): ?string;
 
-    /**
-     * @return \UaResult\Company\CompanyInterface
-     */
     public function getManufacturer(): CompanyInterface;
 
-    /**
-     * @return string|null
-     */
     public function getModus(): ?string;
 
-    /**
-     * @return \BrowserDetector\Version\VersionInterface
-     */
     public function getVersion(): VersionInterface;
 
-    /**
-     * @return int|null
-     */
     public function getBits(): ?int;
 
-    /**
-     * @return \UaBrowserType\TypeInterface
-     */
     public function getType(): TypeInterface;
 
     /**
-     * @throws \UnexpectedValueException
+     * @return array<string, int|string|null>
      *
-     * @return array
+     * @throws UnexpectedValueException
      */
     public function toArray(): array;
 }
