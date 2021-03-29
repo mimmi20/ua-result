@@ -9,20 +9,24 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResultTest\Os;
 
 use BrowserDetector\Version\VersionInterface;
+use InvalidArgumentException;
+use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaResult\Company\CompanyInterface;
 use UaResult\Os\Os;
+use UnexpectedValueException;
+
+use function assert;
 
 final class OsTest extends TestCase
 {
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testSetterGetter(): void
     {
@@ -32,8 +36,8 @@ final class OsTest extends TestCase
         $version       = $this->createMock(VersionInterface::class);
         $bits          = 64;
 
-        /** @var CompanyInterface $manufacturer */
-        /** @var VersionInterface $version */
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
         $object = new Os($name, $marketingName, $manufacturer, $version, $bits);
 
         self::assertSame($name, $object->getName());
@@ -44,11 +48,9 @@ final class OsTest extends TestCase
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     * @throws \UnexpectedValueException
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
+     * @throws UnexpectedValueException
      */
     public function testToarray(): void
     {
@@ -72,8 +74,8 @@ final class OsTest extends TestCase
             ->method('getVersion')
             ->willReturn($versionString);
 
-        /** @var CompanyInterface $manufacturer */
-        /** @var VersionInterface $version */
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
         $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
 
         $array = $original->toArray();
@@ -92,10 +94,8 @@ final class OsTest extends TestCase
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testClone(): void
     {
@@ -105,8 +105,8 @@ final class OsTest extends TestCase
         $version       = $this->createMock(VersionInterface::class);
         $bits          = 64;
 
-        /** @var CompanyInterface $manufacturer */
-        /** @var VersionInterface $version */
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
         $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
         $cloned   = clone $original;
 

@@ -9,28 +9,23 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Company;
 
 interface CompanyInterface
 {
     /**
      * Returns the type name of the company
-     *
-     * @return string
      */
     public function getType(): string;
 
     /**
      * Returns the name of the company
-     *
-     * @return string|null
      */
     public function getName(): ?string;
 
     /**
      * Returns the brand name of the company
-     *
-     * @return string|null
      */
     public function getBrandName(): ?string;
 }

@@ -9,38 +9,32 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Result;
 
 use UaResult\Browser\BrowserInterface;
 use UaResult\Device\DeviceInterface;
 use UaResult\Engine\EngineInterface;
 use UaResult\Os\OsInterface;
+use UnexpectedValueException;
 
 final class Result implements ResultInterface
 {
-    /** @var string[] */
-    private $headers = [];
+    /** @var array<string> */
+    private array $headers = [];
 
-    /** @var \UaResult\Device\DeviceInterface */
-    private $device;
+    private DeviceInterface $device;
 
-    /** @var \UaResult\Browser\BrowserInterface */
-    private $browser;
+    private BrowserInterface $browser;
 
-    /** @var \UaResult\Os\OsInterface */
-    private $os;
+    private OsInterface $os;
 
-    /** @var \UaResult\Engine\EngineInterface */
-    private $engine;
+    private EngineInterface $engine;
 
     /**
      * the class constructor
      *
-     * @param string[]                           $headers
-     * @param \UaResult\Device\DeviceInterface   $device
-     * @param \UaResult\Os\OsInterface           $os
-     * @param \UaResult\Browser\BrowserInterface $browser
-     * @param \UaResult\Engine\EngineInterface   $engine
+     * @param string[] $headers
      */
     public function __construct(
         array $headers,
@@ -69,40 +63,28 @@ final class Result implements ResultInterface
         $this->engine  = clone $this->engine;
     }
 
-    /**
-     * @return \UaResult\Browser\BrowserInterface
-     */
     public function getBrowser(): BrowserInterface
     {
         return $this->browser;
     }
 
-    /**
-     * @return \UaResult\Device\DeviceInterface
-     */
     public function getDevice(): DeviceInterface
     {
         return $this->device;
     }
 
-    /**
-     * @return \UaResult\Engine\EngineInterface
-     */
     public function getEngine(): EngineInterface
     {
         return $this->engine;
     }
 
-    /**
-     * @return \UaResult\Os\OsInterface
-     */
     public function getOs(): OsInterface
     {
         return $this->os;
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function getHeaders(): array
     {
@@ -110,9 +92,9 @@ final class Result implements ResultInterface
     }
 
     /**
-     * @throws \UnexpectedValueException
+     * @return array<string, array<array<string, bool|float|int|null>|int|string|null>>
      *
-     * @return array[]
+     * @throws UnexpectedValueException
      */
     public function toArray(): array
     {

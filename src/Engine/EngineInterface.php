@@ -9,32 +9,25 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Engine;
 
 use BrowserDetector\Version\VersionInterface;
 use UaResult\Company\CompanyInterface;
+use UnexpectedValueException;
 
 interface EngineInterface
 {
-    /**
-     * @return \UaResult\Company\CompanyInterface
-     */
     public function getManufacturer(): CompanyInterface;
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string;
 
-    /**
-     * @return \BrowserDetector\Version\VersionInterface
-     */
     public function getVersion(): VersionInterface;
 
     /**
-     * @throws \UnexpectedValueException
+     * @return array<string, string|null>
      *
-     * @return array
+     * @throws UnexpectedValueException
      */
     public function toArray(): array;
 }

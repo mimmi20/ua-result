@@ -9,6 +9,7 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Device;
 
 use UaDeviceType\TypeInterface;
@@ -16,38 +17,20 @@ use UaResult\Company\CompanyInterface;
 
 interface DeviceInterface
 {
-    /**
-     * @return string|null
-     */
     public function getDeviceName(): ?string;
 
-    /**
-     * @return \UaResult\Company\CompanyInterface
-     */
     public function getBrand(): CompanyInterface;
 
-    /**
-     * @return \UaResult\Company\CompanyInterface
-     */
     public function getManufacturer(): CompanyInterface;
 
-    /**
-     * @return string|null
-     */
     public function getMarketingName(): ?string;
 
-    /**
-     * @return \UaResult\Device\DisplayInterface|null
-     */
     public function getDisplay(): ?DisplayInterface;
 
-    /**
-     * @return \UaDeviceType\TypeInterface
-     */
     public function getType(): TypeInterface;
 
     /**
-     * @return array
+     * @return array<string, (string|array<string, (int|float|bool|null)>|null)>
      */
     public function toArray(): array;
 }

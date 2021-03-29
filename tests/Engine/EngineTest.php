@@ -9,20 +9,24 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResultTest\Engine;
 
 use BrowserDetector\Version\VersionInterface;
+use InvalidArgumentException;
+use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaResult\Company\CompanyInterface;
 use UaResult\Engine\Engine;
+use UnexpectedValueException;
+
+use function assert;
 
 final class EngineTest extends TestCase
 {
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testSetterGetter(): void
     {
@@ -30,8 +34,8 @@ final class EngineTest extends TestCase
         $manufacturer = $this->createMock(CompanyInterface::class);
         $version      = $this->createMock(VersionInterface::class);
 
-        /** @var CompanyInterface $manufacturer */
-        /** @var VersionInterface $version */
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
         $object = new Engine($name, $manufacturer, $version);
 
         self::assertSame($name, $object->getName());
@@ -40,11 +44,9 @@ final class EngineTest extends TestCase
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     * @throws \UnexpectedValueException
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
+     * @throws UnexpectedValueException
      */
     public function testToarray(): void
     {
@@ -66,8 +68,8 @@ final class EngineTest extends TestCase
             ->method('getVersion')
             ->willReturn($versionString);
 
-        /** @var CompanyInterface $manufacturer */
-        /** @var VersionInterface $version */
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
         $original = new Engine($name, $manufacturer, $version);
 
         $array = $original->toArray();
@@ -83,10 +85,8 @@ final class EngineTest extends TestCase
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     *
-     * @return void
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testClone(): void
     {
@@ -94,8 +94,8 @@ final class EngineTest extends TestCase
         $manufacturer = $this->createMock(CompanyInterface::class);
         $version      = $this->createMock(VersionInterface::class);
 
-        /** @var CompanyInterface $manufacturer */
-        /** @var VersionInterface $version */
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
         $original = new Engine($name, $manufacturer, $version);
         $cloned   = clone $original;
 

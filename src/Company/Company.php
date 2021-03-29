@@ -9,36 +9,26 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Company;
 
 final class Company implements CompanyInterface
 {
     /**
      * the type name of the device
-     *
-     * @var string
      */
-    private $type;
+    private string $type;
 
     /**
      * the name of the company
-     *
-     * @var string|null
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      * the brand name of the company
-     *
-     * @var string|null
      */
-    private $brandname;
+    private ?string $brandname = null;
 
-    /**
-     * @param string      $type
-     * @param string|null $name
-     * @param string|null $brandname
-     */
     public function __construct(string $type, ?string $name, ?string $brandname)
     {
         $this->type      = $type;
@@ -48,8 +38,6 @@ final class Company implements CompanyInterface
 
     /**
      * Returns the type name of the company
-     *
-     * @return string
      */
     public function getType(): string
     {
@@ -58,8 +46,6 @@ final class Company implements CompanyInterface
 
     /**
      * Returns the name of the company
-     *
-     * @return string|null
      */
     public function getName(): ?string
     {
@@ -68,8 +54,6 @@ final class Company implements CompanyInterface
 
     /**
      * Returns the brand name of the company
-     *
-     * @return string|null
      */
     public function getBrandName(): ?string
     {

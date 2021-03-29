@@ -9,44 +9,34 @@
  */
 
 declare(strict_types = 1);
+
 namespace UaResult\Result;
 
 use UaResult\Browser\BrowserInterface;
 use UaResult\Device\DeviceInterface;
 use UaResult\Engine\EngineInterface;
 use UaResult\Os\OsInterface;
+use UnexpectedValueException;
 
 interface ResultInterface
 {
-    /**
-     * @return \UaResult\Browser\BrowserInterface
-     */
     public function getBrowser(): BrowserInterface;
 
-    /**
-     * @return \UaResult\Device\DeviceInterface
-     */
     public function getDevice(): DeviceInterface;
 
-    /**
-     * @return \UaResult\Engine\EngineInterface
-     */
     public function getEngine(): EngineInterface;
 
-    /**
-     * @return \UaResult\Os\OsInterface
-     */
     public function getOs(): OsInterface;
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function getHeaders(): array;
 
     /**
-     * @throws \UnexpectedValueException
+     * @return array<string, array<array<string, bool|float|int|null>|int|string|null>>
      *
-     * @return array[]
+     * @throws UnexpectedValueException
      */
     public function toArray(): array;
 }
