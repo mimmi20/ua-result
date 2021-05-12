@@ -28,7 +28,9 @@ $finder = PhpCsFixer\Finder::create()
 
 $rules = require 'vendor/mimmi20/coding-standard/src/phpcs.config.php';
 
-return PhpCsFixer\Config::create()
+$config = new PhpCsFixer\Config();
+
+return $config
     ->setRiskyAllowed(true)
     ->setRules(
         array_merge(
