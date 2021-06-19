@@ -135,5 +135,6 @@ final class DeviceTest extends TestCase
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($brand, $cloned->getBrand());
         self::assertNotSame($type, $cloned->getType());
+        self::assertNotSame($display, $cloned->getDisplay());
     }
 }
