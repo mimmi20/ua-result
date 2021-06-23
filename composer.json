@@ -26,7 +26,7 @@
     "php": "^7.4.7 || ^8.0.0",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "mimmi20/browser-detector-version": "^7.0.2",
+    "mimmi20/browser-detector-version": "^7.0.3",
     "mimmi20/ua-browser-type": "^8.0.2",
     "mimmi20/ua-device-type": "^8.0.2",
     "psr/log": "^1.1.4"
