@@ -23,24 +23,24 @@
     }
   ],
   "require": {
-    "php": "^7.4.7 || ^8.0.0",
+    "php": "^7.4.3 || ^8.0.0",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "mimmi20/browser-detector-version": "^7.0.3",
-    "mimmi20/ua-browser-type": "^8.0.2",
-    "mimmi20/ua-device-type": "^8.0.2",
+    "mimmi20/browser-detector-version": "^7.0.4",
+    "mimmi20/ua-browser-type": "^8.0.3",
+    "mimmi20/ua-device-type": "^8.0.3",
     "psr/log": "^1.1.4"
   },
   "require-dev": {
     "infection/infection": "^0.23.0",
-    "mimmi20/coding-standard": "^2.2.2",
-    "mimmi20/json-class": "^3.0.2",
+    "mimmi20/coding-standard": "^2.2.3",
+    "mimmi20/json-class": "^3.0.3",
     "pepakriz/phpstan-exception-rules": "^0.11.7",
     "phpstan/extension-installer": "^1.1.0",
     "phpstan/phpstan": "^0.12.90",
     "phpstan/phpstan-deprecation-rules": "^0.12.6",
     "phpstan/phpstan-phpunit": "^0.12.20",
-    "phpunit/phpunit": "^9.5.5"
+    "phpunit/phpunit": "^9.5.6"
   },
   "config": {
     "preferred-install": "stable",
