@@ -103,7 +103,7 @@ jobs:
         run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -v --ansi ${{ matrix.dependencies }}"
 
       - name: "Check dependencies with composer"
-        run: "composer outdated --direct --strict"
+        run: "composer outdated --direct"
 
   php-cs-fixer:
     name: "Check Coding Standards with PHP-CS-Fixer"
