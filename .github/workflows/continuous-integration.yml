@@ -51,7 +51,7 @@ jobs:
         run: "composer-normalize --dry-run"
 
   install:
-    name: "Check dependencies"
+    name: "Install dependencies"
 
     needs: "validate"
 
@@ -100,7 +100,7 @@ jobs:
           restore-keys: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -vvv --ansi ${{ matrix.dependencies }}"
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -v --ansi ${{ matrix.dependencies }}"
 
       - name: "Check dependencies with composer"
         run: "composer outdated --direct --strict"
@@ -152,7 +152,7 @@ jobs:
           restore-keys: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -vvv --ansi ${{ matrix.dependencies }}"
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -v --ansi ${{ matrix.dependencies }}"
 
       - name: "Run friendsofphp/php-cs-fixer"
         run: "vendor/bin/php-cs-fixer fix --dry-run -vv"
@@ -204,7 +204,7 @@ jobs:
           restore-keys: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -vvv --ansi ${{ matrix.dependencies }}"
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -v --ansi ${{ matrix.dependencies }}"
 
       - name: "Run squizlabs/php_codesniffer"
         uses: "chekalsky/phpcs-action@v1.2.0"
@@ -257,49 +257,32 @@ jobs:
           restore-keys: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -vvv --ansi ${{ matrix.dependencies }}"
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -v --ansi ${{ matrix.dependencies }}"
 
       - name: "Run phpstan/phpstan"
         run: "vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=768M --no-progress"
 
-  tests:
-    name: "UnitTests with PHPUnit"
+  phpmd:
+    name: "Check Rules with PHPMD"
 
     needs: "install"
 
     runs-on: "${{ matrix.operating-system }}"
 
-    continue-on-error: ${{ matrix.continue-on-error }}
+    continue-on-error: false
 
     strategy:
       fail-fast: false
 
       matrix:
         operating-system:
-          - "ubuntu-18.04"
           - "ubuntu-20.04"
-          - "windows-2019"
-          - "macos-10.15"
 
         php-version:
           - "7.4"
 
         dependencies:
           - ""
-
-        continue-on-error:
-          - false
-
-        include:
-          - operating-system: "ubuntu-20.04"
-            php-version: "8.0"
-            continue-on-error: true
-          - operating-system: "windows-2019"
-            php-version: "8.0"
-            continue-on-error: true
-          - operating-system: "macos-10.15"
-            php-version: "8.0"
-            continue-on-error: true
 
     steps:
       - name: "Checkout"
@@ -326,10 +309,67 @@ jobs:
           restore-keys: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -vvv --ansi ${{ matrix.dependencies }}"
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -v --ansi ${{ matrix.dependencies }}"
+
+      - name: "Run phpmd/phpmd"
+        run: "vendor/bin/phpmd src github phpmd.ruleset.xml"
+
+  tests:
+    name: "UnitTests with PHPUnit"
+
+    needs: "install"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    continue-on-error: ${{ matrix.continue-on-error }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-18.04"
+          - "ubuntu-20.04"
+
+        php-version:
+          - "7.4"
+          - "8.0"
+
+        dependencies:
+          - ""
+
+        continue-on-error:
+          - false
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2.3.4"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.12.0"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "${{ env.PHP_EXTENSIONS }}"
+          ini-values: "${{ env.PHP_INI_VALUES }}"
+          coverage: "none"
+          tools: "composer:v2"
+
+      - name: "Determine composer cache directory"
+        id: "determine-composer-cache-directory"
+        run: "echo \"::set-output name=directory::$(composer config cache-dir)\""
+
+      - name: "Cache dependencies installed with composer"
+        uses: "actions/cache@v2.1.6"
+        with:
+          path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
+          key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
+          restore-keys: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-"
+
+      - name: "Update dependencies with composer"
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -v --ansi ${{ matrix.dependencies }}"
 
       - name: "Run unit tests with phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --colors --no-coverage"
+        run: "vendor/bin/phpunit -c phpunit.xml --verbose --no-coverage"
 
   code-coverage:
     name: "Code Coverage with PHPUnit"
@@ -367,7 +407,7 @@ jobs:
           extensions: "${{ env.PHP_EXTENSIONS }}"
           ini-values: "${{ env.PHP_INI_VALUES }}"
           coverage: "${{ matrix.coverage-drivers }}"
-          tools: "composer:v2"
+          tools: "composer:v2, infection"
 
       - name: "Determine composer cache directory"
         id: "determine-composer-cache-directory"
@@ -381,20 +421,20 @@ jobs:
           restore-keys: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-"
 
       - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -vvv --ansi ${{ matrix.dependencies }}"
+        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -v --ansi ${{ matrix.dependencies }}"
 
       - name: "Create cache directory for phpunit/phpunit"
         run: "mkdir -p .build/coverage"
 
       - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --colors --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+        run: "vendor/bin/phpunit -c phpunit.xml --verbose --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
 
       - name: "Upload coverage to Codecov"
         uses: "codecov/codecov-action@v2.0.2"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.coverage-drivers }}"
-          verbose: true
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.coverage-drivers }},${{ matrix.php-version }},${{ matrix.operating-system }}"
+          verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "vendor/bin/infection --min-covered-msi=100 --min-msi=100 --git-diff-filter=AM --git-diff-base=origin/$GITHUB_BASE_REF --coverage=.build/coverage --logger-github"
+        run: "infection -s --min-covered-msi=100 --min-msi=100 --coverage=.build/coverage --logger-github"
