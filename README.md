@@ -17,7 +17,7 @@ This library provides a set of classes representing a result of an useragent det
 
 ## Requirements
 
-This library requires PHP 7.1+.
+This library requires PHP 7.4+.
 Also a PSR-3 compatible logger is required.
 
 ## Installation
