@@ -8,7 +8,7 @@ name: "Continuous Integration"
 
 env:
   PHP_EXTENSIONS: "json, mbstring, opcache"
-  PHP_INI_VALUES: "opcache.enable=1, opcache.enable_cli=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On"
+  PHP_INI_VALUES: "opcache.enable=1, opcache.enable_cli=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1"
 
 jobs:
   validate:
@@ -138,7 +138,7 @@ jobs:
           extensions: "${{ env.PHP_EXTENSIONS }}"
           ini-values: "${{ env.PHP_INI_VALUES }}"
           coverage: "none"
-          tools: "composer:v2"
+          tools: "composer:v2, cs2pr"
 
       - name: "Determine composer cache directory"
         id: "determine-composer-cache-directory"
@@ -155,7 +155,7 @@ jobs:
         run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -v --ansi ${{ matrix.dependencies }}"
 
       - name: "Run friendsofphp/php-cs-fixer"
-        run: "vendor/bin/php-cs-fixer fix --dry-run -vv"
+        run: "vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle | cs2pr"
 
   phpcs:
     name: "Check Coding Standards with PHPCS"
@@ -190,7 +190,7 @@ jobs:
           extensions: "${{ env.PHP_EXTENSIONS }}"
           ini-values: "${{ env.PHP_INI_VALUES }}"
           coverage: "none"
-          tools: "composer:v2"
+          tools: "composer:v2, cs2pr"
 
       - name: "Determine composer cache directory"
         id: "determine-composer-cache-directory"
@@ -207,10 +207,7 @@ jobs:
         run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -v --ansi ${{ matrix.dependencies }}"
 
       - name: "Run squizlabs/php_codesniffer"
-        uses: "chekalsky/phpcs-action@v1.2.0"
-        with:
-          phpcs_bin_path: "./vendor/bin/phpcs"
-          enable_warnings: true
+        run: "vendor/bin/phpcs --report=checkstyle -q | cs2pr"
 
   static-code-analysis:
     name: "Static Code Analysis with PHPStan"
@@ -261,58 +258,6 @@ jobs:
 
       - name: "Run phpstan/phpstan"
         run: "vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=768M --no-progress"
-
-  phpmd:
-    name: "Check Rules with PHPMD"
-
-    needs: "install"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    continue-on-error: false
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-
-        php-version:
-          - "7.4"
-
-        dependencies:
-          - ""
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v2.3.4"
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.12.0"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "${{ env.PHP_EXTENSIONS }}"
-          ini-values: "${{ env.PHP_INI_VALUES }}"
-          coverage: "none"
-          tools: "composer:v2"
-
-      - name: "Determine composer cache directory"
-        id: "determine-composer-cache-directory"
-        run: "echo \"::set-output name=directory::$(composer config cache-dir)\""
-
-      - name: "Cache dependencies installed with composer"
-        uses: "actions/cache@v2.1.6"
-        with:
-          path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
-          key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
-          restore-keys: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-"
-
-      - name: "Update dependencies with composer"
-        run: "composer update --optimize-autoloader --prefer-dist --prefer-stable --no-progress --no-interaction -v --ansi ${{ matrix.dependencies }}"
-
-      - name: "Run phpmd/phpmd"
-        run: "vendor/bin/phpmd src github phpmd.ruleset.xml"
 
   tests:
     name: "UnitTests with PHPUnit"
