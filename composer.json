@@ -34,11 +34,10 @@
   "require-dev": {
     "mimmi20/coding-standard": "^2.4.2",
     "mimmi20/json-class": "^3.0.4",
-    "pepakriz/phpstan-exception-rules": "^0.11.7",
     "phpstan/extension-installer": "^1.1.0",
     "phpstan/phpstan": "^0.12.94",
     "phpstan/phpstan-deprecation-rules": "^0.12.6",
-    "phpstan/phpstan-phpunit": "^0.12.21",
+    "phpstan/phpstan-phpunit": "^0.12.22",
     "phpunit/phpunit": "^9.5.8"
   },
   "config": {
