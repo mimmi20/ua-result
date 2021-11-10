@@ -33,7 +33,6 @@
   },
   "require-dev": {
     "mimmi20/coding-standard": "^2.5.0",
-    "mimmi20/json-class": "^4.0.0",
     "phpstan/extension-installer": "^1.1.0",
     "phpstan/phpstan": "^1.1.2",
     "phpstan/phpstan-deprecation-rules": "^1.0.0",
