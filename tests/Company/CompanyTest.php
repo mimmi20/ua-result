@@ -19,20 +19,20 @@ use UaResult\Company\Company;
 
 final class CompanyTest extends TestCase
 {
+    private const TYPE      = 'CompanyType';
+    private const NAME      = 'TestCompany';
+    private const BRANDNAME = 'TestBrand';
+
     /**
      * @throws InvalidArgumentException
      * @throws Exception
      */
     public function testSetterGetter(): void
     {
-        $type      = 'CompanyType';
-        $name      = 'TestCompany';
-        $brandname = 'TestBrand';
+        $object = new Company(self::TYPE, self::NAME, self::BRANDNAME);
 
-        $object = new Company($type, $name, $brandname);
-
-        self::assertSame($type, $object->getType());
-        self::assertSame($name, $object->getName());
-        self::assertSame($brandname, $object->getBrandName());
+        self::assertSame(self::TYPE, $object->getType());
+        self::assertSame(self::NAME, $object->getName());
+        self::assertSame(self::BRANDNAME, $object->getBrandName());
     }
 }

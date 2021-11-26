@@ -24,6 +24,10 @@ use function assert;
 
 final class DeviceTest extends TestCase
 {
+    private const TYPE_STRING  = 'xyz';
+    private const MANU_STRING  = 'abc';
+    private const BRAND_STRING = 'def';
+
     /**
      * @throws InvalidArgumentException
      * @throws Exception
@@ -59,30 +63,27 @@ final class DeviceTest extends TestCase
     {
         $deviceName    = 'TestDevicename';
         $marketingName = 'TestMarketingname';
-        $typeString    = 'xyz';
-        $manuString    = 'abc';
-        $brandString   = 'def';
 
         $manufacturer = $this->getMockBuilder(CompanyInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $manufacturer->expects(self::once())
             ->method('getType')
-            ->willReturn($manuString);
+            ->willReturn(self::MANU_STRING);
 
         $brand = $this->getMockBuilder(CompanyInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $brand->expects(self::once())
             ->method('getType')
-            ->willReturn($brandString);
+            ->willReturn(self::BRAND_STRING);
 
         $type = $this->getMockBuilder(TypeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $type->expects(self::once())
             ->method('getType')
-            ->willReturn($typeString);
+            ->willReturn(self::TYPE_STRING);
 
         $display = $this->createMock(DisplayInterface::class);
 
@@ -100,13 +101,13 @@ final class DeviceTest extends TestCase
         self::assertIsString($array['marketingName']);
         self::assertArrayHasKey('manufacturer', $array);
         self::assertIsString($array['manufacturer']);
-        self::assertSame($manuString, $array['manufacturer']);
+        self::assertSame(self::MANU_STRING, $array['manufacturer']);
         self::assertArrayHasKey('brand', $array);
         self::assertIsString($array['brand']);
-        self::assertSame($brandString, $array['brand']);
+        self::assertSame(self::BRAND_STRING, $array['brand']);
         self::assertArrayHasKey('type', $array);
         self::assertIsString($array['type']);
-        self::assertSame($typeString, $array['type']);
+        self::assertSame(self::TYPE_STRING, $array['type']);
         self::assertArrayHasKey('display', $array);
         self::assertIsArray($array['display']);
     }

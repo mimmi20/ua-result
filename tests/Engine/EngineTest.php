@@ -24,6 +24,9 @@ use function assert;
 
 final class EngineTest extends TestCase
 {
+    private const VERSION_STRING = '1.0';
+    private const MANU_STRING    = 'abc';
+
     /**
      * @throws InvalidArgumentException
      * @throws Exception
@@ -50,23 +53,21 @@ final class EngineTest extends TestCase
      */
     public function testToarray(): void
     {
-        $name          = 'TestBrowser';
-        $versionString = '1.0';
-        $manuString    = 'abc';
+        $name = 'TestBrowser';
 
         $manufacturer = $this->getMockBuilder(CompanyInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $manufacturer->expects(self::once())
             ->method('getType')
-            ->willReturn($manuString);
+            ->willReturn(self::MANU_STRING);
 
         $version = $this->getMockBuilder(VersionInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $version->expects(self::once())
             ->method('getVersion')
-            ->willReturn($versionString);
+            ->willReturn(self::VERSION_STRING);
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
@@ -78,10 +79,10 @@ final class EngineTest extends TestCase
         self::assertIsString($array['name']);
         self::assertArrayHasKey('version', $array);
         self::assertIsString($array['version']);
-        self::assertSame($versionString, $array['version']);
+        self::assertSame(self::VERSION_STRING, $array['version']);
         self::assertArrayHasKey('manufacturer', $array);
         self::assertIsString($array['manufacturer']);
-        self::assertSame($manuString, $array['manufacturer']);
+        self::assertSame(self::MANU_STRING, $array['manufacturer']);
     }
 
     /**

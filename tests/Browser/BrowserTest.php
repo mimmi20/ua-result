@@ -25,6 +25,10 @@ use function assert;
 
 final class BrowserTest extends TestCase
 {
+    private const VERSION_STRING = '1.0';
+    private const TYPE_STRING    = 'xyz';
+    private const MANU_STRING    = 'abc';
+
     /**
      * @throws InvalidArgumentException
      * @throws Exception
@@ -58,33 +62,30 @@ final class BrowserTest extends TestCase
      */
     public function testToarray(): void
     {
-        $bits          = 64;
-        $modus         = 'Desktop Mode';
-        $name          = 'TestBrowser';
-        $versionString = '1.0';
-        $typeString    = 'xyz';
-        $manuString    = 'abc';
+        $bits  = 64;
+        $modus = 'Desktop Mode';
+        $name  = 'TestBrowser';
 
         $manufacturer = $this->getMockBuilder(CompanyInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $manufacturer->expects(self::once())
             ->method('getType')
-            ->willReturn($manuString);
+            ->willReturn(self::MANU_STRING);
 
         $version = $this->getMockBuilder(VersionInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $version->expects(self::once())
             ->method('getVersion')
-            ->willReturn($versionString);
+            ->willReturn(self::VERSION_STRING);
 
         $type = $this->getMockBuilder(TypeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $type->expects(self::once())
             ->method('getType')
-            ->willReturn($typeString);
+            ->willReturn(self::TYPE_STRING);
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
@@ -98,14 +99,14 @@ final class BrowserTest extends TestCase
         self::assertArrayHasKey('modus', $array);
         self::assertArrayHasKey('version', $array);
         self::assertIsString($array['version']);
-        self::assertSame($versionString, $array['version']);
+        self::assertSame(self::VERSION_STRING, $array['version']);
         self::assertArrayHasKey('manufacturer', $array);
         self::assertIsString($array['manufacturer']);
-        self::assertSame($manuString, $array['manufacturer']);
+        self::assertSame(self::MANU_STRING, $array['manufacturer']);
         self::assertArrayHasKey('bits', $array);
         self::assertArrayHasKey('type', $array);
         self::assertIsString($array['type']);
-        self::assertSame($typeString, $array['type']);
+        self::assertSame(self::TYPE_STRING, $array['type']);
     }
 
     /**
