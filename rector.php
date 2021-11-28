@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 use Rector\Core\Configuration\Option;
-use Rector\Php74\Rector\Property\TypedPropertyRector;
-use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Rector\Core\ValueObject\PhpVersion;
 
@@ -22,7 +20,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // Dead Code
     $services->set(\Rector\DeadCode\Rector\If_\UnwrapFutureCompatibleIfFunctionExistsRector::class);
     $services->set(\Rector\DeadCode\Rector\If_\UnwrapFutureCompatibleIfPhpVersionRector::class);
-    $services->set(\Rector\DeadCode\Rector\Cast\RecastingRemovalRector::class);
     $services->set(\Rector\DeadCode\Rector\Expression\RemoveDeadStmtRector::class);
     $services->set(\Rector\DeadCode\Rector\Array_\RemoveDuplicatedArrayKeyRector::class);
     $services->set(\Rector\DeadCode\Rector\Foreach_\RemoveUnusedForeachKeyRector::class);
@@ -31,7 +28,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(\Rector\DeadCode\Rector\Assign\RemoveDoubleAssignRector::class);
     $services->set(\Rector\DeadCode\Rector\Expression\SimplifyMirrorAssignRector::class);
     $services->set(\Rector\DeadCode\Rector\FunctionLike\RemoveOverriddenValuesRector::class);
-    $services->set(\Rector\DeadCode\Rector\Property\RemoveUnusedPrivatePropertyRector::class);
     $services->set(\Rector\DeadCode\Rector\ClassConst\RemoveUnusedPrivateClassConstantRector::class);
     $services->set(\Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPrivateMethodRector::class);
     $services->set(\Rector\DeadCode\Rector\FunctionLike\RemoveCodeAfterReturnRector::class);
@@ -57,12 +53,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(\Rector\DeadCode\Rector\MethodCall\RemoveEmptyMethodCallRector::class);
     $services->set(\Rector\DeadCode\Rector\Return_\RemoveDeadConditionAboveReturnRector::class);
     $services->set(\Rector\DeadCode\Rector\ClassMethod\RemoveUnusedConstructorParamRector::class);
-    $services->set(\Rector\DeadCode\Rector\If_\RemoveDeadInstanceOfRector::class);
     $services->set(\Rector\DeadCode\Rector\For_\RemoveDeadLoopRector::class);
-    $services->set(\Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPrivateMethodParameterRector::class);
     // docblock
-    $services->set(\Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector::class);
-    $services->set(\Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector::class);
     $services->set(\Rector\DeadCode\Rector\Node\RemoveNonExistingVarAnnotationRector::class);
 
     // requires PHP 8+
@@ -70,7 +62,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(\Rector\DeadCode\Rector\ClassMethod\RemoveLastReturnRector::class);
 
     // PHP 7.4
-    $services->set(\Rector\Php74\Rector\Property\TypedPropertyRector::class);
     $services->set(\Rector\Renaming\Rector\FuncCall\RenameFunctionRector::class)->call('configure', [[\Rector\Renaming\Rector\FuncCall\RenameFunctionRector::OLD_FUNCTION_TO_NEW_FUNCTION => [
         #the_real_type
         # https://wiki.php.net/rfc/deprecations_php_7_4
@@ -115,11 +106,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(\Rector\CodeQuality\Rector\Ternary\SimplifyTautologyTernaryRector::class);
     $services->set(\Rector\CodeQuality\Rector\Foreach_\SimplifyForeachToArrayFilterRector::class);
     $services->set(\Rector\CodeQuality\Rector\FuncCall\SingleInArrayToCompareRector::class);
-    $services->set(\Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector::class);
     $services->set(\Rector\CodeQuality\Rector\Concat\JoinStringConcatRector::class);
     $services->set(\Rector\CodeQuality\Rector\If_\ConsecutiveNullCompareReturnsToNullCoalesceQueueRector::class);
     $services->set(\Rector\CodeQuality\Rector\If_\SimplifyIfIssetToNullCoalescingRector::class);
-    $services->set(\Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector::class);
     $services->set(\Rector\CodeQuality\Rector\If_\CombineIfRector::class);
     $services->set(\Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector::class);
     $services->set(\Rector\CodeQuality\Rector\Ternary\SimplifyDuplicatedTernaryRector::class);
@@ -141,10 +130,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(\Rector\CodeQuality\Rector\FuncCall\ArrayMergeOfNonArraysToSimpleArrayRector::class);
     $services->set(\Rector\CodeQuality\Rector\FuncCall\IntvalToTypeCastRector::class);
     $services->set(\Rector\CodeQuality\Rector\Ternary\ArrayKeyExistsTernaryThenValueToCoalescingRector::class);
-    $services->set(\Rector\CodeQuality\Rector\Include_\AbsolutizeRequireAndIncludePathRector::class);
     $services->set(\Rector\CodeQuality\Rector\FuncCall\ChangeArrayPushToArrayAssignRector::class);
     $services->set(\Rector\CodeQuality\Rector\For_\ForRepeatedCountToOwnVariableRector::class);
-    $services->set(\Rector\CodeQuality\Rector\Foreach_\ForeachItemsAssignToEmptyArrayToAssignRector::class);
     $services->set(\Rector\CodeQuality\Rector\Expression\InlineIfToExplicitIfRector::class);
     $services->set(\Rector\CodeQuality\Rector\FuncCall\ArrayKeysAndInArrayToArrayKeyExistsRector::class);
     $services->set(\Rector\CodeQuality\Rector\Assign\SplitListAssignToSeparateLineRector::class);
@@ -179,7 +166,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(\Rector\CodeQuality\Rector\FuncCall\SetTypeToCastRector::class);
     $services->set(\Rector\CodeQuality\Rector\LogicalAnd\LogicalToBooleanRector::class);
     $services->set(\Rector\Php52\Rector\Property\VarToPublicPropertyRector::class);
-    $services->set(\Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector::class);
     $services->set(\Rector\CodeQuality\Rector\New_\NewStaticToNewSelfRector::class);
     $services->set(\Rector\CodeQuality\Rector\ClassMethod\DateTimeToDateTimeInterfaceRector::class);
     $services->set(\Rector\CodeQuality\Rector\FuncCall\UnwrapSprintfOneArgumentRector::class);
@@ -192,26 +178,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(\Rector\CodeQuality\Rector\FuncCall\CallUserFuncWithArrowFunctionToInlineRector::class);
     $services->set(\Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector::class);
     $services->set(\Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector::class);
-    $services->set(\Rector\CodeQuality\Rector\PropertyFetch\ExplicitMethodCallOverMagicGetSetRector::class);
     $services->set(\Rector\CodeQuality\Rector\Do_\DoWhileBreakFalseToIfElseRector::class);
 
     // PRIVATIZATION
     $services->set(\Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector::class);
     $services->set(\Rector\Privatization\Rector\ClassMethod\ChangeGlobalVariablesToPropertiesRector::class);
-    $services->set(\Rector\Privatization\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector::class);
-    $services->set(\Rector\Privatization\Rector\Class_\ChangeReadOnlyVariableWithDefaultValueToConstantRector::class);
-    $services->set(\Rector\Privatization\Rector\Class_\RepeatedLiteralToClassConstantRector::class);
-    $services->set(\Rector\Privatization\Rector\MethodCall\PrivatizeLocalGetterToPropertyRector::class);
-    $services->set(\Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector::class);
-    $services->set(\Rector\Privatization\Rector\ClassMethod\PrivatizeFinalClassMethodRector::class);
 
     $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_74);
 
     $parameters->set(Option::PHPSTAN_FOR_RECTOR_PATH, getcwd() . '/phpstan.neon');
-
-    // get services (needed for register a single rule)
-    // $services = $containerConfigurator->services();
-
-    // register a single rule
-    // $services->set(TypedPropertyRector::class);
 };
