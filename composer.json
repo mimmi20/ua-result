@@ -1,7 +1,8 @@
 {
   "name": "mimmi20/ua-result",
-  "type": "library",
   "description": "Library for PHP 7.4+ to handle useragent parser results",
+  "license": "MIT",
+  "type": "library",
   "keywords": [
     "Browser",
     "user agent",
@@ -9,8 +10,6 @@
     "parser",
     "user-agent"
   ],
-  "homepage": "https://github.com/mimmi20/ua-result",
-  "license": "MIT",
   "authors": [
     {
       "name": "Thomas Müller",
@@ -22,6 +21,11 @@
       "homepage": "https://github.com/mimmi20/ua-result/graphs/contributors"
     }
   ],
+  "homepage": "https://github.com/mimmi20/ua-result",
+  "support": {
+    "issues": "https://github.com/mimmi20/ua-result/issues",
+    "source": "https://github.com/mimmi20/ua-result"
+  },
   "require": {
     "php": "^7.4.3 || ^8.0.0",
     "ext-json": "*",
@@ -32,6 +36,7 @@
     "psr/log": "^1.1.4 || ^3.0.0"
   },
   "require-dev": {
+    "ergebnis/composer-normalize": "^2.18.0",
     "mimmi20/coding-standard": "^2.5.1",
     "phpstan/extension-installer": "^1.1.0",
     "phpstan/phpstan": "^1.2.0",
@@ -39,10 +44,6 @@
     "phpstan/phpstan-phpunit": "^1.0.0",
     "phpunit/phpunit": "^9.5.10",
     "rector/rector": "^0.12.5"
-  },
-  "config": {
-    "preferred-install": "stable",
-    "sort-packages": true
   },
   "autoload": {
     "psr-4": {
@@ -54,8 +55,8 @@
       "UaResultTest\\": "tests/"
     }
   },
-  "support": {
-    "issues": "https://github.com/mimmi20/ua-result/issues",
-    "source": "https://github.com/mimmi20/ua-result"
+  "config": {
+    "preferred-install": "stable",
+    "sort-packages": true
   }
 }
