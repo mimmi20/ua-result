@@ -37,7 +37,7 @@
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.18.0",
-    "mimmi20/coding-standard": "^2.5.1",
+    "mimmi20/coding-standard": "^2.5.2",
     "phpstan/extension-installer": "^1.1.0",
     "phpstan/phpstan": "^1.2.0",
     "phpstan/phpstan-deprecation-rules": "^1.0.0",
