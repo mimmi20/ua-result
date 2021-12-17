@@ -151,7 +151,7 @@ jobs:
           composer-options: "${{ env.COMPOSER_OPTIONS }}"
 
       - name: "Check dependencies with composer"
-        run: "composer outdated --direct --strict"
+        run: "composer outdated --direct"
 
   php-cs-fixer:
     name: "Check Coding Standards with PHP-CS-Fixer"
