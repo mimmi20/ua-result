@@ -36,14 +36,12 @@
     "psr/log": "^1.1.4 || ^3.0.0"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.18.0",
     "mimmi20/coding-standard": "^2.5.2",
     "phpstan/extension-installer": "^1.1.0",
     "phpstan/phpstan": "^1.2.0",
     "phpstan/phpstan-deprecation-rules": "^1.0.0",
     "phpstan/phpstan-phpunit": "^1.0.0",
-    "phpunit/phpunit": "^9.5.10",
-    "rector/rector": "^0.12.8"
+    "phpunit/phpunit": "^9.5.10"
   },
   "autoload": {
     "psr-4": {
