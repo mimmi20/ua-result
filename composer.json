@@ -30,10 +30,10 @@
     "php": "^7.4.3 || ^8.0.0",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "mimmi20/browser-detector-version": "^7.0.7",
-    "mimmi20/ua-browser-type": "^8.0.5",
-    "mimmi20/ua-device-type": "^8.0.5",
-    "psr/log": "^1.1.4 || ^3.0.0"
+    "mimmi20/browser-detector-version": "^7.0.8",
+    "mimmi20/ua-browser-type": "^8.0.6",
+    "mimmi20/ua-device-type": "^8.0.6",
+    "psr/log": "^1.1.4 || ^2.0.0 || ^3.0.0"
   },
   "require-dev": {
     "mimmi20/coding-standard": "^2.6.2",
@@ -41,7 +41,7 @@
     "phpstan/phpstan": "^1.4.2",
     "phpstan/phpstan-deprecation-rules": "^1.0.0",
     "phpstan/phpstan-phpunit": "^1.0.0",
-    "phpunit/phpunit": "^9.5.11"
+    "phpunit/phpunit": "^9.5.12"
   },
   "autoload": {
     "psr-4": {
@@ -55,6 +55,10 @@
   },
   "config": {
     "preferred-install": "stable",
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "phpstan/extension-installer": true
+    }
   }
 }
