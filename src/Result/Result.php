@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2021, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -20,40 +20,29 @@ use UnexpectedValueException;
 
 final class Result implements ResultInterface
 {
-    /** @var array<string> */
-    private array $headers = [];
-
-    private DeviceInterface $device;
-
-    private BrowserInterface $browser;
-
-    private OsInterface $os;
-
-    private EngineInterface $engine;
-
     /**
      * the class constructor
      *
-     * @param string[] $headers
+     * @param array<string> $headers
+     *
+     * @throws void
      */
     public function __construct(
-        array $headers,
-        DeviceInterface $device,
-        OsInterface $os,
-        BrowserInterface $browser,
-        EngineInterface $engine
+        private readonly array $headers,
+        private DeviceInterface $device,
+        private OsInterface $os,
+        private BrowserInterface $browser,
+        private EngineInterface $engine,
     ) {
-        $this->headers = $headers;
-        $this->device  = $device;
-        $this->os      = $os;
-        $this->browser = $browser;
-        $this->engine  = $engine;
+        // nothing to do
     }
 
     /**
      * clones the actual object
      *
-     * @return Result
+     * @return void
+     *
+     * @throws void
      */
     public function __clone()
     {
@@ -63,21 +52,25 @@ final class Result implements ResultInterface
         $this->engine  = clone $this->engine;
     }
 
+    /** @throws void */
     public function getBrowser(): BrowserInterface
     {
         return $this->browser;
     }
 
+    /** @throws void */
     public function getDevice(): DeviceInterface
     {
         return $this->device;
     }
 
+    /** @throws void */
     public function getEngine(): EngineInterface
     {
         return $this->engine;
     }
 
+    /** @throws void */
     public function getOs(): OsInterface
     {
         return $this->os;
@@ -85,6 +78,8 @@ final class Result implements ResultInterface
 
     /**
      * @return array<string>
+     *
+     * @throws void
      */
     public function getHeaders(): array
     {

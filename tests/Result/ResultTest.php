@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2021, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace UaResultTest\Result;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaResult\Browser\BrowserInterface;
@@ -26,10 +25,7 @@ use function assert;
 
 final class ResultTest extends TestCase
 {
-    /**
-     * @throws InvalidArgumentException
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testSetterGetter(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
@@ -52,7 +48,6 @@ final class ResultTest extends TestCase
     }
 
     /**
-     * @throws InvalidArgumentException
      * @throws Exception
      * @throws UnexpectedValueException
      */
@@ -83,10 +78,7 @@ final class ResultTest extends TestCase
         self::assertIsArray($array['engine']);
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testClone(): void
     {
         $headers = ['x-test-header' => 'test-ua'];

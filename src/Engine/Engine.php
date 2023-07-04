@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2021, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,26 +18,21 @@ use UnexpectedValueException;
 
 final class Engine implements EngineInterface
 {
-    private ?string $name = null;
-
-    private VersionInterface $version;
-
-    private CompanyInterface $manufacturer;
-
+    /** @throws void */
     public function __construct(
-        ?string $name,
-        CompanyInterface $manufacturer,
-        VersionInterface $version
+        private readonly string | null $name,
+        private CompanyInterface $manufacturer,
+        private VersionInterface $version,
     ) {
-        $this->name         = $name;
-        $this->manufacturer = $manufacturer;
-        $this->version      = $version;
+        // nothing to do
     }
 
     /**
      * clones the actual object
      *
-     * @return Engine
+     * @return void
+     *
+     * @throws void
      */
     public function __clone()
     {
@@ -45,16 +40,19 @@ final class Engine implements EngineInterface
         $this->manufacturer = clone $this->manufacturer;
     }
 
+    /** @throws void */
     public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
 
-    public function getName(): ?string
+    /** @throws void */
+    public function getName(): string | null
     {
         return $this->name;
     }
 
+    /** @throws void */
     public function getVersion(): VersionInterface
     {
         return $this->version;

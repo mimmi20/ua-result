@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2021, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,34 +18,23 @@ use UnexpectedValueException;
 
 final class Os implements OsInterface
 {
-    private ?string $name = null;
-
-    private ?string $marketingName = null;
-
-    private VersionInterface $version;
-
-    private CompanyInterface $manufacturer;
-
-    private ?int $bits = null;
-
+    /** @throws void */
     public function __construct(
-        ?string $name,
-        ?string $marketingName,
-        CompanyInterface $manufacturer,
-        VersionInterface $version,
-        ?int $bits
+        private readonly string | null $name,
+        private readonly string | null $marketingName,
+        private CompanyInterface $manufacturer,
+        private VersionInterface $version,
+        private readonly int | null $bits = null,
     ) {
-        $this->name          = $name;
-        $this->marketingName = $marketingName;
-        $this->manufacturer  = $manufacturer;
-        $this->version       = $version;
-        $this->bits          = $bits;
+        // nothing to do
     }
 
     /**
      * clones the actual object
      *
-     * @return Os
+     * @return void
+     *
+     * @throws void
      */
     public function __clone()
     {
@@ -53,26 +42,31 @@ final class Os implements OsInterface
         $this->version      = clone $this->version;
     }
 
-    public function getBits(): ?int
+    /** @throws void */
+    public function getBits(): int | null
     {
         return $this->bits;
     }
 
+    /** @throws void */
     public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
 
-    public function getName(): ?string
+    /** @throws void */
+    public function getName(): string | null
     {
         return $this->name;
     }
 
-    public function getMarketingName(): ?string
+    /** @throws void */
+    public function getMarketingName(): string | null
     {
         return $this->marketingName;
     }
 
+    /** @throws void */
     public function getVersion(): VersionInterface
     {
         return $this->version;
