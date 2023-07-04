@@ -20,7 +20,7 @@ final class Engine implements EngineInterface
 {
     /** @throws void */
     public function __construct(
-        private string | null $name,
+        private readonly string | null $name,
         private CompanyInterface $manufacturer,
         private VersionInterface $version,
     ) {

@@ -16,10 +16,10 @@ final class Display implements DisplayInterface
 {
     /** @throws void */
     public function __construct(
-        private int | null $width = null,
-        private int | null $height = null,
-        private bool | null $touch = null,
-        private float | null $size = null,
+        private readonly int | null $width = null,
+        private readonly int | null $height = null,
+        private readonly bool | null $touch = null,
+        private readonly float | null $size = null,
     ) {
         // nothing to do
     }

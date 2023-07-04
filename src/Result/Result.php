@@ -28,7 +28,7 @@ final class Result implements ResultInterface
      * @throws void
      */
     public function __construct(
-        private array $headers,
+        private readonly array $headers,
         private DeviceInterface $device,
         private OsInterface $os,
         private BrowserInterface $browser,

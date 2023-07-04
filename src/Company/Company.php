@@ -15,8 +15,11 @@ namespace UaResult\Company;
 final class Company implements CompanyInterface
 {
     /** @throws void */
-    public function __construct(private string $type, private string | null $name, private string | null $brandname)
-    {
+    public function __construct(
+        private readonly string $type,
+        private readonly string | null $name,
+        private readonly string | null $brandname,
+    ) {
         // nothing to do
     }
 

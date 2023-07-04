@@ -20,11 +20,11 @@ final class Os implements OsInterface
 {
     /** @throws void */
     public function __construct(
-        private string | null $name,
-        private string | null $marketingName,
+        private readonly string | null $name,
+        private readonly string | null $marketingName,
         private CompanyInterface $manufacturer,
         private VersionInterface $version,
-        private int | null $bits = null,
+        private readonly int | null $bits = null,
     ) {
         // nothing to do
     }

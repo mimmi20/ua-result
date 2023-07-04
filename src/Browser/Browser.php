@@ -21,12 +21,12 @@ final class Browser implements BrowserInterface
 {
     /** @throws void */
     public function __construct(
-        private string | null $name,
+        private readonly string | null $name,
         private CompanyInterface $manufacturer,
         private VersionInterface $version,
         private TypeInterface $type,
-        private int | null $bits = null,
-        private string | null $modus = null,
+        private readonly int | null $bits = null,
+        private readonly string | null $modus = null,
     ) {
         // nothing to do
     }

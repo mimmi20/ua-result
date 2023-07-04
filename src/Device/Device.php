@@ -19,8 +19,8 @@ final class Device implements DeviceInterface
 {
     /** @throws void */
     public function __construct(
-        private string | null $deviceName,
-        private string | null $marketingName,
+        private readonly string | null $deviceName,
+        private readonly string | null $marketingName,
         private CompanyInterface $manufacturer,
         private CompanyInterface $brand,
         private TypeInterface $type,
