@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2021, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,17 +12,13 @@ declare(strict_types = 1);
 
 namespace UaResultTest\Device;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaResult\Device\Display;
 
 final class DisplayTest extends TestCase
 {
-    /**
-     * @throws InvalidArgumentException
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testSetterGetter(): void
     {
         $width  = 1920;
@@ -38,10 +34,7 @@ final class DisplayTest extends TestCase
         self::assertSame($size, $object->getSize());
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testToarray(): void
     {
         $width  = 1920;

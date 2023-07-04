@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2021, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,38 +19,24 @@ use UnexpectedValueException;
 
 final class Browser implements BrowserInterface
 {
-    private ?string $name = null;
-
-    private ?string $modus = null;
-
-    private VersionInterface $version;
-
-    private CompanyInterface $manufacturer;
-
-    private ?int $bits = null;
-
-    private TypeInterface $type;
-
+    /** @throws void */
     public function __construct(
-        ?string $name,
-        CompanyInterface $manufacturer,
-        VersionInterface $version,
-        TypeInterface $type,
-        ?int $bits,
-        ?string $modus
+        private string | null $name,
+        private CompanyInterface $manufacturer,
+        private VersionInterface $version,
+        private TypeInterface $type,
+        private int | null $bits = null,
+        private string | null $modus = null,
     ) {
-        $this->name         = $name;
-        $this->manufacturer = $manufacturer;
-        $this->version      = $version;
-        $this->type         = $type;
-        $this->bits         = $bits;
-        $this->modus        = $modus;
+        // nothing to do
     }
 
     /**
      * clones the actual object
      *
-     * @return Browser
+     * @return void
+     *
+     * @throws void
      */
     public function __clone()
     {
@@ -61,32 +47,39 @@ final class Browser implements BrowserInterface
 
     /**
      * gets the name of the browser
+     *
+     * @throws void
      */
-    public function getName(): ?string
+    public function getName(): string | null
     {
         return $this->name;
     }
 
+    /** @throws void */
     public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
 
-    public function getModus(): ?string
+    /** @throws void */
+    public function getModus(): string | null
     {
         return $this->modus;
     }
 
+    /** @throws void */
     public function getVersion(): VersionInterface
     {
         return $this->version;
     }
 
-    public function getBits(): ?int
+    /** @throws void */
+    public function getBits(): int | null
     {
         return $this->bits;
     }
 
+    /** @throws void */
     public function getType(): TypeInterface
     {
         return $this->type;

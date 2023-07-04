@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2021, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,60 +14,60 @@ namespace UaResult\Device;
 
 final class Display implements DisplayInterface
 {
-    private ?bool $touch = null;
-
-    private ?int $height = null;
-
-    private ?int $width = null;
-
-    private ?float $size = null;
-
+    /** @throws void */
     public function __construct(
-        ?int $width,
-        ?int $height,
-        ?bool $touch,
-        ?float $size
+        private int | null $width = null,
+        private int | null $height = null,
+        private bool | null $touch = null,
+        private float | null $size = null,
     ) {
-        $this->width  = $width;
-        $this->height = $height;
-        $this->touch  = $touch;
-        $this->size   = $size;
+        // nothing to do
     }
 
     /**
      * Returns TRUE, if the display is a touchscreen
+     *
+     * @throws void
      */
-    public function hasTouch(): ?bool
+    public function hasTouch(): bool | null
     {
         return $this->touch;
     }
 
     /**
      * Returns the display height
+     *
+     * @throws void
      */
-    public function getHeight(): ?int
+    public function getHeight(): int | null
     {
         return $this->height;
     }
 
     /**
      * Returns the display width
+     *
+     * @throws void
      */
-    public function getWidth(): ?int
+    public function getWidth(): int | null
     {
         return $this->width;
     }
 
     /**
      * returns the size of the display
+     *
+     * @throws void
      */
-    public function getSize(): ?float
+    public function getSize(): float | null
     {
         return $this->size;
     }
 
     /**
      * @return array<string, bool|float|int|null>
+     *
+     * @throws void
      */
     public function toArray(): array
     {

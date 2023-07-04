@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2021, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,38 +17,24 @@ use UaResult\Company\CompanyInterface;
 
 final class Device implements DeviceInterface
 {
-    private ?string $deviceName = null;
-
-    private ?string $marketingName = null;
-
-    private CompanyInterface $manufacturer;
-
-    private CompanyInterface $brand;
-
-    private DisplayInterface $display;
-
-    private TypeInterface $type;
-
+    /** @throws void */
     public function __construct(
-        ?string $deviceName,
-        ?string $marketingName,
-        CompanyInterface $manufacturer,
-        CompanyInterface $brand,
-        TypeInterface $type,
-        DisplayInterface $display
+        private string | null $deviceName,
+        private string | null $marketingName,
+        private CompanyInterface $manufacturer,
+        private CompanyInterface $brand,
+        private TypeInterface $type,
+        private DisplayInterface $display,
     ) {
-        $this->deviceName    = $deviceName;
-        $this->marketingName = $marketingName;
-        $this->manufacturer  = $manufacturer;
-        $this->brand         = $brand;
-        $this->type          = $type;
-        $this->display       = $display;
+        // nothing to do
     }
 
     /**
      * clones the actual object
      *
      * @return void
+     *
+     * @throws void
      */
     public function __clone()
     {
@@ -58,38 +44,46 @@ final class Device implements DeviceInterface
         $this->display      = clone $this->display;
     }
 
-    public function getDeviceName(): ?string
+    /** @throws void */
+    public function getDeviceName(): string | null
     {
         return $this->deviceName;
     }
 
+    /** @throws void */
     public function getBrand(): CompanyInterface
     {
         return $this->brand;
     }
 
+    /** @throws void */
     public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
 
-    public function getMarketingName(): ?string
+    /** @throws void */
+    public function getMarketingName(): string | null
     {
         return $this->marketingName;
     }
 
-    public function getDisplay(): ?DisplayInterface
+    /** @throws void */
+    public function getDisplay(): DisplayInterface
     {
         return $this->display;
     }
 
+    /** @throws void */
     public function getType(): TypeInterface
     {
         return $this->type;
     }
 
     /**
-     * @return array<string, (string|array<string, (int|float|bool|null)>|null)>
+     * @return array<string, (array<string, (bool|float|int|null)>|string|null)>
+     *
+     * @throws void
      */
     public function toArray(): array
     {

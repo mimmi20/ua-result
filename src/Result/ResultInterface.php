@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2021, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -20,16 +20,22 @@ use UnexpectedValueException;
 
 interface ResultInterface
 {
+    /** @throws void */
     public function getBrowser(): BrowserInterface;
 
+    /** @throws void */
     public function getDevice(): DeviceInterface;
 
+    /** @throws void */
     public function getEngine(): EngineInterface;
 
+    /** @throws void */
     public function getOs(): OsInterface;
 
     /**
      * @return array<string>
+     *
+     * @throws void
      */
     public function getHeaders(): array;
 

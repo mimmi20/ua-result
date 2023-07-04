@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2021, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,26 +16,36 @@ interface DisplayInterface
 {
     /**
      * Returns TRUE, if the display is a touchscreen
+     *
+     * @throws void
      */
-    public function hasTouch(): ?bool;
+    public function hasTouch(): bool | null;
 
     /**
      * Returns the display height
+     *
+     * @throws void
      */
-    public function getHeight(): ?int;
+    public function getHeight(): int | null;
 
     /**
      * Returns the display width
+     *
+     * @throws void
      */
-    public function getWidth(): ?int;
+    public function getWidth(): int | null;
 
     /**
      * returns the size of the display
+     *
+     * @throws void
      */
-    public function getSize(): ?float;
+    public function getSize(): float | null;
 
     /**
      * @return array<string, bool|float|int|null>
+     *
+     * @throws void
      */
     public function toArray(): array;
 }

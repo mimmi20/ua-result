@@ -2,7 +2,7 @@
 /**
  * This file is part of the ua-result package.
  *
- * Copyright (c) 2015-2021, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace UaResultTest\Device;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaDeviceType\TypeInterface;
@@ -24,10 +23,7 @@ use function assert;
 
 final class DeviceTest extends TestCase
 {
-    /**
-     * @throws InvalidArgumentException
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testSetterGetter(): void
     {
         $deviceName    = 'TestDevicename';
@@ -51,10 +47,7 @@ final class DeviceTest extends TestCase
         self::assertSame($display, $object->getDisplay());
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testToarray(): void
     {
         $deviceName    = 'TestDevicename';
@@ -111,10 +104,7 @@ final class DeviceTest extends TestCase
         self::assertIsArray($array['display']);
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testClone(): void
     {
         $deviceName    = 'TestDevicename';
