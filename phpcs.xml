@@ -1,19 +1,21 @@
 <?xml version="1.0"?>
-<ruleset name="ua-result"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd"
->
-    <description>ua-result</description>
+<ruleset name="mezzio-generic-authorization-rbac" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <description>mezzio-generic-authorization-rbac</description>
 
     <arg name="report" value="full"/>
     <arg value="wps"/>
     <arg name="encoding" value="utf-8"/>
 
     <!-- inherit rules from: -->
-    <rule ref="mimmi20-cs"/>
+    <rule ref="Mimmi20CodingStandard">
+        <exclude name="SlevomatCodingStandard.Functions.FunctionLength.FunctionLength"/>
+        <exclude name="SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh"/>
+        <exclude name="Generic.Metrics.CyclomaticComplexity.TooHigh"/>
+    </rule>
 
     <!-- Paths to check -->
     <file>src</file>
     <file>tests</file>
     <file>.php-cs-fixer.php</file>
+    <file>rector.php</file>
 </ruleset>

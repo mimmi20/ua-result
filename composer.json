@@ -27,7 +27,7 @@
     "source": "https://github.com/mimmi20/ua-result"
   },
   "require": {
-    "php": "^7.4.3 || ^8.0.0",
+    "php": "^8.1.0",
     "ext-json": "*",
     "ext-mbstring": "*",
     "mimmi20/browser-detector-version": "^7.0.8",
@@ -36,12 +36,23 @@
     "psr/log": "^1.1.4 || ^2.0.0 || ^3.0.0"
   },
   "require-dev": {
-    "mimmi20/coding-standard": "^2.6.3",
-    "phpstan/extension-installer": "^1.1.0",
-    "phpstan/phpstan": "^1.4.6",
-    "phpstan/phpstan-deprecation-rules": "^1.0.0",
-    "phpstan/phpstan-phpunit": "^1.0.0",
-    "phpunit/phpunit": "^9.5.13"
+    "ext-ctype": "*",
+    "ext-dom": "*",
+    "ext-simplexml": "*",
+    "ext-tokenizer": "*",
+    "ext-xml": "*",
+    "ext-xmlwriter": "*",
+    "infection/infection": "^0.27.0",
+    "laminas/laminas-servicemanager": "^3.21.0",
+    "mimmi20/coding-standard": "^5.1.1",
+    "nikic/php-parser": "^4.16.0",
+    "phpstan/extension-installer": "^1.3.1",
+    "phpstan/phpstan": "^1.10.21",
+    "phpstan/phpstan-deprecation-rules": "^1.1.3",
+    "phpstan/phpstan-phpunit": "^1.3.13",
+    "phpunit/phpunit": "^10.2.2",
+    "rector/rector": "^0.17.1",
+    "vimeo/psalm": "^5.13.0"
   },
   "autoload": {
     "psr-4": {
@@ -58,7 +69,8 @@
     "sort-packages": true,
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
-      "phpstan/extension-installer": true
+      "phpstan/extension-installer": true,
+      "infection/extension-installer": true
     }
   }
 }
