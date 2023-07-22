@@ -3,7 +3,7 @@
 
   "extends": ["github>whitesource/merge-confidence:beta"],
 
-  "enabled": true,
+  "enabled": false,
   "assignees": [
     "mimmi20"
   ],
