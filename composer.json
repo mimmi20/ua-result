@@ -64,7 +64,8 @@
     }
   },
   "config": {
-    "preferred-install": "stable",
+    "preferred-install": "dist",
+    "lock": false,
     "sort-packages": true,
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
