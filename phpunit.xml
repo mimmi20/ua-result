@@ -39,7 +39,7 @@
     </source>
 
     <testsuites>
-        <testsuite name="mezzio-generic-authorization-rbac Test Suite">
+        <testsuite name="ua-result Test Suite">
             <directory>tests/</directory>
         </testsuite>
     </testsuites>

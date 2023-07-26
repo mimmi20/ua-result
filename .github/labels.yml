@@ -63,7 +63,7 @@
   name: "patch"
   description: "Patch"
 
-# other Labels to mimmi20/mezzio-generic-authorization-rbac
+# other Labels to mimmi20/ua-result
 #- color: 5319e7
 #  name: "new useragents"
 #  description: ""
