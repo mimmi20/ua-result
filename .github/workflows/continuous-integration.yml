@@ -28,6 +28,7 @@ jobs:
       skip-rector: false
       skip-phpmd: false
       skip-psalm: true
+      skip-composer-ununsed: false
     secrets:
       envPAT: "${{ secrets.GITHUB_TOKEN }}"
 
@@ -46,19 +47,13 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
           - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
-
-        ts:
-          - "ts"
-          - "nts"
 
     steps:
       - name: "Checkout"
@@ -80,7 +75,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "${{ matrix.ts }}"
+          phpts: "nts"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@2.2.0"
@@ -106,14 +101,11 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
-          - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
     steps:
@@ -136,7 +128,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@2.2.0"
