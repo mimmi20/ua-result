@@ -28,7 +28,7 @@ jobs:
       skip-rector: false
       skip-phpmd: false
       skip-psalm: true
-      skip-composer-ununsed: false
+      skip-composer-ununsed: true
     secrets:
       envPAT: "${{ secrets.GITHUB_TOKEN }}"
 
