@@ -28,12 +28,10 @@
   },
   "require": {
     "php": "^8.1.0",
-    "ext-json": "*",
     "ext-mbstring": "*",
     "mimmi20/browser-detector-version": "^8.0.0",
     "mimmi20/ua-browser-type": "^9.0.0",
-    "mimmi20/ua-device-type": "^9.0.0",
-    "psr/log": "^3.0.0"
+    "mimmi20/ua-device-type": "^9.0.0"
   },
   "require-dev": {
     "ext-ctype": "*",
