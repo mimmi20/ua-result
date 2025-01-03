@@ -30,7 +30,7 @@ jobs:
       skip-phplint: false
       skip-check-composer: false
       skip-ec-checker: false
-      dependency-analyser-options: "--ignore-dev-in-prod-deps --ignore-unknown-classes"
+      dependency-analyser-options: ""
 
   install:
     name: "Install Project"
@@ -55,12 +55,40 @@ jobs:
       extensions: "ctype, curl, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
       composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+      skip-php-cs-fixer: false
+      skip-phpcs: false
       skip-phpstan: false
       skip-rector: false
       skip-eslint: true
       skip-stylelint: true
       skip-prettier: true
       phpcs-options: ""
+
+  tests:
+    name: "UnitTests"
+
+    needs: "analytics"
+
+    uses: "mimmi20/ci/.github/workflows/test.yml@8.3"
+    with:
+      extensions: "ctype, dom, fileinfo, intl, simplexml, tokenizer, xml, xmlwriter"
+      ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
+      coverage: "xdebug"
+      composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+      test-name: ""
+      min-msi: 99
+      min-covered-msi: 99
+      skip-phpunit: false
+      skip-vitest: true
+      skip-stryker: true
+      upload-codecov: true
+      upload-codeclimate: true
+      upload-coveralls: true
+      upload-flag: ""
+    secrets:
+      ENV_CODECLIMATE_API_KEY: ${{ secrets.CODECLIMATE_API_KEY }}
+      ENV_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      ENV_STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
   # This is a meta job to avoid to have to constantly change the protection rules
   # whenever we touch the matrix.
@@ -72,7 +100,7 @@ jobs:
     if: always()
 
     needs:
-      - "analytics"
+      - "tests"
 
     steps:
       - name: Successful run
