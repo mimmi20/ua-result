@@ -10,7 +10,6 @@
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/mimmi20/ua-result.svg)](https://isitmaintained.com/project/mimmi20/ua-result "Average time to resolve an issue")
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/mimmi20/ua-result.svg)](https://isitmaintained.com/project/mimmi20/ua-result "Percentage of issues still open")
 
-
 ## Description
 
 This library provides a set of classes representing a result of an useragent detection.
@@ -137,4 +136,4 @@ $name = $platform->getVersion()->getVersion();
 ## Issues and feature requests
 
 Please report your issues and ask for new features on the GitHub Issue Tracker
-at https://github.com/mimmi20/ua-result/issues
+at <https://github.com/mimmi20/ua-result/issues>

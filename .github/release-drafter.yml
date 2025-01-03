@@ -28,12 +28,10 @@ version-resolver:
     labels:
       - "bc break"
       - "removed"
-      - "major"
   minor:
     labels:
       - "deprecated"
       - "security"
-      - "minor"
   patch:
     labels:
       - "bug"
@@ -41,7 +39,6 @@ version-resolver:
       - "enhancement"
       - "maintenance"
       - "documentation"
-      - "patch"
   default: patch
 
 autolabeler:
@@ -74,6 +71,16 @@ categories:
   - title: "**🧹 Maintenance:**"
     labels:
       - "maintenance"
+      - "new browser"
+      - "new device"
+      - "new engine"
+      - "new platform"
+      - "new test"
+      - "update browser"
+      - "update device"
+      - "update engine"
+      - "update platform"
+      - "update test"
   - title: "**📦 Documentation:**"
     labels:
       - "documentation"
