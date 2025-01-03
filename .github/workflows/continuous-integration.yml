@@ -81,9 +81,9 @@ jobs:
       skip-phpunit: false
       skip-vitest: true
       skip-stryker: true
-      upload-codecov: true
-      upload-codeclimate: true
-      upload-coveralls: true
+      upload-codecov: false
+      upload-codeclimate: false
+      upload-coveralls: false
       upload-flag: ""
     secrets:
       ENV_CODECLIMATE_API_KEY: ${{ secrets.CODECLIMATE_API_KEY }}
