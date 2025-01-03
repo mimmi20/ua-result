@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     backupGlobals="false"
     backupStaticProperties="false"
     beStrictAboutChangesToGlobalState="true"
     beStrictAboutCoverageMetadata="false"
     beStrictAboutOutputDuringTests="true"
     beStrictAboutTestsThatDoNotTestAnything="true"
+    displayDetailsOnPhpunitDeprecations="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+    displayDetailsOnTestsThatTriggerNotices="true"
+    displayDetailsOnTestsThatTriggerErrors="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnSkippedTests="true"
+    displayDetailsOnIncompleteTests="true"
+    failOnPhpunitDeprecation="true"
     failOnEmptyTestSuite="true"
     failOnIncomplete="true"
     failOnRisky="true"
     failOnSkipped="true"
+    failOnDeprecation="true"
+    failOnNotice="true"
     failOnWarning="true"
     bootstrap="vendor/autoload.php"
     enforceTimeLimit="false"
@@ -20,6 +29,7 @@
     resolveDependencies="true"
     colors="true"
     cacheDirectory="./.reports/.coverage-cache"
+    columns="119"
 >
     <php>
         <ini name="error_reporting" value="-1"/>
@@ -28,8 +38,6 @@
         <ini name="assert.exception" value="On"/>
         <ini name="intl.default_locale" value="de"/>
         <ini name="intl.use_exceptions" value="1"/>
-
-        <env name="COLUMNS" value="100" force="true"/>
     </php>
 
     <source>
@@ -39,12 +47,12 @@
     </source>
 
     <testsuites>
-        <testsuite name="ua-result Test Suite">
+        <testsuite name="UnitTests">
             <directory>tests/</directory>
         </testsuite>
     </testsuites>
 
-    <coverage includeUncoveredFiles="true">
+    <coverage>
         <report>
             <clover outputFile=".reports/clover.xml"/>
             <html outputDirectory=".reports/report/" lowUpperBound="50" highLowerBound="80"/>

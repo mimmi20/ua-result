@@ -10,24 +10,9 @@ updates:
     directory: "/"
 
     schedule:
-      interval: "weekly"
-      day: "tuesday"
-      time: "06:10"
+      interval: "daily"
+      time: "04:00"
       timezone: "Europe/Berlin"
-
-    groups:
-      # Specify a name for the group, which will be used in pull request titles
-      # and branch names
-      minor-patch-dependencies:
-        # Define patterns to include dependencies in the group (based on
-        # dependency name)
-        patterns:
-          - "*"
-        # update-types:
-        #   - "minor"
-        #   - "patch"
-        # exclude-patterns:
-        #   - "gc_ruboconfig"
 
     open-pull-requests-limit: 10
 
@@ -39,7 +24,6 @@ updates:
 
     labels:
       - "dependencies"
-      - "patch"
 
     versioning-strategy: "increase"
 
@@ -49,37 +33,16 @@ updates:
       include: "scope"
       prefix: "composer"
 
-#    ignore:
-#      - dependency-name: infection/infection
-#        versions:
-#          - ">= 0"
-#      - dependency-name: phpunit/phpunit
-#        versions:
-#          - ">= 0"
+    rebase-strategy: "auto"
 
   - package-ecosystem: "github-actions"
 
     directory: "/"
 
     schedule:
-      interval: "weekly"
-      day: "tuesday"
-      time: "06:10"
+      interval: "daily"
+      time: "04:00"
       timezone: "Europe/Berlin"
-
-    groups:
-      # Specify a name for the group, which will be used in pull request titles
-      # and branch names
-      minor-patch-dependencies:
-        # Define patterns to include dependencies in the group (based on
-        # dependency name)
-        patterns:
-          - "*"
-        # update-types:
-        #   - "minor"
-        #   - "patch"
-        # exclude-patterns:
-        #   - "gc_ruboconfig"
 
     open-pull-requests-limit: 10
 
@@ -91,9 +54,13 @@ updates:
 
     labels:
       - "dependencies"
-      - "patch"
 
     target-branch: "master"
 
     commit-message:
       prefix: "github-actions"
+
+    ignore:
+      - dependency-name: "mimmi20/ci"
+
+    rebase-strategy: "auto"

@@ -1,8 +1,9 @@
 <?php
+
 /**
- * This file is part of the ua-result package.
+ * This file is part of the mimmi20/ua-result package.
  *
- * Copyright (c) 2015-2023, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2015-2025, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,6 +14,7 @@ declare(strict_types = 1);
 namespace UaResult\Browser;
 
 use BrowserDetector\Version\VersionInterface;
+use Override;
 use UaBrowserType\TypeInterface;
 use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
@@ -50,36 +52,42 @@ final class Browser implements BrowserInterface
      *
      * @throws void
      */
+    #[Override]
     public function getName(): string | null
     {
         return $this->name;
     }
 
     /** @throws void */
+    #[Override]
     public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
     }
 
     /** @throws void */
+    #[Override]
     public function getModus(): string | null
     {
         return $this->modus;
     }
 
     /** @throws void */
+    #[Override]
     public function getVersion(): VersionInterface
     {
         return $this->version;
     }
 
     /** @throws void */
+    #[Override]
     public function getBits(): int | null
     {
         return $this->bits;
     }
 
     /** @throws void */
+    #[Override]
     public function getType(): TypeInterface
     {
         return $this->type;
@@ -90,6 +98,7 @@ final class Browser implements BrowserInterface
      *
      * @throws UnexpectedValueException
      */
+    #[Override]
     public function toArray(): array
     {
         return [
