@@ -27,6 +27,8 @@ final class Device implements DeviceInterface
         private CompanyInterface $brand,
         private TypeInterface $type,
         private DisplayInterface $display,
+        private readonly bool | null $dualOrientation,
+        private readonly int | null $simCount,
     ) {
         // nothing to do
     }
@@ -88,8 +90,22 @@ final class Device implements DeviceInterface
         return $this->type;
     }
 
+    /** @throws void */
+    #[Override]
+    public function getDualOrientation(): bool | null
+    {
+        return $this->dualOrientation;
+    }
+
+    /** @throws void */
+    #[Override]
+    public function getSimCount(): int | null
+    {
+        return $this->simCount;
+    }
+
     /**
-     * @return array{deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}}
+     * @return array{deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null}
      *
      * @throws void
      */
@@ -103,6 +119,8 @@ final class Device implements DeviceInterface
             'brand' => $this->brand->getType(),
             'display' => $this->display->toArray(),
             'type' => $this->type->getType(),
+            'dualOrientation' => $this->dualOrientation,
+            'simCount' => $this->simCount,
         ];
     }
 }
