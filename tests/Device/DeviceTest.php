@@ -27,18 +27,29 @@ final class DeviceTest extends TestCase
     /** @throws Exception */
     public function testSetterGetter(): void
     {
-        $deviceName    = 'TestDevicename';
-        $marketingName = 'TestMarketingname';
-        $manufacturer  = $this->createMock(CompanyInterface::class);
-        $brand         = $this->createMock(CompanyInterface::class);
-        $type          = $this->createMock(TypeInterface::class);
-        $display       = $this->createMock(DisplayInterface::class);
+        $deviceName      = 'TestDevicename';
+        $marketingName   = 'TestMarketingname';
+        $manufacturer    = $this->createMock(CompanyInterface::class);
+        $brand           = $this->createMock(CompanyInterface::class);
+        $type            = $this->createMock(TypeInterface::class);
+        $display         = $this->createMock(DisplayInterface::class);
+        $dualOrientation = true;
+        $simCount        = 2;
 
         assert($manufacturer instanceof CompanyInterface);
         assert($brand instanceof CompanyInterface);
         assert($type instanceof TypeInterface);
         assert($display instanceof DisplayInterface);
-        $object = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display);
+        $object = new Device(
+            $deviceName,
+            $marketingName,
+            $manufacturer,
+            $brand,
+            $type,
+            $display,
+            $dualOrientation,
+            $simCount,
+        );
 
         self::assertSame($deviceName, $object->getDeviceName());
         self::assertSame($marketingName, $object->getMarketingName());
@@ -46,34 +57,32 @@ final class DeviceTest extends TestCase
         self::assertSame($brand, $object->getBrand());
         self::assertSame($type, $object->getType());
         self::assertSame($display, $object->getDisplay());
+        self::assertTrue($object->getDualOrientation());
+        self::assertSame($simCount, $object->getSimCount());
     }
 
     /** @throws Exception */
     public function testToarray(): void
     {
-        $deviceName    = 'TestDevicename';
-        $marketingName = 'TestMarketingname';
-        $typeString    = 'xyz';
-        $manuString    = 'abc';
-        $brandString   = 'def';
+        $deviceName      = 'TestDevicename';
+        $marketingName   = 'TestMarketingname';
+        $typeString      = 'xyz';
+        $manuString      = 'abc';
+        $brandString     = 'def';
+        $dualOrientation = true;
+        $simCount        = 2;
 
-        $manufacturer = $this->getMockBuilder(CompanyInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $manufacturer = $this->createMock(CompanyInterface::class);
         $manufacturer->expects(self::once())
             ->method('getType')
             ->willReturn($manuString);
 
-        $brand = $this->getMockBuilder(CompanyInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $brand = $this->createMock(CompanyInterface::class);
         $brand->expects(self::once())
             ->method('getType')
             ->willReturn($brandString);
 
-        $type = $this->getMockBuilder(TypeInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $type = $this->createMock(TypeInterface::class);
         $type->expects(self::once())
             ->method('getType')
             ->willReturn($typeString);
@@ -84,7 +93,16 @@ final class DeviceTest extends TestCase
         assert($brand instanceof CompanyInterface);
         assert($type instanceof TypeInterface);
         assert($display instanceof DisplayInterface);
-        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display);
+        $original = new Device(
+            $deviceName,
+            $marketingName,
+            $manufacturer,
+            $brand,
+            $type,
+            $display,
+            $dualOrientation,
+            $simCount,
+        );
 
         $array = $original->toArray();
 
@@ -103,23 +121,41 @@ final class DeviceTest extends TestCase
         self::assertSame($typeString, $array['type']);
         self::assertArrayHasKey('display', $array);
         self::assertIsArray($array['display']);
+        self::assertArrayHasKey('dualOrientation', $array);
+        self::assertArrayHasKey('simCount', $array);
+
+        self::assertSame($deviceName, $array['deviceName']);
+        self::assertSame($marketingName, $array['marketingName']);
+        self::assertTrue($array['dualOrientation']);
+        self::assertSame($simCount, $array['simCount']);
     }
 
     /** @throws Exception */
     public function testClone(): void
     {
-        $deviceName    = 'TestDevicename';
-        $marketingName = 'TestMarketingname';
-        $manufacturer  = $this->createMock(CompanyInterface::class);
-        $brand         = $this->createMock(CompanyInterface::class);
-        $type          = $this->createMock(TypeInterface::class);
-        $display       = $this->createMock(DisplayInterface::class);
+        $deviceName      = 'TestDevicename';
+        $marketingName   = 'TestMarketingname';
+        $manufacturer    = $this->createMock(CompanyInterface::class);
+        $brand           = $this->createMock(CompanyInterface::class);
+        $type            = $this->createMock(TypeInterface::class);
+        $display         = $this->createMock(DisplayInterface::class);
+        $dualOrientation = true;
+        $simCount        = 2;
 
         assert($manufacturer instanceof CompanyInterface);
         assert($brand instanceof CompanyInterface);
         assert($type instanceof TypeInterface);
         assert($display instanceof DisplayInterface);
-        $original = new Device($deviceName, $marketingName, $manufacturer, $brand, $type, $display);
+        $original = new Device(
+            $deviceName,
+            $marketingName,
+            $manufacturer,
+            $brand,
+            $type,
+            $display,
+            $dualOrientation,
+            $simCount,
+        );
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);
@@ -127,5 +163,10 @@ final class DeviceTest extends TestCase
         self::assertNotSame($brand, $cloned->getBrand());
         self::assertNotSame($type, $cloned->getType());
         self::assertNotSame($display, $cloned->getDisplay());
+
+        self::assertSame($deviceName, $cloned->getDeviceName());
+        self::assertSame($marketingName, $cloned->getMarketingName());
+        self::assertTrue($cloned->getDualOrientation());
+        self::assertSame($simCount, $cloned->getSimCount());
     }
 }
