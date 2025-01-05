@@ -72,7 +72,7 @@ final readonly class Display implements DisplayInterface
     }
 
     /**
-     * @return array<string, bool|float|int|null>
+     * @return array{width: int|null, height: int|null, touch: bool|null, size: float|null}
      *
      * @throws void
      */
