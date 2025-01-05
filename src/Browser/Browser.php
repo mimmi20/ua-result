@@ -94,7 +94,7 @@ final class Browser implements BrowserInterface
     }
 
     /**
-     * @return array<string, int|string|null>
+     * @return array{name: string|null, modus: string|null, version: string|null, manufacturer: string, bits: int|null, type: string}
      *
      * @throws UnexpectedValueException
      */

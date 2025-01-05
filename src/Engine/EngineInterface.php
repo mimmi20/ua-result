@@ -29,7 +29,7 @@ interface EngineInterface
     public function getVersion(): VersionInterface;
 
     /**
-     * @return array<string, string|null>
+     * @return array{name: string|null, version: string|null, manufacturer: string}
      *
      * @throws UnexpectedValueException
      */

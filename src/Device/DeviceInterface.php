@@ -37,7 +37,7 @@ interface DeviceInterface
     public function getType(): TypeInterface;
 
     /**
-     * @return array<string, (array<string, (bool|float|int|null)>|string|null)>
+     * @return array{deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}}
      *
      * @throws void
      */

@@ -34,14 +34,14 @@ interface ResultInterface
     public function getOs(): OsInterface;
 
     /**
-     * @return array<string>
+     * @return array<string, string>
      *
      * @throws void
      */
     public function getHeaders(): array;
 
     /**
-     * @return array<string, array<array<string, bool|float|int|null>|int|string|null>>
+     * @return array{headers: array<string, string>, device: array{deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}}, browser: array{name: string|null, modus: string|null, version: string|null, manufacturer: string, bits: int|null, type: string}, os: array{name: string|null, marketingName: string|null, version: string|null, manufacturer: string, bits: int|null}, engine: array{name: string|null, version: string|null, manufacturer: string}}
      *
      * @throws UnexpectedValueException
      */
