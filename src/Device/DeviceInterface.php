@@ -31,7 +31,7 @@ interface DeviceInterface
     public function getMarketingName(): string | null;
 
     /** @throws void */
-    public function getDisplay(): DisplayInterface | null;
+    public function getDisplay(): DisplayInterface;
 
     /** @throws void */
     public function getType(): TypeInterface;
