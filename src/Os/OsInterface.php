@@ -40,4 +40,7 @@ interface OsInterface
      * @throws UnexpectedValueException
      */
     public function toArray(): array;
+
+    /** @throws void */
+    public function withVersion(VersionInterface $version): self;
 }

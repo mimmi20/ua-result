@@ -44,6 +44,16 @@ final class Engine implements EngineInterface
 
     /** @throws void */
     #[Override]
+    public function withVersion(VersionInterface $version): EngineInterface
+    {
+        $new          = clone $this;
+        $new->version = $version;
+
+        return $new;
+    }
+
+    /** @throws void */
+    #[Override]
     public function getManufacturer(): CompanyInterface
     {
         return $this->manufacturer;
