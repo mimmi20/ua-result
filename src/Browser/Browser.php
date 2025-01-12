@@ -47,6 +47,16 @@ final class Browser implements BrowserInterface
         $this->manufacturer = clone $this->manufacturer;
     }
 
+    /** @throws void */
+    #[Override]
+    public function withVersion(VersionInterface $version): BrowserInterface
+    {
+        $new          = clone $this;
+        $new->version = $version;
+
+        return $new;
+    }
+
     /**
      * gets the name of the browser
      *

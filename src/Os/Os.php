@@ -46,6 +46,16 @@ final class Os implements OsInterface
 
     /** @throws void */
     #[Override]
+    public function withVersion(VersionInterface $version): OsInterface
+    {
+        $new          = clone $this;
+        $new->version = $version;
+
+        return $new;
+    }
+
+    /** @throws void */
+    #[Override]
     public function getBits(): int | null
     {
         return $this->bits;

@@ -104,7 +104,31 @@ final class OsTest extends TestCase
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);
+        self::assertSame($name, $cloned->getName());
+        self::assertSame($marketingName, $cloned->getMarketingName());
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($version, $cloned->getVersion());
+    }
+
+    /** @throws Exception */
+    public function testWithVersion(): void
+    {
+        $name          = 'TestPlatform';
+        $marketingName = 'TestMarketingname';
+        $manufacturer  = $this->createMock(CompanyInterface::class);
+        $version1      = $this->createMock(VersionInterface::class);
+        $version2      = $this->createMock(VersionInterface::class);
+        $bits          = 64;
+
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version1 instanceof VersionInterface);
+        $original = new Os($name, $marketingName, $manufacturer, $version1, $bits);
+        $cloned   = $original->withVersion($version2);
+
+        self::assertNotSame($original, $cloned);
+        self::assertSame($name, $cloned->getName());
+        self::assertSame($marketingName, $cloned->getMarketingName());
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertSame($version2, $cloned->getVersion());
     }
 }

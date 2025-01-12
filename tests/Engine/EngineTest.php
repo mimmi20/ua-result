@@ -93,7 +93,29 @@ final class EngineTest extends TestCase
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);
+
+        self::assertSame($name, $cloned->getName());
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($version, $cloned->getVersion());
+    }
+
+    /** @throws Exception */
+    public function testWithVersion(): void
+    {
+        $name         = 'TestBrowser';
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $version1     = $this->createMock(VersionInterface::class);
+        $version2     = $this->createMock(VersionInterface::class);
+
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version1 instanceof VersionInterface);
+        $original = new Engine($name, $manufacturer, $version1);
+        $cloned   = $original->withVersion($version2);
+
+        self::assertNotSame($original, $cloned);
+
+        self::assertSame($name, $cloned->getName());
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertSame($version2, $cloned->getVersion());
     }
 }

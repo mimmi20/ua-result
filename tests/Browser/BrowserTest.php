@@ -119,8 +119,31 @@ final class BrowserTest extends TestCase
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);
+        self::assertSame($name, $cloned->getName());
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($version, $cloned->getVersion());
+        self::assertNotSame($type, $cloned->getType());
+    }
+
+    /** @throws Exception */
+    public function testWithVersion(): void
+    {
+        $name         = 'TestBrowser';
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $version1     = $this->createMock(VersionInterface::class);
+        $version2     = $this->createMock(VersionInterface::class);
+        $type         = $this->createMock(TypeInterface::class);
+
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version1 instanceof VersionInterface);
+        assert($type instanceof TypeInterface);
+        $original = new Browser($name, $manufacturer, $version1, $type, null, null);
+        $cloned   = $original->withVersion($version2);
+
+        self::assertNotSame($original, $cloned);
+        self::assertSame($name, $cloned->getName());
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertSame($version2, $cloned->getVersion());
         self::assertNotSame($type, $cloned->getType());
     }
 }
