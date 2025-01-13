@@ -14,7 +14,7 @@ declare(strict_types = 1);
 namespace UaResult\Device;
 
 use Override;
-use UaDeviceType\TypeInterface;
+use UaDeviceType\Type;
 use UaResult\Company\CompanyInterface;
 
 final class Device implements DeviceInterface
@@ -25,7 +25,7 @@ final class Device implements DeviceInterface
         private readonly string | null $marketingName,
         private CompanyInterface $manufacturer,
         private CompanyInterface $brand,
-        private TypeInterface $type,
+        private readonly Type $type,
         private DisplayInterface $display,
         private readonly bool | null $dualOrientation,
         private readonly int | null $simCount,
@@ -42,7 +42,6 @@ final class Device implements DeviceInterface
      */
     public function __clone()
     {
-        $this->type         = clone $this->type;
         $this->manufacturer = clone $this->manufacturer;
         $this->brand        = clone $this->brand;
         $this->display      = clone $this->display;
@@ -85,7 +84,7 @@ final class Device implements DeviceInterface
 
     /** @throws void */
     #[Override]
-    public function getType(): TypeInterface
+    public function getType(): Type
     {
         return $this->type;
     }
