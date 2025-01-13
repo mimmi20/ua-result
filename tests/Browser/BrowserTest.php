@@ -16,7 +16,7 @@ namespace UaResultTest\Browser;
 use BrowserDetector\Version\VersionInterface;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
-use UaBrowserType\TypeInterface;
+use UaBrowserType\Type;
 use UaResult\Browser\Browser;
 use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
@@ -33,11 +33,10 @@ final class BrowserTest extends TestCase
         $name         = 'TestBrowser';
         $manufacturer = $this->createMock(CompanyInterface::class);
         $version      = $this->createMock(VersionInterface::class);
-        $type         = $this->createMock(TypeInterface::class);
+        $type         = Type::Unknown;
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        assert($type instanceof TypeInterface);
         $object = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
 
         self::assertSame($name, $object->getName());
@@ -58,7 +57,6 @@ final class BrowserTest extends TestCase
         $modus         = 'Desktop Mode';
         $name          = 'TestBrowser';
         $versionString = '1.0';
-        $typeString    = 'xyz';
         $manuString    = 'abc';
 
         $manufacturer = $this->getMockBuilder(CompanyInterface::class)
@@ -75,16 +73,10 @@ final class BrowserTest extends TestCase
             ->method('getVersion')
             ->willReturn($versionString);
 
-        $type = $this->getMockBuilder(TypeInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $type->expects(self::once())
-            ->method('getType')
-            ->willReturn($typeString);
+        $type = Type::Unknown;
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        assert($type instanceof TypeInterface);
         $original = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
 
         $array = $original->toArray();
@@ -101,7 +93,7 @@ final class BrowserTest extends TestCase
         self::assertArrayHasKey('bits', $array);
         self::assertArrayHasKey('type', $array);
         self::assertIsString($array['type']);
-        self::assertSame($typeString, $array['type']);
+        self::assertSame($type->value, $array['type']);
     }
 
     /** @throws Exception */
@@ -110,11 +102,10 @@ final class BrowserTest extends TestCase
         $name         = 'TestBrowser';
         $manufacturer = $this->createMock(CompanyInterface::class);
         $version      = $this->createMock(VersionInterface::class);
-        $type         = $this->createMock(TypeInterface::class);
+        $type         = Type::Unknown;
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        assert($type instanceof TypeInterface);
         $original = new Browser($name, $manufacturer, $version, $type, null, null);
         $cloned   = clone $original;
 
@@ -122,7 +113,7 @@ final class BrowserTest extends TestCase
         self::assertSame($name, $cloned->getName());
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($version, $cloned->getVersion());
-        self::assertNotSame($type, $cloned->getType());
+        self::assertSame($type, $cloned->getType());
     }
 
     /** @throws Exception */
@@ -132,11 +123,10 @@ final class BrowserTest extends TestCase
         $manufacturer = $this->createMock(CompanyInterface::class);
         $version1     = $this->createMock(VersionInterface::class);
         $version2     = $this->createMock(VersionInterface::class);
-        $type         = $this->createMock(TypeInterface::class);
+        $type         = Type::Unknown;
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version1 instanceof VersionInterface);
-        assert($type instanceof TypeInterface);
         $original = new Browser($name, $manufacturer, $version1, $type, null, null);
         $cloned   = $original->withVersion($version2);
 
@@ -144,6 +134,6 @@ final class BrowserTest extends TestCase
         self::assertSame($name, $cloned->getName());
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertSame($version2, $cloned->getVersion());
-        self::assertNotSame($type, $cloned->getType());
+        self::assertSame($type, $cloned->getType());
     }
 }

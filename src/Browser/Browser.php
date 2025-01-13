@@ -15,7 +15,7 @@ namespace UaResult\Browser;
 
 use BrowserDetector\Version\VersionInterface;
 use Override;
-use UaBrowserType\TypeInterface;
+use UaBrowserType\Type;
 use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
 
@@ -26,7 +26,7 @@ final class Browser implements BrowserInterface
         private readonly string | null $name,
         private CompanyInterface $manufacturer,
         private VersionInterface $version,
-        private TypeInterface $type,
+        private readonly Type $type,
         private readonly int | null $bits = null,
         private readonly string | null $modus = null,
     ) {
@@ -43,7 +43,6 @@ final class Browser implements BrowserInterface
     public function __clone()
     {
         $this->version      = clone $this->version;
-        $this->type         = clone $this->type;
         $this->manufacturer = clone $this->manufacturer;
     }
 
@@ -98,7 +97,7 @@ final class Browser implements BrowserInterface
 
     /** @throws void */
     #[Override]
-    public function getType(): TypeInterface
+    public function getType(): Type
     {
         return $this->type;
     }
