@@ -62,5 +62,6 @@ updates:
 
     ignore:
       - dependency-name: "mimmi20/ci"
+      - dependency-name: "release-drafter/release-drafter"
 
     rebase-strategy: "auto"
