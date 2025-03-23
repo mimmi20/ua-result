@@ -14,6 +14,7 @@ declare(strict_types = 1);
 namespace UaResultTest\Os;
 
 use BrowserDetector\Version\VersionInterface;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaResult\Company\CompanyInterface;
@@ -24,7 +25,11 @@ use function assert;
 
 final class OsTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testSetterGetter(): void
     {
         $name          = 'TestPlatform';
@@ -89,7 +94,11 @@ final class OsTest extends TestCase
         self::assertArrayHasKey('bits', $array);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testClone(): void
     {
         $name          = 'TestPlatform';
@@ -110,7 +119,11 @@ final class OsTest extends TestCase
         self::assertNotSame($version, $cloned->getVersion());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testWithVersion(): void
     {
         $name          = 'TestPlatform';

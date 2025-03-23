@@ -14,6 +14,7 @@ declare(strict_types = 1);
 namespace UaResultTest\Engine;
 
 use BrowserDetector\Version\VersionInterface;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaResult\Company\CompanyInterface;
@@ -24,7 +25,11 @@ use function assert;
 
 final class EngineTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testSetterGetter(): void
     {
         $name         = 'TestBrowser';
@@ -80,7 +85,11 @@ final class EngineTest extends TestCase
         self::assertSame($manuString, $array['manufacturer']);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testClone(): void
     {
         $name         = 'TestBrowser';
@@ -99,7 +108,11 @@ final class EngineTest extends TestCase
         self::assertNotSame($version, $cloned->getVersion());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testWithVersion(): void
     {
         $name         = 'TestBrowser';

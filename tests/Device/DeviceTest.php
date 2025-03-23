@@ -13,6 +13,7 @@ declare(strict_types = 1);
 
 namespace UaResultTest\Device;
 
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaDeviceType\Type;
@@ -24,7 +25,11 @@ use function assert;
 
 final class DeviceTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testSetterGetter(): void
     {
         $deviceName      = 'TestDevicename';
@@ -60,7 +65,11 @@ final class DeviceTest extends TestCase
         self::assertSame($simCount, $object->getSimCount());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testToarray(): void
     {
         $deviceName      = 'TestDevicename';
@@ -124,7 +133,11 @@ final class DeviceTest extends TestCase
         self::assertSame($simCount, $array['simCount']);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testClone(): void
     {
         $deviceName      = 'TestDevicename';
