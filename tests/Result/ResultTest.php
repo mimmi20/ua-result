@@ -13,6 +13,7 @@ declare(strict_types = 1);
 
 namespace UaResultTest\Result;
 
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaResult\Browser\BrowserInterface;
@@ -26,7 +27,11 @@ use function assert;
 
 final class ResultTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testSetterGetter(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
@@ -51,6 +56,8 @@ final class ResultTest extends TestCase
     /**
      * @throws Exception
      * @throws UnexpectedValueException
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
      */
     public function testToArray(): void
     {
@@ -79,7 +86,11 @@ final class ResultTest extends TestCase
         self::assertIsArray($array['engine']);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testClone(): void
     {
         $headers = ['x-test-header' => 'test-ua'];

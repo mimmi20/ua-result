@@ -14,6 +14,7 @@ declare(strict_types = 1);
 namespace UaResultTest\Browser;
 
 use BrowserDetector\Version\VersionInterface;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaBrowserType\Type;
@@ -25,7 +26,11 @@ use function assert;
 
 final class BrowserTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testSetterGetter(): void
     {
         $bits         = 64;
@@ -96,7 +101,11 @@ final class BrowserTest extends TestCase
         self::assertSame($type->value, $array['type']);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testClone(): void
     {
         $name         = 'TestBrowser';
@@ -116,7 +125,11 @@ final class BrowserTest extends TestCase
         self::assertSame($type, $cloned->getType());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
     public function testWithVersion(): void
     {
         $name         = 'TestBrowser';
