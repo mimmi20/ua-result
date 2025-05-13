@@ -51,7 +51,7 @@
     "phpunit/phpunit": "^12.1.5",
     "rector/rector": "^2.0.15",
     "rector/type-perfect": "^2.1.0",
-    "shipmonk/composer-dependency-analyser": "^1.8.2",
+    "shipmonk/composer-dependency-analyser": "^1.8.3",
     "symfony/process": "^7.2.5",
     "symplify/phpstan-rules": "^14.6.9",
     "tomasvotruba/cognitive-complexity": "^1.0.0",
