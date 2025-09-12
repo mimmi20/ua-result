@@ -15,6 +15,7 @@ namespace UaResult\Os;
 
 use BrowserDetector\Version\VersionInterface;
 use Override;
+use UaResult\Bits\Bits;
 use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
 
@@ -26,7 +27,7 @@ final class Os implements OsInterface
         private readonly string | null $marketingName,
         private CompanyInterface $manufacturer,
         private VersionInterface $version,
-        private readonly int | null $bits = null,
+        private readonly Bits $bits = Bits::unknown,
     ) {
         // nothing to do
     }
@@ -56,7 +57,7 @@ final class Os implements OsInterface
 
     /** @throws void */
     #[Override]
-    public function getBits(): int | null
+    public function getBits(): Bits
     {
         return $this->bits;
     }
@@ -90,7 +91,7 @@ final class Os implements OsInterface
     }
 
     /**
-     * @return array{name: string|null, marketingName: string|null, version: string|null, manufacturer: string, bits: int|null}
+     * @return array{name: string|null, marketingName: string|null, version: string|null, manufacturer: string, bits: Bits}
      *
      * @throws UnexpectedValueException
      */

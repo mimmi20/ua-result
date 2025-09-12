@@ -17,6 +17,7 @@ use BrowserDetector\Version\VersionInterface;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
+use UaResult\Bits\Bits;
 use UaResult\Company\CompanyInterface;
 use UaResult\Os\Os;
 use UnexpectedValueException;
@@ -40,13 +41,13 @@ final class OsTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $object = new Os($name, $marketingName, $manufacturer, $version, $bits);
+        $object = new Os($name, $marketingName, $manufacturer, $version, Bits::from($bits));
 
         self::assertSame($name, $object->getName());
         self::assertSame($marketingName, $object->getMarketingName());
         self::assertSame($manufacturer, $object->getManufacturer());
         self::assertSame($version, $object->getVersion());
-        self::assertSame($bits, $object->getBits());
+        self::assertSame($bits, $object->getBits()->value);
     }
 
     /**
@@ -77,7 +78,13 @@ final class OsTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
+        $original = new Os(
+            $name,
+            $marketingName,
+            $manufacturer,
+            $version,
+            Bits::from($bits),
+        );
 
         $array = $original->toArray();
 
@@ -92,6 +99,7 @@ final class OsTest extends TestCase
         self::assertIsString($array['manufacturer']);
         self::assertSame($manuString, $array['manufacturer']);
         self::assertArrayHasKey('bits', $array);
+        self::assertSame($bits, $array['bits']->value);
     }
 
     /**
@@ -109,7 +117,13 @@ final class OsTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $original = new Os($name, $marketingName, $manufacturer, $version, $bits);
+        $original = new Os(
+            $name,
+            $marketingName,
+            $manufacturer,
+            $version,
+            Bits::from($bits),
+        );
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);
@@ -135,7 +149,13 @@ final class OsTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version1 instanceof VersionInterface);
-        $original = new Os($name, $marketingName, $manufacturer, $version1, $bits);
+        $original = new Os(
+            $name,
+            $marketingName,
+            $manufacturer,
+            $version1,
+            Bits::from($bits),
+        );
         $cloned   = $original->withVersion($version2);
 
         self::assertNotSame($original, $cloned);
@@ -143,5 +163,6 @@ final class OsTest extends TestCase
         self::assertSame($marketingName, $cloned->getMarketingName());
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertSame($version2, $cloned->getVersion());
+        self::assertSame($bits, $cloned->getBits()->value);
     }
 }

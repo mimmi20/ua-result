@@ -14,13 +14,14 @@ declare(strict_types = 1);
 namespace UaResult\Os;
 
 use BrowserDetector\Version\VersionInterface;
+use UaResult\Bits\Bits;
 use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
 
 interface OsInterface
 {
     /** @throws void */
-    public function getBits(): int | null;
+    public function getBits(): Bits;
 
     /** @throws void */
     public function getManufacturer(): CompanyInterface;
@@ -35,7 +36,7 @@ interface OsInterface
     public function getVersion(): VersionInterface;
 
     /**
-     * @return array{name: string|null, marketingName: string|null, version: string|null, manufacturer: string, bits: int|null}
+     * @return array{name: string|null, marketingName: string|null, version: string|null, manufacturer: string, bits: Bits}
      *
      * @throws UnexpectedValueException
      */

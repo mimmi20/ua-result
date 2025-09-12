@@ -16,6 +16,7 @@ namespace UaResult\Browser;
 use BrowserDetector\Version\VersionInterface;
 use Override;
 use UaBrowserType\Type;
+use UaResult\Bits\Bits;
 use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
 
@@ -27,7 +28,7 @@ final class Browser implements BrowserInterface
         private CompanyInterface $manufacturer,
         private VersionInterface $version,
         private readonly Type $type,
-        private readonly int | null $bits = null,
+        private readonly Bits $bits = Bits::unknown,
         private readonly string | null $modus = null,
     ) {
         // nothing to do
@@ -90,7 +91,7 @@ final class Browser implements BrowserInterface
 
     /** @throws void */
     #[Override]
-    public function getBits(): int | null
+    public function getBits(): Bits
     {
         return $this->bits;
     }
@@ -103,7 +104,7 @@ final class Browser implements BrowserInterface
     }
 
     /**
-     * @return array{name: string|null, modus: string|null, version: string|null, manufacturer: string, bits: int|null, type: string}
+     * @return array{name: string|null, modus: string|null, version: string|null, manufacturer: string, bits: Bits, type: string}
      *
      * @throws UnexpectedValueException
      */

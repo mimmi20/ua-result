@@ -17,7 +17,9 @@ use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaDeviceType\Type;
+use UaResult\Bits\Bits;
 use UaResult\Company\CompanyInterface;
+use UaResult\Device\Architecture;
 use UaResult\Device\Device;
 use UaResult\Device\DisplayInterface;
 
@@ -47,7 +49,7 @@ final class DeviceTest extends TestCase
         assert($brand instanceof CompanyInterface);
         assert($display instanceof DisplayInterface);
         $object = new Device(
-            architecture: $architecture,
+            architecture: Architecture::from($architecture),
             deviceName: $deviceName,
             marketingName: $marketingName,
             manufacturer: $manufacturer,
@@ -56,10 +58,10 @@ final class DeviceTest extends TestCase
             display: $display,
             dualOrientation: $dualOrientation,
             simCount: $simCount,
-            bits: $bits,
+            bits: Bits::from($bits),
         );
 
-        self::assertSame($architecture, $object->getArchitecture());
+        self::assertSame($architecture, $object->getArchitecture()->value);
         self::assertSame($deviceName, $object->getDeviceName());
         self::assertSame($marketingName, $object->getMarketingName());
         self::assertSame($manufacturer, $object->getManufacturer());
@@ -68,7 +70,7 @@ final class DeviceTest extends TestCase
         self::assertSame($display, $object->getDisplay());
         self::assertTrue($object->getDualOrientation());
         self::assertSame($simCount, $object->getSimCount());
-        self::assertSame($bits, $object->getBits());
+        self::assertSame($bits, $object->getBits()->value);
     }
 
     /**
@@ -105,7 +107,7 @@ final class DeviceTest extends TestCase
         assert($brand instanceof CompanyInterface);
         assert($display instanceof DisplayInterface);
         $original = new Device(
-            architecture: $architecture,
+            architecture: Architecture::from($architecture),
             deviceName: $deviceName,
             marketingName: $marketingName,
             manufacturer: $manufacturer,
@@ -114,7 +116,7 @@ final class DeviceTest extends TestCase
             display: $display,
             dualOrientation: $dualOrientation,
             simCount: $simCount,
-            bits: $bits,
+            bits: Bits::from($bits),
         );
 
         $array = $original->toArray();
@@ -139,12 +141,12 @@ final class DeviceTest extends TestCase
         self::assertArrayHasKey('simCount', $array);
         self::assertArrayHasKey('bits', $array);
 
-        self::assertSame($architecture, $array['architecture']);
+        self::assertSame($architecture, $array['architecture']->value);
         self::assertSame($deviceName, $array['deviceName']);
         self::assertSame($marketingName, $array['marketingName']);
         self::assertTrue($array['dualOrientation']);
         self::assertSame($simCount, $array['simCount']);
-        self::assertSame($bits, $array['bits']);
+        self::assertSame($bits, $array['bits']->value);
     }
 
     /**
@@ -169,7 +171,7 @@ final class DeviceTest extends TestCase
         assert($brand instanceof CompanyInterface);
         assert($display instanceof DisplayInterface);
         $original = new Device(
-            architecture: $architecture,
+            architecture: Architecture::from($architecture),
             deviceName: $deviceName,
             marketingName: $marketingName,
             manufacturer: $manufacturer,
@@ -178,7 +180,7 @@ final class DeviceTest extends TestCase
             display: $display,
             dualOrientation: $dualOrientation,
             simCount: $simCount,
-            bits: $bits,
+            bits: Bits::from($bits),
         );
         $cloned   = clone $original;
 
@@ -188,11 +190,11 @@ final class DeviceTest extends TestCase
         self::assertSame($type, $cloned->getType());
         self::assertNotSame($display, $cloned->getDisplay());
 
-        self::assertSame($architecture, $cloned->getArchitecture());
+        self::assertSame($architecture, $cloned->getArchitecture()->value);
         self::assertSame($deviceName, $cloned->getDeviceName());
         self::assertSame($marketingName, $cloned->getMarketingName());
         self::assertTrue($cloned->getDualOrientation());
         self::assertSame($simCount, $cloned->getSimCount());
-        self::assertSame($bits, $cloned->getBits());
+        self::assertSame($bits, $cloned->getBits()->value);
     }
 }

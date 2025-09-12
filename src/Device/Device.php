@@ -15,13 +15,14 @@ namespace UaResult\Device;
 
 use Override;
 use UaDeviceType\Type;
+use UaResult\Bits\Bits;
 use UaResult\Company\CompanyInterface;
 
 final class Device implements DeviceInterface
 {
     /** @throws void */
     public function __construct(
-        private readonly string | null $architecture,
+        private readonly Architecture $architecture,
         private readonly string | null $deviceName,
         private readonly string | null $marketingName,
         private CompanyInterface $manufacturer,
@@ -30,7 +31,7 @@ final class Device implements DeviceInterface
         private DisplayInterface $display,
         private readonly bool | null $dualOrientation,
         private readonly int | null $simCount,
-        private readonly int | null $bits,
+        private readonly Bits $bits,
     ) {
         // nothing to do
     }
@@ -51,7 +52,7 @@ final class Device implements DeviceInterface
 
     /** @throws void */
     #[Override]
-    public function getArchitecture(): string | null
+    public function getArchitecture(): Architecture
     {
         return $this->architecture;
     }
@@ -114,13 +115,13 @@ final class Device implements DeviceInterface
 
     /** @throws void */
     #[Override]
-    public function getBits(): int | null
+    public function getBits(): Bits
     {
         return $this->bits;
     }
 
     /**
-     * @return array{architecture: string|null, deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null, bits: int|null}
+     * @return array{architecture: Architecture, deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null, bits: Bits}
      *
      * @throws void
      */
