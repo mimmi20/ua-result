@@ -21,6 +21,7 @@ final class Device implements DeviceInterface
 {
     /** @throws void */
     public function __construct(
+        private readonly string | null $architecture,
         private readonly string | null $deviceName,
         private readonly string | null $marketingName,
         private CompanyInterface $manufacturer,
@@ -29,6 +30,7 @@ final class Device implements DeviceInterface
         private DisplayInterface $display,
         private readonly bool | null $dualOrientation,
         private readonly int | null $simCount,
+        private readonly int | null $bits,
     ) {
         // nothing to do
     }
@@ -45,6 +47,13 @@ final class Device implements DeviceInterface
         $this->manufacturer = clone $this->manufacturer;
         $this->brand        = clone $this->brand;
         $this->display      = clone $this->display;
+    }
+
+    /** @throws void */
+    #[Override]
+    public function getArchitecture(): string | null
+    {
+        return $this->architecture;
     }
 
     /** @throws void */
@@ -103,8 +112,15 @@ final class Device implements DeviceInterface
         return $this->simCount;
     }
 
+    /** @throws void */
+    #[Override]
+    public function getBits(): int | null
+    {
+        return $this->bits;
+    }
+
     /**
-     * @return array{deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null}
+     * @return array{architecture: string|null, deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null, bits: int|null}
      *
      * @throws void
      */
@@ -112,6 +128,7 @@ final class Device implements DeviceInterface
     public function toArray(): array
     {
         return [
+            'architecture' => $this->architecture,
             'deviceName' => $this->deviceName,
             'marketingName' => $this->marketingName,
             'manufacturer' => $this->manufacturer->getType(),
@@ -120,6 +137,7 @@ final class Device implements DeviceInterface
             'type' => $this->type->getType(),
             'dualOrientation' => $this->dualOrientation,
             'simCount' => $this->simCount,
+            'bits' => $this->bits,
         ];
     }
 }

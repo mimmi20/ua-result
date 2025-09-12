@@ -19,6 +19,9 @@ use UaResult\Company\CompanyInterface;
 interface DeviceInterface
 {
     /** @throws void */
+    public function getArchitecture(): string | null;
+
+    /** @throws void */
     public function getDeviceName(): string | null;
 
     /** @throws void */
@@ -42,8 +45,11 @@ interface DeviceInterface
     /** @throws void */
     public function getSimCount(): int | null;
 
+    /** @throws void */
+    public function getBits(): int | null;
+
     /**
-     * @return array{deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null}
+     * @return array{architecture: string|null, deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null, bits: int|null}
      *
      * @throws void
      */
