@@ -15,6 +15,7 @@ namespace UaResult\Browser;
 
 use BrowserDetector\Version\VersionInterface;
 use UaBrowserType\TypeInterface;
+use UaResult\Bits\Bits;
 use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
 
@@ -37,13 +38,13 @@ interface BrowserInterface
     public function getVersion(): VersionInterface;
 
     /** @throws void */
-    public function getBits(): int | null;
+    public function getBits(): Bits;
 
     /** @throws void */
     public function getType(): TypeInterface;
 
     /**
-     * @return array{name: string|null, modus: string|null, version: string|null, manufacturer: string, bits: int|null, type: string}
+     * @return array{name: string|null, modus: string|null, version: string|null, manufacturer: string, bits: Bits, type: string}
      *
      * @throws UnexpectedValueException
      */

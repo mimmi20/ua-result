@@ -14,12 +14,13 @@ declare(strict_types = 1);
 namespace UaResult\Device;
 
 use UaDeviceType\TypeInterface;
+use UaResult\Bits\Bits;
 use UaResult\Company\CompanyInterface;
 
 interface DeviceInterface
 {
     /** @throws void */
-    public function getArchitecture(): string | null;
+    public function getArchitecture(): Architecture;
 
     /** @throws void */
     public function getDeviceName(): string | null;
@@ -46,10 +47,10 @@ interface DeviceInterface
     public function getSimCount(): int | null;
 
     /** @throws void */
-    public function getBits(): int | null;
+    public function getBits(): Bits;
 
     /**
-     * @return array{architecture: string|null, deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null, bits: int|null}
+     * @return array{architecture: Architecture, deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null, bits: Bits}
      *
      * @throws void
      */

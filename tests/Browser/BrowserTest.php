@@ -18,6 +18,7 @@ use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaBrowserType\Type;
+use UaResult\Bits\Bits;
 use UaResult\Browser\Browser;
 use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
@@ -42,13 +43,13 @@ final class BrowserTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $object = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
+        $object = new Browser($name, $manufacturer, $version, $type, Bits::from($bits), $modus);
 
         self::assertSame($name, $object->getName());
         self::assertSame($manufacturer, $object->getManufacturer());
         self::assertSame($version, $object->getVersion());
         self::assertSame($type, $object->getType());
-        self::assertSame($bits, $object->getBits());
+        self::assertSame($bits, $object->getBits()->value);
         self::assertSame($modus, $object->getModus());
     }
 
@@ -82,7 +83,14 @@ final class BrowserTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $original = new Browser($name, $manufacturer, $version, $type, $bits, $modus);
+        $original = new Browser(
+            $name,
+            $manufacturer,
+            $version,
+            $type,
+            Bits::from($bits),
+            $modus,
+        );
 
         $array = $original->toArray();
 
@@ -99,6 +107,7 @@ final class BrowserTest extends TestCase
         self::assertArrayHasKey('type', $array);
         self::assertIsString($array['type']);
         self::assertSame($type->value, $array['type']);
+        self::assertSame($bits, $array['bits']->value);
     }
 
     /**
@@ -115,7 +124,14 @@ final class BrowserTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $original = new Browser($name, $manufacturer, $version, $type, null, null);
+        $original = new Browser(
+            $name,
+            $manufacturer,
+            $version,
+            $type,
+            Bits::from(0),
+            null,
+        );
         $cloned   = clone $original;
 
         self::assertNotSame($original, $cloned);
@@ -123,6 +139,7 @@ final class BrowserTest extends TestCase
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($version, $cloned->getVersion());
         self::assertSame($type, $cloned->getType());
+        self::assertSame(0, $cloned->getBits()->value);
     }
 
     /**
@@ -140,7 +157,14 @@ final class BrowserTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version1 instanceof VersionInterface);
-        $original = new Browser($name, $manufacturer, $version1, $type, null, null);
+        $original = new Browser(
+            $name,
+            $manufacturer,
+            $version1,
+            $type,
+            Bits::from(0),
+            null,
+        );
         $cloned   = $original->withVersion($version2);
 
         self::assertNotSame($original, $cloned);
@@ -148,5 +172,6 @@ final class BrowserTest extends TestCase
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertSame($version2, $cloned->getVersion());
         self::assertSame($type, $cloned->getType());
+        self::assertSame(0, $cloned->getBits()->value);
     }
 }
