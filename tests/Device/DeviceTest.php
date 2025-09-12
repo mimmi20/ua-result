@@ -32,6 +32,7 @@ final class DeviceTest extends TestCase
      */
     public function testSetterGetter(): void
     {
+        $architecture    = 'x64';
         $deviceName      = 'TestDevicename';
         $marketingName   = 'TestMarketingname';
         $manufacturer    = $this->createMock(CompanyInterface::class);
@@ -40,21 +41,25 @@ final class DeviceTest extends TestCase
         $display         = $this->createMock(DisplayInterface::class);
         $dualOrientation = true;
         $simCount        = 2;
+        $bits            = 64;
 
         assert($manufacturer instanceof CompanyInterface);
         assert($brand instanceof CompanyInterface);
         assert($display instanceof DisplayInterface);
         $object = new Device(
-            $deviceName,
-            $marketingName,
-            $manufacturer,
-            $brand,
-            $type,
-            $display,
-            $dualOrientation,
-            $simCount,
+            architecture: $architecture,
+            deviceName: $deviceName,
+            marketingName: $marketingName,
+            manufacturer: $manufacturer,
+            brand: $brand,
+            type: $type,
+            display: $display,
+            dualOrientation: $dualOrientation,
+            simCount: $simCount,
+            bits: $bits,
         );
 
+        self::assertSame($architecture, $object->getArchitecture());
         self::assertSame($deviceName, $object->getDeviceName());
         self::assertSame($marketingName, $object->getMarketingName());
         self::assertSame($manufacturer, $object->getManufacturer());
@@ -63,6 +68,7 @@ final class DeviceTest extends TestCase
         self::assertSame($display, $object->getDisplay());
         self::assertTrue($object->getDualOrientation());
         self::assertSame($simCount, $object->getSimCount());
+        self::assertSame($bits, $object->getBits());
     }
 
     /**
@@ -72,12 +78,14 @@ final class DeviceTest extends TestCase
      */
     public function testToarray(): void
     {
+        $architecture    = 'x64';
         $deviceName      = 'TestDevicename';
         $marketingName   = 'TestMarketingname';
         $manuString      = 'abc';
         $brandString     = 'def';
         $dualOrientation = true;
         $simCount        = 2;
+        $bits            = 64;
 
         $manufacturer = $this->createMock(CompanyInterface::class);
         $manufacturer->expects(self::once())
@@ -97,18 +105,21 @@ final class DeviceTest extends TestCase
         assert($brand instanceof CompanyInterface);
         assert($display instanceof DisplayInterface);
         $original = new Device(
-            $deviceName,
-            $marketingName,
-            $manufacturer,
-            $brand,
-            $type,
-            $display,
-            $dualOrientation,
-            $simCount,
+            architecture: $architecture,
+            deviceName: $deviceName,
+            marketingName: $marketingName,
+            manufacturer: $manufacturer,
+            brand: $brand,
+            type: $type,
+            display: $display,
+            dualOrientation: $dualOrientation,
+            simCount: $simCount,
+            bits: $bits,
         );
 
         $array = $original->toArray();
 
+        self::assertArrayHasKey('architecture', $array);
         self::assertArrayHasKey('deviceName', $array);
         self::assertIsString($array['deviceName']);
         self::assertArrayHasKey('marketingName', $array);
@@ -126,11 +137,14 @@ final class DeviceTest extends TestCase
         self::assertIsArray($array['display']);
         self::assertArrayHasKey('dualOrientation', $array);
         self::assertArrayHasKey('simCount', $array);
+        self::assertArrayHasKey('bits', $array);
 
+        self::assertSame($architecture, $array['architecture']);
         self::assertSame($deviceName, $array['deviceName']);
         self::assertSame($marketingName, $array['marketingName']);
         self::assertTrue($array['dualOrientation']);
         self::assertSame($simCount, $array['simCount']);
+        self::assertSame($bits, $array['bits']);
     }
 
     /**
@@ -140,6 +154,7 @@ final class DeviceTest extends TestCase
      */
     public function testClone(): void
     {
+        $architecture    = 'x64';
         $deviceName      = 'TestDevicename';
         $marketingName   = 'TestMarketingname';
         $manufacturer    = $this->createMock(CompanyInterface::class);
@@ -148,19 +163,22 @@ final class DeviceTest extends TestCase
         $display         = $this->createMock(DisplayInterface::class);
         $dualOrientation = true;
         $simCount        = 2;
+        $bits            = 64;
 
         assert($manufacturer instanceof CompanyInterface);
         assert($brand instanceof CompanyInterface);
         assert($display instanceof DisplayInterface);
         $original = new Device(
-            $deviceName,
-            $marketingName,
-            $manufacturer,
-            $brand,
-            $type,
-            $display,
-            $dualOrientation,
-            $simCount,
+            architecture: $architecture,
+            deviceName: $deviceName,
+            marketingName: $marketingName,
+            manufacturer: $manufacturer,
+            brand: $brand,
+            type: $type,
+            display: $display,
+            dualOrientation: $dualOrientation,
+            simCount: $simCount,
+            bits: $bits,
         );
         $cloned   = clone $original;
 
@@ -170,9 +188,11 @@ final class DeviceTest extends TestCase
         self::assertSame($type, $cloned->getType());
         self::assertNotSame($display, $cloned->getDisplay());
 
+        self::assertSame($architecture, $cloned->getArchitecture());
         self::assertSame($deviceName, $cloned->getDeviceName());
         self::assertSame($marketingName, $cloned->getMarketingName());
         self::assertTrue($cloned->getDualOrientation());
         self::assertSame($simCount, $cloned->getSimCount());
+        self::assertSame($bits, $cloned->getBits());
     }
 }
