@@ -95,7 +95,7 @@ jobs:
   tests-status:
     name: "Unit & Integration Tests Status"
 
-    runs-on: "ubuntu-24.04"
+    runs-on: "ubuntu-latest"
 
     if: always()
 

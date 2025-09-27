@@ -15,13 +15,14 @@ on:
       - "edited"
 
 permissions:
+  contents: read
   actions: write
   issues: write
   pull-requests: write
 
 jobs:
   action:
-    runs-on: "ubuntu-24.04"
+    runs-on: "ubuntu-latest"
     steps:
       - uses: "dessant/reaction-comments@v4"
         with:
