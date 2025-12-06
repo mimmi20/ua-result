@@ -130,7 +130,6 @@ final class BrowserTest extends TestCase
             $version,
             $type,
             Bits::from(0),
-            null,
         );
         $cloned   = clone $original;
 
@@ -163,7 +162,6 @@ final class BrowserTest extends TestCase
             $version1,
             $type,
             Bits::from(0),
-            null,
         );
         $cloned   = $original->withVersion($version2);
 
