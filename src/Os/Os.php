@@ -15,8 +15,8 @@ namespace UaResult\Os;
 
 use BrowserDetector\Version\VersionInterface;
 use Override;
+use UaData\CompanyInterface;
 use UaResult\Bits\Bits;
-use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
 
 final class Os implements OsInterface
@@ -102,7 +102,7 @@ final class Os implements OsInterface
             'name' => $this->name,
             'marketingName' => $this->marketingName,
             'version' => $this->version->getVersion(),
-            'manufacturer' => $this->manufacturer->getType(),
+            'manufacturer' => $this->manufacturer->getKey(),
             'bits' => $this->bits,
         ];
     }

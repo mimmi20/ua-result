@@ -15,7 +15,7 @@ namespace UaResult\Engine;
 
 use BrowserDetector\Version\VersionInterface;
 use Override;
-use UaResult\Company\CompanyInterface;
+use UaData\CompanyInterface;
 use UnexpectedValueException;
 
 final class Engine implements EngineInterface
@@ -84,7 +84,7 @@ final class Engine implements EngineInterface
         return [
             'name' => $this->name,
             'version' => $this->version->getVersion(),
-            'manufacturer' => $this->manufacturer->getType(),
+            'manufacturer' => $this->manufacturer->getKey(),
         ];
     }
 }

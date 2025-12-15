@@ -14,9 +14,9 @@ declare(strict_types = 1);
 namespace UaResult\Device;
 
 use Override;
+use UaData\CompanyInterface;
 use UaDeviceType\Type;
 use UaResult\Bits\Bits;
-use UaResult\Company\CompanyInterface;
 
 final class Device implements DeviceInterface
 {
@@ -132,8 +132,8 @@ final class Device implements DeviceInterface
             'architecture' => $this->architecture,
             'deviceName' => $this->deviceName,
             'marketingName' => $this->marketingName,
-            'manufacturer' => $this->manufacturer->getType(),
-            'brand' => $this->brand->getType(),
+            'manufacturer' => $this->manufacturer->getKey(),
+            'brand' => $this->brand->getKey(),
             'display' => $this->display->toArray(),
             'type' => $this->type->getType(),
             'dualOrientation' => $this->dualOrientation,

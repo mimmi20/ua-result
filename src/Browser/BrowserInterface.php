@@ -15,8 +15,8 @@ namespace UaResult\Browser;
 
 use BrowserDetector\Version\VersionInterface;
 use UaBrowserType\TypeInterface;
+use UaData\CompanyInterface;
 use UaResult\Bits\Bits;
-use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
 
 interface BrowserInterface

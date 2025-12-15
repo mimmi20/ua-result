@@ -14,8 +14,8 @@ declare(strict_types = 1);
 namespace UaResult\Os;
 
 use BrowserDetector\Version\VersionInterface;
+use UaData\CompanyInterface;
 use UaResult\Bits\Bits;
-use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
 
 interface OsInterface

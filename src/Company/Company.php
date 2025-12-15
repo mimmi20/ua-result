@@ -14,6 +14,7 @@ declare(strict_types = 1);
 namespace UaResult\Company;
 
 use Override;
+use UaData\CompanyInterface;
 
 final readonly class Company implements CompanyInterface
 {
@@ -29,7 +30,7 @@ final readonly class Company implements CompanyInterface
      * @throws void
      */
     #[Override]
-    public function getType(): string
+    public function getKey(): string
     {
         return $this->type;
     }

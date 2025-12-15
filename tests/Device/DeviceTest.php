@@ -16,9 +16,9 @@ namespace UaResultTest\Device;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
+use UaData\CompanyInterface;
 use UaDeviceType\Type;
 use UaResult\Bits\Bits;
-use UaResult\Company\CompanyInterface;
 use UaResult\Device\Architecture;
 use UaResult\Device\Device;
 use UaResult\Device\DisplayInterface;
@@ -34,13 +34,40 @@ final class DeviceTest extends TestCase
      */
     public function testSetterGetter(): void
     {
-        $architecture    = 'x64';
-        $deviceName      = 'TestDevicename';
-        $marketingName   = 'TestMarketingname';
-        $manufacturer    = $this->createMock(CompanyInterface::class);
-        $brand           = $this->createMock(CompanyInterface::class);
-        $type            = Type::Phone;
-        $display         = $this->createMock(DisplayInterface::class);
+        $architecture  = 'x64';
+        $deviceName    = 'TestDevicename';
+        $marketingName = 'TestMarketingname';
+
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $brand = $this->createMock(CompanyInterface::class);
+        $brand->expects(self::never())
+            ->method('getKey');
+        $brand->expects(self::never())
+            ->method('getName');
+        $brand->expects(self::never())
+            ->method('getBrandname');
+
+        $type = Type::Phone;
+
+        $display = $this->createMock(DisplayInterface::class);
+        $display->expects(self::never())
+            ->method('hasTouch');
+        $display->expects(self::never())
+            ->method('getHeight');
+        $display->expects(self::never())
+            ->method('getWidth');
+        $display->expects(self::never())
+            ->method('getSize');
+        $display->expects(self::never())
+            ->method('toArray');
+
         $dualOrientation = true;
         $simCount        = 2;
         $bits            = 64;
@@ -91,17 +118,36 @@ final class DeviceTest extends TestCase
 
         $manufacturer = $this->createMock(CompanyInterface::class);
         $manufacturer->expects(self::once())
-            ->method('getType')
+            ->method('getKey')
             ->willReturn($manuString);
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
 
         $brand = $this->createMock(CompanyInterface::class);
         $brand->expects(self::once())
-            ->method('getType')
+            ->method('getKey')
             ->willReturn($brandString);
+        $brand->expects(self::never())
+            ->method('getName');
+        $brand->expects(self::never())
+            ->method('getBrandname');
 
         $type = Type::Phone;
 
         $display = $this->createMock(DisplayInterface::class);
+        $display->expects(self::never())
+            ->method('hasTouch');
+        $display->expects(self::never())
+            ->method('getHeight');
+        $display->expects(self::never())
+            ->method('getWidth');
+        $display->expects(self::never())
+            ->method('getSize');
+        $display->expects(self::once())
+            ->method('toArray')
+            ->willReturn([]);
 
         assert($manufacturer instanceof CompanyInterface);
         assert($brand instanceof CompanyInterface);
@@ -156,13 +202,40 @@ final class DeviceTest extends TestCase
      */
     public function testClone(): void
     {
-        $architecture    = 'x64';
-        $deviceName      = 'TestDevicename';
-        $marketingName   = 'TestMarketingname';
-        $manufacturer    = $this->createMock(CompanyInterface::class);
-        $brand           = $this->createMock(CompanyInterface::class);
-        $type            = Type::Phone;
-        $display         = $this->createMock(DisplayInterface::class);
+        $architecture  = 'x64';
+        $deviceName    = 'TestDevicename';
+        $marketingName = 'TestMarketingname';
+
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $brand = $this->createMock(CompanyInterface::class);
+        $brand->expects(self::never())
+            ->method('getKey');
+        $brand->expects(self::never())
+            ->method('getName');
+        $brand->expects(self::never())
+            ->method('getBrandname');
+
+        $type = Type::Phone;
+
+        $display = $this->createMock(DisplayInterface::class);
+        $display->expects(self::never())
+            ->method('hasTouch');
+        $display->expects(self::never())
+            ->method('getHeight');
+        $display->expects(self::never())
+            ->method('getWidth');
+        $display->expects(self::never())
+            ->method('getSize');
+        $display->expects(self::never())
+            ->method('toArray');
+
         $dualOrientation = true;
         $simCount        = 2;
         $bits            = 64;
