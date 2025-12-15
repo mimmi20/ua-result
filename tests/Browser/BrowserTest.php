@@ -18,9 +18,9 @@ use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaBrowserType\Type;
+use UaData\CompanyInterface;
 use UaResult\Bits\Bits;
 use UaResult\Browser\Browser;
-use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
 
 use function assert;
@@ -38,8 +38,38 @@ final class BrowserTest extends TestCase
         $modus        = 'Desktop Mode';
         $name         = 'TestBrowser';
         $manufacturer = $this->createMock(CompanyInterface::class);
-        $version      = $this->createMock(VersionInterface::class);
-        $type         = Type::Unknown;
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $version = $this->createMock(VersionInterface::class);
+        $version->expects(self::never())
+            ->method('getVersion');
+        $version->expects(self::never())
+            ->method('toArray');
+        $version->expects(self::never())
+            ->method('getMajor');
+        $version->expects(self::never())
+            ->method('getMinor');
+        $version->expects(self::never())
+            ->method('getMicro');
+        $version->expects(self::never())
+            ->method('getPatch');
+        $version->expects(self::never())
+            ->method('getMicropatch');
+        $version->expects(self::never())
+            ->method('getBuild');
+        $version->expects(self::never())
+            ->method('getStability');
+        $version->expects(self::never())
+            ->method('isAlpha');
+        $version->expects(self::never())
+            ->method('isBeta');
+
+        $type = Type::Unknown;
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
@@ -69,8 +99,12 @@ final class BrowserTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $manufacturer->expects(self::once())
-            ->method('getType')
+            ->method('getKey')
             ->willReturn($manuString);
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
 
         $version = $this->getMockBuilder(VersionInterface::class)
             ->disableOriginalConstructor()
@@ -119,8 +153,38 @@ final class BrowserTest extends TestCase
     {
         $name         = 'TestBrowser';
         $manufacturer = $this->createMock(CompanyInterface::class);
-        $version      = $this->createMock(VersionInterface::class);
-        $type         = Type::Unknown;
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $version = $this->createMock(VersionInterface::class);
+        $version->expects(self::never())
+            ->method('getVersion');
+        $version->expects(self::never())
+            ->method('toArray');
+        $version->expects(self::never())
+            ->method('getMajor');
+        $version->expects(self::never())
+            ->method('getMinor');
+        $version->expects(self::never())
+            ->method('getMicro');
+        $version->expects(self::never())
+            ->method('getPatch');
+        $version->expects(self::never())
+            ->method('getMicropatch');
+        $version->expects(self::never())
+            ->method('getBuild');
+        $version->expects(self::never())
+            ->method('getStability');
+        $version->expects(self::never())
+            ->method('isAlpha');
+        $version->expects(self::never())
+            ->method('isBeta');
+
+        $type = Type::Unknown;
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
@@ -148,11 +212,65 @@ final class BrowserTest extends TestCase
      */
     public function testWithVersion(): void
     {
-        $name         = 'TestBrowser';
+        $name = 'TestBrowser';
+
         $manufacturer = $this->createMock(CompanyInterface::class);
-        $version1     = $this->createMock(VersionInterface::class);
-        $version2     = $this->createMock(VersionInterface::class);
-        $type         = Type::Unknown;
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $version1 = $this->createMock(VersionInterface::class);
+        $version1->expects(self::never())
+            ->method('getVersion');
+        $version1->expects(self::never())
+            ->method('toArray');
+        $version1->expects(self::never())
+            ->method('getMajor');
+        $version1->expects(self::never())
+            ->method('getMinor');
+        $version1->expects(self::never())
+            ->method('getMicro');
+        $version1->expects(self::never())
+            ->method('getPatch');
+        $version1->expects(self::never())
+            ->method('getMicropatch');
+        $version1->expects(self::never())
+            ->method('getBuild');
+        $version1->expects(self::never())
+            ->method('getStability');
+        $version1->expects(self::never())
+            ->method('isAlpha');
+        $version1->expects(self::never())
+            ->method('isBeta');
+
+        $version2 = $this->createMock(VersionInterface::class);
+        $version2->expects(self::never())
+            ->method('getVersion');
+        $version2->expects(self::never())
+            ->method('toArray');
+        $version2->expects(self::never())
+            ->method('getMajor');
+        $version2->expects(self::never())
+            ->method('getMinor');
+        $version2->expects(self::never())
+            ->method('getMicro');
+        $version2->expects(self::never())
+            ->method('getPatch');
+        $version2->expects(self::never())
+            ->method('getMicropatch');
+        $version2->expects(self::never())
+            ->method('getBuild');
+        $version2->expects(self::never())
+            ->method('getStability');
+        $version2->expects(self::never())
+            ->method('isAlpha');
+        $version2->expects(self::never())
+            ->method('isBeta');
+
+        $type = Type::Unknown;
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version1 instanceof VersionInterface);

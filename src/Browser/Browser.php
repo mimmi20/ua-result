@@ -16,8 +16,8 @@ namespace UaResult\Browser;
 use BrowserDetector\Version\VersionInterface;
 use Override;
 use UaBrowserType\Type;
+use UaData\CompanyInterface;
 use UaResult\Bits\Bits;
-use UaResult\Company\CompanyInterface;
 use UnexpectedValueException;
 
 final class Browser implements BrowserInterface
@@ -115,7 +115,7 @@ final class Browser implements BrowserInterface
             'name' => $this->name,
             'modus' => $this->modus,
             'version' => $this->version->getVersion(),
-            'manufacturer' => $this->manufacturer->getType(),
+            'manufacturer' => $this->manufacturer->getKey(),
             'bits' => $this->bits,
             'type' => $this->type->getType(),
         ];

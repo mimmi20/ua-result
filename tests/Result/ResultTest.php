@@ -35,10 +35,76 @@ final class ResultTest extends TestCase
     public function testSetterGetter(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
-        $device  = $this->createMock(DeviceInterface::class);
-        $os      = $this->createMock(OsInterface::class);
+
+        $device = $this->createMock(DeviceInterface::class);
+        $device->expects(self::never())
+            ->method('getArchitecture');
+        $device->expects(self::never())
+            ->method('getDeviceName');
+        $device->expects(self::never())
+            ->method('getBrand');
+        $device->expects(self::never())
+            ->method('getManufacturer');
+        $device->expects(self::never())
+            ->method('getMarketingName');
+        $device->expects(self::never())
+            ->method('getDisplay');
+        $device->expects(self::never())
+            ->method('getType');
+        $device->expects(self::never())
+            ->method('getDualOrientation');
+        $device->expects(self::never())
+            ->method('getSimCount');
+        $device->expects(self::never())
+            ->method('getBits');
+        $device->expects(self::never())
+            ->method('toArray');
+
+        $os = $this->createMock(OsInterface::class);
+        $os->expects(self::never())
+            ->method('getBits');
+        $os->expects(self::never())
+            ->method('getManufacturer');
+        $os->expects(self::never())
+            ->method('getName');
+        $os->expects(self::never())
+            ->method('getMarketingName');
+        $os->expects(self::never())
+            ->method('getVersion');
+        $os->expects(self::never())
+            ->method('toArray');
+        $os->expects(self::never())
+            ->method('withVersion');
+
         $browser = $this->createMock(BrowserInterface::class);
-        $engine  = $this->createMock(EngineInterface::class);
+        $browser->expects(self::never())
+            ->method('getName');
+        $browser->expects(self::never())
+            ->method('getManufacturer');
+        $browser->expects(self::never())
+            ->method('getModus');
+        $browser->expects(self::never())
+            ->method('getVersion');
+        $browser->expects(self::never())
+            ->method('getBits');
+        $browser->expects(self::never())
+            ->method('getType');
+        $browser->expects(self::never())
+            ->method('toArray');
+        $browser->expects(self::never())
+            ->method('withVersion');
+
+        $engine = $this->createMock(EngineInterface::class);
+        $engine->expects(self::never())
+            ->method('getManufacturer');
+        $engine->expects(self::never())
+            ->method('getName');
+        $engine->expects(self::never())
+            ->method('getVersion');
+        $engine->expects(self::never())
+            ->method('toArray');
+        $engine->expects(self::never())
+            ->method('withVersion');
 
         assert($device instanceof DeviceInterface);
         assert($os instanceof OsInterface);
@@ -62,10 +128,80 @@ final class ResultTest extends TestCase
     public function testToArray(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
-        $device  = $this->createMock(DeviceInterface::class);
-        $os      = $this->createMock(OsInterface::class);
+
+        $device = $this->createMock(DeviceInterface::class);
+        $device->expects(self::never())
+            ->method('getArchitecture');
+        $device->expects(self::never())
+            ->method('getDeviceName');
+        $device->expects(self::never())
+            ->method('getBrand');
+        $device->expects(self::never())
+            ->method('getManufacturer');
+        $device->expects(self::never())
+            ->method('getMarketingName');
+        $device->expects(self::never())
+            ->method('getDisplay');
+        $device->expects(self::never())
+            ->method('getType');
+        $device->expects(self::never())
+            ->method('getDualOrientation');
+        $device->expects(self::never())
+            ->method('getSimCount');
+        $device->expects(self::never())
+            ->method('getBits');
+        $device->expects(self::once())
+            ->method('toArray')
+            ->willReturn([]);
+
+        $os = $this->createMock(OsInterface::class);
+        $os->expects(self::never())
+            ->method('getBits');
+        $os->expects(self::never())
+            ->method('getManufacturer');
+        $os->expects(self::never())
+            ->method('getName');
+        $os->expects(self::never())
+            ->method('getMarketingName');
+        $os->expects(self::never())
+            ->method('getVersion');
+        $os->expects(self::once())
+            ->method('toArray')
+            ->willReturn([]);
+        $os->expects(self::never())
+            ->method('withVersion');
+
         $browser = $this->createMock(BrowserInterface::class);
-        $engine  = $this->createMock(EngineInterface::class);
+        $browser->expects(self::never())
+            ->method('getName');
+        $browser->expects(self::never())
+            ->method('getManufacturer');
+        $browser->expects(self::never())
+            ->method('getModus');
+        $browser->expects(self::never())
+            ->method('getVersion');
+        $browser->expects(self::never())
+            ->method('getBits');
+        $browser->expects(self::never())
+            ->method('getType');
+        $browser->expects(self::once())
+            ->method('toArray')
+            ->willReturn([]);
+        $browser->expects(self::never())
+            ->method('withVersion');
+
+        $engine = $this->createMock(EngineInterface::class);
+        $engine->expects(self::never())
+            ->method('getManufacturer');
+        $engine->expects(self::never())
+            ->method('getName');
+        $engine->expects(self::never())
+            ->method('getVersion');
+        $engine->expects(self::once())
+            ->method('toArray')
+            ->willReturn([]);
+        $engine->expects(self::never())
+            ->method('withVersion');
 
         assert($device instanceof DeviceInterface);
         assert($os instanceof OsInterface);
@@ -94,10 +230,76 @@ final class ResultTest extends TestCase
     public function testClone(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
-        $device  = $this->createMock(DeviceInterface::class);
-        $os      = $this->createMock(OsInterface::class);
+
+        $device = $this->createMock(DeviceInterface::class);
+        $device->expects(self::never())
+            ->method('getArchitecture');
+        $device->expects(self::never())
+            ->method('getDeviceName');
+        $device->expects(self::never())
+            ->method('getBrand');
+        $device->expects(self::never())
+            ->method('getManufacturer');
+        $device->expects(self::never())
+            ->method('getMarketingName');
+        $device->expects(self::never())
+            ->method('getDisplay');
+        $device->expects(self::never())
+            ->method('getType');
+        $device->expects(self::never())
+            ->method('getDualOrientation');
+        $device->expects(self::never())
+            ->method('getSimCount');
+        $device->expects(self::never())
+            ->method('getBits');
+        $device->expects(self::never())
+            ->method('toArray');
+
+        $os = $this->createMock(OsInterface::class);
+        $os->expects(self::never())
+            ->method('getBits');
+        $os->expects(self::never())
+            ->method('getManufacturer');
+        $os->expects(self::never())
+            ->method('getName');
+        $os->expects(self::never())
+            ->method('getMarketingName');
+        $os->expects(self::never())
+            ->method('getVersion');
+        $os->expects(self::never())
+            ->method('toArray');
+        $os->expects(self::never())
+            ->method('withVersion');
+
         $browser = $this->createMock(BrowserInterface::class);
-        $engine  = $this->createMock(EngineInterface::class);
+        $browser->expects(self::never())
+            ->method('getName');
+        $browser->expects(self::never())
+            ->method('getManufacturer');
+        $browser->expects(self::never())
+            ->method('getModus');
+        $browser->expects(self::never())
+            ->method('getVersion');
+        $browser->expects(self::never())
+            ->method('getBits');
+        $browser->expects(self::never())
+            ->method('getType');
+        $browser->expects(self::never())
+            ->method('toArray');
+        $browser->expects(self::never())
+            ->method('withVersion');
+
+        $engine = $this->createMock(EngineInterface::class);
+        $engine->expects(self::never())
+            ->method('getManufacturer');
+        $engine->expects(self::never())
+            ->method('getName');
+        $engine->expects(self::never())
+            ->method('getVersion');
+        $engine->expects(self::never())
+            ->method('toArray');
+        $engine->expects(self::never())
+            ->method('withVersion');
 
         assert($device instanceof DeviceInterface);
         assert($os instanceof OsInterface);
