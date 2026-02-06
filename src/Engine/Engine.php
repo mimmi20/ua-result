@@ -32,8 +32,6 @@ final class Engine implements EngineInterface
     /**
      * clones the actual object
      *
-     * @return void
-     *
      * @throws void
      */
     public function __clone()

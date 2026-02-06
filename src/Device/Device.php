@@ -39,8 +39,6 @@ final class Device implements DeviceInterface
     /**
      * clones the actual object
      *
-     * @return void
-     *
      * @throws void
      */
     public function __clone()
