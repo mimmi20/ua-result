@@ -35,8 +35,6 @@ final class Os implements OsInterface
     /**
      * clones the actual object
      *
-     * @return void
-     *
      * @throws void
      */
     public function __clone()

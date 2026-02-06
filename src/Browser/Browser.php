@@ -37,8 +37,6 @@ final class Browser implements BrowserInterface
     /**
      * clones the actual object
      *
-     * @return void
-     *
      * @throws void
      */
     public function __clone()
