@@ -1,6 +1,6 @@
 {
   "name": "mimmi20/ua-result",
-  "description": "Library for PHP 7.4+ to handle useragent parser results",
+  "description": "Library to handle useragent parser results",
   "license": "MIT",
   "type": "library",
   "keywords": [
