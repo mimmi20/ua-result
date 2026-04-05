@@ -1,6 +1,6 @@
 {
   "name": "mimmi20/ua-result",
-  "description": "Library for PHP 7.4+ to handle useragent parser results",
+  "description": "Library to handle useragent parser results",
   "license": "MIT",
   "type": "library",
   "keywords": [
@@ -27,10 +27,10 @@
     "source": "https://github.com/mimmi20/ua-result"
   },
   "require": {
-    "php": "~8.4.0 || ~8.5.0",
+    "php": "~8.5.0 || ~8.6.0",
     "ext-mbstring": "*",
-    "mimmi20/browser-detector-version": "^13.0.3",
-    "mimmi20/browser-detector-versioninterface": "^1.0.0",
+    "mimmi20/browser-detector-version": "^14.0.0",
+    "mimmi20/browser-detector-versioninterface": "^2.0.0",
     "mimmi20/ua-browser-type": "^12.0.1",
     "mimmi20/ua-data-interface": "^1.0.1",
     "mimmi20/ua-device-type": "^12.0.2"
@@ -43,6 +43,7 @@
     "ext-tokenizer": "*",
     "ext-xml": "*",
     "ext-xmlwriter": "*",
+    "ergebnis/composer-normalize": "^2.50.0",
     "infection/infection": "^0.32.6",
     "jbelien/phpstan-sarif-formatter": "^1.2.0",
     "mikey179/vfsstream": "^1.6.12",
@@ -74,11 +75,18 @@
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
+      "ergebnis/composer-normalize": true,
       "infection/extension-installer": true,
       "phpstan/extension-installer": true
     },
     "lock": false,
     "preferred-install": "dist",
     "sort-packages": true
+  },
+  "extra": {
+    "composer-normalize": {
+      "indent-size": 2,
+      "indent-style": "space"
+    }
   }
 }
