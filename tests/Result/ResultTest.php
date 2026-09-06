@@ -13,7 +13,6 @@ declare(strict_types = 1);
 
 namespace UaResultTest\Result;
 
-use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaResult\Browser\BrowserInterface;
@@ -27,11 +26,7 @@ use function assert;
 
 final class ResultTest extends TestCase
 {
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testSetterGetter(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
@@ -110,20 +105,18 @@ final class ResultTest extends TestCase
         assert($os instanceof OsInterface);
         assert($browser instanceof BrowserInterface);
         assert($engine instanceof EngineInterface);
-        $object = new Result($headers, $device, $os, $browser, $engine);
+        $result = new Result($headers, $device, $os, $browser, $engine);
 
-        self::assertSame($headers, $object->getHeaders());
-        self::assertSame($device, $object->getDevice());
-        self::assertSame($os, $object->getOs());
-        self::assertSame($browser, $object->getBrowser());
-        self::assertSame($engine, $object->getEngine());
+        self::assertSame($headers, $result->getHeaders());
+        self::assertSame($device, $result->getDevice());
+        self::assertSame($os, $result->getOs());
+        self::assertSame($browser, $result->getBrowser());
+        self::assertSame($engine, $result->getEngine());
     }
 
     /**
      * @throws Exception
      * @throws UnexpectedValueException
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
      */
     public function testToArray(): void
     {
@@ -207,8 +200,8 @@ final class ResultTest extends TestCase
         assert($os instanceof OsInterface);
         assert($browser instanceof BrowserInterface);
         assert($engine instanceof EngineInterface);
-        $original = new Result($headers, $device, $os, $browser, $engine);
-        $array    = $original->toArray();
+        $result = new Result($headers, $device, $os, $browser, $engine);
+        $array  = $result->toArray();
 
         self::assertArrayHasKey('headers', $array);
         self::assertIsArray($array['headers']);
@@ -222,11 +215,7 @@ final class ResultTest extends TestCase
         self::assertIsArray($array['engine']);
     }
 
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testClone(): void
     {
         $headers = ['x-test-header' => 'test-ua'];
@@ -305,10 +294,10 @@ final class ResultTest extends TestCase
         assert($os instanceof OsInterface);
         assert($browser instanceof BrowserInterface);
         assert($engine instanceof EngineInterface);
-        $original = new Result($headers, $device, $os, $browser, $engine);
-        $cloned   = clone $original;
+        $result = new Result($headers, $device, $os, $browser, $engine);
+        $cloned = clone $result;
 
-        self::assertNotSame($original, $cloned);
+        self::assertNotSame($result, $cloned);
         self::assertNotSame($device, $cloned->getDevice());
         self::assertNotSame($os, $cloned->getOs());
         self::assertNotSame($browser, $cloned->getBrowser());

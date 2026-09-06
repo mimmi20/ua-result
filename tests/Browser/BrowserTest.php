@@ -14,7 +14,6 @@ declare(strict_types = 1);
 namespace UaResultTest\Browser;
 
 use BrowserDetector\Version\VersionInterface;
-use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaBrowserType\Type;
@@ -27,11 +26,7 @@ use function assert;
 
 final class BrowserTest extends TestCase
 {
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testSetterGetter(): void
     {
         $bits         = 64;
@@ -73,14 +68,14 @@ final class BrowserTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $object = new Browser($name, $manufacturer, $version, $type, Bits::from($bits), $modus);
+        $browser = new Browser($name, $manufacturer, $version, $type, Bits::from($bits), $modus);
 
-        self::assertSame($name, $object->getName());
-        self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($version, $object->getVersion());
-        self::assertSame($type, $object->getType());
-        self::assertSame($bits, $object->getBits()->value);
-        self::assertSame($modus, $object->getModus());
+        self::assertSame($name, $browser->getName());
+        self::assertSame($manufacturer, $browser->getManufacturer());
+        self::assertSame($version, $browser->getVersion());
+        self::assertSame($type, $browser->getType());
+        self::assertSame($bits, $browser->getBits()->value);
+        self::assertSame($modus, $browser->getModus());
     }
 
     /**
@@ -95,9 +90,7 @@ final class BrowserTest extends TestCase
         $versionString = '1.0';
         $manuString    = 'abc';
 
-        $manufacturer = $this->getMockBuilder(CompanyInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $manufacturer = $this->createMock(CompanyInterface::class);
         $manufacturer->expects(self::once())
             ->method('getKey')
             ->willReturn($manuString);
@@ -106,9 +99,7 @@ final class BrowserTest extends TestCase
         $manufacturer->expects(self::never())
             ->method('getBrandname');
 
-        $version = $this->getMockBuilder(VersionInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $version = $this->createMock(VersionInterface::class);
         $version->expects(self::once())
             ->method('getVersion')
             ->willReturn($versionString);
@@ -117,7 +108,7 @@ final class BrowserTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $original = new Browser(
+        $browser = new Browser(
             $name,
             $manufacturer,
             $version,
@@ -126,7 +117,7 @@ final class BrowserTest extends TestCase
             $modus,
         );
 
-        $array = $original->toArray();
+        $array = $browser->toArray();
 
         self::assertArrayHasKey('name', $array);
         self::assertIsString($array['name']);
@@ -144,11 +135,7 @@ final class BrowserTest extends TestCase
         self::assertSame($bits, $array['bits']->value);
     }
 
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testClone(): void
     {
         $name         = 'TestBrowser';
@@ -188,16 +175,16 @@ final class BrowserTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $original = new Browser(
+        $browser = new Browser(
             $name,
             $manufacturer,
             $version,
             $type,
             Bits::from(0),
         );
-        $cloned   = clone $original;
+        $cloned  = clone $browser;
 
-        self::assertNotSame($original, $cloned);
+        self::assertNotSame($browser, $cloned);
         self::assertSame($name, $cloned->getName());
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($version, $cloned->getVersion());
@@ -205,11 +192,7 @@ final class BrowserTest extends TestCase
         self::assertSame(0, $cloned->getBits()->value);
     }
 
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testWithVersion(): void
     {
         $name = 'TestBrowser';
@@ -274,16 +257,16 @@ final class BrowserTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version1 instanceof VersionInterface);
-        $original = new Browser(
+        $browser = new Browser(
             $name,
             $manufacturer,
             $version1,
             $type,
             Bits::from(0),
         );
-        $cloned   = $original->withVersion($version2);
+        $cloned  = $browser->withVersion($version2);
 
-        self::assertNotSame($original, $cloned);
+        self::assertNotSame($browser, $cloned);
         self::assertSame($name, $cloned->getName());
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertSame($version2, $cloned->getVersion());
