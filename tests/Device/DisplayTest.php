@@ -27,12 +27,12 @@ final class DisplayTest extends TestCase
         $touch  = true;
         $size   = 5.7;
 
-        $object = new Display($width, $height, $touch, $size);
+        $display = new Display($width, $height, $touch, $size);
 
-        self::assertTrue($object->hasTouch());
-        self::assertSame($width, $object->getWidth());
-        self::assertSame($height, $object->getHeight());
-        self::assertSame($size, $object->getSize());
+        self::assertTrue($display->hasTouch());
+        self::assertSame($width, $display->getWidth());
+        self::assertSame($height, $display->getHeight());
+        self::assertSame($size, $display->getSize());
     }
 
     /** @throws Exception */
@@ -43,9 +43,9 @@ final class DisplayTest extends TestCase
         $touch  = true;
         $size   = 5.7;
 
-        $original = new Display($width, $height, $touch, $size);
+        $display = new Display($width, $height, $touch, $size);
 
-        $array = $original->toArray();
+        $array = $display->toArray();
 
         self::assertArrayHasKey('width', $array);
         self::assertSame($width, $array['width']);

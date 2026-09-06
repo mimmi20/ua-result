@@ -14,7 +14,6 @@ declare(strict_types = 1);
 namespace UaResultTest\Os;
 
 use BrowserDetector\Version\VersionInterface;
-use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaData\CompanyInterface;
@@ -26,11 +25,7 @@ use function assert;
 
 final class OsTest extends TestCase
 {
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testSetterGetter(): void
     {
         $name          = 'TestPlatform';
@@ -72,13 +67,13 @@ final class OsTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $object = new Os($name, $marketingName, $manufacturer, $version, Bits::from($bits));
+        $os = new Os($name, $marketingName, $manufacturer, $version, Bits::from($bits));
 
-        self::assertSame($name, $object->getName());
-        self::assertSame($marketingName, $object->getMarketingName());
-        self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($version, $object->getVersion());
-        self::assertSame($bits, $object->getBits()->value);
+        self::assertSame($name, $os->getName());
+        self::assertSame($marketingName, $os->getMarketingName());
+        self::assertSame($manufacturer, $os->getManufacturer());
+        self::assertSame($version, $os->getVersion());
+        self::assertSame($bits, $os->getBits()->value);
     }
 
     /**
@@ -93,9 +88,7 @@ final class OsTest extends TestCase
         $bits          = 64;
         $manuString    = 'abc';
 
-        $manufacturer = $this->getMockBuilder(CompanyInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $manufacturer = $this->createMock(CompanyInterface::class);
         $manufacturer->expects(self::once())
             ->method('getKey')
             ->willReturn($manuString);
@@ -104,16 +97,14 @@ final class OsTest extends TestCase
         $manufacturer->expects(self::never())
             ->method('getBrandname');
 
-        $version = $this->getMockBuilder(VersionInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $version = $this->createMock(VersionInterface::class);
         $version->expects(self::once())
             ->method('getVersion')
             ->willReturn($versionString);
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $original = new Os(
+        $os = new Os(
             $name,
             $marketingName,
             $manufacturer,
@@ -121,7 +112,7 @@ final class OsTest extends TestCase
             Bits::from($bits),
         );
 
-        $array = $original->toArray();
+        $array = $os->toArray();
 
         self::assertArrayHasKey('name', $array);
         self::assertIsString($array['name']);
@@ -137,11 +128,7 @@ final class OsTest extends TestCase
         self::assertSame($bits, $array['bits']->value);
     }
 
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testClone(): void
     {
         $name          = 'TestPlatform';
@@ -183,27 +170,23 @@ final class OsTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $original = new Os(
+        $os     = new Os(
             $name,
             $marketingName,
             $manufacturer,
             $version,
             Bits::from($bits),
         );
-        $cloned   = clone $original;
+        $cloned = clone $os;
 
-        self::assertNotSame($original, $cloned);
+        self::assertNotSame($os, $cloned);
         self::assertSame($name, $cloned->getName());
         self::assertSame($marketingName, $cloned->getMarketingName());
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($version, $cloned->getVersion());
     }
 
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testWithVersion(): void
     {
         $name          = 'TestPlatform';
@@ -269,16 +252,16 @@ final class OsTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version1 instanceof VersionInterface);
-        $original = new Os(
+        $os     = new Os(
             $name,
             $marketingName,
             $manufacturer,
             $version1,
             Bits::from($bits),
         );
-        $cloned   = $original->withVersion($version2);
+        $cloned = $os->withVersion($version2);
 
-        self::assertNotSame($original, $cloned);
+        self::assertNotSame($os, $cloned);
         self::assertSame($name, $cloned->getName());
         self::assertSame($marketingName, $cloned->getMarketingName());
         self::assertNotSame($manufacturer, $cloned->getManufacturer());

@@ -13,7 +13,6 @@ declare(strict_types = 1);
 
 namespace UaResultTest\Device;
 
-use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaData\CompanyInterface;
@@ -27,11 +26,7 @@ use function assert;
 
 final class DeviceTest extends TestCase
 {
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testSetterGetter(): void
     {
         $architecture  = 'x64';
@@ -75,7 +70,7 @@ final class DeviceTest extends TestCase
         assert($manufacturer instanceof CompanyInterface);
         assert($brand instanceof CompanyInterface);
         assert($display instanceof DisplayInterface);
-        $object = new Device(
+        $device = new Device(
             architecture: Architecture::from($architecture),
             deviceName: $deviceName,
             marketingName: $marketingName,
@@ -88,23 +83,19 @@ final class DeviceTest extends TestCase
             bits: Bits::from($bits),
         );
 
-        self::assertSame($architecture, $object->getArchitecture()->value);
-        self::assertSame($deviceName, $object->getDeviceName());
-        self::assertSame($marketingName, $object->getMarketingName());
-        self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($brand, $object->getBrand());
-        self::assertSame($type, $object->getType());
-        self::assertSame($display, $object->getDisplay());
-        self::assertTrue($object->getDualOrientation());
-        self::assertSame($simCount, $object->getSimCount());
-        self::assertSame($bits, $object->getBits()->value);
+        self::assertSame($architecture, $device->getArchitecture()->value);
+        self::assertSame($deviceName, $device->getDeviceName());
+        self::assertSame($marketingName, $device->getMarketingName());
+        self::assertSame($manufacturer, $device->getManufacturer());
+        self::assertSame($brand, $device->getBrand());
+        self::assertSame($type, $device->getType());
+        self::assertSame($display, $device->getDisplay());
+        self::assertTrue($device->getDualOrientation());
+        self::assertSame($simCount, $device->getSimCount());
+        self::assertSame($bits, $device->getBits()->value);
     }
 
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testToarray(): void
     {
         $architecture    = 'x64';
@@ -152,7 +143,7 @@ final class DeviceTest extends TestCase
         assert($manufacturer instanceof CompanyInterface);
         assert($brand instanceof CompanyInterface);
         assert($display instanceof DisplayInterface);
-        $original = new Device(
+        $device = new Device(
             architecture: Architecture::from($architecture),
             deviceName: $deviceName,
             marketingName: $marketingName,
@@ -165,7 +156,7 @@ final class DeviceTest extends TestCase
             bits: Bits::from($bits),
         );
 
-        $array = $original->toArray();
+        $array = $device->toArray();
 
         self::assertArrayHasKey('architecture', $array);
         self::assertArrayHasKey('deviceName', $array);
@@ -195,11 +186,7 @@ final class DeviceTest extends TestCase
         self::assertSame($bits, $array['bits']->value);
     }
 
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testClone(): void
     {
         $architecture  = 'x64';
@@ -243,7 +230,7 @@ final class DeviceTest extends TestCase
         assert($manufacturer instanceof CompanyInterface);
         assert($brand instanceof CompanyInterface);
         assert($display instanceof DisplayInterface);
-        $original = new Device(
+        $device = new Device(
             architecture: Architecture::from($architecture),
             deviceName: $deviceName,
             marketingName: $marketingName,
@@ -255,9 +242,9 @@ final class DeviceTest extends TestCase
             simCount: $simCount,
             bits: Bits::from($bits),
         );
-        $cloned   = clone $original;
+        $cloned = clone $device;
 
-        self::assertNotSame($original, $cloned);
+        self::assertNotSame($device, $cloned);
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($brand, $cloned->getBrand());
         self::assertSame($type, $cloned->getType());

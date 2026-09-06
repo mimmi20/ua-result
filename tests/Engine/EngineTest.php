@@ -14,7 +14,6 @@ declare(strict_types = 1);
 namespace UaResultTest\Engine;
 
 use BrowserDetector\Version\VersionInterface;
-use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use UaData\CompanyInterface;
@@ -25,11 +24,7 @@ use function assert;
 
 final class EngineTest extends TestCase
 {
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testSetterGetter(): void
     {
         $name = 'TestBrowser';
@@ -68,11 +63,11 @@ final class EngineTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $object = new Engine($name, $manufacturer, $version);
+        $engine = new Engine($name, $manufacturer, $version);
 
-        self::assertSame($name, $object->getName());
-        self::assertSame($manufacturer, $object->getManufacturer());
-        self::assertSame($version, $object->getVersion());
+        self::assertSame($name, $engine->getName());
+        self::assertSame($manufacturer, $engine->getManufacturer());
+        self::assertSame($version, $engine->getVersion());
     }
 
     /**
@@ -85,9 +80,7 @@ final class EngineTest extends TestCase
         $versionString = '1.0';
         $manuString    = 'abc';
 
-        $manufacturer = $this->getMockBuilder(CompanyInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $manufacturer = $this->createMock(CompanyInterface::class);
         $manufacturer->expects(self::once())
             ->method('getKey')
             ->willReturn($manuString);
@@ -96,18 +89,16 @@ final class EngineTest extends TestCase
         $manufacturer->expects(self::never())
             ->method('getBrandname');
 
-        $version = $this->getMockBuilder(VersionInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $version = $this->createMock(VersionInterface::class);
         $version->expects(self::once())
             ->method('getVersion')
             ->willReturn($versionString);
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $original = new Engine($name, $manufacturer, $version);
+        $engine = new Engine($name, $manufacturer, $version);
 
-        $array = $original->toArray();
+        $array = $engine->toArray();
 
         self::assertArrayHasKey('name', $array);
         self::assertIsString($array['name']);
@@ -119,11 +110,7 @@ final class EngineTest extends TestCase
         self::assertSame($manuString, $array['manufacturer']);
     }
 
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testClone(): void
     {
         $name = 'TestBrowser';
@@ -162,21 +149,17 @@ final class EngineTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version instanceof VersionInterface);
-        $original = new Engine($name, $manufacturer, $version);
-        $cloned   = clone $original;
+        $engine = new Engine($name, $manufacturer, $version);
+        $cloned = clone $engine;
 
-        self::assertNotSame($original, $cloned);
+        self::assertNotSame($engine, $cloned);
 
         self::assertSame($name, $cloned->getName());
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
         self::assertNotSame($version, $cloned->getVersion());
     }
 
-    /**
-     * @throws Exception
-     * @throws NoPreviousThrowableException
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
+    /** @throws Exception */
     public function testWithVersion(): void
     {
         $name = 'TestBrowser';
@@ -239,10 +222,10 @@ final class EngineTest extends TestCase
 
         assert($manufacturer instanceof CompanyInterface);
         assert($version1 instanceof VersionInterface);
-        $original = new Engine($name, $manufacturer, $version1);
-        $cloned   = $original->withVersion($version2);
+        $engine = new Engine($name, $manufacturer, $version1);
+        $cloned = $engine->withVersion($version2);
 
-        self::assertNotSame($original, $cloned);
+        self::assertNotSame($engine, $cloned);
 
         self::assertSame($name, $cloned->getName());
         self::assertNotSame($manufacturer, $cloned->getManufacturer());
