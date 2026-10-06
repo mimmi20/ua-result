@@ -15,6 +15,7 @@ use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\If_\RemoveAlwaysTrueIfConditionRector;
 use Rector\DeadCode\Rector\If_\RemoveDeadInstanceOfRector;
+use Rector\DeadCode\Rector\Property\RemoveDefaultValueFromAssignedPropertyRector;
 use Rector\DeadCode\Rector\StaticCall\RemoveParentCallWithoutParentRector;
 use Rector\DeadCode\Rector\StmtsAwareInterface\RemoveDeadInstanceOfAssertRector;
 use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
@@ -55,7 +56,9 @@ return RectorConfig::configure()
         RemoveAlwaysTrueIfConditionRector::class,
         RemoveParentCallWithoutParentRector::class,
         AnnotationToAttributeRector::class,
+        NewMethodCallWithoutParenthesesRector::class,
         RemoveDeadInstanceOfAssertRector::class,
+        RemoveDefaultValueFromAssignedPropertyRector::class,
         PreferPHPUnitThisCallRector::class,
         AssertFuncCallToPHPUnitAssertRector::class,
         YieldDataProviderRector::class,

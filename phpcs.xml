@@ -11,6 +11,7 @@
         <exclude name="SlevomatCodingStandard.Functions.FunctionLength.FunctionLength"/>
         <exclude name="SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh"/>
         <exclude name="Generic.Metrics.CyclomaticComplexity.TooHigh"/>
+        <exclude name="Generic.Metrics.CyclomaticComplexity.MaxExceeded"/>
     </rule>
 
     <!-- Paths to check -->
@@ -18,4 +19,5 @@
     <file>tests</file>
     <file>.php-cs-fixer.php</file>
     <file>rector.php</file>
+    <file>composer-dependency-analyser.php</file>
 </ruleset>
