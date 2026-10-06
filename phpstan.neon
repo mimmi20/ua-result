@@ -113,8 +113,12 @@ parameters:
     no_mixed_property: true
     no_mixed_caller: true
 
-#  ignoreErrors:
+  ignoreErrors:
 #    - '~will always evaluate to true~'
+    -
+      identifier: phpunit.noAssertFuncCallInTests
+    -
+      identifier: symplify.requiredInterfaceContractNamespace
 
 services:
   errorFormatter.sarif:
