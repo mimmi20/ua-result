@@ -52,4 +52,7 @@ interface BrowserInterface
 
     /** @throws void */
     public function withVersion(VersionInterface $version): self;
+
+    /** @throws void */
+    public function withBits(Bits $bits): self;
 }

@@ -23,11 +23,11 @@ final class Os implements OsInterface
 {
     /** @throws void */
     public function __construct(
-        private readonly string | null $name,
-        private readonly string | null $marketingName,
+        private string | null $name,
+        private string | null $marketingName,
         private CompanyInterface $manufacturer,
         private VersionInterface $version,
-        private readonly Bits $bits = Bits::unknown,
+        private Bits $bits = Bits::unknown,
     ) {
         // nothing to do
     }
@@ -49,6 +49,36 @@ final class Os implements OsInterface
     {
         $new          = clone $this;
         $new->version = $version;
+
+        return $new;
+    }
+
+    /** @throws void */
+    #[Override]
+    public function withName(string | null $name): OsInterface
+    {
+        $new       = clone $this;
+        $new->name = $name;
+
+        return $new;
+    }
+
+    /** @throws void */
+    #[Override]
+    public function withMarketingName(string | null $marketingName): OsInterface
+    {
+        $new                = clone $this;
+        $new->marketingName = $marketingName;
+
+        return $new;
+    }
+
+    /** @throws void */
+    #[Override]
+    public function withBits(Bits $bits): OsInterface
+    {
+        $new       = clone $this;
+        $new->bits = $bits;
 
         return $new;
     }
