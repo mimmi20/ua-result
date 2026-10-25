@@ -11,7 +11,6 @@
 
 declare(strict_types = 1);
 
-use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\If_\RemoveAlwaysTrueIfConditionRector;
 use Rector\DeadCode\Rector\If_\RemoveDeadInstanceOfRector;
@@ -64,7 +63,6 @@ return RectorConfig::configure()
         YieldDataProviderRector::class,
         RenamePropertyToMatchTypeRector::class,
         RenameParamToMatchTypeRector::class,
-        ExplicitBoolCompareRector::class,
         NoSetupWithParentCallOverrideRector::class,
         NewMethodCallWithoutParenthesesRector::class,
     ])
