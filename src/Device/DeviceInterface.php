@@ -64,7 +64,7 @@ interface DeviceInterface
     public function withArchitecture(Architecture $architecture): self;
 
     /** @throws void */
-    public function withType(Type $type): self;
+    public function withType(TypeInterface $type): self;
 
     /** @throws void */
     public function withBits(Bits $bits): self;
