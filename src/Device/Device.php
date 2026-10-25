@@ -167,7 +167,7 @@ final class Device implements DeviceInterface
     }
 
     /**
-     * @return array{architecture: Architecture, deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, ismobile: bool, istv: bool, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null, bits: Bits}
+     * @return array{architecture: string, deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, ismobile: bool, istv: bool, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null, bits: int}
      *
      * @throws void
      */
@@ -175,7 +175,7 @@ final class Device implements DeviceInterface
     public function toArray(): array
     {
         return [
-            'architecture' => $this->architecture,
+            'architecture' => $this->architecture->value,
             'deviceName' => $this->deviceName,
             'marketingName' => $this->marketingName,
             'manufacturer' => $this->manufacturer->getKey(),
@@ -186,7 +186,7 @@ final class Device implements DeviceInterface
             'istv' => $this->type->isTv(),
             'dualOrientation' => $this->dualOrientation,
             'simCount' => $this->simCount,
-            'bits' => $this->bits,
+            'bits' => $this->bits->value,
         ];
     }
 }

@@ -132,7 +132,7 @@ final class BrowserTest extends TestCase
         self::assertArrayHasKey('type', $array);
         self::assertIsString($array['type']);
         self::assertSame($type->value, $array['type']);
-        self::assertSame($bits, $array['bits']->value);
+        self::assertSame($bits, $array['bits']);
     }
 
     /** @throws Exception */

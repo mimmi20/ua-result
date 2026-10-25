@@ -119,7 +119,7 @@ final class Os implements OsInterface
     }
 
     /**
-     * @return array{name: string|null, marketingName: string|null, version: string|null, manufacturer: string, bits: Bits}
+     * @return array{name: string|null, marketingName: string|null, version: string|null, manufacturer: string, bits: int}
      *
      * @throws UnexpectedValueException
      */
@@ -131,7 +131,7 @@ final class Os implements OsInterface
             'marketingName' => $this->marketingName,
             'version' => $this->version->getVersion(),
             'manufacturer' => $this->manufacturer->getKey(),
-            'bits' => $this->bits,
+            'bits' => $this->bits->value,
         ];
     }
 }

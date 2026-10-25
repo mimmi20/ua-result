@@ -181,12 +181,12 @@ final class DeviceTest extends TestCase
         self::assertArrayHasKey('ismobile', $array);
         self::assertArrayHasKey('istv', $array);
 
-        self::assertSame($architecture, $array['architecture']->value);
+        self::assertSame($architecture, $array['architecture']);
         self::assertSame($deviceName, $array['deviceName']);
         self::assertSame($marketingName, $array['marketingName']);
         self::assertTrue($array['dualOrientation']);
         self::assertSame($simCount, $array['simCount']);
-        self::assertSame($bits, $array['bits']->value);
+        self::assertSame($bits, $array['bits']);
         self::assertFalse($array['ismobile']);
         self::assertFalse($array['istv']);
     }

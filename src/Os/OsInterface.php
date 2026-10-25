@@ -36,7 +36,7 @@ interface OsInterface
     public function getVersion(): VersionInterface;
 
     /**
-     * @return array{name: string|null, marketingName: string|null, version: string|null, manufacturer: string, bits: Bits}
+     * @return array{name: string|null, marketingName: string|null, version: string|null, manufacturer: string, bits: int}
      *
      * @throws UnexpectedValueException
      */
