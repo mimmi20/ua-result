@@ -14,7 +14,6 @@ declare(strict_types = 1);
 namespace UaResult\Device;
 
 use UaData\CompanyInterface;
-use UaDeviceType\Type;
 use UaDeviceType\TypeInterface;
 use UaResult\Bits\Bits;
 
@@ -64,7 +63,7 @@ interface DeviceInterface
     public function withArchitecture(Architecture $architecture): self;
 
     /** @throws void */
-    public function withType(Type $type): self;
+    public function withType(TypeInterface $type): self;
 
     /** @throws void */
     public function withBits(Bits $bits): self;

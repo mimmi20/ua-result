@@ -15,7 +15,7 @@ namespace UaResult\Device;
 
 use Override;
 use UaData\CompanyInterface;
-use UaDeviceType\Type;
+use UaDeviceType\TypeInterface;
 use UaResult\Bits\Bits;
 
 final class Device implements DeviceInterface
@@ -27,7 +27,7 @@ final class Device implements DeviceInterface
         private readonly string | null $marketingName,
         private CompanyInterface $manufacturer,
         private CompanyInterface $brand,
-        private Type $type,
+        private TypeInterface $type,
         private DisplayInterface $display,
         private readonly bool | null $dualOrientation,
         private readonly int | null $simCount,
@@ -61,7 +61,7 @@ final class Device implements DeviceInterface
 
     /** @throws void */
     #[Override]
-    public function withType(Type $type): DeviceInterface
+    public function withType(TypeInterface $type): DeviceInterface
     {
         $new       = clone $this;
         $new->type = $type;
@@ -133,7 +133,7 @@ final class Device implements DeviceInterface
 
     /** @throws void */
     #[Override]
-    public function getType(): Type
+    public function getType(): TypeInterface
     {
         return $this->type;
     }
