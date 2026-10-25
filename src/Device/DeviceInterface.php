@@ -14,7 +14,6 @@ declare(strict_types = 1);
 namespace UaResult\Device;
 
 use UaData\CompanyInterface;
-use UaDeviceType\Type;
 use UaDeviceType\TypeInterface;
 use UaResult\Bits\Bits;
 
