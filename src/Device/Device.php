@@ -22,16 +22,17 @@ final class Device implements DeviceInterface
 {
     /** @throws void */
     public function __construct(
-        private readonly Architecture $architecture,
+        private Architecture $architecture,
         private readonly string | null $deviceName,
         private readonly string | null $marketingName,
         private CompanyInterface $manufacturer,
         private CompanyInterface $brand,
-        private readonly Type $type,
+        private Type $type,
         private DisplayInterface $display,
         private readonly bool | null $dualOrientation,
         private readonly int | null $simCount,
-        private readonly Bits $bits,
+        private Bits $bits,
+        private bool | null $isMobile = null,
     ) {
         // nothing to do
     }
@@ -46,6 +47,46 @@ final class Device implements DeviceInterface
         $this->manufacturer = clone $this->manufacturer;
         $this->brand        = clone $this->brand;
         $this->display      = clone $this->display;
+    }
+
+    /** @throws void */
+    #[Override]
+    public function withArchitecture(Architecture $architecture): DeviceInterface
+    {
+        $new               = clone $this;
+        $new->architecture = $architecture;
+
+        return $new;
+    }
+
+    /** @throws void */
+    #[Override]
+    public function withType(Type $type): DeviceInterface
+    {
+        $new       = clone $this;
+        $new->type = $type;
+
+        return $new;
+    }
+
+    /** @throws void */
+    #[Override]
+    public function withBits(Bits $bits): DeviceInterface
+    {
+        $new       = clone $this;
+        $new->bits = $bits;
+
+        return $new;
+    }
+
+    /** @throws void */
+    #[Override]
+    public function withIsMobile(bool $isMobile): DeviceInterface
+    {
+        $new           = clone $this;
+        $new->isMobile = $isMobile;
+
+        return $new;
     }
 
     /** @throws void */
@@ -118,8 +159,15 @@ final class Device implements DeviceInterface
         return $this->bits;
     }
 
+    /** @throws void */
+    #[Override]
+    public function getIsMobile(): bool
+    {
+        return $this->isMobile ?? $this->type->isMobile();
+    }
+
     /**
-     * @return array{architecture: Architecture, deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null, bits: Bits}
+     * @return array{architecture: Architecture, deviceName: string|null, marketingName: string|null, manufacturer: string, brand: string, type: string, ismobile: bool, istv: bool, display: array{width: int|null, height: int|null, touch: bool|null, size: float|null}, dualOrientation: bool|null, simCount: int|null, bits: Bits}
      *
      * @throws void
      */
@@ -134,6 +182,8 @@ final class Device implements DeviceInterface
             'brand' => $this->brand->getKey(),
             'display' => $this->display->toArray(),
             'type' => $this->type->getType(),
+            'ismobile' => $this->isMobile ?? $this->type->isMobile(),
+            'istv' => $this->type->isTv(),
             'dualOrientation' => $this->dualOrientation,
             'simCount' => $this->simCount,
             'bits' => $this->bits,

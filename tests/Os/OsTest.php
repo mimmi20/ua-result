@@ -268,4 +268,181 @@ final class OsTest extends TestCase
         self::assertSame($version2, $cloned->getVersion());
         self::assertSame($bits, $cloned->getBits()->value);
     }
+
+    /** @throws Exception */
+    public function testWithBits(): void
+    {
+        $name          = 'TestPlatform';
+        $marketingName = 'TestMarketingname';
+
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $version = $this->createMock(VersionInterface::class);
+        $version->expects(self::never())
+            ->method('getVersion');
+        $version->expects(self::never())
+            ->method('toArray');
+        $version->expects(self::never())
+            ->method('getMajor');
+        $version->expects(self::never())
+            ->method('getMinor');
+        $version->expects(self::never())
+            ->method('getMicro');
+        $version->expects(self::never())
+            ->method('getPatch');
+        $version->expects(self::never())
+            ->method('getMicropatch');
+        $version->expects(self::never())
+            ->method('getBuild');
+        $version->expects(self::never())
+            ->method('getStability');
+        $version->expects(self::never())
+            ->method('isAlpha');
+        $version->expects(self::never())
+            ->method('isBeta');
+
+        $bits = 64;
+
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
+        $os     = new Os(
+            $name,
+            $marketingName,
+            $manufacturer,
+            $version,
+            Bits::from($bits),
+        );
+        $cloned = $os->withBits(Bits::from(32));
+
+        self::assertNotSame($os, $cloned);
+        self::assertSame($name, $cloned->getName());
+        self::assertSame($marketingName, $cloned->getMarketingName());
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($version, $cloned->getVersion());
+        self::assertSame(32, $cloned->getBits()->value);
+    }
+
+    /** @throws Exception */
+    public function testWithName(): void
+    {
+        $name          = 'TestPlatform';
+        $marketingName = 'TestMarketingname';
+
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $version = $this->createMock(VersionInterface::class);
+        $version->expects(self::never())
+            ->method('getVersion');
+        $version->expects(self::never())
+            ->method('toArray');
+        $version->expects(self::never())
+            ->method('getMajor');
+        $version->expects(self::never())
+            ->method('getMinor');
+        $version->expects(self::never())
+            ->method('getMicro');
+        $version->expects(self::never())
+            ->method('getPatch');
+        $version->expects(self::never())
+            ->method('getMicropatch');
+        $version->expects(self::never())
+            ->method('getBuild');
+        $version->expects(self::never())
+            ->method('getStability');
+        $version->expects(self::never())
+            ->method('isAlpha');
+        $version->expects(self::never())
+            ->method('isBeta');
+
+        $bits = 64;
+
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
+        $os     = new Os(
+            $name,
+            $marketingName,
+            $manufacturer,
+            $version,
+            Bits::from($bits),
+        );
+        $cloned = $os->withName('TestPlatform2');
+
+        self::assertNotSame($os, $cloned);
+        self::assertSame('TestPlatform2', $cloned->getName());
+        self::assertSame($marketingName, $cloned->getMarketingName());
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($version, $cloned->getVersion());
+        self::assertSame($bits, $cloned->getBits()->value);
+    }
+
+    /** @throws Exception */
+    public function testWithMarketingName(): void
+    {
+        $name          = 'TestPlatform';
+        $marketingName = 'TestMarketingname';
+
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $version = $this->createMock(VersionInterface::class);
+        $version->expects(self::never())
+            ->method('getVersion');
+        $version->expects(self::never())
+            ->method('toArray');
+        $version->expects(self::never())
+            ->method('getMajor');
+        $version->expects(self::never())
+            ->method('getMinor');
+        $version->expects(self::never())
+            ->method('getMicro');
+        $version->expects(self::never())
+            ->method('getPatch');
+        $version->expects(self::never())
+            ->method('getMicropatch');
+        $version->expects(self::never())
+            ->method('getBuild');
+        $version->expects(self::never())
+            ->method('getStability');
+        $version->expects(self::never())
+            ->method('isAlpha');
+        $version->expects(self::never())
+            ->method('isBeta');
+
+        $bits = 64;
+
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
+        $os     = new Os(
+            $name,
+            $marketingName,
+            $manufacturer,
+            $version,
+            Bits::from($bits),
+        );
+        $cloned = $os->withMarketingName('TestMarketingname2');
+
+        self::assertNotSame($os, $cloned);
+        self::assertSame($name, $cloned->getName());
+        self::assertSame('TestMarketingname2', $cloned->getMarketingName());
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($version, $cloned->getVersion());
+        self::assertSame($bits, $cloned->getBits()->value);
+    }
 }

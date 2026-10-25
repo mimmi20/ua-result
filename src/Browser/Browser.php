@@ -28,7 +28,7 @@ final class Browser implements BrowserInterface
         private CompanyInterface $manufacturer,
         private VersionInterface $version,
         private readonly Type $type,
-        private readonly Bits $bits = Bits::unknown,
+        private Bits $bits = Bits::unknown,
         private readonly string | null $modus = null,
     ) {
         // nothing to do
@@ -51,6 +51,16 @@ final class Browser implements BrowserInterface
     {
         $new          = clone $this;
         $new->version = $version;
+
+        return $new;
+    }
+
+    /** @throws void */
+    #[Override]
+    public function withBits(Bits $bits): BrowserInterface
+    {
+        $new       = clone $this;
+        $new->bits = $bits;
 
         return $new;
     }
@@ -102,7 +112,7 @@ final class Browser implements BrowserInterface
     }
 
     /**
-     * @return array{name: string|null, modus: string|null, version: string|null, manufacturer: string, bits: Bits, type: string}
+     * @return array{name: string|null, modus: string|null, version: string|null, manufacturer: string, type: string, isbot: bool, bits: Bits}
      *
      * @throws UnexpectedValueException
      */
@@ -114,8 +124,9 @@ final class Browser implements BrowserInterface
             'modus' => $this->modus,
             'version' => $this->version->getVersion(),
             'manufacturer' => $this->manufacturer->getKey(),
-            'bits' => $this->bits,
             'type' => $this->type->getType(),
+            'isbot' => $this->type->isBot(),
+            'bits' => $this->bits,
         ];
     }
 }

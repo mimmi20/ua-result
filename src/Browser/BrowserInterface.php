@@ -44,7 +44,7 @@ interface BrowserInterface
     public function getType(): TypeInterface;
 
     /**
-     * @return array{name: string|null, modus: string|null, version: string|null, manufacturer: string, bits: Bits, type: string}
+     * @return array{name: string|null, modus: string|null, version: string|null, manufacturer: string, type: string, isbot: bool, bits: Bits}
      *
      * @throws UnexpectedValueException
      */
@@ -52,4 +52,7 @@ interface BrowserInterface
 
     /** @throws void */
     public function withVersion(VersionInterface $version): self;
+
+    /** @throws void */
+    public function withBits(Bits $bits): self;
 }

@@ -44,4 +44,13 @@ interface OsInterface
 
     /** @throws void */
     public function withVersion(VersionInterface $version): self;
+
+    /** @throws void */
+    public function withName(string | null $name): self;
+
+    /** @throws void */
+    public function withMarketingName(string | null $marketingName): self;
+
+    /** @throws void */
+    public function withBits(Bits $bits): self;
 }

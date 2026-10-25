@@ -273,4 +273,62 @@ final class BrowserTest extends TestCase
         self::assertSame($type, $cloned->getType());
         self::assertSame(0, $cloned->getBits()->value);
     }
+
+    /** @throws Exception */
+    public function testWithBits(): void
+    {
+        $name = 'TestBrowser';
+
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $version = $this->createMock(VersionInterface::class);
+        $version->expects(self::never())
+            ->method('getVersion');
+        $version->expects(self::never())
+            ->method('toArray');
+        $version->expects(self::never())
+            ->method('getMajor');
+        $version->expects(self::never())
+            ->method('getMinor');
+        $version->expects(self::never())
+            ->method('getMicro');
+        $version->expects(self::never())
+            ->method('getPatch');
+        $version->expects(self::never())
+            ->method('getMicropatch');
+        $version->expects(self::never())
+            ->method('getBuild');
+        $version->expects(self::never())
+            ->method('getStability');
+        $version->expects(self::never())
+            ->method('isAlpha');
+        $version->expects(self::never())
+            ->method('isBeta');
+
+        $type = Type::Unknown;
+
+        assert($manufacturer instanceof CompanyInterface);
+        assert($version instanceof VersionInterface);
+        $browser = new Browser(
+            $name,
+            $manufacturer,
+            $version,
+            $type,
+            Bits::from(0),
+        );
+        $cloned  = $browser->withBits(Bits::from(32));
+
+        self::assertNotSame($browser, $cloned);
+        self::assertSame($name, $cloned->getName());
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($version, $cloned->getVersion());
+        self::assertSame($type, $cloned->getType());
+        self::assertSame(32, $cloned->getBits()->value);
+    }
 }

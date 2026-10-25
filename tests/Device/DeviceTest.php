@@ -93,6 +93,7 @@ final class DeviceTest extends TestCase
         self::assertTrue($device->getDualOrientation());
         self::assertSame($simCount, $device->getSimCount());
         self::assertSame($bits, $device->getBits()->value);
+        self::assertFalse($device->getIsMobile());
     }
 
     /** @throws Exception */
@@ -177,6 +178,8 @@ final class DeviceTest extends TestCase
         self::assertArrayHasKey('dualOrientation', $array);
         self::assertArrayHasKey('simCount', $array);
         self::assertArrayHasKey('bits', $array);
+        self::assertArrayHasKey('ismobile', $array);
+        self::assertArrayHasKey('istv', $array);
 
         self::assertSame($architecture, $array['architecture']->value);
         self::assertSame($deviceName, $array['deviceName']);
@@ -184,6 +187,8 @@ final class DeviceTest extends TestCase
         self::assertTrue($array['dualOrientation']);
         self::assertSame($simCount, $array['simCount']);
         self::assertSame($bits, $array['bits']->value);
+        self::assertFalse($array['ismobile']);
+        self::assertFalse($array['istv']);
     }
 
     /** @throws Exception */
@@ -256,5 +261,301 @@ final class DeviceTest extends TestCase
         self::assertTrue($cloned->getDualOrientation());
         self::assertSame($simCount, $cloned->getSimCount());
         self::assertSame($bits, $cloned->getBits()->value);
+        self::assertFalse($cloned->getIsMobile());
+    }
+
+    /** @throws Exception */
+    public function testWithBits(): void
+    {
+        $architecture  = 'x64';
+        $deviceName    = 'TestDevicename';
+        $marketingName = 'TestMarketingname';
+
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $brand = $this->createMock(CompanyInterface::class);
+        $brand->expects(self::never())
+            ->method('getKey');
+        $brand->expects(self::never())
+            ->method('getName');
+        $brand->expects(self::never())
+            ->method('getBrandname');
+
+        $type = Type::Phone;
+
+        $display = $this->createMock(DisplayInterface::class);
+        $display->expects(self::never())
+            ->method('hasTouch');
+        $display->expects(self::never())
+            ->method('getHeight');
+        $display->expects(self::never())
+            ->method('getWidth');
+        $display->expects(self::never())
+            ->method('getSize');
+        $display->expects(self::never())
+            ->method('toArray');
+
+        $dualOrientation = true;
+        $simCount        = 2;
+        $bits            = 64;
+
+        assert($manufacturer instanceof CompanyInterface);
+        assert($brand instanceof CompanyInterface);
+        assert($display instanceof DisplayInterface);
+        $device = new Device(
+            architecture: Architecture::from($architecture),
+            deviceName: $deviceName,
+            marketingName: $marketingName,
+            manufacturer: $manufacturer,
+            brand: $brand,
+            type: $type,
+            display: $display,
+            dualOrientation: $dualOrientation,
+            simCount: $simCount,
+            bits: Bits::from($bits),
+        );
+        $cloned = $device->withBits(Bits::from(32));
+
+        self::assertNotSame($device, $cloned);
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($brand, $cloned->getBrand());
+        self::assertSame($type, $cloned->getType());
+        self::assertNotSame($display, $cloned->getDisplay());
+
+        self::assertSame($architecture, $cloned->getArchitecture()->value);
+        self::assertSame($deviceName, $cloned->getDeviceName());
+        self::assertSame($marketingName, $cloned->getMarketingName());
+        self::assertTrue($cloned->getDualOrientation());
+        self::assertSame($simCount, $cloned->getSimCount());
+        self::assertSame(32, $cloned->getBits()->value);
+        self::assertFalse($cloned->getIsMobile());
+    }
+
+    /** @throws Exception */
+    public function testWithArchitecture(): void
+    {
+        $architecture  = 'x64';
+        $deviceName    = 'TestDevicename';
+        $marketingName = 'TestMarketingname';
+
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $brand = $this->createMock(CompanyInterface::class);
+        $brand->expects(self::never())
+            ->method('getKey');
+        $brand->expects(self::never())
+            ->method('getName');
+        $brand->expects(self::never())
+            ->method('getBrandname');
+
+        $type = Type::Phone;
+
+        $display = $this->createMock(DisplayInterface::class);
+        $display->expects(self::never())
+            ->method('hasTouch');
+        $display->expects(self::never())
+            ->method('getHeight');
+        $display->expects(self::never())
+            ->method('getWidth');
+        $display->expects(self::never())
+            ->method('getSize');
+        $display->expects(self::never())
+            ->method('toArray');
+
+        $dualOrientation = true;
+        $simCount        = 2;
+        $bits            = 64;
+
+        assert($manufacturer instanceof CompanyInterface);
+        assert($brand instanceof CompanyInterface);
+        assert($display instanceof DisplayInterface);
+        $device = new Device(
+            architecture: Architecture::from($architecture),
+            deviceName: $deviceName,
+            marketingName: $marketingName,
+            manufacturer: $manufacturer,
+            brand: $brand,
+            type: $type,
+            display: $display,
+            dualOrientation: $dualOrientation,
+            simCount: $simCount,
+            bits: Bits::from($bits),
+            isMobile: false,
+        );
+        $cloned = $device->withArchitecture(Architecture::from('arm'));
+
+        self::assertNotSame($device, $cloned);
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($brand, $cloned->getBrand());
+        self::assertSame($type, $cloned->getType());
+        self::assertNotSame($display, $cloned->getDisplay());
+
+        self::assertSame('arm', $cloned->getArchitecture()->value);
+        self::assertSame($deviceName, $cloned->getDeviceName());
+        self::assertSame($marketingName, $cloned->getMarketingName());
+        self::assertTrue($cloned->getDualOrientation());
+        self::assertSame($simCount, $cloned->getSimCount());
+        self::assertSame($bits, $cloned->getBits()->value);
+        self::assertFalse($cloned->getIsMobile());
+    }
+
+    /** @throws Exception */
+    public function testWithType(): void
+    {
+        $architecture  = 'x64';
+        $deviceName    = 'TestDevicename';
+        $marketingName = 'TestMarketingname';
+
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $brand = $this->createMock(CompanyInterface::class);
+        $brand->expects(self::never())
+            ->method('getKey');
+        $brand->expects(self::never())
+            ->method('getName');
+        $brand->expects(self::never())
+            ->method('getBrandname');
+
+        $type = Type::Phone;
+
+        $display = $this->createMock(DisplayInterface::class);
+        $display->expects(self::never())
+            ->method('hasTouch');
+        $display->expects(self::never())
+            ->method('getHeight');
+        $display->expects(self::never())
+            ->method('getWidth');
+        $display->expects(self::never())
+            ->method('getSize');
+        $display->expects(self::never())
+            ->method('toArray');
+
+        $dualOrientation = true;
+        $simCount        = 2;
+        $bits            = 64;
+
+        assert($manufacturer instanceof CompanyInterface);
+        assert($brand instanceof CompanyInterface);
+        assert($display instanceof DisplayInterface);
+        $device = new Device(
+            architecture: Architecture::from($architecture),
+            deviceName: $deviceName,
+            marketingName: $marketingName,
+            manufacturer: $manufacturer,
+            brand: $brand,
+            type: $type,
+            display: $display,
+            dualOrientation: $dualOrientation,
+            simCount: $simCount,
+            bits: Bits::from($bits),
+            isMobile: true,
+        );
+        $cloned = $device->withType(Type::Tablet);
+
+        self::assertNotSame($device, $cloned);
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($brand, $cloned->getBrand());
+        self::assertSame(Type::Tablet, $cloned->getType());
+        self::assertNotSame($display, $cloned->getDisplay());
+
+        self::assertSame($architecture, $cloned->getArchitecture()->value);
+        self::assertSame($deviceName, $cloned->getDeviceName());
+        self::assertSame($marketingName, $cloned->getMarketingName());
+        self::assertTrue($cloned->getDualOrientation());
+        self::assertSame($simCount, $cloned->getSimCount());
+        self::assertSame($bits, $cloned->getBits()->value);
+        self::assertTrue($cloned->getIsMobile());
+    }
+
+    /** @throws Exception */
+    public function testWithIsMobile(): void
+    {
+        $architecture  = 'x64';
+        $deviceName    = 'TestDevicename';
+        $marketingName = 'TestMarketingname';
+
+        $manufacturer = $this->createMock(CompanyInterface::class);
+        $manufacturer->expects(self::never())
+            ->method('getKey');
+        $manufacturer->expects(self::never())
+            ->method('getName');
+        $manufacturer->expects(self::never())
+            ->method('getBrandname');
+
+        $brand = $this->createMock(CompanyInterface::class);
+        $brand->expects(self::never())
+            ->method('getKey');
+        $brand->expects(self::never())
+            ->method('getName');
+        $brand->expects(self::never())
+            ->method('getBrandname');
+
+        $type = Type::Phone;
+
+        $display = $this->createMock(DisplayInterface::class);
+        $display->expects(self::never())
+            ->method('hasTouch');
+        $display->expects(self::never())
+            ->method('getHeight');
+        $display->expects(self::never())
+            ->method('getWidth');
+        $display->expects(self::never())
+            ->method('getSize');
+        $display->expects(self::never())
+            ->method('toArray');
+
+        $dualOrientation = true;
+        $simCount        = 2;
+        $bits            = 64;
+
+        assert($manufacturer instanceof CompanyInterface);
+        assert($brand instanceof CompanyInterface);
+        assert($display instanceof DisplayInterface);
+        $device = new Device(
+            architecture: Architecture::from($architecture),
+            deviceName: $deviceName,
+            marketingName: $marketingName,
+            manufacturer: $manufacturer,
+            brand: $brand,
+            type: $type,
+            display: $display,
+            dualOrientation: $dualOrientation,
+            simCount: $simCount,
+            bits: Bits::from($bits),
+            isMobile: true,
+        );
+        $cloned = $device->withIsMobile(isMobile: false);
+
+        self::assertNotSame($device, $cloned);
+        self::assertNotSame($manufacturer, $cloned->getManufacturer());
+        self::assertNotSame($brand, $cloned->getBrand());
+        self::assertSame($type, $cloned->getType());
+        self::assertNotSame($display, $cloned->getDisplay());
+
+        self::assertSame($architecture, $cloned->getArchitecture()->value);
+        self::assertSame($deviceName, $cloned->getDeviceName());
+        self::assertSame($marketingName, $cloned->getMarketingName());
+        self::assertTrue($cloned->getDualOrientation());
+        self::assertSame($simCount, $cloned->getSimCount());
+        self::assertSame($bits, $cloned->getBits()->value);
+        self::assertFalse($cloned->getIsMobile());
     }
 }
