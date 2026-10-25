@@ -112,7 +112,7 @@ final class Browser implements BrowserInterface
     }
 
     /**
-     * @return array{name: string|null, modus: string|null, version: string|null, manufacturer: string, type: string, isbot: bool, bits: Bits}
+     * @return array{name: string|null, modus: string|null, version: string|null, manufacturer: string, type: string, isbot: bool, bits: int}
      *
      * @throws UnexpectedValueException
      */
@@ -126,7 +126,7 @@ final class Browser implements BrowserInterface
             'manufacturer' => $this->manufacturer->getKey(),
             'type' => $this->type->getType(),
             'isbot' => $this->type->isBot(),
-            'bits' => $this->bits,
+            'bits' => $this->bits->value,
         ];
     }
 }

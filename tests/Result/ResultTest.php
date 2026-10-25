@@ -207,8 +207,8 @@ final class ResultTest extends TestCase
         self::assertIsArray($array['headers']);
         self::assertArrayHasKey('device', $array);
         self::assertIsArray($array['device']);
-        self::assertArrayHasKey('browser', $array);
-        self::assertIsArray($array['browser']);
+        self::assertArrayHasKey('client', $array);
+        self::assertIsArray($array['client']);
         self::assertArrayHasKey('os', $array);
         self::assertIsArray($array['os']);
         self::assertArrayHasKey('engine', $array);

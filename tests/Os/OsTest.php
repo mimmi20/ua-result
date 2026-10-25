@@ -125,7 +125,7 @@ final class OsTest extends TestCase
         self::assertIsString($array['manufacturer']);
         self::assertSame($manuString, $array['manufacturer']);
         self::assertArrayHasKey('bits', $array);
-        self::assertSame($bits, $array['bits']->value);
+        self::assertSame($bits, $array['bits']);
     }
 
     /** @throws Exception */
