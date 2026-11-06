@@ -17,8 +17,6 @@ use Rector\DeadCode\Rector\If_\RemoveDeadInstanceOfRector;
 use Rector\DeadCode\Rector\Property\RemoveDefaultValueFromAssignedPropertyRector;
 use Rector\DeadCode\Rector\StaticCall\RemoveParentCallWithoutParentRector;
 use Rector\DeadCode\Rector\StmtsAwareInterface\RemoveDeadInstanceOfAssertRector;
-use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
-use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\Php80\Rector\Class_\AnnotationToAttributeRector;
 use Rector\Php84\Rector\MethodCall\NewMethodCallWithoutParenthesesRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
@@ -38,7 +36,6 @@ return RectorConfig::configure()
         codeQuality: true,
         typeDeclarations: true,
         typeDeclarationDocblocks: true,
-        naming: true,
         namedArgs: true,
         instanceOf: true,
         if: true,
@@ -61,8 +58,6 @@ return RectorConfig::configure()
         PreferPHPUnitThisCallRector::class,
         AssertFuncCallToPHPUnitAssertRector::class,
         YieldDataProviderRector::class,
-        RenamePropertyToMatchTypeRector::class,
-        RenameParamToMatchTypeRector::class,
         NoSetupWithParentCallOverrideRector::class,
         NewMethodCallWithoutParenthesesRector::class,
     ])
