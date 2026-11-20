@@ -111,9 +111,28 @@ parameters:
     no_mixed_property: true
     no_mixed_caller: true
 
+  symplify:
+    # enabled by default
+    naming: true
+    complexity: true
+    configurable: false
+    static: true
+    modern: false
+    symfony: false
+    symfonyConfig: false
+    doctrine: false
+    phpunit: false
+
+    # disabled by default
+    mocks: true
+    ctor: false
+
+    # optional
+    symfonyReturnType: true
+    laravelReturnType: false
+    pathStrings: true
+
   ignoreErrors:
-    -
-      identifier: phpunit.noAssertFuncCallInTests
     -
       identifier: symplify.requiredInterfaceContractNamespace
 
